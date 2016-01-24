@@ -23,9 +23,9 @@ Enumerated type for PHP by [Petr Knap].
  */
 class DayOfWeekEnum extends \PetrKnap\Php\Enum\AbstractEnum
 {
-    protected function __construct($constantName)
+    protected function __construct($memberName)
     {
-        self::setConstants([
+        self::setMembers([
             "SUNDAY" => 0,
             "MONDAY" => 1,
             "TUESDAY" => 2,
@@ -34,12 +34,39 @@ class DayOfWeekEnum extends \PetrKnap\Php\Enum\AbstractEnum
             "FRIDAY" => 5,
             "SATURDAY" => 6
         ]);
-        parent::__construct($constantName);
+        parent::__construct($memberName);
     }
 }
 ```
 
 #### Enum usage
+```php
+if (DayOfWeekEnum::FRIDAY() == DayOfWeekEnum::FRIDAY()) {
+    echo "This is OK.";
+}
+```
+
+```php
+if (DayOfWeekEnum::FRIDAY() == DayOfWeekEnum::MONDAY()) {
+    echo "We are going to Hell!";
+}
+```
+
+```php
+switch($dayOfWeek)
+{
+    case DayOfWeekEnum::FRIDAY():
+        echo "Finally it is Friday!";
+        break;
+    case DayOfWeekEnum::SATURDAY():
+    case DayOfWeekEnum::SUNDAY():
+        echo "It is leasure time!";
+        break;
+    default:
+        echo "Just another working day...";
+}
+```
+
 ```php
 if (date('w') == DayOfWeekEnum::FRIDAY()->getValue()) {
     echo "Finally it is Friday!";
