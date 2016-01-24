@@ -3,18 +3,18 @@
 namespace PetrKnap\Php\Enum\Test;
 
 use PetrKnap\Php\Enum\EnumException;
-use PetrKnap\Php\Enum\Test\EnumTest\EnumMock;
+use PetrKnap\Php\Enum\Test\EnumTest\MyBoolean;
 
 class EnumTest extends \PHPUnit_Framework_TestCase
 {
     public function goodKeyProvider()
     {
-        return [["A", "a"], ["B", "b"]];
+        return [["MY_TRUE", 1], ["MY_FALSE", 2]];
     }
 
     public function wrongKeyProvider()
     {
-        return [["C"], ["D"]];
+        return [["MY_NULL"], ["MY_VOID"]];
     }
 
     /**
@@ -26,10 +26,10 @@ class EnumTest extends \PHPUnit_Framework_TestCase
      */
     public function testMagicConstruction_GoodKey($name, $value)
     {
-        /** @var EnumMock $enum */
-        $enum = EnumMock::$name();
+        /** @var MyBoolean $enum */
+        $enum = MyBoolean::$name();
 
-        $this->assertInstanceOf(EnumMock::getClass(), $enum);
+        $this->assertInstanceOf(MyBoolean::getClass(), $enum);
         $this->assertSame($name, $enum->getName());
         $this->assertSame($value, $enum->getValue());
     }
@@ -48,7 +48,7 @@ class EnumTest extends \PHPUnit_Framework_TestCase
             EnumException::OUT_OF_RANGE
         );
 
-        EnumMock::$name();
+        MyBoolean::$name();
     }
 
     /**
@@ -56,11 +56,11 @@ class EnumTest extends \PHPUnit_Framework_TestCase
      */
     public function testComparable()
     {
-        $this->assertSame(EnumMock::A(), EnumMock::A());
-        $this->assertNotSame(EnumMock::A(), EnumMock::B());
+        $this->assertSame(MyBoolean::MY_TRUE(), MyBoolean::MY_TRUE());
+        $this->assertNotSame(MyBoolean::MY_TRUE(), MyBoolean::MY_FALSE());
 
-        $this->assertTrue(EnumMock::A() == EnumMock::A());
-        $this->assertFalse(EnumMock::A() == EnumMock::B());
+        $this->assertTrue(MyBoolean::MY_TRUE() == MyBoolean::MY_TRUE());
+        $this->assertFalse(MyBoolean::MY_TRUE() == MyBoolean::MY_FALSE());
     }
 
     /**
@@ -69,13 +69,13 @@ class EnumTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetMembers()
     {
-        $members = EnumMock::getMembers();
+        $members = MyBoolean::getMembers();
 
         $this->assertInternalType("array", $members);
         $this->assertCount(2, $members);
-        $this->assertArrayHasKey("A", $members);
-        $this->assertEquals("a", $members["A"]);
-        $this->assertArrayHasKey("B", $members);
-        $this->assertEquals("b", $members["B"]);
+        $this->assertArrayHasKey("MY_TRUE", $members);
+        $this->assertEquals(1, $members["MY_TRUE"]);
+        $this->assertArrayHasKey("MY_FALSE", $members);
+        $this->assertEquals(2, $members["MY_FALSE"]);
     }
 }

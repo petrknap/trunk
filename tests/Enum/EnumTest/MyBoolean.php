@@ -5,16 +5,16 @@ namespace PetrKnap\Php\Enum\Test\EnumTest;
 use PetrKnap\Php\Enum\AbstractEnum;
 
 /**
- * @method static EnumMock A()
- * @method static EnumMock B()
+ * @method static MyBoolean MY_TRUE()
+ * @method static MyBoolean MY_FALSE()
  */
-class EnumMock extends AbstractEnum
+class MyBoolean extends AbstractEnum
 {
     protected function members()
     {
         return [
-            "A" => "a",
-            "B" => "b"
+            "MY_TRUE" => 1,
+            "MY_FALSE" => 2
         ];
     }
 
