@@ -23,9 +23,9 @@ Enumerated type for PHP by [Petr Knap].
  */
 class DayOfWeekEnum extends \PetrKnap\Php\Enum\AbstractEnum
 {
-    protected function __construct($memberName)
+    protected function members()
     {
-        self::setMembers([
+        return [
             "SUNDAY" => 0,
             "MONDAY" => 1,
             "TUESDAY" => 2,
@@ -33,8 +33,7 @@ class DayOfWeekEnum extends \PetrKnap\Php\Enum\AbstractEnum
             "THURSDAY" => 4,
             "FRIDAY" => 5,
             "SATURDAY" => 6
-        ]);
-        parent::__construct($memberName);
+        ];
     }
 }
 ```
