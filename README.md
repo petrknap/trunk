@@ -39,7 +39,7 @@ function IsTrue(int $myBoolean)
 IsTrue(MyBoolen::MY_TRUE);  // returns true - OK
 IsTrue(MyBoolen::MY_FALSE); // returns false - OK
 IsTrue(1);                  // returns true - OK
-IsTrue(2);                  // returns false - scary, but ok
+IsTrue(2);                  // returns false - scary, but OK
 IsTrue(true);               // returns true - OK
 IsTrue(false);              // returns null - WTF?
 ```
