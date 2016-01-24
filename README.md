@@ -41,17 +41,35 @@ class DayOfWeekEnum extends \PetrKnap\Php\Enum\AbstractEnum
 
 #### Enum usage
 ```php
-if (date('w') == DayOfWeekEnum::FRIDAY()->getValue()) {
-    echo "Finally it is Friday!";
+if (DayOfWeekEnum::FRIDAY() == DayOfWeekEnum::FRIDAY()) {
+    echo "This is OK.";
 }
 ```
 
 ```php
-if (DayOfWeekEnum::FRIDAY() == DayOfWeekEnum::FRIDAY()) {
-    echo "This is OK.";
-}
 if (DayOfWeekEnum::FRIDAY() == DayOfWeekEnum::MONDAY()) {
     echo "We are going to Hell!";
+}
+```
+
+```php
+switch($dayOfWeek)
+{
+    case DayOfWeekEnum::FRIDAY():
+        echo "Finally it is Friday!";
+        break;
+    case DayOfWeekEnum::SATURDAY():
+    case DayOfWeekEnum::SUNDAY():
+        echo "It is leasure time!";
+        break;
+    default:
+        echo "Just another working day...";
+}
+```
+
+```php
+if (date('w') == DayOfWeekEnum::FRIDAY()->getValue()) {
+    echo "Finally it is Friday!";
 }
 ```
 
