@@ -94,6 +94,14 @@ abstract class AbstractEnum
     }
 
     /**
+     * @return mixed[]
+     */
+    public static function getConstants()
+    {
+        return self::$constants[get_called_class()];
+    }
+
+    /**
      * @param string $constantName
      * @return bool
      */

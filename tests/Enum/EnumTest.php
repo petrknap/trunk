@@ -46,4 +46,18 @@ class EnumTest extends \PHPUnit_Framework_TestCase
 
         EnumMock::$name();
     }
+
+    /**
+     * @dataProvider goodKeyProvider
+     * @param string $name
+     * @param mixed $value
+     */
+    public function testGetConstants($name, $value)
+    {
+        $constants = EnumMock::getConstants();
+
+        $this->assertInternalType("array", $constants);
+        $this->assertArrayHasKey($name, $constants);
+        $this->assertEquals($value, $constants[$name]);
+    }
 }
