@@ -78,6 +78,8 @@ abstract class AbstractEnum
     }
 
     /**
+     * Returns member name
+     *
      * @return string
      */
     public function getName()
@@ -86,6 +88,8 @@ abstract class AbstractEnum
     }
 
     /**
+     * Returns member value
+     *
      * @return mixed
      */
     public function getValue()
@@ -94,12 +98,20 @@ abstract class AbstractEnum
     }
 
     /**
+     * Generates and returns members of enum as associative array (keys are names and values are values)
+     *
+     * NOTE: Can not be merged with static {@link getMembers()} due to its abstraction.
+     *
      * @return mixed[] [first_name => first_value, second_name => second_value,...]
      */
     abstract protected function members();
 
     /**
-     * @return mixed[]
+     * Returns members of enum
+     *
+     * NOTE: Can not be merged with non-static {@link members()} due to its inner logic
+     *
+     * @return mixed[] [first_name => first_value, second_name => second_value,...]
      */
     public static function getMembers()
     {
