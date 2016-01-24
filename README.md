@@ -20,7 +20,7 @@ Enumerated type for PHP by [Petr Knap].
 Because it is safer and less scary than using constants. Don't trust me? Let see at these examples:
 
 ```php
-class MyBoolen
+class MyBoolean
 {
     const MY_TRUE = 1;
     const MY_FALSE = 2;
@@ -29,23 +29,23 @@ class MyBoolen
 function IsTrue(int $myBoolean)
 {
     switch($myBoolean) {
-        case MyBoolen::MY_TRUE:
+        case MyBoolean::MY_TRUE:
             return true;
-        case MyBoolen::MY_FALSE:
+        case MyBoolean::MY_FALSE:
             return false;
     }
 }
 
-IsTrue(MyBoolen::MY_TRUE);  // returns true - OK
-IsTrue(MyBoolen::MY_FALSE); // returns false - OK
-IsTrue(1);                  // returns true - OK
-IsTrue(2);                  // returns false - scary, but OK
-IsTrue(true);               // returns true - OK
-IsTrue(false);              // returns null - WTF?
+IsTrue(MyBoolean::MY_TRUE);  // returns true - OK
+IsTrue(MyBoolean::MY_FALSE); // returns false - OK
+IsTrue(1);                   // returns true - OK
+IsTrue(2);                   // returns false - scary, but OK
+IsTrue(true);                // returns true - OK
+IsTrue(false);               // returns null - WTF?
 ```
 
 ```php
-class MyBoolen extends \PetrKnap\Php\Enum\AbstractEnum
+class MyBoolean extends \PetrKnap\Php\Enum\AbstractEnum
 {
     protected function members()
     {
@@ -56,22 +56,22 @@ class MyBoolen extends \PetrKnap\Php\Enum\AbstractEnum
     }
 }
 
-function IsTrue(MyBoolen $myBoolean)
+function IsTrue(MyBoolean $myBoolean)
 {
     switch($myBoolean) {
-        case MyBoolen::MY_TRUE():
+        case MyBoolean::MY_TRUE():
             return true;
-        case MyBoolen::MY_FALSE():
+        case MyBoolean::MY_FALSE():
             return false;
     }
 }
 
-IsTrue(MyBoolen::MY_TRUE());  // returns true - OK
-IsTrue(MyBoolen::MY_FALSE()); // returns false - OK
-IsTrue(1);                    // uncaught TypeError - OK
-IsTrue(2);                    // uncaught TypeError - OK
-IsTrue(true);                 // uncaught TypeError - OK
-IsTrue(false);                // uncaught TypeError - OK
+IsTrue(MyBoolean::MY_TRUE());  // returns true - OK
+IsTrue(MyBoolean::MY_FALSE()); // returns false - OK
+IsTrue(1);                     // uncaught TypeError - OK
+IsTrue(2);                     // uncaught TypeError - OK
+IsTrue(true);                  // uncaught TypeError - OK
+IsTrue(false);                 // uncaught TypeError - OK
 ```
 
 
