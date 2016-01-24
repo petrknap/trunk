@@ -39,8 +39,10 @@ abstract class AbstractEnum
      */
     protected function __construct($memberName)
     {
-        $this->memberName = $memberName;
-        $this->memberValue = $this->get($memberName);
+        if(!($memberName === null && !$this->exists(null))) {
+            $this->memberName = $memberName;
+            $this->memberValue = $this->get($memberName);
+        }
     }
 
     /**
@@ -98,7 +100,15 @@ abstract class AbstractEnum
      */
     public static function getMembers()
     {
-        return self::$members[get_called_class()];
+        $className = get_called_class();
+
+        $members = &self::$members[$className];
+
+        if(empty($members)) {
+            new $className(null);
+        }
+
+        return $members;
     }
 
     /**

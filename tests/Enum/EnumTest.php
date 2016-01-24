@@ -18,7 +18,9 @@ class EnumTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @covers       EnumMock::__callStatic
      * @dataProvider goodKeyProvider
+     *
      * @param string $name
      * @param mixed $value
      */
@@ -33,7 +35,9 @@ class EnumTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @covers       EnumMock::__callStatic
      * @dataProvider wrongKeyProvider
+     *
      * @param string $name
      */
     public function testMagicConstruction_WrongKey($name)
@@ -47,6 +51,9 @@ class EnumTest extends \PHPUnit_Framework_TestCase
         EnumMock::$name();
     }
 
+    /**
+     * @covers EnumMock::__callStatic
+     */
     public function testComparable()
     {
         $this->assertSame(EnumMock::A(), EnumMock::A());
@@ -57,16 +64,18 @@ class EnumTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @dataProvider goodKeyProvider
-     * @param string $name
-     * @param mixed $value
+     * @covers EnumMock::getMembers
+     * @runInSeparateProcess
      */
-    public function testGetConstants($name, $value)
+    public function testGetMembers()
     {
-        $constants = EnumMock::getMembers();
+        $members = EnumMock::getMembers();
 
-        $this->assertInternalType("array", $constants);
-        $this->assertArrayHasKey($name, $constants);
-        $this->assertEquals($value, $constants[$name]);
+        $this->assertInternalType("array", $members);
+        $this->assertCount(2, $members);
+        $this->assertArrayHasKey("A", $members);
+        $this->assertEquals("a", $members["A"]);
+        $this->assertArrayHasKey("B", $members);
+        $this->assertEquals("b", $members["B"]);
     }
 }
