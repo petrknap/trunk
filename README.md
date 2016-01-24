@@ -10,7 +10,7 @@ Enumerated type for PHP by [Petr Knap].
 
 ## Why use enum?
 
-Because it is safer then using class constants.
+Because it is safer than using constants.
 
 ```php
 class MyBoolen
@@ -35,6 +35,36 @@ IsTrue(1);                  // returns true - OK
 IsTrue(2);                  // returns false - scary, but ok
 IsTrue(true);               // returns true - OK
 IsTrue(false);              // returns null - WTF?
+```
+
+```php
+class MyBoolen extends \PetrKnap\Php\Enum\AbstractEnum
+{
+    protected function members()
+    {
+        return [
+            "MY_TRUE" => 1,
+            "MY_FALSE" => 2
+        ];
+    }
+}
+
+function IsTrue(MyBoolen $myBoolean)
+{
+    switch($myBoolean) {
+        case MyBoolen::MY_TRUE():
+            return true;
+        case MyBoolen::MY_FALSE():
+            return false;
+    }
+}
+
+IsTrue(MyBoolen::MY_TRUE());  // returns true - OK
+IsTrue(MyBoolen::MY_FALSE()); // returns false - OK
+IsTrue(1);                    // uncaught TypeError
+IsTrue(2);                    // uncaught TypeError
+IsTrue(true);                 // uncaught TypeError
+IsTrue(false);                // uncaught TypeError
 ```
 
 
