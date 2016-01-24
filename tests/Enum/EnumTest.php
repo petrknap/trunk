@@ -19,23 +19,24 @@ class EnumTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @dataProvider goodKeyProvider
-     * @param string $key
-     * @param string $value
+     * @param string $name
+     * @param mixed $value
      */
-    public function testEnumDirectConstruction_GoodKey($key, $value)
+    public function testEnumMagicConstruction_GoodKey($name, $value)
     {
-        $enum = new EnumMock($key);
+        /** @var EnumMock $enum */
+        $enum = EnumMock::$name();
 
         $this->assertInstanceOf(EnumMock::getClass(), $enum);
-        $this->assertSame($key, $enum->getKey());
+        $this->assertSame($name, $enum->getName());
         $this->assertSame($value, $enum->getValue());
     }
 
     /**
      * @dataProvider wrongKeyProvider
-     * @param string $key
+     * @param string $name
      */
-    public function testEnumDirectConstruction_WrongKey($key)
+    public function testEnumMagicConstruction_WrongKey($name)
     {
         $this->setExpectedException(
             get_class(new EnumException()),
@@ -43,36 +44,20 @@ class EnumTest extends \PHPUnit_Framework_TestCase
             EnumException::OUT_OF_RANGE
         );
 
-        new EnumMock($key);
+        EnumMock::$name();
     }
 
     /**
      * @dataProvider goodKeyProvider
-     * @param string $key
-     * @param string $value
+     * @param string $name
+     * @param mixed $value
      */
-    public function testEnumMagicConstruction_GoodKey($key, $value)
+    public function testGetConstants($name, $value)
     {
-        /** @var EnumMock $enum */
-        $enum = EnumMock::$key();
+        $constants = EnumMock::getConstants();
 
-        $this->assertInstanceOf(EnumMock::getClass(), $enum);
-        $this->assertSame($key, $enum->getKey());
-        $this->assertSame($value, $enum->getValue());
-    }
-
-    /**
-     * @dataProvider wrongKeyProvider
-     * @param string $key
-     */
-    public function testEnumMagicConstruction_WrongKey($key)
-    {
-        $this->setExpectedException(
-            get_class(new EnumException()),
-            "",
-            EnumException::OUT_OF_RANGE
-        );
-
-        EnumMock::$key();
+        $this->assertInternalType("array", $constants);
+        $this->assertArrayHasKey($name, $constants);
+        $this->assertEquals($value, $constants[$name]);
     }
 }
