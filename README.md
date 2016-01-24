@@ -68,10 +68,10 @@ function IsTrue(MyBoolen $myBoolean)
 
 IsTrue(MyBoolen::MY_TRUE());  // returns true - OK
 IsTrue(MyBoolen::MY_FALSE()); // returns false - OK
-IsTrue(1);                    // uncaught TypeError
-IsTrue(2);                    // uncaught TypeError
-IsTrue(true);                 // uncaught TypeError
-IsTrue(false);                // uncaught TypeError
+IsTrue(1);                    // uncaught TypeError - OK
+IsTrue(2);                    // uncaught TypeError - OK
+IsTrue(true);                 // uncaught TypeError - OK
+IsTrue(false);                // uncaught TypeError - OK
 ```
 
 
