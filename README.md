@@ -44,6 +44,8 @@ isTrue(true);                // returns true - OK
 isTrue(false);               // returns null - WTF?
 ```
 
+And now the same code with Enums instead of Constants:
+
 ```php
 class MyBoolean extends \PetrKnap\Php\Enum\AbstractEnum
 {
