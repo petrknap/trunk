@@ -8,7 +8,7 @@ namespace PetrKnap\Php\Enum;
  * @author  Petr Knap <dev@petrknap.cz>
  * @since   2016-01-23
  * @package PetrKnap\Php\Enum
- * @version 0.4
+ * @version 1.0
  * @license https://github.com/petrknap/php-enum/blob/master/LICENSE MIT
  */
 abstract class AbstractEnum
