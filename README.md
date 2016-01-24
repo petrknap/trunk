@@ -17,7 +17,7 @@ Enumerated type for PHP by [Petr Knap].
 
 ## Why use Enums instead of Constants?
 
-Because it is safer and less scary than using constants.
+Because it is safer and less scary than using constants. Don't trust me? Let see at these examples:
 
 ```php
 class MyBoolen
