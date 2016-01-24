@@ -119,17 +119,16 @@ if (DayOfWeekEnum::FRIDAY() == DayOfWeekEnum::MONDAY()) {
 ```
 
 ```php
-switch($dayOfWeek)
+function isWeekend(DayOfWeekEnum $dayOfWeek)
 {
-    case DayOfWeekEnum::FRIDAY():
-        echo "Finally it is Friday!";
-        break;
-    case DayOfWeekEnum::SATURDAY():
-    case DayOfWeekEnum::SUNDAY():
-        echo "It is leasure time!";
-        break;
-    default:
-        echo "Just another working day...";
+   switch($dayOfWeek)
+   {
+       case DayOfWeekEnum::SATURDAY():
+       case DayOfWeekEnum::SUNDAY():
+           return true;
+       default:
+           return false;
+   }
 }
 ```
 
