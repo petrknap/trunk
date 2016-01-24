@@ -11,7 +11,31 @@ Enumerated type for PHP by [Petr Knap].
 ### Usage of php-enum
 
 ```php
-// TODO make example
+/**
+ * @method static DayOfWeekEnum MONDAY()
+ * @method static DayOfWeekEnum TUESDAY()
+ * @method static DayOfWeekEnum WEDNESDAY()
+ * @method static DayOfWeekEnum THURSDAY()
+ * @method static DayOfWeekEnum FRIDAY()
+ * @method static DayOfWeekEnum SATURDAY()
+ * @method static DayOfWeekEnum SUNDAY()
+ */
+class DayOfWeekEnum extends \PetrKnap\Php\Enum\AbstractEnum
+{
+    protected function __construct($constantName)
+    {
+        self::setConstants([
+            "MONDAY" => 0,
+            "TUESDAY" => 1,
+            "WEDNESDAY" => 2,
+            "THURSDAY" => 3,
+            "FRIDAY" => 4,
+            "SATURDAY" => 5,
+            "SUNDAY" => 6
+        ]);
+        parent::__construct($constantName);
+    }
+}
 ```
 
 
