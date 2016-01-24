@@ -17,7 +17,7 @@ Enumerated type for PHP by [Petr Knap].
 
 ## Why use Enums instead of Constants?
 
-Because it is **safer and less scary** than using constants. Don't trust me? Let see at this code:
+Because **it is safer and less scary** than using constants. Don't trust me? Let see at this code:
 
 ```php
 class MyBoolean
@@ -44,7 +44,7 @@ isTrue(true);                // returns true - OK
 isTrue(false);               // returns null - WTF?
 ```
 
-And now the same code with Enums instead of Constants:
+And now the **same code with Enum** instead of Constants:
 
 ```php
 class MyBoolean extends \PetrKnap\Php\Enum\AbstractEnum
