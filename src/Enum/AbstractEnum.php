@@ -112,7 +112,7 @@ abstract class AbstractEnum
         if (!$this->exists($constantName)) {
             throw new EnumException(
                 sprintf(
-                    "%s does not exists in %s",
+                    "%s does not exist in %s",
                     $constantName,
                     get_called_class()
                 ),
