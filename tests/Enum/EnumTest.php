@@ -19,24 +19,24 @@ class EnumTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @dataProvider goodKeyProvider
-     * @param string $key
-     * @param string $value
+     * @param string $name
+     * @param mixed $value
      */
-    public function testEnumMagicConstruction_GoodKey($key, $value)
+    public function testEnumMagicConstruction_GoodKey($name, $value)
     {
         /** @var EnumMock $enum */
-        $enum = EnumMock::$key();
+        $enum = EnumMock::$name();
 
         $this->assertInstanceOf(EnumMock::getClass(), $enum);
-        $this->assertSame($key, $enum->getKey());
+        $this->assertSame($name, $enum->getName());
         $this->assertSame($value, $enum->getValue());
     }
 
     /**
      * @dataProvider wrongKeyProvider
-     * @param string $key
+     * @param string $name
      */
-    public function testEnumMagicConstruction_WrongKey($key)
+    public function testEnumMagicConstruction_WrongKey($name)
     {
         $this->setExpectedException(
             get_class(new EnumException()),
@@ -44,6 +44,6 @@ class EnumTest extends \PHPUnit_Framework_TestCase
             EnumException::OUT_OF_RANGE
         );
 
-        EnumMock::$key();
+        EnumMock::$name();
     }
 }

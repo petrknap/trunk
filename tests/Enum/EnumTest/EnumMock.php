@@ -12,7 +12,7 @@ class EnumMock extends AbstractEnum
 {
     protected function __construct($key)
     {
-        self::setItems([
+        self::setConstants([
             "A" => "a",
             "B" => "b"
         ]);
