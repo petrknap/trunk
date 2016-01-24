@@ -8,7 +8,7 @@ namespace PetrKnap\Php\Enum;
  * @author  Petr Knap <dev@petrknap.cz>
  * @since   2016-01-23
  * @package PetrKnap\Php\Enum
- * @version 0.1
+ * @version 0.2
  * @license https://github.com/petrknap/php-enum/blob/master/LICENSE MIT
  */
 abstract class AbstractEnum
@@ -19,9 +19,9 @@ abstract class AbstractEnum
     private static $instances;
 
     /**
-     * @var mixed[]
+     * @var mixed[][]
      */
-    private $items = [];
+    private static $items = [];
 
     /**
      * @var mixed
@@ -37,7 +37,7 @@ abstract class AbstractEnum
      * @param mixed $key
      * @throws EnumException
      */
-    public function __construct($key)
+    protected function __construct($key)
     {
         $this->key = $key;
         $this->value = $this->get($key);
@@ -88,9 +88,9 @@ abstract class AbstractEnum
     /**
      * @param mixed[] $items
      */
-    protected function setItems(array $items)
+    protected static function setItems(array $items)
     {
-        $this->items = $items;
+        self::$items[get_called_class()] = $items;
     }
 
     /**
@@ -99,7 +99,7 @@ abstract class AbstractEnum
      */
     private function exists($key)
     {
-        return array_key_exists($key, $this->items);
+        return array_key_exists($key, self::$items[get_called_class()]);
     }
 
     /**
@@ -120,6 +120,6 @@ abstract class AbstractEnum
             );
         }
 
-        return $this->items[$key];
+        return self::$items[get_called_class()][$key];
     }
 }

@@ -10,9 +10,9 @@ use PetrKnap\Php\Enum\AbstractEnum;
  */
 class EnumMock extends AbstractEnum
 {
-    public function __construct($key)
+    protected function __construct($key)
     {
-        $this->setItems([
+        self::setItems([
             "A" => "a",
             "B" => "b"
         ]);
