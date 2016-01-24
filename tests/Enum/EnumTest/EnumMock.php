@@ -10,14 +10,12 @@ use PetrKnap\Php\Enum\AbstractEnum;
  */
 class EnumMock extends AbstractEnum
 {
-    protected function __construct($memberName)
+    protected function members()
     {
-        self::setMembers([
+        return [
             "A" => "a",
             "B" => "b"
-        ]);
-
-        parent::__construct($memberName);
+        ];
     }
 
     /**
