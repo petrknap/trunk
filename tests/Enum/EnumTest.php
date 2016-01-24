@@ -18,11 +18,13 @@ class EnumTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @covers       EnumMock::__callStatic
      * @dataProvider goodKeyProvider
+     *
      * @param string $name
      * @param mixed $value
      */
-    public function testEnumMagicConstruction_GoodKey($name, $value)
+    public function testMagicConstruction_GoodKey($name, $value)
     {
         /** @var EnumMock $enum */
         $enum = EnumMock::$name();
@@ -33,10 +35,12 @@ class EnumTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @covers       EnumMock::__callStatic
      * @dataProvider wrongKeyProvider
+     *
      * @param string $name
      */
-    public function testEnumMagicConstruction_WrongKey($name)
+    public function testMagicConstruction_WrongKey($name)
     {
         $this->setExpectedException(
             get_class(new EnumException()),
@@ -48,16 +52,30 @@ class EnumTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @dataProvider goodKeyProvider
-     * @param string $name
-     * @param mixed $value
+     * @covers EnumMock::__callStatic
      */
-    public function testGetConstants($name, $value)
+    public function testComparable()
     {
-        $constants = EnumMock::getConstants();
+        $this->assertSame(EnumMock::A(), EnumMock::A());
+        $this->assertNotSame(EnumMock::A(), EnumMock::B());
 
-        $this->assertInternalType("array", $constants);
-        $this->assertArrayHasKey($name, $constants);
-        $this->assertEquals($value, $constants[$name]);
+        $this->assertTrue(EnumMock::A() == EnumMock::A());
+        $this->assertFalse(EnumMock::A() == EnumMock::B());
+    }
+
+    /**
+     * @covers EnumMock::getMembers
+     * @runInSeparateProcess
+     */
+    public function testGetMembers()
+    {
+        $members = EnumMock::getMembers();
+
+        $this->assertInternalType("array", $members);
+        $this->assertCount(2, $members);
+        $this->assertArrayHasKey("A", $members);
+        $this->assertEquals("a", $members["A"]);
+        $this->assertArrayHasKey("B", $members);
+        $this->assertEquals("b", $members["B"]);
     }
 }
