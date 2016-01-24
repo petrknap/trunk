@@ -46,6 +46,15 @@ if (date('w') == DayOfWeekEnum::FRIDAY()->getValue()) {
 }
 ```
 
+```php
+if (DayOfWeekEnum::FRIDAY() == DayOfWeekEnum::FRIDAY()) {
+    echo "This is OK.";
+}
+if (DayOfWeekEnum::FRIDAY() == DayOfWeekEnum::MONDAY()) {
+    echo "We are going to Hell!";
+}
+```
+
 
 ## How to install
 
