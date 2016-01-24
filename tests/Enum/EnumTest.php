@@ -22,7 +22,7 @@ class EnumTest extends \PHPUnit_Framework_TestCase
      * @param string $name
      * @param mixed $value
      */
-    public function testEnumMagicConstruction_GoodKey($name, $value)
+    public function testMagicConstruction_GoodKey($name, $value)
     {
         /** @var EnumMock $enum */
         $enum = EnumMock::$name();
@@ -36,7 +36,7 @@ class EnumTest extends \PHPUnit_Framework_TestCase
      * @dataProvider wrongKeyProvider
      * @param string $name
      */
-    public function testEnumMagicConstruction_WrongKey($name)
+    public function testMagicConstruction_WrongKey($name)
     {
         $this->setExpectedException(
             get_class(new EnumException()),
@@ -45,6 +45,15 @@ class EnumTest extends \PHPUnit_Framework_TestCase
         );
 
         EnumMock::$name();
+    }
+
+    public function testComparable()
+    {
+        $this->assertSame(EnumMock::A(), EnumMock::A());
+        $this->assertNotSame(EnumMock::A(), EnumMock::B());
+
+        $this->assertTrue(EnumMock::A() == EnumMock::A());
+        $this->assertFalse(EnumMock::A() == EnumMock::B());
     }
 
     /**
