@@ -26,7 +26,7 @@ class MyBoolean
     const MY_FALSE = 2;
 }
 
-function IsTrue(int $myBoolean)
+function isTrue(int $myBoolean)
 {
     switch($myBoolean) {
         case MyBoolean::MY_TRUE:
@@ -36,12 +36,12 @@ function IsTrue(int $myBoolean)
     }
 }
 
-IsTrue(MyBoolean::MY_TRUE);  // returns true - OK
-IsTrue(MyBoolean::MY_FALSE); // returns false - OK
-IsTrue(1);                   // returns true - OK
-IsTrue(2);                   // returns false - scary, but OK
-IsTrue(true);                // returns true - OK
-IsTrue(false);               // returns null - WTF?
+isTrue(MyBoolean::MY_TRUE);  // returns true - OK
+isTrue(MyBoolean::MY_FALSE); // returns false - OK
+isTrue(1);                   // returns true - OK
+isTrue(2);                   // returns false - scary, but OK
+isTrue(true);                // returns true - OK
+isTrue(false);               // returns null - WTF?
 ```
 
 ```php
@@ -56,7 +56,7 @@ class MyBoolean extends \PetrKnap\Php\Enum\AbstractEnum
     }
 }
 
-function IsTrue(MyBoolean $myBoolean)
+function isTrue(MyBoolean $myBoolean)
 {
     switch($myBoolean) {
         case MyBoolean::MY_TRUE():
@@ -66,12 +66,12 @@ function IsTrue(MyBoolean $myBoolean)
     }
 }
 
-IsTrue(MyBoolean::MY_TRUE());  // returns true - OK
-IsTrue(MyBoolean::MY_FALSE()); // returns false - OK
-IsTrue(1);                     // uncaught TypeError - OK
-IsTrue(2);                     // uncaught TypeError - OK
-IsTrue(true);                  // uncaught TypeError - OK
-IsTrue(false);                 // uncaught TypeError - OK
+isTrue(MyBoolean::MY_TRUE());  // returns true - OK
+isTrue(MyBoolean::MY_FALSE()); // returns false - OK
+isTrue(1);                     // uncaught TypeError - OK
+isTrue(2);                     // uncaught TypeError - OK
+isTrue(true);                  // uncaught TypeError - OK
+isTrue(false);                 // uncaught TypeError - OK
 ```
 
 
