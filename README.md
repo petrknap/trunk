@@ -26,7 +26,7 @@ class MyBoolen
     const MY_FALSE = 2;
 }
 
-function IsTrue($myBoolean)
+function IsTrue(int $myBoolean)
 {
     switch($myBoolean) {
         case MyBoolen::MY_TRUE:
