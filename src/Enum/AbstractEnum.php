@@ -8,7 +8,7 @@ namespace PetrKnap\Php\Enum;
  * @author  Petr Knap <dev@petrknap.cz>
  * @since   2016-01-23
  * @package PetrKnap\Php\Enum
- * @version 0.3
+ * @version 0.4
  * @license https://github.com/petrknap/php-enum/blob/master/LICENSE MIT
  */
 abstract class AbstractEnum
@@ -37,9 +37,15 @@ abstract class AbstractEnum
      * @param string $memberName
      * @throws EnumException
      */
-    protected function __construct($memberName)
+    private function __construct($memberName)
     {
-        if(!($memberName === null && !$this->exists(null))) {
+        $members = &self::$members[get_called_class()];
+
+        if (!$members) {
+            $members = $this->members();
+        }
+
+        if (!($memberName === null && !$this->exists(null))) {
             $this->memberName = $memberName;
             $this->memberValue = $this->get($memberName);
         }
@@ -88,12 +94,9 @@ abstract class AbstractEnum
     }
 
     /**
-     * @param mixed[] $members
+     * @return mixed[] [first_name => first_value, second_name => second_value,...]
      */
-    protected static function setMembers(array $members)
-    {
-        self::$members[get_called_class()] = $members;
-    }
+    abstract protected function members();
 
     /**
      * @return mixed[]
@@ -104,7 +107,7 @@ abstract class AbstractEnum
 
         $members = &self::$members[$className];
 
-        if(empty($members)) {
+        if (empty($members)) {
             new $className(null);
         }
 
