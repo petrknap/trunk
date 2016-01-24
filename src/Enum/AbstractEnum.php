@@ -8,7 +8,7 @@ namespace PetrKnap\Php\Enum;
  * @author  Petr Knap <dev@petrknap.cz>
  * @since   2016-01-23
  * @package PetrKnap\Php\Enum
- * @version 0.2
+ * @version 0.3
  * @license https://github.com/petrknap/php-enum/blob/master/LICENSE MIT
  */
 abstract class AbstractEnum
@@ -21,36 +21,36 @@ abstract class AbstractEnum
     /**
      * @var mixed[][]
      */
-    private static $constants = [];
+    private static $members = [];
+
+    /**
+     * @var string
+     */
+    private $memberName;
 
     /**
      * @var mixed
      */
-    private $constantName;
+    private $memberValue;
 
     /**
-     * @var mixed
-     */
-    private $constantValue;
-
-    /**
-     * @param mixed $constantName
+     * @param string $memberName
      * @throws EnumException
      */
-    protected function __construct($constantName)
+    protected function __construct($memberName)
     {
-        $this->constantName = $constantName;
-        $this->constantValue = $this->get($constantName);
+        $this->memberName = $memberName;
+        $this->memberValue = $this->get($memberName);
     }
 
     /**
      * Creates magical factories for easier access to enum
      *
-     * @param mixed $constantName enum key
+     * @param string $memberName enum key
      * @param array $args ignored
      * @return mixed
      */
-    public static function __callStatic($constantName, array $args)
+    public static function __callStatic($memberName, array $args)
     {
         $className = get_called_class();
 
@@ -60,10 +60,10 @@ abstract class AbstractEnum
             $instances = [];
         }
 
-        $instance = &$instances[$constantName];
+        $instance = &$instances[$memberName];
 
         if (!($instance instanceof $className)) {
-            $instance = new $className($constantName);
+            $instance = new $className($memberName);
         }
 
         return $instance;
@@ -74,7 +74,7 @@ abstract class AbstractEnum
      */
     public function getName()
     {
-        return $this->constantName;
+        return $this->memberName;
     }
 
     /**
@@ -82,52 +82,52 @@ abstract class AbstractEnum
      */
     public function getValue()
     {
-        return $this->constantValue;
+        return $this->memberValue;
     }
 
     /**
-     * @param mixed[] $constants
+     * @param mixed[] $members
      */
-    protected static function setConstants(array $constants)
+    protected static function setMembers(array $members)
     {
-        self::$constants[get_called_class()] = $constants;
+        self::$members[get_called_class()] = $members;
     }
 
     /**
      * @return mixed[]
      */
-    public static function getConstants()
+    public static function getMembers()
     {
-        return self::$constants[get_called_class()];
+        return self::$members[get_called_class()];
     }
 
     /**
-     * @param string $constantName
+     * @param string $memberName
      * @return bool
      */
-    private function exists($constantName)
+    private function exists($memberName)
     {
-        return array_key_exists($constantName, self::$constants[get_called_class()]);
+        return array_key_exists($memberName, self::$members[get_called_class()]);
     }
 
     /**
-     * @param string $constantName
+     * @param string $memberName
      * @return mixed
      * @throws EnumException
      */
-    private function get($constantName)
+    private function get($memberName)
     {
-        if (!$this->exists($constantName)) {
+        if (!$this->exists($memberName)) {
             throw new EnumException(
                 sprintf(
                     "%s does not exist in %s",
-                    $constantName,
+                    $memberName,
                     get_called_class()
                 ),
                 EnumException::OUT_OF_RANGE
             );
         }
 
-        return self::$constants[get_called_class()][$constantName];
+        return self::$members[get_called_class()][$memberName];
     }
 }

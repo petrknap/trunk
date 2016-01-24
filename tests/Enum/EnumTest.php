@@ -63,7 +63,7 @@ class EnumTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetConstants($name, $value)
     {
-        $constants = EnumMock::getConstants();
+        $constants = EnumMock::getMembers();
 
         $this->assertInternalType("array", $constants);
         $this->assertArrayHasKey($name, $constants);
