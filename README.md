@@ -42,7 +42,7 @@ class DayOfWeekEnum extends \PetrKnap\Php\Enum\AbstractEnum
 #### Enum usage
 ```php
 if (date('w') == DayOfWeekEnum::FRIDAY()->getValue()) {
-    echo "Finally It's Friday!"
+    echo "Finally it is Friday!";
 }
 ```
 
