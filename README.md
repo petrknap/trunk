@@ -79,15 +79,6 @@ IsTrue(false);                 // uncaught TypeError - OK
 
 ### Enum declaration
 ```php
-/**
- * @method static DayOfWeekEnum SUNDAY()
- * @method static DayOfWeekEnum MONDAY()
- * @method static DayOfWeekEnum TUESDAY()
- * @method static DayOfWeekEnum WEDNESDAY()
- * @method static DayOfWeekEnum THURSDAY()
- * @method static DayOfWeekEnum FRIDAY()
- * @method static DayOfWeekEnum SATURDAY()
- */
 class DayOfWeekEnum extends \PetrKnap\Php\Enum\AbstractEnum
 {
     protected function members()
@@ -121,8 +112,7 @@ if (DayOfWeekEnum::FRIDAY() == DayOfWeekEnum::MONDAY()) {
 ```php
 function isWeekend(DayOfWeekEnum $dayOfWeek)
 {
-   switch($dayOfWeek)
-   {
+   switch ($dayOfWeek) {
        case DayOfWeekEnum::SATURDAY():
        case DayOfWeekEnum::SUNDAY():
            return true;
