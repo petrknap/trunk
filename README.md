@@ -15,6 +15,7 @@ Enumerated type for PHP by [Petr Knap].
 > In computer programming, an **enumerated type** (also called **enumeration** or **enum**, or **factor** in the R programming language, and a **categorical variable** in statistics) is a data type consisting of a set of named values called **elements**, **members**, **enumeral**, or **enumerators** of the type. The enumerator names are usually identifiers that behave as constants in the language. A variable that has been declared as having an enumerated type can be assigned any of the enumerators as a value. In other words, an *enumerated type has values that are different from each other*, and that can be compared and assigned, but which are not specified by the programmer as having any particular concrete representation in the computer's memory; compilers and interpreters can represent them arbitrarily.
 -- [Enumerated type - Wikipedia, The Free Encyclopedia]
 
+
 ## Why use Enums instead of Constants?
 
 Because **it is safer and less scary** than using constants. Don't trust me? Let see at this code:
