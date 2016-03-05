@@ -21,6 +21,7 @@ Service locator pattern for PHP by [Petr Knap].
 Because **it is easier than not to used it**. Don't trust me? Let see at this code:
 
 ```php
+// classes.php
 class MyDatabase
 {
    public function __construct($dsn, $user, $password)
@@ -43,6 +44,7 @@ class MyBlog
 }
 ```
 ```php
+// index.php
 $database = new MyDatabase(...);
 $web = new MyWeb($database);
 $blog = new MyBlog($web);
@@ -52,6 +54,7 @@ $blog->show("homepage");
 And now the **same code with service locator**:
 
 ```php
+// classes.php
 class MyDatabase
 {
    public function __construct($dsn, $user, $password)
@@ -88,6 +91,7 @@ ServiceManager::setConfig([
 ]);
 ```
 ```php
+// index.php
 ServiceManager::getInstance()->get("MyBlog")->show("homepage");
 ```
 
