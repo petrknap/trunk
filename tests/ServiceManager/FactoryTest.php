@@ -7,6 +7,9 @@ use PetrKnap\Php\ServiceManager\ConfigBuilder;
 use PetrKnap\Php\ServiceManager\FactoryInterface;
 use PetrKnap\Php\ServiceManager\ServiceManager;
 
+/**
+ * @runTestsInSeparateProcesses
+ */
 class FactoryTest extends \PHPUnit_Framework_TestCase
 {
     public function testCallable()

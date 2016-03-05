@@ -42,9 +42,9 @@ class ServiceManagerTest extends \PHPUnit_Framework_TestCase
     {
         ServiceManager::setConfig($initialConfig);
         if ($override) {
-            ServiceManager::setConfig($config);
+            @ServiceManager::setConfig($config);
         } else {
-            ServiceManager::addConfig($config);
+            @ServiceManager::addConfig($config);
         }
 
         $this->assertEquals($expectedConfig, ServiceManager::getConfig());

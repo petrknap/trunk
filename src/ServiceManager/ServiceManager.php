@@ -3,6 +3,7 @@
 namespace PetrKnap\Php\ServiceManager;
 
 use Interop\Container\ContainerInterface;
+use LogicException;
 use PetrKnap\Php\Singleton\SingletonInterface;
 use PetrKnap\Php\Singleton\SingletonTrait;
 use Zend\ServiceManager\ServiceManager as RealServiceManager;
@@ -33,8 +34,14 @@ class ServiceManager implements ContainerInterface, SingletonInterface
      */
     public static function setConfig(array $config)
     {
-        // TODO add has instance check - exception
-        // TODO add non-empty config check - trigger_error(..., E_USER_NOTICE);
+        if (self::hasInstance()) {
+            throw new LogicException("Can not change the configuration, instance already exists.");
+        }
+
+        if (func_num_args() == 1 && !empty(self::$config)) {
+            trigger_error("Current configuration will be overridden by new one.", E_USER_NOTICE);
+        }
+
         self::$config = $config;
     }
 
@@ -45,9 +52,17 @@ class ServiceManager implements ContainerInterface, SingletonInterface
      */
     public static function addConfig(array $config)
     {
-        // TODO add has instance check - exception
-        // TODO add override check - trigger_error(..., E_USER_WARNING);
-        self::$config = array_replace_recursive(self::$config, $config);
+        foreach ($config as $type => $services) {
+            if (is_array($services)) {
+                foreach ($services as $name => $value) {
+                    if (isset(self::$config[$type][$value])) {
+                        trigger_error("Current {$name} will be overridden by new one.", E_USER_WARNING);
+                    }
+                }
+            }
+        }
+
+        self::setConfig(array_replace_recursive(self::$config, $config), true);
     }
 
     /**
