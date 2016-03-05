@@ -54,6 +54,7 @@ class ConfigBuilder
     public function addInvokable($serviceName, $className)
     {
         $this->config[self::INVOKABLES][$serviceName] = $className;
+
         return $this;
     }
 
