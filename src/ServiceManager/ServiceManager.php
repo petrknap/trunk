@@ -2,6 +2,7 @@
 
 namespace PetrKnap\Php\ServiceManager;
 
+use Interop\Container\ContainerInterface;
 use PetrKnap\Php\Singleton\SingletonInterface;
 use PetrKnap\Php\Singleton\SingletonTrait;
 use Zend\ServiceManager\ServiceManager as RealServiceManager;
@@ -16,7 +17,7 @@ use Zend\ServiceManager\ServiceManager as RealServiceManager;
  * @version  0.1
  * @license  https://github.com/petrknap/php-servicemanager/blob/master/LICENSE MIT
  */
-class ServiceManager implements ServiceLocatorInterface, SingletonInterface
+class ServiceManager implements ContainerInterface, SingletonInterface
 {
     use SingletonTrait;
 

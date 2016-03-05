@@ -14,7 +14,7 @@ class ServiceManagerTest extends \PHPUnit_Framework_TestCase
     {
         $instance = ServiceManager::getInstance();
 
-        $this->assertInstanceOf("PetrKnap\\Php\\ServiceManager\\ServiceLocatorInterface", $instance);
+        $this->assertInstanceOf("Interop\\Container\\ContainerInterface", $instance);
         $this->assertInstanceOf("PetrKnap\\Php\\ServiceManager\\ServiceManager", $instance);
     }
 
