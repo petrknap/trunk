@@ -1,0 +1,40 @@
+{
+  "name": "petrknap/php-servicemanager",
+  "description": "Service locator pattern for PHP",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Petr Knap",
+      "email": "dev@petrknap.cz",
+      "homepage": "http://petrknap.cz",
+      "role": "Developer"
+    }
+  ],
+  "homepage": "https://github.com/petrknap/php-servicemanager",
+  "config": {
+    "preferred-install": "dist"
+  },
+  "require": {
+    "php": ">=5.4",
+    "petrknap/php-singleton": "0.1.*",
+    "zendframework/zend-servicemanager": "3.0.*",
+    "container-interop/container-interop": "~1.0"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "4.*"
+  },
+  "scripts": {
+    "test": [
+      "./vendor/bin/phpunit"
+    ],
+    "post-autoload-dump": [
+      "@test"
+    ]
+  },
+  "autoload": {
+    "psr-4": {
+      "PetrKnap\\Php\\ServiceManager\\": "src/ServiceManager",
+      "PetrKnap\\Test\\Php\\ServiceManager\\": "tests/ServiceManager"
+    }
+  }
+}
