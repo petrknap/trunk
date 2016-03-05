@@ -3,6 +3,7 @@
 Service locator pattern for PHP by [Petr Knap].
 
 * [What is service locator pattern?](#what-is-service-locator-pattern)
+* [Why use service locator?](#why-use-service-locator)
 * [Usage of php-servicemanager](#usage-of-php-servicemanager)
     * [Service manager configuration](#service-manager-configuration)
     * [Service manager usage](#service-manager-usage)
@@ -13,6 +14,82 @@ Service locator pattern for PHP by [Petr Knap].
 
 > The **service locator** pattern is a design pattern used in software development **to encapsulate** the processes involved in obtaining **a service with a strong abstraction layer**. This pattern uses a central registry known as the "service locator", which on request returns the information necessary to perform a certain task.
 -- [Service locator pattern - Wikipedia, The Free Encyclopedia]
+
+
+## Why use service locator?
+
+Because **it is easier to do it**. Don't trust me? Let see at this code:
+
+```php
+class MyDatabase
+{
+   public function __construct($dsn, $user, $password)
+   {...}
+}
+
+class MyWeb
+{
+   public function __construct(MyDatabase $database)
+   {...}
+}
+
+class MyBlog
+{
+   public function __construct(MyWeb $blog)
+   {...}
+   
+   public function show($page)
+   {...}
+}
+```
+```php
+$database = new MyDatabase(...);
+$web = new MyWeb($database);
+$blog = new MyBlog($web);
+$blog->show("homepage");
+```
+
+And now the **same code with service locator**:
+
+```php
+class MyDatabase
+{
+   public function __construct($dsn, $user, $password)
+   {...}
+}
+
+class MyWeb
+{
+   public function __construct(MyDatabase $database)
+   {...}
+}
+
+class MyBlog
+{
+   public function __construct(MyWeb $blog)
+   {...}
+   
+   public function show($page)
+   {...}
+}
+
+ServiceManager::setConfig([
+   "factories" => [
+      "MyDatabase" => function($serviceLocator) {
+         return new MyDatabase(...);
+      },
+      "MyWeb" => function($serviceLocator) {
+         return new MyWeb($serviceLocator->get("MyDatabase"))
+      },
+      "MyBlog" => function($serviceLocator) {
+         return new MyBlog($serviceLocator->get("MyWeb"));
+      }
+   ]
+]);
+```
+```php
+ServiceManager::getInstance()->get("MyBlog")->show("homepage");
+```
 
 
 ## Usage of php-servicemanager
