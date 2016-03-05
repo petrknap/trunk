@@ -18,7 +18,7 @@ Service locator pattern for PHP by [Petr Knap].
 
 ## Why use service locator?
 
-Because **it is easier to do it**. Don't trust me? Let see at this code:
+Because **it is easier than not to used it**. Don't trust me? Let see at this code:
 
 ```php
 class MyDatabase
