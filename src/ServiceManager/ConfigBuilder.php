@@ -2,6 +2,8 @@
 
 namespace PetrKnap\Php\ServiceManager;
 
+use InvalidArgumentException;
+
 /**
  * Config builder
  *
@@ -53,6 +55,10 @@ class ConfigBuilder
      */
     public function addInvokable($serviceName, $className)
     {
+        if (!is_string($className)) {
+            $this->throwInvalidArgumentException("Second", "string", $className);
+        }
+
         $this->config[self::INVOKABLES][$serviceName] = $className;
 
         return $this;
@@ -65,6 +71,10 @@ class ConfigBuilder
      */
     public function addFactory($serviceName, $factory)
     {
+        if (!is_string($factory) && !is_callable($factory)) {
+            $this->throwInvalidArgumentException("Second", "string or callable", $factory);
+        }
+
         $this->config[self::FACTORIES][$serviceName] = $factory;
 
         return $this;
@@ -77,6 +87,10 @@ class ConfigBuilder
      */
     public function addShared($serviceName, $isShared)
     {
+        if (!is_bool($isShared)) {
+            $this->throwInvalidArgumentException("Second", "boolean", $isShared);
+        }
+
         $this->config[self::SHARED][$serviceName] = $isShared;
 
         return $this;
@@ -88,8 +102,24 @@ class ConfigBuilder
      */
     public function setSharedByDefault($isShared)
     {
+        if (!is_bool($isShared)) {
+            $this->throwInvalidArgumentException("First", "boolean", $isShared);
+        }
+
         $this->config[self::SHARED_BY_DEFAULT] = $isShared;
 
         return $this;
+    }
+
+    private function throwInvalidArgumentException($argumentPosition, $expected, $argument)
+    {
+        throw new InvalidArgumentException(
+            sprintf(
+                "%s argument must be %s, %s given.",
+                $argumentPosition,
+                $expected,
+                gettype($argument)
+            )
+        );
     }
 }
