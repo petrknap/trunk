@@ -85,7 +85,7 @@ class ConfigBuilder
      * @param bool $isShared
      * @return $this
      */
-    public function addShared($serviceName, $isShared)
+    public function setShared($serviceName, $isShared)
     {
         if (!is_bool($isShared)) {
             $this->throwInvalidArgumentException("Second", "boolean", $isShared);

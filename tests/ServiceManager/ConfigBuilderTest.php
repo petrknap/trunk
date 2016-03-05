@@ -102,7 +102,7 @@ class ConfigBuilderTest extends \PHPUnit_Framework_TestCase
         $this->builder->addFactory("A", $invalidArgument);
     }
 
-    public function testAddShared()
+    public function testSetShared()
     {
         $expectedServices = [
             "A" => true,
@@ -110,27 +110,27 @@ class ConfigBuilderTest extends \PHPUnit_Framework_TestCase
         ];
 
         foreach ($expectedServices as $name => $isShared) {
-            $this->assertInstanceOf(get_class($this->builder), $this->builder->addShared($name, $isShared));
+            $this->assertInstanceOf(get_class($this->builder), $this->builder->setShared($name, $isShared));
         }
 
         $this->assertEquals($expectedServices, $this->builder->getConfig()[ConfigBuilder::SHARED]);
     }
 
-    public function addShared_InvalidArgumentDataProvider()
+    public function setShared_InvalidArgumentDataProvider()
     {
         return [[null], [0], ["string"], [new \stdClass()], [[]], [function() {}]];
     }
 
     /**
-     * @dataProvider addShared_InvalidArgumentDataProvider
+     * @dataProvider setShared_InvalidArgumentDataProvider
      *
      * @param mixed $invalidArgument
      */
-    public function testAddShared_InvalidArgument($invalidArgument)
+    public function testSetShared_InvalidArgument($invalidArgument)
     {
         $this->setExpectedException("InvalidArgumentException");
 
-        $this->builder->addShared("A", $invalidArgument);
+        $this->builder->setShared("A", $invalidArgument);
     }
 
     public function setSharedByDefaultDataProvider()
