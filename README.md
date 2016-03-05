@@ -2,7 +2,7 @@
 
 Service locator pattern for PHP by [Petr Knap].
 
-* [What is service Locator pattern?](#what-is-service-locator-pattern)
+* [What is service locator pattern?](#what-is-service-locator-pattern)
 * [Usage of php-servicemanager](#usage-of-php-servicemanager)
     * [Service manager configuration](#service-manager-configuration)
     * [Service manager usage](#service-manager-usage)
