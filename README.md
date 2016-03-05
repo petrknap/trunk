@@ -39,6 +39,7 @@ class MyClass
 
 $configBuilder = new ConfigBuilder();
 $configBuilder->addInvokable("MyCoreClass", "MyCoreClass");
+$configBuilder->setShared("MyCoreClass", true);
 $configBuilder->addFactory("MyClass", function(ServiceLocatorInterface $serviceLocator) {
     return new MyClass($serviceLocator->get("MyCoreClass"));
 });
