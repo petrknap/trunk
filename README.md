@@ -42,13 +42,33 @@ class MyBlog
    public function show($page)
    {...}
 }
+
+class MyAdmin
+{
+   public function __construct(MyWeb $blog)
+   {...}
+   
+   public function show($page)
+   {...}
+}
 ```
 ```php
 // index.php
-$database = new MyDatabase(...);
+require_once("classes.php");
+$config = require("config.php");
+$database = new MyDatabase($config["dsn"], $config["username"], $config["password"]);
 $web = new MyWeb($database);
 $blog = new MyBlog($web);
 $blog->show("homepage");
+```
+```php
+// admin.php
+require_once("classes.php");
+$config = require("config.php");
+$database = new MyDatabase($config["dsn"], $config["username"], $config["password"]);
+$web = new MyWeb($database);
+$admin = new MyAdmin($web);
+$admin->show("dashboard");
 ```
 
 And now the **same code with service locator**:
@@ -76,15 +96,28 @@ class MyBlog
    {...}
 }
 
+class MyAdmin
+{
+   public function __construct(MyWeb $blog)
+   {...}
+   
+   public function show($page)
+   {...}
+}
+
 ServiceManager::setConfig([
    "factories" => [
       "MyDatabase" => function(ContainerInterface $serviceLocator) {
-         return new MyDatabase(...);
+         $config = require("config.php");
+         return new MyDatabase($config["dsn"], $config["username"], $config["password"]);
       },
       "MyWeb" => function(ContainerInterface $serviceLocator) {
          return new MyWeb($serviceLocator->get("MyDatabase"))
       },
       "MyBlog" => function(ContainerInterface $serviceLocator) {
+         return new MyBlog($serviceLocator->get("MyWeb"));
+      },
+      "MyAdmin" => function(ContainerInterface $serviceLocator) {
          return new MyBlog($serviceLocator->get("MyWeb"));
       }
    ]
@@ -92,7 +125,13 @@ ServiceManager::setConfig([
 ```
 ```php
 // index.php
+require_once("classes.php");
 ServiceManager::getInstance()->get("MyBlog")->show("homepage");
+```
+```php
+// admin.php
+require_once("classes.php");
+ServiceManager::getInstance()->get("MyAdmin")->show("dashboard");
 ```
 
 
