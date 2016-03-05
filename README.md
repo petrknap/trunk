@@ -3,6 +3,7 @@
 Service locator pattern for PHP by [Petr Knap].
 
 * [What is service Locator pattern?](#what-is-service-locator-pattern)
+* [How to install](#how-to-install)
 
 
 ## What is service locator pattern?
