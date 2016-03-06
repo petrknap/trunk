@@ -2,7 +2,7 @@
 
 namespace PetrKnap\Test\Php\ServiceManager;
 
-use PetrKnap\Php\ServiceManager\ConfigBuilder;
+use PetrKnap\Php\ServiceManager\ConfigurationBuilder;
 use PetrKnap\Php\ServiceManager\Exception\ServiceLocatorException;
 use PetrKnap\Php\ServiceManager\Exception\ServiceNotCreatedException;
 use PetrKnap\Php\ServiceManager\Exception\ServiceNotFoundException;
@@ -82,14 +82,14 @@ class ServiceManagerTest extends \PHPUnit_Framework_TestCase
     {
         ServiceManager::setConfig(
             [
-                ConfigBuilder::SERVICES => [
+                ConfigurationBuilder::SERVICES => [
                     "StandardService" => new \stdClass()
                 ],
-                ConfigBuilder::INVOKABLES => [
+                ConfigurationBuilder::INVOKABLES => [
                     "DefectiveService" => DefectiveService::getClass(),
                     "IndependentService" => IndependentService::getClass()
                 ],
-                ConfigBuilder::FACTORIES => [
+                ConfigurationBuilder::FACTORIES => [
                     "StandardServiceCreatedByFactory" => function () {
                         return new \stdClass();
                     },
@@ -113,14 +113,14 @@ class ServiceManagerTest extends \PHPUnit_Framework_TestCase
     {
         ServiceManager::setConfig(
             [
-                ConfigBuilder::INVOKABLES => [
+                ConfigurationBuilder::INVOKABLES => [
                     "StandardService" => IndependentService::getClass(),
                     "SharedService" => IndependentService::getClass()
                 ],
-                ConfigBuilder::SHARED => [
+                ConfigurationBuilder::SHARED => [
                     "SharedService" => true
                 ],
-                ConfigBuilder::SHARED_BY_DEFAULT => false
+                ConfigurationBuilder::SHARED_BY_DEFAULT => false
             ]
         );
 
@@ -138,12 +138,12 @@ class ServiceManagerTest extends \PHPUnit_Framework_TestCase
     public function hasWorksDataProvider()
     {
         return [
-            [[ConfigBuilder::SERVICES => ["A" => "B"]], "A", true],
-            [[ConfigBuilder::SERVICES => ["A" => "B"]], "B", false],
-            [[ConfigBuilder::INVOKABLES => ["A" => "B"]], "A", true],
-            [[ConfigBuilder::INVOKABLES => ["A" => "B"]], "B", false],
-            [[ConfigBuilder::FACTORIES => ["A" => "B"]], "A", true],
-            [[ConfigBuilder::FACTORIES => ["A" => "B"]], "B", false]
+            [[ConfigurationBuilder::SERVICES => ["A" => "B"]], "A", true],
+            [[ConfigurationBuilder::SERVICES => ["A" => "B"]], "B", false],
+            [[ConfigurationBuilder::INVOKABLES => ["A" => "B"]], "A", true],
+            [[ConfigurationBuilder::INVOKABLES => ["A" => "B"]], "B", false],
+            [[ConfigurationBuilder::FACTORIES => ["A" => "B"]], "A", true],
+            [[ConfigurationBuilder::FACTORIES => ["A" => "B"]], "B", false]
         ];
     }
 

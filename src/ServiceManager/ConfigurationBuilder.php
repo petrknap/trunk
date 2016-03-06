@@ -11,7 +11,7 @@ namespace PetrKnap\Php\ServiceManager;
  * @package  PetrKnap\Php\ServiceManager
  * @license  https://github.com/petrknap/php-servicemanager/blob/master/LICENSE MIT
  */
-class ConfigBuilder
+class ConfigurationBuilder
 {
     use ConfigCheckerTrait;
 

@@ -2,30 +2,30 @@
 
 namespace PetrKnap\Test\Php\ServiceManager;
 
-use PetrKnap\Php\ServiceManager\ConfigBuilder;
+use PetrKnap\Php\ServiceManager\ConfigurationBuilder;
 
 class ConfigBuilderTest extends \PHPUnit_Framework_TestCase
 {
     const CONFIGURATION_EXCEPTION = "PetrKnap\\Php\\ServiceManager\\Exception\\ConfigurationException";
 
     /**
-     * @var ConfigBuilder
+     * @var ConfigurationBuilder
      */
     private $builder;
 
     public function setUp()
     {
-        $this->builder = new ConfigBuilder();
+        $this->builder = new ConfigurationBuilder();
     }
 
     public function testGetConfig()
     {
         $this->assertEquals([
-            ConfigBuilder::SERVICES => [],
-            ConfigBuilder::INVOKABLES => [],
-            ConfigBuilder::FACTORIES => [],
-            ConfigBuilder::SHARED => [],
-            ConfigBuilder::SHARED_BY_DEFAULT => false
+            ConfigurationBuilder::SERVICES => [],
+            ConfigurationBuilder::INVOKABLES => [],
+            ConfigurationBuilder::FACTORIES => [],
+            ConfigurationBuilder::SHARED => [],
+            ConfigurationBuilder::SHARED_BY_DEFAULT => false
         ], $this->builder->getConfig());
     }
 
@@ -40,7 +40,7 @@ class ConfigBuilderTest extends \PHPUnit_Framework_TestCase
             $this->assertInstanceOf(get_class($this->builder), $this->builder->addService($name, $instance));
         }
 
-        $this->assertEquals($expectedServices, $this->builder->getConfig()[ConfigBuilder::SERVICES]);
+        $this->assertEquals($expectedServices, $this->builder->getConfig()[ConfigurationBuilder::SERVICES]);
     }
 
     public function testAddInvokable()
@@ -54,7 +54,7 @@ class ConfigBuilderTest extends \PHPUnit_Framework_TestCase
             $this->assertInstanceOf(get_class($this->builder), $this->builder->addInvokable($name, $className));
         }
 
-        $this->assertEquals($expectedServices, $this->builder->getConfig()[ConfigBuilder::INVOKABLES]);
+        $this->assertEquals($expectedServices, $this->builder->getConfig()[ConfigurationBuilder::INVOKABLES]);
     }
 
     public function addInvokable_InvalidArgumentDataProvider()
@@ -85,7 +85,7 @@ class ConfigBuilderTest extends \PHPUnit_Framework_TestCase
             $this->assertInstanceOf(get_class($this->builder), $this->builder->addFactory($name, $factory));
         }
 
-        $this->assertEquals($expectedServices, $this->builder->getConfig()[ConfigBuilder::FACTORIES]);
+        $this->assertEquals($expectedServices, $this->builder->getConfig()[ConfigurationBuilder::FACTORIES]);
     }
 
     public function addFactory_InvalidArgumentDataProvider()
@@ -115,7 +115,7 @@ class ConfigBuilderTest extends \PHPUnit_Framework_TestCase
             $this->assertInstanceOf(get_class($this->builder), $this->builder->setShared($name, $isShared));
         }
 
-        $this->assertEquals($expectedServices, $this->builder->getConfig()[ConfigBuilder::SHARED]);
+        $this->assertEquals($expectedServices, $this->builder->getConfig()[ConfigurationBuilder::SHARED]);
     }
 
     public function setShared_InvalidArgumentDataProvider()
@@ -149,7 +149,7 @@ class ConfigBuilderTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertInstanceOf(get_class($this->builder), $this->builder->setSharedByDefault($isShared));
 
-        $this->assertEquals($isShared, $this->builder->getConfig()[ConfigBuilder::SHARED_BY_DEFAULT]);
+        $this->assertEquals($isShared, $this->builder->getConfig()[ConfigurationBuilder::SHARED_BY_DEFAULT]);
     }
 
     public function setSharedByDefault_InvalidArgumentDataProvider()

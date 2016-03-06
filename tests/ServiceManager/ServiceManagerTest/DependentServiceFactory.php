@@ -2,7 +2,7 @@
 
 namespace PetrKnap\Test\Php\ServiceManager\ServiceManagerTest;
 
-use PetrKnap\Php\ServiceManager\ConfigBuilder;
+use PetrKnap\Php\ServiceManager\ConfigurationBuilder;
 use PetrKnap\Php\ServiceManager\FactoryInterface;
 use PetrKnap\Php\ServiceManager\ServiceLocatorInterface;
 
@@ -10,7 +10,7 @@ class DependentServiceFactory implements FactoryInterface
 {
     public static function getConfig()
     {
-        $config = new ConfigBuilder();
+        $config = new ConfigurationBuilder();
         $config->addInvokable("IndependentService", IndependentService::getClass());
         $config->addFactory("DependentService", __CLASS__);
 

@@ -139,7 +139,7 @@ ServiceManager::getInstance()->get("MyAdmin")->show("dashboard");
 
 ### Service manager configuration
 ```php
-use PetrKnap\Php\ServiceManager\ConfigBuilder;
+use PetrKnap\Php\ServiceManager\ConfigurationBuilder;
 use PetrKnap\Php\ServiceManager\ServiceLocatorInterface;
 use PetrKnap\Php\ServiceManager\ServiceManager;
 
@@ -157,7 +157,7 @@ class MyClass
     }
 }
 
-$configBuilder = new ConfigBuilder();
+$configBuilder = new ConfigurationBuilder();
 $configBuilder->addInvokable("MyCoreClass", "MyCoreClass");
 $configBuilder->setShared("MyCoreClass", true);
 $configBuilder->addFactory("MyClass", function(ServiceLocatorInterface $serviceLocator) {

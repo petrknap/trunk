@@ -39,7 +39,7 @@ class ServiceManager implements ServiceLocatorInterface, SingletonInterface
     /**
      * Sets (overrides) configuration
      *
-     * @param array|ConfigBuilder $config
+     * @param array|ConfigurationBuilder $config
      */
     public static function setConfig($config)
     {
@@ -59,7 +59,7 @@ class ServiceManager implements ServiceLocatorInterface, SingletonInterface
     /**
      * Sets (appends) configuration
      *
-     * @param array|ConfigBuilder $config
+     * @param array|ConfigurationBuilder $config
      */
     public static function addConfig($config)
     {
@@ -78,7 +78,7 @@ class ServiceManager implements ServiceLocatorInterface, SingletonInterface
     }
 
     /**
-     * @param array|ConfigBuilder $config
+     * @param array|ConfigurationBuilder $config
      * @return array
      * @throws ConfigurationException
      */
@@ -87,12 +87,12 @@ class ServiceManager implements ServiceLocatorInterface, SingletonInterface
         if (is_array($config)) {
             return $config;
         }
-        if($config instanceof ConfigBuilder) {
+        if($config instanceof ConfigurationBuilder) {
             return $config->getConfig();
         }
         throw new ConfigurationException(
             sprintf(
-                "Unsupported configuration - must be array or ConfigBuilder, %s given",
+                "Unsupported configuration - must be array or ConfigurationBuilder, %s given",
                 gettype($config)
             )
         );
@@ -110,20 +110,20 @@ class ServiceManager implements ServiceLocatorInterface, SingletonInterface
 
     protected function __construct()
     {
-        if (isset(self::$config[ConfigBuilder::SERVICES])) {
-            $this->services = self::$config[ConfigBuilder::SERVICES];
+        if (isset(self::$config[ConfigurationBuilder::SERVICES])) {
+            $this->services = self::$config[ConfigurationBuilder::SERVICES];
         }
-        if (isset(self::$config[ConfigBuilder::INVOKABLES])) {
-            $this->invokables = self::$config[ConfigBuilder::INVOKABLES];
+        if (isset(self::$config[ConfigurationBuilder::INVOKABLES])) {
+            $this->invokables = self::$config[ConfigurationBuilder::INVOKABLES];
         }
-        if (isset(self::$config[ConfigBuilder::FACTORIES])) {
-            $this->factories = self::$config[ConfigBuilder::FACTORIES];
+        if (isset(self::$config[ConfigurationBuilder::FACTORIES])) {
+            $this->factories = self::$config[ConfigurationBuilder::FACTORIES];
         }
-        if (isset(self::$config[ConfigBuilder::SHARED])) {
-            $this->shared = self::$config[ConfigBuilder::SHARED];
+        if (isset(self::$config[ConfigurationBuilder::SHARED])) {
+            $this->shared = self::$config[ConfigurationBuilder::SHARED];
         }
-        if (isset(self::$config[ConfigBuilder::SHARED_BY_DEFAULT])) {
-            $this->sharedByDefault = self::$config[ConfigBuilder::SHARED_BY_DEFAULT];
+        if (isset(self::$config[ConfigurationBuilder::SHARED_BY_DEFAULT])) {
+            $this->sharedByDefault = self::$config[ConfigurationBuilder::SHARED_BY_DEFAULT];
         }
     }
 
