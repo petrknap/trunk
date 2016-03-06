@@ -23,6 +23,7 @@ use PetrKnap\Php\Singleton\SingletonTrait;
 class ServiceManager implements ServiceLocatorInterface, SingletonInterface
 {
     use SingletonTrait;
+    use ConfigCheckerTrait;
 
     /**
      * @var array
@@ -115,10 +116,12 @@ class ServiceManager implements ServiceLocatorInterface, SingletonInterface
                     }
 
                     if (isset($data["class_name"])) {
+                        $this->checkInvokable($serviceName, $data["class_name"]);
                         return new $data["class_name"];
                     }
 
                     if (isset($data["factory"])) {
+                        $this->checkFactory($serviceName, $data["factory"]);
                         $factory = $data["factory"];
                         if (is_callable($factory)) {
                             return call_user_func($factory, $this);
@@ -162,9 +165,16 @@ class ServiceManager implements ServiceLocatorInterface, SingletonInterface
         }, false);
     }
 
+    /**
+     * Checks if service is shared
+     *
+     * @param string $serviceName
+     * @return bool
+     */
     private function isShared($serviceName)
     {
         if (isset($this->shared[$serviceName])) {
+            $this->checkShared($serviceName, $this->shared[$serviceName]);
             return $this->shared[$serviceName];
         }
 

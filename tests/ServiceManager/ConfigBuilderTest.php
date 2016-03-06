@@ -6,6 +6,8 @@ use PetrKnap\Php\ServiceManager\ConfigBuilder;
 
 class ConfigBuilderTest extends \PHPUnit_Framework_TestCase
 {
+    const CONFIGURATION_EXCEPTION = "PetrKnap\\Php\\ServiceManager\\Exception\\ConfigurationException";
+
     /**
      * @var ConfigBuilder
      */
@@ -44,8 +46,8 @@ class ConfigBuilderTest extends \PHPUnit_Framework_TestCase
     public function testAddInvokable()
     {
         $expectedServices = [
-            "A" => "Class name A",
-            "B" => "Class name B"
+            "A" => "stdClass",
+            "B" => get_class($this)
         ];
 
         foreach ($expectedServices as $name => $className) {
@@ -57,7 +59,7 @@ class ConfigBuilderTest extends \PHPUnit_Framework_TestCase
 
     public function addInvokable_InvalidArgumentDataProvider()
     {
-        return [[null], [true], [0], [new \stdClass()], [[]], [function() {}]];
+        return [[null], [true], [0], ["string"], [new \stdClass()], [[]], [function() {}]];
     }
 
     /**
@@ -67,7 +69,7 @@ class ConfigBuilderTest extends \PHPUnit_Framework_TestCase
      */
     public function testAddInvokable_InvalidArgument($invalidArgument)
     {
-        $this->setExpectedException("InvalidArgumentException");
+        $this->setExpectedException(self::CONFIGURATION_EXCEPTION);
 
         $this->builder->AddInvokable("A", $invalidArgument);
     }
@@ -75,8 +77,8 @@ class ConfigBuilderTest extends \PHPUnit_Framework_TestCase
     public function testAddFactory()
     {
         $expectedServices = [
-            "A" => "Factory A",
-            "B" => "Factory B"
+            "A" => "stdClass",
+            "B" => get_class($this)
         ];
 
         foreach ($expectedServices as $name => $factory) {
@@ -88,7 +90,7 @@ class ConfigBuilderTest extends \PHPUnit_Framework_TestCase
 
     public function addFactory_InvalidArgumentDataProvider()
     {
-        return [[null], [true], [0], [new \stdClass()], [[]]];
+        return [[null], [true], [0], ["string"], [new \stdClass()], [[]]];
     }
 
     /**
@@ -97,7 +99,7 @@ class ConfigBuilderTest extends \PHPUnit_Framework_TestCase
      */
     public function testAddFactory_InvalidArgument($invalidArgument)
     {
-        $this->setExpectedException("InvalidArgumentException");
+        $this->setExpectedException(self::CONFIGURATION_EXCEPTION);
 
         $this->builder->addFactory("A", $invalidArgument);
     }
@@ -128,7 +130,7 @@ class ConfigBuilderTest extends \PHPUnit_Framework_TestCase
      */
     public function testSetShared_InvalidArgument($invalidArgument)
     {
-        $this->setExpectedException("InvalidArgumentException");
+        $this->setExpectedException(self::CONFIGURATION_EXCEPTION);
 
         $this->builder->setShared("A", $invalidArgument);
     }
@@ -162,7 +164,7 @@ class ConfigBuilderTest extends \PHPUnit_Framework_TestCase
      */
     public function testSetSharedByDefault_InvalidArgument($invalidArgument)
     {
-        $this->setExpectedException("InvalidArgumentException");
+        $this->setExpectedException(self::CONFIGURATION_EXCEPTION);
 
         $this->builder->setSharedByDefault($invalidArgument);
     }
