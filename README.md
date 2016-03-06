@@ -107,17 +107,17 @@ class MyAdmin
 
 ServiceManager::setConfig([
    "factories" => [
-      "MyDatabase" => function(ContainerInterface $serviceLocator) {
+      "MyDatabase" => function(ServiceLocatorInterface $serviceLocator) {
          $config = require("config.php");
          return new MyDatabase($config["dsn"], $config["username"], $config["password"]);
       },
-      "MyWeb" => function(ContainerInterface $serviceLocator) {
+      "MyWeb" => function(ServiceLocatorInterface $serviceLocator) {
          return new MyWeb($serviceLocator->get("MyDatabase"))
       },
-      "MyBlog" => function(ContainerInterface $serviceLocator) {
+      "MyBlog" => function(ServiceLocatorInterface $serviceLocator) {
          return new MyBlog($serviceLocator->get("MyWeb"));
       },
-      "MyAdmin" => function(ContainerInterface $serviceLocator) {
+      "MyAdmin" => function(ServiceLocatorInterface $serviceLocator) {
          return new MyBlog($serviceLocator->get("MyWeb"));
       }
    ]
@@ -139,8 +139,8 @@ ServiceManager::getInstance()->get("MyAdmin")->show("dashboard");
 
 ### Service manager configuration
 ```php
-use Interop\Container\ContainerInterface;
 use PetrKnap\Php\ServiceManager\ConfigBuilder;
+use PetrKnap\Php\ServiceManager\ServiceLocatorInterface;
 use PetrKnap\Php\ServiceManager\ServiceManager;
 
 class MyCoreClass
@@ -160,7 +160,7 @@ class MyClass
 $configBuilder = new ConfigBuilder();
 $configBuilder->addInvokable("MyCoreClass", "MyCoreClass");
 $configBuilder->setShared("MyCoreClass", true);
-$configBuilder->addFactory("MyClass", function(ContainerInterface $serviceLocator) {
+$configBuilder->addFactory("MyClass", function(ServiceLocatorInterface $serviceLocator) {
     return new MyClass($serviceLocator->get("MyCoreClass"));
 });
 
