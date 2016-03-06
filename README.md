@@ -36,7 +36,7 @@ class MyWeb
 
 class MyBlog
 {
-   public function __construct(MyWeb $blog)
+   public function __construct(MyWeb $web)
    {...}
    
    public function show($page)
@@ -45,7 +45,7 @@ class MyBlog
 
 class MyAdmin
 {
-   public function __construct(MyWeb $blog)
+   public function __construct(MyWeb $web)
    {...}
    
    public function show($page)
@@ -89,7 +89,7 @@ class MyWeb
 
 class MyBlog
 {
-   public function __construct(MyWeb $blog)
+   public function __construct(MyWeb $web)
    {...}
    
    public function show($page)
@@ -98,7 +98,7 @@ class MyBlog
 
 class MyAdmin
 {
-   public function __construct(MyWeb $blog)
+   public function __construct(MyWeb $web)
    {...}
    
    public function show($page)
