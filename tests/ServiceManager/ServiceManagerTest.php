@@ -3,7 +3,14 @@
 namespace PetrKnap\Test\Php\ServiceManager;
 
 use PetrKnap\Php\ServiceManager\ConfigBuilder;
+use PetrKnap\Php\ServiceManager\Exception\ServiceLocatorException;
+use PetrKnap\Php\ServiceManager\Exception\ServiceNotCreatedException;
+use PetrKnap\Php\ServiceManager\Exception\ServiceNotFoundException;
 use PetrKnap\Php\ServiceManager\ServiceManager;
+use PetrKnap\Test\Php\ServiceManager\ServiceManagerTest\DefectiveService;
+use PetrKnap\Test\Php\ServiceManager\ServiceManagerTest\DependentService;
+use PetrKnap\Test\Php\ServiceManager\ServiceManagerTest\DependentServiceFactory;
+use PetrKnap\Test\Php\ServiceManager\ServiceManagerTest\IndependentService;
 
 /**
  * @runTestsInSeparateProcesses
@@ -14,7 +21,7 @@ class ServiceManagerTest extends \PHPUnit_Framework_TestCase
     {
         $instance = ServiceManager::getInstance();
 
-        $this->assertInstanceOf("Interop\\Container\\ContainerInterface", $instance);
+        $this->assertInstanceOf("PetrKnap\\Php\\ServiceManager\\ServiceLocatorInterface", $instance);
         $this->assertInstanceOf("PetrKnap\\Php\\ServiceManager\\ServiceManager", $instance);
     }
 
@@ -50,17 +57,107 @@ class ServiceManagerTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expectedConfig, ServiceManager::getConfig());
     }
 
-    public function testGetWorks()
+    public function getWorksDataProvider()
     {
-        ServiceManager::setConfig([ConfigBuilder::SERVICES => ["this" => $this]]);
-
-        $this->assertInstanceOf(get_class($this), ServiceManager::getInstance()->get("this"));
+        return [
+            ["UnknownService", "", new ServiceNotFoundException()],
+            ["DefectiveService", "", new ServiceNotCreatedException()],
+            ["StandardService", "stdClass"],
+            ["IndependentService", IndependentService::getClass()],
+            ["StandardServiceCreatedByFactory", "stdClass"],
+            ["DependentService", DependentService::getClass()],
+            ["ServiceWithNonExistentFactory", "", new ServiceNotCreatedException()],
+            ["ServiceWithUnsupportedFactory", "", new ServiceNotCreatedException()],
+        ];
     }
 
-    public function testHasWorks()
+    /**
+     * @dataProvider getWorksDataProvider
+     *
+     * @param string $serviceName
+     * @param string $expectedClass
+     * @param ServiceLocatorException $expectedException
+     */
+    public function testGetWorks($serviceName, $expectedClass, $expectedException = null)
     {
-        ServiceManager::setConfig([ConfigBuilder::SERVICES => ["this" => $this]]);
+        ServiceManager::setConfig(
+            [
+                ConfigBuilder::SERVICES => [
+                    "StandardService" => new \stdClass()
+                ],
+                ConfigBuilder::INVOKABLES => [
+                    "DefectiveService" => DefectiveService::getClass(),
+                    "IndependentService" => IndependentService::getClass()
+                ],
+                ConfigBuilder::FACTORIES => [
+                    "StandardServiceCreatedByFactory" => function () {
+                        return new \stdClass();
+                    },
+                    "ServiceWithNonExistentFactory" => "ServiceWithNonExistentFactory",
+                    "ServiceWithUnsupportedFactory" => IndependentService::getClass()
+                ]
+            ]
+        );
+        ServiceManager::addConfig(DependentServiceFactory::getConfig());
 
-        $this->assertTrue(ServiceManager::getInstance()->has("this"));
+        if ($expectedException !== null) {
+            $this->setExpectedException(get_class($expectedException));
+        }
+
+        $service = ServiceManager::getInstance()->get($serviceName);
+
+        $this->assertInstanceOf($expectedClass, $service);
+    }
+
+    public function testGetWorks_SharedService()
+    {
+        ServiceManager::setConfig(
+            [
+                ConfigBuilder::INVOKABLES => [
+                    "StandardService" => IndependentService::getClass(),
+                    "SharedService" => IndependentService::getClass()
+                ],
+                ConfigBuilder::SHARED => [
+                    "SharedService" => true
+                ],
+                ConfigBuilder::SHARED_BY_DEFAULT => false
+            ]
+        );
+
+        $a = ServiceManager::getInstance()->get("SharedService");
+        $b = ServiceManager::getInstance()->get("SharedService");
+
+        $this->assertSame($a, $b);
+
+        $c = ServiceManager::getInstance()->get("StandardService");
+        $d = ServiceManager::getInstance()->get("StandardService");
+
+        $this->assertNotSame($c, $d);
+    }
+
+    public function hasWorksDataProvider()
+    {
+        return [
+            [[ConfigBuilder::SERVICES => ["A" => "B"]], "A", true],
+            [[ConfigBuilder::SERVICES => ["A" => "B"]], "B", false],
+            [[ConfigBuilder::INVOKABLES => ["A" => "B"]], "A", true],
+            [[ConfigBuilder::INVOKABLES => ["A" => "B"]], "B", false],
+            [[ConfigBuilder::FACTORIES => ["A" => "B"]], "A", true],
+            [[ConfigBuilder::FACTORIES => ["A" => "B"]], "B", false]
+        ];
+    }
+
+    /**
+     * @dataProvider hasWorksDataProvider
+     *
+     * @param array $config
+     * @param string $serviceName
+     * @param bool $expectedOutput
+     */
+    public function testHasWorks(array $config, $serviceName, $expectedOutput)
+    {
+        ServiceManager::setConfig($config);
+
+        $this->assertEquals($expectedOutput, ServiceManager::getInstance()->has($serviceName));
     }
 }
