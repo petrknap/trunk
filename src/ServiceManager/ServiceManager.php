@@ -4,6 +4,7 @@ namespace PetrKnap\Php\ServiceManager;
 
 use Exception;
 use LogicException;
+use PetrKnap\Php\ServiceManager\Exception\ConfigurationException;
 use PetrKnap\Php\ServiceManager\Exception\ServiceNotCreatedException;
 use PetrKnap\Php\ServiceManager\Exception\ServiceNotFoundException;
 use PetrKnap\Php\ServiceManager\Exception\UnsupportedFactoryException;
@@ -39,10 +40,12 @@ class ServiceManager implements ServiceLocatorInterface, SingletonInterface
     /**
      * Sets (overrides) configuration
      *
-     * @param array $config
+     * @param array|ConfigBuilder $config
      */
-    public static function setConfig(array $config)
+    public static function setConfig($config)
     {
+        $config = self::convertConfig($config);
+
         if (self::hasInstance()) {
             throw new LogicException("Can not change the configuration, instance already exists.");
         }
@@ -57,10 +60,11 @@ class ServiceManager implements ServiceLocatorInterface, SingletonInterface
     /**
      * Sets (appends) configuration
      *
-     * @param array $config
+     * @param array|ConfigBuilder $config
      */
-    public static function addConfig(array $config)
+    public static function addConfig($config)
     {
+        $config = self::convertConfig($config);
         foreach ($config as $type => $services) {
             if (is_array($services)) {
                 foreach ($services as $name => $value) {
@@ -72,6 +76,27 @@ class ServiceManager implements ServiceLocatorInterface, SingletonInterface
         }
 
         self::setConfig(array_replace_recursive(self::$config, $config), true);
+    }
+
+    /**
+     * @param array|ConfigBuilder $config
+     * @return array
+     * @throws ConfigurationException
+     */
+    private static function convertConfig($config)
+    {
+        if (is_array($config)) {
+            return $config;
+        }
+        if($config instanceof ConfigBuilder) {
+            return $config->getConfig();
+        }
+        throw new ConfigurationException(
+            sprintf(
+                "Unsupported configuration - must be array or ConfigBuilder, %s given",
+                gettype($config)
+            )
+        );
     }
 
     /**
