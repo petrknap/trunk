@@ -164,7 +164,7 @@ $configBuilder->addFactory("MyClass", function(ServiceLocatorInterface $serviceL
     return new MyClass($serviceLocator->get("MyCoreClass"));
 });
 
-ServiceManager::setConfig($configBuilder->getConfig());
+ServiceManager::setConfig($configBuilder);
 ```
 
 ### Service manager usage
