@@ -18,7 +18,6 @@ use PetrKnap\Php\Singleton\SingletonTrait;
  * @since    2016-03-05
  * @category Patterns
  * @package  PetrKnap\Php\ServiceManager
- * @version  0.1
  * @license  https://github.com/petrknap/php-servicemanager/blob/master/LICENSE MIT
  */
 class ServiceManager implements ServiceLocatorInterface, SingletonInterface

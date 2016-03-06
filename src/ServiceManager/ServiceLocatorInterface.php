@@ -5,6 +5,15 @@ namespace PetrKnap\Php\ServiceManager;
 use PetrKnap\Php\ServiceManager\Exception\ServiceLocatorException;
 use PetrKnap\Php\ServiceManager\Exception\ServiceNotFoundException;
 
+/**
+ * Service locator interface
+ *
+ * @author   Petr Knap <dev@petrknap.cz>
+ * @since    2016-03-05
+ * @category Patterns
+ * @package  PetrKnap\Php\ServiceManager
+ * @license  https://github.com/petrknap/php-servicemanager/blob/master/LICENSE MIT
+ */
 interface ServiceLocatorInterface
 {
     /**
