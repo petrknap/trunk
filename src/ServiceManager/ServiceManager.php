@@ -23,7 +23,7 @@ use PetrKnap\Php\Singleton\SingletonTrait;
 class ServiceManager implements ServiceLocatorInterface, SingletonInterface
 {
     use SingletonTrait;
-    use ConfigCheckerTrait;
+    use ConfigurationCheckerTrait;
 
     /**
      * @var array

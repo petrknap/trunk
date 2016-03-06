@@ -5,7 +5,7 @@ namespace PetrKnap\Php\ServiceManager;
 use PetrKnap\Php\ServiceManager\Exception\ConfigurationException;
 
 /**
- * Config checker trait
+ * Configuration checker trait
  *
  * @author   Petr Knap <dev@petrknap.cz>
  * @since    2016-03-05
@@ -13,7 +13,7 @@ use PetrKnap\Php\ServiceManager\Exception\ConfigurationException;
  * @package  PetrKnap\Php\ServiceManager
  * @license  https://github.com/petrknap/php-servicemanager/blob/master/LICENSE MIT
  */
-trait ConfigCheckerTrait
+trait ConfigurationCheckerTrait
 {
     protected function checkInvokable($serviceName, $invokable)
     {

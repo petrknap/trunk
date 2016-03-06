@@ -13,7 +13,7 @@ namespace PetrKnap\Php\ServiceManager;
  */
 class ConfigurationBuilder
 {
-    use ConfigCheckerTrait;
+    use ConfigurationCheckerTrait;
 
     const
         SERVICES = "services",
