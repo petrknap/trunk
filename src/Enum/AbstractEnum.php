@@ -8,7 +8,7 @@ namespace PetrKnap\Php\Enum;
  * @author  Petr Knap <dev@petrknap.cz>
  * @since   2016-01-23
  * @package PetrKnap\Php\Enum
- * @version 1.0
+ * @version 1.0.1
  * @license https://github.com/petrknap/php-enum/blob/master/LICENSE MIT
  */
 abstract class AbstractEnum
@@ -37,7 +37,7 @@ abstract class AbstractEnum
      * @param string $memberName
      * @throws EnumException
      */
-    private function __construct($memberName)
+    protected function __construct($memberName)
     {
         $members = &self::$members[get_called_class()];
 
