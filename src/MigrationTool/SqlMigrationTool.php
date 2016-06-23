@@ -44,7 +44,7 @@ abstract class SqlMigrationTool extends AbstractMigrationTool
      */
     protected function createMigrationTable()
     {
-        /** @noinspection SqlNoDataSourceInspection */
+        /** @noinspection SqlNoDataSourceInspection,SqlDialectInspection */
         if (
             $this->pdo->exec(
                 "CREATE TABLE IF NOT EXISTS {$this->migrationTableName}" .
@@ -74,7 +74,7 @@ abstract class SqlMigrationTool extends AbstractMigrationTool
      */
     protected function registerMigrationFile($pathToMigrationFile)
     {
-        /** @noinspection SqlNoDataSourceInspection */
+        /** @noinspection SqlNoDataSourceInspection,SqlDialectInspection */
         $statement = $this->pdo->prepare("INSERT INTO {$this->migrationTableName} (id) VALUES (:id)");
         if ($statement->execute(array("id" => $this->getMigrationId($pathToMigrationFile))) === false) {
             throw new DatabaseException(
@@ -95,7 +95,7 @@ abstract class SqlMigrationTool extends AbstractMigrationTool
      */
     protected function isMigrationApplied($pathToMigrationFile)
     {
-        /** @noinspection SqlNoDataSourceInspection */
+        /** @noinspection SqlNoDataSourceInspection,SqlDialectInspection */
         $statement = $this->pdo->prepare("SELECT null FROM {$this->migrationTableName} WHERE id = :id");
         $statement->execute(array("id" => $this->getMigrationId($pathToMigrationFile)));
 
