@@ -10,14 +10,14 @@ class AbstractMigrationToolTest extends TestCase
     /**
      * @dataProvider dataMigrateWorks
      * @param array $appliedMigrations
-     * @param string $expectedException
+     * @param \Exception $expectedException
      */
     public function testMigrateWorks($appliedMigrations, $expectedException = null)
     {
         $tool = new AbstractMigrationToolMock($appliedMigrations);
 
         if ($expectedException) {
-            $this->expectException($expectedException);
+            $this->setExpectedException(get_class($expectedException));
         }
 
         $tool->migrate();
@@ -28,7 +28,7 @@ class AbstractMigrationToolTest extends TestCase
         return array(
             array(array(), null),
             array(array("2016-06-22.1"), null),
-            array(array("2016-06-22.2"), get_class(new MismatchException())),
+            array(array("2016-06-22.2"), new MismatchException()),
             array(array("2016-06-22.1", "2016-06-22-2"), null)
         );
     }

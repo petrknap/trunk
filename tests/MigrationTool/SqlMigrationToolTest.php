@@ -54,7 +54,7 @@ class SqlMigrationToolTest extends TestCase
 
         $this->assertEquals(array("count" => 3), $statement->fetch(\PDO::FETCH_ASSOC));
 
-        $this->expectException(get_class(new DatabaseException()));
+        $this->setExpectedException(get_class(new DatabaseException()));
 
         $this->invokeMethod($tool, "registerMigrationFile", array(
             __DIR__ . "/SqlMigrationToolTest/migrations/2016-06-22.2 - Ignored migration.ext"
@@ -89,10 +89,10 @@ class SqlMigrationToolTest extends TestCase
 
     /**
      * @dataProvider dataApplyMigrationFileWorks
-     * @param $pathToMigrationFile
-     * @param $expectedException
+     * @param string $pathToMigrationFile
+     * @param \Exception $expectedException
      */
-    public function testApplyMigrationFileWorks($pathToMigrationFile, $expectedException)
+    public function testApplyMigrationFileWorks($pathToMigrationFile, $expectedException = null)
     {
         $pdo = $this->getPDO();
         $tool = $this->getTool($pdo);
@@ -103,7 +103,7 @@ class SqlMigrationToolTest extends TestCase
         ));
 
         if ($expectedException) {
-            $this->expectException(get_class($expectedException));
+            $this->setExpectedException(get_class($expectedException));
         }
 
         $this->invokeMethod($tool, "applyMigrationFile", array($pathToMigrationFile));
@@ -144,14 +144,13 @@ class SqlMigrationToolTest extends TestCase
             // Ignored exception
         }
 
-        /** @noinspection SqlNoDataSourceInspection */
+        /** @noinspection SqlNoDataSourceInspection,SqlDialectInspection */
         $rows = $pdo->query("SELECT v FROM t");
-        $this->assertNotFalse($rows);
         foreach ($rows as $row) {
             $this->assertContains($row["v"], array(3, 4, 5, 6, 7, 8, 9));
         }
 
-        /** @noinspection SqlNoDataSourceInspection */
+        /** @noinspection SqlNoDataSourceInspection,SqlDialectInspection */
         $rows = $pdo->query(sprintf("SELECT id FROM %s", self::TABLE_NAME));
         foreach ($rows as $row) {
             $this->assertContains($row["id"], array("create_table", "multi_query"));
