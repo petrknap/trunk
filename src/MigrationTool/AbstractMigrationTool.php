@@ -59,6 +59,7 @@ abstract class AbstractMigrationTool implements MigrationToolInterface
                 }
             }
         }
+        sort($migrationFiles);
         return $migrationFiles;
     }
 
