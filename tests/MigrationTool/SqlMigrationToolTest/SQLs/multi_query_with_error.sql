@@ -1,0 +1,2 @@
+DELETE FROM t WHERE v = 3;
+DELETE t WHERE v = 4;
