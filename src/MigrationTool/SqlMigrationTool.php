@@ -50,7 +50,7 @@ abstract class SqlMigrationTool extends AbstractMigrationTool
                 "CREATE TABLE IF NOT EXISTS {$this->migrationTableName}" .
                 "(" .
                 "id VARCHAR(16) NOT NULL," .
-                "applied DATETIME NOT NULL DEFAULT NOW," .
+                "applied DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP," .
                 "PRIMARY KEY (id)" .
                 ")"
             ) === false
