@@ -27,7 +27,8 @@ class SqlMigrationTool extends PetrKnap\Php\MigrationTool\SqlMigrationTool
     }
 }
 
-SqlMigrationTool::migrate()
+$tool = new SqlMigrationTool();
+$tool->migrate();
 ```
 
 
