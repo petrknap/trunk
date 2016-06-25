@@ -7,7 +7,6 @@ Migration tool for PHP by [Petr Knap].
     * [Migration files](#migration-files)
     * [Migration tools](#migration-tools)
         * [SQL migration tool](#sql-migration-tool)
-* [SQL migration tool](#sql-migrations)
 * [How to install](#how-to-install)
 
 
