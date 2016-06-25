@@ -27,7 +27,7 @@ abstract class AbstractMigrationTool implements MigrationToolInterface
                 if (!empty($migrationFilesToMigrate)) {
                     throw new MismatchException(
                         sprintf(
-                            "Detected gape before migration [id='%s']",
+                            "Detected gape before applied migration [id='%s']",
                             $this->getMigrationId($migrationFile)
                         )
                     );
