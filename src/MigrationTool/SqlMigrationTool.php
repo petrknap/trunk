@@ -108,7 +108,11 @@ abstract class SqlMigrationTool extends AbstractMigrationTool
 
         $this->pdo->beginTransaction();
 
-        $result = $this->pdo->exec($migrationData);
+        try {
+            $result = $this->pdo->exec($migrationData);
+        } catch (\Exception $e) {
+            $result = $e;
+        }
 
         if ($result === false || $result instanceof \Exception) {
             if (!$result) {
