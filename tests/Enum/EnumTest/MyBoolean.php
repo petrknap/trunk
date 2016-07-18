@@ -12,10 +12,10 @@ class MyBoolean extends AbstractEnum
 {
     protected function members()
     {
-        return [
+        return array(
             "MY_TRUE" => 1,
             "MY_FALSE" => 2
-        ];
+        );
     }
 
     /**

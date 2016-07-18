@@ -9,12 +9,12 @@ class EnumTest extends \PHPUnit_Framework_TestCase
 {
     public function goodKeyProvider()
     {
-        return [["MY_TRUE", 1], ["MY_FALSE", 2]];
+        return array(array("MY_TRUE", 1), array("MY_FALSE", 2));
     }
 
     public function wrongKeyProvider()
     {
-        return [["MY_NULL"], ["MY_VOID"]];
+        return array(array("MY_NULL"), array("MY_VOID"));
     }
 
     /**
