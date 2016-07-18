@@ -21,7 +21,7 @@ abstract class AbstractEnum
     /**
      * @var mixed[][]
      */
-    private static $members = [];
+    private static $members = array();
 
     /**
      * @var string
@@ -65,7 +65,7 @@ abstract class AbstractEnum
         $instances = &self::$instances[$className];
 
         if (!is_array($instances)) {
-            $instances = [];
+            $instances = array();
         }
 
         $instance = &$instances[$memberName];
