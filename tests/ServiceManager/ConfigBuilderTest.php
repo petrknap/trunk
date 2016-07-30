@@ -1,6 +1,6 @@
 <?php
 
-namespace PetrKnap\Test\Php\ServiceManager;
+namespace PetrKnap\Php\ServiceManager\Test;
 
 use PetrKnap\Php\ServiceManager\ConfigurationBuilder;
 

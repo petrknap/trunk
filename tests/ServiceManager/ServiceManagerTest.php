@@ -1,16 +1,16 @@
 <?php
 
-namespace PetrKnap\Test\Php\ServiceManager;
+namespace PetrKnap\Php\ServiceManager\Test;
 
 use PetrKnap\Php\ServiceManager\ConfigurationBuilder;
 use PetrKnap\Php\ServiceManager\Exception\ServiceLocatorException;
 use PetrKnap\Php\ServiceManager\Exception\ServiceNotCreatedException;
 use PetrKnap\Php\ServiceManager\Exception\ServiceNotFoundException;
 use PetrKnap\Php\ServiceManager\ServiceManager;
-use PetrKnap\Test\Php\ServiceManager\ServiceManagerTest\DefectiveService;
-use PetrKnap\Test\Php\ServiceManager\ServiceManagerTest\DependentService;
-use PetrKnap\Test\Php\ServiceManager\ServiceManagerTest\DependentServiceFactory;
-use PetrKnap\Test\Php\ServiceManager\ServiceManagerTest\IndependentService;
+use PetrKnap\Php\ServiceManager\Test\ServiceManagerTest\DefectiveService;
+use PetrKnap\Php\ServiceManager\Test\ServiceManagerTest\DependentService;
+use PetrKnap\Php\ServiceManager\Test\ServiceManagerTest\DependentServiceFactory;
+use PetrKnap\Php\ServiceManager\Test\ServiceManagerTest\IndependentService;
 
 /**
  * @runTestsInSeparateProcesses
