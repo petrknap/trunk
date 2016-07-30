@@ -25,21 +25,8 @@ class ServiceManagerTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf("PetrKnap\\Php\\ServiceManager\\ServiceManager", $instance);
     }
 
-    public function setAddGetConfigWorksDataProvider()
-    {
-        return [
-            [[], ["A" => ["B" => "C"]], true, ["A" => ["B" => "C"]]],
-            [[], ["A" => ["B" => "C"]], false, ["A" => ["B" => "C"]]],
-            [["A" => ["B" => "C"]], ["A" => ["B" => "D"]], true, ["A" => ["B" => "D"]]],
-            [["A" => ["B" => "C"]], ["A" => ["B" => "D"]], false, ["A" => ["B" => "D"]]],
-            [["A" => ["B" => "C"]], ["A" => ["D" => "E"]], true, ["A" => ["D" => "E"]]],
-            [["A" => ["B" => "C"]], ["A" => ["D" => "E"]], false, ["A" => ["B" => "C", "D" => "E"]]]
-        ];
-    }
-
     /**
-     * @dataProvider setAddGetConfigWorksDataProvider
-     *
+     * @dataProvider dataSetAddGetConfigWorks
      * @param array $initialConfig
      * @param array $config
      * @param bool $override
@@ -57,23 +44,20 @@ class ServiceManagerTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expectedConfig, ServiceManager::getConfig());
     }
 
-    public function getWorksDataProvider()
+    public function dataSetAddGetConfigWorks()
     {
         return [
-            ["UnknownService", "", new ServiceNotFoundException()],
-            ["DefectiveService", "", new ServiceNotCreatedException()],
-            ["StandardService", "stdClass"],
-            ["IndependentService", IndependentService::getClass()],
-            ["StandardServiceCreatedByFactory", "stdClass"],
-            ["DependentService", DependentService::getClass()],
-            ["ServiceWithNonExistentFactory", "", new ServiceNotCreatedException()],
-            ["ServiceWithUnsupportedFactory", "", new ServiceNotCreatedException()],
+            [[], ["A" => ["B" => "C"]], true, ["A" => ["B" => "C"]]],
+            [[], ["A" => ["B" => "C"]], false, ["A" => ["B" => "C"]]],
+            [["A" => ["B" => "C"]], ["A" => ["B" => "D"]], true, ["A" => ["B" => "D"]]],
+            [["A" => ["B" => "C"]], ["A" => ["B" => "D"]], false, ["A" => ["B" => "D"]]],
+            [["A" => ["B" => "C"]], ["A" => ["D" => "E"]], true, ["A" => ["D" => "E"]]],
+            [["A" => ["B" => "C"]], ["A" => ["D" => "E"]], false, ["A" => ["B" => "C", "D" => "E"]]]
         ];
     }
 
     /**
-     * @dataProvider getWorksDataProvider
-     *
+     * @dataProvider dataGetWorks
      * @param string $serviceName
      * @param string $expectedClass
      * @param ServiceLocatorException $expectedException
@@ -109,7 +93,21 @@ class ServiceManagerTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf($expectedClass, $service);
     }
 
-    public function testGetWorks_SharedService()
+    public function dataGetWorks()
+    {
+        return [
+            ["UnknownService", "", new ServiceNotFoundException()],
+            ["DefectiveService", "", new ServiceNotCreatedException()],
+            ["StandardService", "stdClass"],
+            ["IndependentService", IndependentService::getClass()],
+            ["StandardServiceCreatedByFactory", "stdClass"],
+            ["DependentService", DependentService::getClass()],
+            ["ServiceWithNonExistentFactory", "", new ServiceNotCreatedException()],
+            ["ServiceWithUnsupportedFactory", "", new ServiceNotCreatedException()],
+        ];
+    }
+
+    public function testGetWithSharedServiceWorks()
     {
         ServiceManager::setConfig(
             [
@@ -135,21 +133,8 @@ class ServiceManagerTest extends \PHPUnit_Framework_TestCase
         $this->assertNotSame($c, $d);
     }
 
-    public function hasWorksDataProvider()
-    {
-        return [
-            [[ConfigurationBuilder::SERVICES => ["A" => "B"]], "A", true],
-            [[ConfigurationBuilder::SERVICES => ["A" => "B"]], "B", false],
-            [[ConfigurationBuilder::INVOKABLES => ["A" => "B"]], "A", true],
-            [[ConfigurationBuilder::INVOKABLES => ["A" => "B"]], "B", false],
-            [[ConfigurationBuilder::FACTORIES => ["A" => "B"]], "A", true],
-            [[ConfigurationBuilder::FACTORIES => ["A" => "B"]], "B", false]
-        ];
-    }
-
     /**
-     * @dataProvider hasWorksDataProvider
-     *
+     * @dataProvider dataHasWorks
      * @param array $config
      * @param string $serviceName
      * @param bool $expectedOutput
@@ -159,5 +144,17 @@ class ServiceManagerTest extends \PHPUnit_Framework_TestCase
         ServiceManager::setConfig($config);
 
         $this->assertEquals($expectedOutput, ServiceManager::getInstance()->has($serviceName));
+    }
+
+    public function dataHasWorks()
+    {
+        return [
+            [[ConfigurationBuilder::SERVICES => ["A" => "B"]], "A", true],
+            [[ConfigurationBuilder::SERVICES => ["A" => "B"]], "B", false],
+            [[ConfigurationBuilder::INVOKABLES => ["A" => "B"]], "A", true],
+            [[ConfigurationBuilder::INVOKABLES => ["A" => "B"]], "B", false],
+            [[ConfigurationBuilder::FACTORIES => ["A" => "B"]], "A", true],
+            [[ConfigurationBuilder::FACTORIES => ["A" => "B"]], "B", false]
+        ];
     }
 }

@@ -18,7 +18,7 @@ class ConfigBuilderTest extends \PHPUnit_Framework_TestCase
         $this->builder = new ConfigurationBuilder();
     }
 
-    public function testGetConfig()
+    public function testGetConfigWorks()
     {
         $this->assertEquals([
             ConfigurationBuilder::SERVICES => [],
@@ -29,7 +29,7 @@ class ConfigBuilderTest extends \PHPUnit_Framework_TestCase
         ], $this->builder->getConfig());
     }
 
-    public function testAddService()
+    public function testAddServiceWorks()
     {
         $expectedServices = [
             "A" => "Instance A",
@@ -43,7 +43,7 @@ class ConfigBuilderTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expectedServices, $this->builder->getConfig()[ConfigurationBuilder::SERVICES]);
     }
 
-    public function testAddInvokable()
+    public function testAddInvokableWorks()
     {
         $expectedServices = [
             "A" => "stdClass",
@@ -57,24 +57,23 @@ class ConfigBuilderTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expectedServices, $this->builder->getConfig()[ConfigurationBuilder::INVOKABLES]);
     }
 
-    public function addInvokable_InvalidArgumentDataProvider()
-    {
-        return [[null], [true], [0], ["string"], [new \stdClass()], [[]], [function() {}]];
-    }
-
     /**
-     * @dataProvider addInvokable_InvalidArgumentDataProvider
-     *
+     * @dataProvider dataAddInvokableWithInvalidArgumentWorks
      * @param mixed $invalidArgument
      */
-    public function testAddInvokable_InvalidArgument($invalidArgument)
+    public function testAddInvokableWithInvalidArgumentWorks($invalidArgument)
     {
         $this->setExpectedException(self::CONFIGURATION_EXCEPTION);
 
         $this->builder->addInvokable("A", $invalidArgument);
     }
 
-    public function testAddFactory()
+    public function dataAddInvokableWithInvalidArgumentWorks()
+    {
+        return [[null], [true], [0], ["string"], [new \stdClass()], [[]], [function() {}]];
+    }
+
+    public function testAddFactoryWorks()
     {
         $expectedServices = [
             "A" => "stdClass",
@@ -88,23 +87,23 @@ class ConfigBuilderTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expectedServices, $this->builder->getConfig()[ConfigurationBuilder::FACTORIES]);
     }
 
-    public function addFactory_InvalidArgumentDataProvider()
-    {
-        return [[null], [true], [0], ["string"], [new \stdClass()], [[]]];
-    }
-
     /**
-     * @dataProvider addFactory_InvalidArgumentDataProvider
+     * @dataProvider dataAddFactoryWithInvalidArgumentWorks
      * @param mixed $invalidArgument
      */
-    public function testAddFactory_InvalidArgument($invalidArgument)
+    public function testAddFactoryWithInvalidArgumentWorks($invalidArgument)
     {
         $this->setExpectedException(self::CONFIGURATION_EXCEPTION);
 
         $this->builder->addFactory("A", $invalidArgument);
     }
 
-    public function testSetShared()
+    public function dataAddFactoryWithInvalidArgumentWorks()
+    {
+        return [[null], [true], [0], ["string"], [new \stdClass()], [[]]];
+    }
+
+    public function testSetSharedWorks()
     {
         $expectedServices = [
             "A" => true,
@@ -118,54 +117,51 @@ class ConfigBuilderTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expectedServices, $this->builder->getConfig()[ConfigurationBuilder::SHARED]);
     }
 
-    public function setShared_InvalidArgumentDataProvider()
-    {
-        return [[null], [0], ["string"], [new \stdClass()], [[]], [function() {}]];
-    }
-
     /**
-     * @dataProvider setShared_InvalidArgumentDataProvider
-     *
+     * @dataProvider dataSetSharedWithInvalidArgumentWorks
      * @param mixed $invalidArgument
      */
-    public function testSetShared_InvalidArgument($invalidArgument)
+    public function testSetSharedWithInvalidArgumentWorks($invalidArgument)
     {
         $this->setExpectedException(self::CONFIGURATION_EXCEPTION);
 
         $this->builder->setShared("A", $invalidArgument);
     }
 
-    public function setSharedByDefaultDataProvider()
+    public function dataSetSharedWithInvalidArgumentWorks()
     {
-        return [[true], [false]];
+        return [[null], [0], ["string"], [new \stdClass()], [[]], [function() {}]];
     }
 
     /**
-     * @dataProvider setSharedByDefaultDataProvider
-     *
-     * @param $isShared
+     * @dataProvider dataSetSharedByDefaultWorks
+     * @param bool $isShared
      */
-    public function testSetSharedByDefault($isShared)
+    public function testSetSharedByDefaultWorks($isShared)
     {
         $this->assertInstanceOf(get_class($this->builder), $this->builder->setSharedByDefault($isShared));
 
         $this->assertEquals($isShared, $this->builder->getConfig()[ConfigurationBuilder::SHARED_BY_DEFAULT]);
     }
 
-    public function setSharedByDefault_InvalidArgumentDataProvider()
+    public function dataSetSharedByDefaultWorks()
     {
-        return [[null], [0], ["string"], [new \stdClass()], [[]], [function() {}]];
+        return [[true], [false]];
     }
 
     /**
-     * @dataProvider setSharedByDefault_InvalidArgumentDataProvider
-     *
+     * @dataProvider dataSetSharedByDefaultWithInvalidArgumentWorks
      * @param mixed $invalidArgument
      */
-    public function testSetSharedByDefault_InvalidArgument($invalidArgument)
+    public function testSetSharedByDefaultWithInvalidArgumentWorks($invalidArgument)
     {
         $this->setExpectedException(self::CONFIGURATION_EXCEPTION);
 
         $this->builder->setSharedByDefault($invalidArgument);
+    }
+
+    public function dataSetSharedByDefaultWithInvalidArgumentWorks()
+    {
+        return [[null], [0], ["string"], [new \stdClass()], [[]], [function() {}]];
     }
 }
