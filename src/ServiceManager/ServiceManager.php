@@ -74,6 +74,7 @@ class ServiceManager implements ServiceLocatorInterface, SingletonInterface
             }
         }
 
+        /** @noinspection PhpMethodParametersCountMismatchInspection */
         self::setConfig(array_replace_recursive(self::$config, $config), true);
     }
 

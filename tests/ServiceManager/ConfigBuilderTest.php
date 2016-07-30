@@ -71,7 +71,7 @@ class ConfigBuilderTest extends \PHPUnit_Framework_TestCase
     {
         $this->setExpectedException(self::CONFIGURATION_EXCEPTION);
 
-        $this->builder->AddInvokable("A", $invalidArgument);
+        $this->builder->addInvokable("A", $invalidArgument);
     }
 
     public function testAddFactory()
