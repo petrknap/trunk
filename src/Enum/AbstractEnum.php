@@ -56,7 +56,7 @@ abstract class AbstractEnum
      *
      * @param string $memberName enum key
      * @param array $args ignored
-     * @return mixed
+     * @return self
      */
     public static function __callStatic($memberName, array $args)
     {
@@ -154,5 +154,26 @@ abstract class AbstractEnum
         }
 
         return self::$members[get_called_class()][$memberName];
+    }
+
+    /**
+     * @param mixed $value
+     * @return self
+     * @throws EnumException
+     */
+    public static function findByValue($value)
+    {
+        foreach (self::getMembers() as $n => $v) {
+            if ($value === $v) {
+                return self::__callStatic($n, []);
+            }
+        }
+        throw new EnumException(
+            sprintf(
+                "Value not found in %s",
+                get_called_class()
+            ),
+            EnumException::OUT_OF_RANGE
+        );
     }
 }
