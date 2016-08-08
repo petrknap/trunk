@@ -2,7 +2,7 @@
 
 namespace PetrKnap\Php\Enum\Test;
 
-use PetrKnap\Php\Enum\EnumException;
+use PetrKnap\Php\Enum\Exception\OutOfRangeException;
 use PetrKnap\Php\Enum\Test\EnumTest\MyBoolean;
 
 class EnumTest extends \PHPUnit_Framework_TestCase
@@ -42,11 +42,7 @@ class EnumTest extends \PHPUnit_Framework_TestCase
      */
     public function testMagicConstruction_WrongKey($name)
     {
-        $this->setExpectedException(
-            get_class(new EnumException()),
-            "",
-            EnumException::OUT_OF_RANGE
-        );
+        $this->setExpectedException(OutOfRangeException::class);
 
         MyBoolean::$name();
     }
@@ -97,7 +93,7 @@ class EnumTest extends \PHPUnit_Framework_TestCase
         return [
             [1, MyBoolean::MY_TRUE()],
             [2, MyBoolean::MY_FALSE()],
-            [3, new EnumException()]
+            [3, new OutOfRangeException()]
         ];
     }
 }

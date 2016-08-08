@@ -2,6 +2,9 @@
 
 namespace PetrKnap\Php\Enum;
 
+use PetrKnap\Php\Enum\Exception\EnumException;
+use PetrKnap\Php\Enum\Exception\OutOfRangeException;
+
 /**
  * Abstract enum object
  *
@@ -142,13 +145,12 @@ abstract class AbstractEnum
     private function get($memberName)
     {
         if (!$this->exists($memberName)) {
-            throw new EnumException(
+            throw new OutOfRangeException(
                 sprintf(
                     "%s does not exist in %s",
                     $memberName,
                     get_called_class()
-                ),
-                EnumException::OUT_OF_RANGE
+                )
             );
         }
 
@@ -167,12 +169,11 @@ abstract class AbstractEnum
                 return self::__callStatic($n, []);
             }
         }
-        throw new EnumException(
+        throw new OutOfRangeException(
             sprintf(
                 "Value not found in %s",
                 get_called_class()
-            ),
-            EnumException::OUT_OF_RANGE
+            )
         );
     }
 }
