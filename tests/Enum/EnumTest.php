@@ -78,4 +78,26 @@ class EnumTest extends \PHPUnit_Framework_TestCase
         $this->assertArrayHasKey("MY_FALSE", $members);
         $this->assertEquals(2, $members["MY_FALSE"]);
     }
+
+    /**
+     * @dataProvider dataFindByValue
+     * @param mixed $value
+     * @param mixed $expected
+     */
+    public function testFindByValue($value, $expected)
+    {
+        if ($expected instanceof \Exception) {
+            $this->setExpectedException(get_class($expected));
+        }
+        $this->assertSame($expected, MyBoolean::findByValue($value));
+    }
+
+    public function dataFindByValue()
+    {
+        return [
+            [1, MyBoolean::MY_TRUE()],
+            [2, MyBoolean::MY_FALSE()],
+            [3, new EnumException()]
+        ];
+    }
 }

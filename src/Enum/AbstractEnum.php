@@ -8,7 +8,6 @@ namespace PetrKnap\Php\Enum;
  * @author  Petr Knap <dev@petrknap.cz>
  * @since   2016-01-23
  * @package PetrKnap\Php\Enum
- * @version 1.0.1
  * @license https://github.com/petrknap/php-enum/blob/master/LICENSE MIT
  */
 abstract class AbstractEnum
@@ -56,7 +55,7 @@ abstract class AbstractEnum
      *
      * @param string $memberName enum key
      * @param array $args ignored
-     * @return mixed
+     * @return self
      */
     public static function __callStatic($memberName, array $args)
     {
@@ -154,5 +153,26 @@ abstract class AbstractEnum
         }
 
         return self::$members[get_called_class()][$memberName];
+    }
+
+    /**
+     * @param mixed $value
+     * @return self
+     * @throws EnumException
+     */
+    public static function findByValue($value)
+    {
+        foreach (self::getMembers() as $n => $v) {
+            if ($value === $v) {
+                return self::__callStatic($n, []);
+            }
+        }
+        throw new EnumException(
+            sprintf(
+                "Value not found in %s",
+                get_called_class()
+            ),
+            EnumException::OUT_OF_RANGE
+        );
     }
 }
