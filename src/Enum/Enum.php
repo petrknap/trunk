@@ -12,7 +12,7 @@ use PetrKnap\Php\Enum\Exception\EnumNotFoundException;
  * @package PetrKnap\Php\Enum
  * @license https://github.com/petrknap/php-enum/blob/master/LICENSE MIT
  */
-abstract class AbstractEnum implements EnumInterface
+abstract class Enum implements EnumInterface
 {
     /**
      * @var self[][]
