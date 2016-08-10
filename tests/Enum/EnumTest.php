@@ -23,11 +23,11 @@ class EnumTest extends \PHPUnit_Framework_TestCase
 
     public function dataCallStaticsWorks()
     {
-        return [
-            ["MY_TRUE", 1],
-            ["MY_FALSE", 2],
-            ["MY_NULL", new EnumNotFoundException()]
-        ];
+        return array(
+            array("MY_TRUE", 1),
+            array("MY_FALSE", 2),
+            array("MY_NULL", new EnumNotFoundException())
+        );
     }
 
     /**
@@ -46,11 +46,11 @@ class EnumTest extends \PHPUnit_Framework_TestCase
 
     public function dataGetEnumByValueWorks()
     {
-        return [
-            [1, MyBoolean::MY_TRUE()],
-            [2, MyBoolean::MY_FALSE()],
-            [3, new EnumNotFoundException()]
-        ];
+        return array(
+            array(1, MyBoolean::MY_TRUE()),
+            array(2, MyBoolean::MY_FALSE()),
+            array(3, new EnumNotFoundException())
+        );
     }
 
     public function testComparableWorks()
@@ -64,10 +64,10 @@ class EnumTest extends \PHPUnit_Framework_TestCase
 
     public function testGetMembersWorks()
     {
-        $this->assertEquals([
+        $this->assertEquals(array(
             "MY_TRUE" => 1,
             "MY_FALSE" => 2
-        ], MyBoolean::getMembers());
+        ), MyBoolean::getMembers());
     }
 
     /**
@@ -85,9 +85,9 @@ class EnumTest extends \PHPUnit_Framework_TestCase
 
     public function dataToStringWorks()
     {
-        return [
-            [MyBoolean::MY_TRUE(), MyBoolean::getClass() . "::MY_TRUE"],
-            [MyBoolean::MY_FALSE(), MyBoolean::getClass() . "::MY_FALSE"],
-        ];
+        return array(
+            array(MyBoolean::MY_TRUE(), MyBoolean::getClass() . "::MY_TRUE"),
+            array(MyBoolean::MY_FALSE(), MyBoolean::getClass() . "::MY_FALSE")
+        );
     }
 }
