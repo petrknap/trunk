@@ -31,20 +31,20 @@ class EnumTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @dataProvider dataFindByValueWorks
+     * @dataProvider dataGetEnumByValueWorks
      * @param mixed $value
      * @param mixed $expectedEnum
      */
-    public function testFindByValueWorks($value, $expectedEnum)
+    public function testGetEnumByValueWorks($value, $expectedEnum)
     {
         if ($expectedEnum instanceof \Exception) {
             $this->setExpectedException(get_class($expectedEnum));
         }
 
-        $this->assertSame($expectedEnum, MyBoolean::findByValue($value));
+        $this->assertSame($expectedEnum, MyBoolean::getEnumByValue($value));
     }
 
-    public function dataFindByValueWorks()
+    public function dataGetEnumByValueWorks()
     {
         return [
             [1, MyBoolean::MY_TRUE()],

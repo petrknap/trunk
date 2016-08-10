@@ -160,7 +160,7 @@ abstract class AbstractEnum
      * @return self
      * @throws EnumNotFoundException
      */
-    public static function findByValue($value)
+    public static function getEnumByValue($value)
     {
         foreach (self::getMembers() as $n => $v) {
             if ($value === $v) {
