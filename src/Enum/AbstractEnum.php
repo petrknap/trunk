@@ -164,7 +164,7 @@ abstract class AbstractEnum
     {
         foreach (self::getMembers() as $n => $v) {
             if ($value === $v) {
-                return self::__callStatic($n, []);
+                return self::__callStatic($n, array());
             }
         }
         throw new EnumException(

@@ -94,10 +94,10 @@ class EnumTest extends \PHPUnit_Framework_TestCase
 
     public function dataFindByValue()
     {
-        return [
-            [1, MyBoolean::MY_TRUE()],
-            [2, MyBoolean::MY_FALSE()],
-            [3, new EnumException()]
-        ];
+        return array(
+            array(1, MyBoolean::MY_TRUE()),
+            array(2, MyBoolean::MY_FALSE()),
+            array(3, new EnumException())
+        );
     }
 }
