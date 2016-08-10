@@ -2,6 +2,8 @@
 
 namespace PetrKnap\Php\Enum\Test;
 
+use PetrKnap\Php\Enum\Enum;
+use PetrKnap\Php\Enum\Exception\EnumException;
 use PetrKnap\Php\Enum\Exception\EnumNotFoundException;
 use PetrKnap\Php\Enum\Test\EnumTest\MyBoolean;
 
@@ -10,11 +12,11 @@ class EnumTest extends \PHPUnit_Framework_TestCase
     /**
      * @dataProvider dataCallStaticsWorks
      * @param string $name
-     * @param mixed $expectedValue
+     * @param mixed|EnumException $expectedValue
      */
     public function testCallStaticsWorks($name, $expectedValue)
     {
-        if ($expectedValue instanceof \Exception) {
+        if ($expectedValue instanceof EnumException) {
             $this->setExpectedException(get_class($expectedValue));
         }
 
@@ -33,11 +35,11 @@ class EnumTest extends \PHPUnit_Framework_TestCase
     /**
      * @dataProvider dataGetEnumByValueWorks
      * @param mixed $value
-     * @param mixed $expectedEnum
+     * @param Enum|EnumException $expectedEnum
      */
     public function testGetEnumByValueWorks($value, $expectedEnum)
     {
-        if ($expectedEnum instanceof \Exception) {
+        if ($expectedEnum instanceof EnumException) {
             $this->setExpectedException(get_class($expectedEnum));
         }
 
@@ -72,10 +74,10 @@ class EnumTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @dataProvider dataToStringWorks
-     * @param mixed $enum
-     * @param mixed $expectedString
+     * @param Enum $enum
+     * @param string $expectedString
      */
-    public function testToStringWorks($enum, $expectedString)
+    public function testToStringWorks(Enum $enum, $expectedString)
     {
         $this->assertSame($expectedString, $enum->__toString());
         $this->assertSame($expectedString, (string) $enum);
