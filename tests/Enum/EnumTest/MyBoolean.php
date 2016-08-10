@@ -2,13 +2,13 @@
 
 namespace PetrKnap\Php\Enum\Test\EnumTest;
 
-use PetrKnap\Php\Enum\AbstractEnum;
+use PetrKnap\Php\Enum\Enum;
 
 /**
  * @method static MyBoolean MY_TRUE()
  * @method static MyBoolean MY_FALSE()
  */
-class MyBoolean extends AbstractEnum
+class MyBoolean extends Enum
 {
     protected function members()
     {
