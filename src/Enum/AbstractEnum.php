@@ -12,7 +12,7 @@ use PetrKnap\Php\Enum\Exception\EnumNotFoundException;
  * @package PetrKnap\Php\Enum
  * @license https://github.com/petrknap/php-enum/blob/master/LICENSE MIT
  */
-abstract class AbstractEnum
+abstract class AbstractEnum implements EnumInterface
 {
     /**
      * @var self[][]
@@ -78,9 +78,7 @@ abstract class AbstractEnum
     }
 
     /**
-     * Returns member name
-     *
-     * @return string
+     * @inheritdoc
      */
     public function getName()
     {
@@ -88,9 +86,7 @@ abstract class AbstractEnum
     }
 
     /**
-     * Returns member value
-     *
-     * @return mixed
+     * @inheritdoc
      */
     public function getValue()
     {
