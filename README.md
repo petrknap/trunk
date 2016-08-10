@@ -48,7 +48,7 @@ isTrue(false);               // returns null - WTF?
 And now the **same code with Enum** instead of Constants:
 
 ```php
-class MyBoolean extends \PetrKnap\Php\Enum\AbstractEnum
+class MyBoolean extends \PetrKnap\Php\Enum\Enum
 {
     protected function members()
     {
@@ -82,7 +82,7 @@ isTrue(false);                 // uncaught type error - OK
 
 ### Enum declaration
 ```php
-class DayOfWeekEnum extends \PetrKnap\Php\Enum\AbstractEnum
+class DayOfWeekEnum extends \PetrKnap\Php\Enum\Enum
 {
     protected function members()
     {
