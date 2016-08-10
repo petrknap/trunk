@@ -2,7 +2,7 @@
 
 namespace PetrKnap\Php\Enum\Test;
 
-use PetrKnap\Php\Enum\Exception\OutOfRangeException;
+use PetrKnap\Php\Enum\Exception\EnumNotFoundException;
 use PetrKnap\Php\Enum\Test\EnumTest\MyBoolean;
 
 class EnumTest extends \PHPUnit_Framework_TestCase
@@ -26,7 +26,7 @@ class EnumTest extends \PHPUnit_Framework_TestCase
         return [
             ["MY_TRUE", 1],
             ["MY_FALSE", 2],
-            ["MY_NULL", new OutOfRangeException()]
+            ["MY_NULL", new EnumNotFoundException()]
         ];
     }
 
@@ -49,7 +49,7 @@ class EnumTest extends \PHPUnit_Framework_TestCase
         return [
             [1, MyBoolean::MY_TRUE()],
             [2, MyBoolean::MY_FALSE()],
-            [3, new OutOfRangeException()]
+            [3, new EnumNotFoundException()]
         ];
     }
 

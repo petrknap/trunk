@@ -2,8 +2,7 @@
 
 namespace PetrKnap\Php\Enum;
 
-use PetrKnap\Php\Enum\Exception\EnumException;
-use PetrKnap\Php\Enum\Exception\OutOfRangeException;
+use PetrKnap\Php\Enum\Exception\EnumNotFoundException;
 
 /**
  * Abstract enum object
@@ -37,7 +36,6 @@ abstract class AbstractEnum
 
     /**
      * @param string $memberName
-     * @throws EnumException
      */
     protected function __construct($memberName)
     {
@@ -140,12 +138,12 @@ abstract class AbstractEnum
     /**
      * @param string $memberName
      * @return mixed
-     * @throws EnumException
+     * @throws EnumNotFoundException
      */
     private function get($memberName)
     {
         if (!$this->exists($memberName)) {
-            throw new OutOfRangeException(
+            throw new EnumNotFoundException(
                 sprintf(
                     "%s does not exist in %s",
                     $memberName,
@@ -160,7 +158,7 @@ abstract class AbstractEnum
     /**
      * @param mixed $value
      * @return self
-     * @throws EnumException
+     * @throws EnumNotFoundException
      */
     public static function findByValue($value)
     {
@@ -169,7 +167,7 @@ abstract class AbstractEnum
                 return self::__callStatic($n, []);
             }
         }
-        throw new OutOfRangeException(
+        throw new EnumNotFoundException(
             sprintf(
                 "Value not found in %s",
                 get_called_class()

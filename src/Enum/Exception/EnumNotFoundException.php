@@ -2,7 +2,7 @@
 
 namespace PetrKnap\Php\Enum\Exception;
 
-class OutOfRangeException extends EnumException
+class EnumNotFoundException extends EnumException
 {
     // Empty class
 }
