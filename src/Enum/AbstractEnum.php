@@ -174,4 +174,12 @@ abstract class AbstractEnum
             )
         );
     }
+
+    /**
+     * @return string
+     */
+    public function __toString()
+    {
+        return sprintf("%s::%s", get_called_class(), $this->getName());
+    }
 }

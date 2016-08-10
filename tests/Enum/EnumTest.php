@@ -69,4 +69,25 @@ class EnumTest extends \PHPUnit_Framework_TestCase
             "MY_FALSE" => 2
         ], MyBoolean::getMembers());
     }
+
+    /**
+     * @dataProvider dataToStringWorks
+     * @param mixed $enum
+     * @param mixed $expectedString
+     */
+    public function testToStringWorks($enum, $expectedString)
+    {
+        $this->assertSame($expectedString, $enum->__toString());
+        $this->assertSame($expectedString, (string) $enum);
+        $this->assertSame($expectedString, "{$enum}");
+        $this->assertSame($expectedString, $enum . "");
+    }
+
+    public function dataToStringWorks()
+    {
+        return [
+            [MyBoolean::MY_TRUE(), MyBoolean::getClass() . "::MY_TRUE"],
+            [MyBoolean::MY_FALSE(), MyBoolean::getClass() . "::MY_FALSE"],
+        ];
+    }
 }
