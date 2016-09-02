@@ -25,7 +25,7 @@
   },
   "scripts": {
     "test": [
-      "./vendor/bin/phpunit"
+      "sudo docker run -v $(pwd):/app --rm php:5.3-cli bash -c 'cd /app && php ./vendor/bin/phpunit'"
     ],
     "post-autoload-dump": [
       "@test"
