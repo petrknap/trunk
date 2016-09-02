@@ -20,7 +20,7 @@ class EnumTest extends \PHPUnit_Framework_TestCase
             $this->setExpectedException(get_class($expectedValue));
         }
 
-        $this->assertSame($expectedValue, MyBoolean::__callStatic($name, [])->getValue());
+        $this->assertSame($expectedValue, MyBoolean::__callStatic($name, array())->getValue());
     }
 
     public function dataCallStaticsWorks()
