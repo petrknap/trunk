@@ -2,6 +2,8 @@
 
 namespace PetrKnap\Php\Enum;
 
+use PetrKnap\Php\Enum\Exception\EnumNotFoundException;
+
 /**
  * Abstract enum object
  *
@@ -10,7 +12,7 @@ namespace PetrKnap\Php\Enum;
  * @package PetrKnap\Php\Enum
  * @license https://github.com/petrknap/php-enum/blob/master/LICENSE MIT
  */
-abstract class AbstractEnum
+abstract class Enum implements EnumInterface
 {
     /**
      * @var self[][]
@@ -34,7 +36,6 @@ abstract class AbstractEnum
 
     /**
      * @param string $memberName
-     * @throws EnumException
      */
     protected function __construct($memberName)
     {
@@ -77,9 +78,7 @@ abstract class AbstractEnum
     }
 
     /**
-     * Returns member name
-     *
-     * @return string
+     * @inheritdoc
      */
     public function getName()
     {
@@ -87,9 +86,7 @@ abstract class AbstractEnum
     }
 
     /**
-     * Returns member value
-     *
-     * @return mixed
+     * @inheritdoc
      */
     public function getValue()
     {
@@ -137,18 +134,17 @@ abstract class AbstractEnum
     /**
      * @param string $memberName
      * @return mixed
-     * @throws EnumException
+     * @throws EnumNotFoundException
      */
     private function get($memberName)
     {
         if (!$this->exists($memberName)) {
-            throw new EnumException(
+            throw new EnumNotFoundException(
                 sprintf(
                     "%s does not exist in %s",
                     $memberName,
                     get_called_class()
-                ),
-                EnumException::OUT_OF_RANGE
+                )
             );
         }
 
@@ -158,21 +154,28 @@ abstract class AbstractEnum
     /**
      * @param mixed $value
      * @return self
-     * @throws EnumException
+     * @throws EnumNotFoundException
      */
-    public static function findByValue($value)
+    public static function getEnumByValue($value)
     {
         foreach (self::getMembers() as $n => $v) {
             if ($value === $v) {
-                return self::__callStatic($n, []);
+                return self::__callStatic($n, array());
             }
         }
-        throw new EnumException(
+        throw new EnumNotFoundException(
             sprintf(
                 "Value not found in %s",
                 get_called_class()
-            ),
-            EnumException::OUT_OF_RANGE
+            )
         );
+    }
+
+    /**
+     * @return string
+     */
+    public function __toString()
+    {
+        return sprintf("%s::%s", get_called_class(), $this->getName());
     }
 }
