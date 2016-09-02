@@ -2,59 +2,60 @@
 
 namespace PetrKnap\Php\Enum\Test;
 
-use PetrKnap\Php\Enum\EnumException;
+use PetrKnap\Php\Enum\Enum;
+use PetrKnap\Php\Enum\Exception\EnumException;
+use PetrKnap\Php\Enum\Exception\EnumNotFoundException;
 use PetrKnap\Php\Enum\Test\EnumTest\MyBoolean;
 
 class EnumTest extends \PHPUnit_Framework_TestCase
 {
-    public function goodKeyProvider()
-    {
-        return array(array("MY_TRUE", 1), array("MY_FALSE", 2));
-    }
-
-    public function wrongKeyProvider()
-    {
-        return array(array("MY_NULL"), array("MY_VOID"));
-    }
-
     /**
-     * @covers       EnumMock::__callStatic
-     * @dataProvider goodKeyProvider
-     *
+     * @dataProvider dataCallStaticsWorks
      * @param string $name
-     * @param mixed $value
+     * @param mixed|EnumException $expectedValue
      */
-    public function testMagicConstruction_GoodKey($name, $value)
+    public function testCallStaticsWorks($name, $expectedValue)
     {
-        /** @var MyBoolean $enum */
-        $enum = MyBoolean::$name();
+        if ($expectedValue instanceof EnumException) {
+            $this->setExpectedException(get_class($expectedValue));
+        }
 
-        $this->assertInstanceOf(MyBoolean::getClass(), $enum);
-        $this->assertSame($name, $enum->getName());
-        $this->assertSame($value, $enum->getValue());
+        $this->assertSame($expectedValue, MyBoolean::__callStatic($name, array())->getValue());
     }
 
-    /**
-     * @covers       EnumMock::__callStatic
-     * @dataProvider wrongKeyProvider
-     *
-     * @param string $name
-     */
-    public function testMagicConstruction_WrongKey($name)
+    public function dataCallStaticsWorks()
     {
-        $this->setExpectedException(
-            get_class(new EnumException()),
-            "",
-            EnumException::OUT_OF_RANGE
+        return array(
+            array("MY_TRUE", 1),
+            array("MY_FALSE", 2),
+            array("MY_NULL", new EnumNotFoundException())
         );
-
-        MyBoolean::$name();
     }
 
     /**
-     * @covers EnumMock::__callStatic
+     * @dataProvider dataGetEnumByValueWorks
+     * @param mixed $value
+     * @param Enum|EnumException $expectedEnum
      */
-    public function testComparable()
+    public function testGetEnumByValueWorks($value, $expectedEnum)
+    {
+        if ($expectedEnum instanceof EnumException) {
+            $this->setExpectedException(get_class($expectedEnum));
+        }
+
+        $this->assertSame($expectedEnum, MyBoolean::getEnumByValue($value));
+    }
+
+    public function dataGetEnumByValueWorks()
+    {
+        return array(
+            array(1, MyBoolean::MY_TRUE()),
+            array(2, MyBoolean::MY_FALSE()),
+            array(3, new EnumNotFoundException())
+        );
+    }
+
+    public function testComparableWorks()
     {
         $this->assertSame(MyBoolean::MY_TRUE(), MyBoolean::MY_TRUE());
         $this->assertNotSame(MyBoolean::MY_TRUE(), MyBoolean::MY_FALSE());
@@ -63,41 +64,32 @@ class EnumTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse(MyBoolean::MY_TRUE() == MyBoolean::MY_FALSE());
     }
 
-    /**
-     * @covers EnumMock::getMembers
-     * @runInSeparateProcess
-     */
-    public function testGetMembers()
+    public function testGetMembersWorks()
     {
-        $members = MyBoolean::getMembers();
-
-        $this->assertInternalType("array", $members);
-        $this->assertCount(2, $members);
-        $this->assertArrayHasKey("MY_TRUE", $members);
-        $this->assertEquals(1, $members["MY_TRUE"]);
-        $this->assertArrayHasKey("MY_FALSE", $members);
-        $this->assertEquals(2, $members["MY_FALSE"]);
+        $this->assertEquals(array(
+            "MY_TRUE" => 1,
+            "MY_FALSE" => 2
+        ), MyBoolean::getMembers());
     }
 
     /**
-     * @dataProvider dataFindByValue
-     * @param mixed $value
-     * @param mixed $expected
+     * @dataProvider dataToStringWorks
+     * @param Enum $enum
+     * @param string $expectedString
      */
-    public function testFindByValue($value, $expected)
+    public function testToStringWorks(Enum $enum, $expectedString)
     {
-        if ($expected instanceof \Exception) {
-            $this->setExpectedException(get_class($expected));
-        }
-        $this->assertSame($expected, MyBoolean::findByValue($value));
+        $this->assertSame($expectedString, $enum->__toString());
+        $this->assertSame($expectedString, (string) $enum);
+        $this->assertSame($expectedString, "{$enum}");
+        $this->assertSame($expectedString, $enum . "");
     }
 
-    public function dataFindByValue()
+    public function dataToStringWorks()
     {
         return array(
-            array(1, MyBoolean::MY_TRUE()),
-            array(2, MyBoolean::MY_FALSE()),
-            array(3, new EnumException())
+            array(MyBoolean::MY_TRUE(), MyBoolean::getClass() . "::MY_TRUE"),
+            array(MyBoolean::MY_FALSE(), MyBoolean::getClass() . "::MY_FALSE")
         );
     }
 }
