@@ -14,7 +14,7 @@ use PetrKnap\Php\Profiler\Exception\UnsupportedProfilerException;
  * @since    2015-12-19
  * @license  https://github.com/petrknap/php-profiler/blob/master/LICENSE MIT
  */
-class Profile implements JsonSerializable
+class Profile implements JsonSerializable, ProfilerInterface
 {
     #region JSON keys
     const ABSOLUTE_DURATION = "absolute_duration";
@@ -86,18 +86,16 @@ class Profile implements JsonSerializable
         if (!class_exists($profilerClassName)) {
             throw new MissingProfilerException("Class {$profilerClassName} not found");
         }
-        if (!is_subclass_of($profilerClassName, __NAMESPACE__ . "\\SimpleProfiler")) {
+        if (!is_subclass_of($profilerClassName, __NAMESPACE__ . "\\ProfilerInterface") || is_subclass_of($profilerClassName, __CLASS__)) {
             throw new UnsupportedProfilerException("Class {$profilerClassName} is not supported");
         }
         static::$profilerClassName = $profilerClassName;
     }
 
     /**
-     * @see SimpleProfiler::start()
-     * @return bool
-     * @throws ProfileException
+     * @inheritdoc
      */
-    public static function start()
+    public static function start($labelOrFormat = null, $args = null, $_ = null)
     {
         if (!static::$profilerClassName) {
             throw new MissingProfilerException("Missing profiler");
@@ -106,11 +104,9 @@ class Profile implements JsonSerializable
     }
 
     /**
-     * @see SimpleProfiler::finish()
-     * @return bool|static
-     * @throws ProfileException
+     * @inheritdoc
      */
-    public static function finish()
+    public static function finish($labelOrFormat = null, $args = null, $_ = null)
     {
         if (!static::$profilerClassName) {
             throw new MissingProfilerException("Missing profiler");
