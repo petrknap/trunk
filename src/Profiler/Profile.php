@@ -3,6 +3,9 @@
 namespace PetrKnap\Php\Profiler;
 
 use JsonSerializable;
+use PetrKnap\Php\Profiler\Exception\MissingProfilerException;
+use PetrKnap\Php\Profiler\Exception\ProfileException;
+use PetrKnap\Php\Profiler\Exception\UnsupportedProfilerException;
 
 /**
  * Profile
@@ -54,6 +57,11 @@ class Profile implements JsonSerializable
     public $memoryUsageChange;
 
     /**
+     * @var string
+     */
+    protected static $profilerClassName;
+
+    /**
      * @inheritdoc
      */
     public function jsonSerialize()
@@ -67,5 +75,46 @@ class Profile implements JsonSerializable
                 self::MEMORY_USAGE_CHANGE => $this->memoryUsageChange
             ]
         );
+    }
+
+    /**
+     * @param string $profilerClassName
+     * @throws ProfileException
+     */
+    public static function setProfiler($profilerClassName)
+    {
+        if (!class_exists($profilerClassName)) {
+            throw new MissingProfilerException("Class {$profilerClassName} not found");
+        }
+        if (!is_subclass_of($profilerClassName, __NAMESPACE__ . "\\SimpleProfiler")) {
+            throw new UnsupportedProfilerException("Class {$profilerClassName} is not supported");
+        }
+        static::$profilerClassName = $profilerClassName;
+    }
+
+    /**
+     * @see SimpleProfiler::start()
+     * @return bool
+     * @throws ProfileException
+     */
+    public static function start()
+    {
+        if (!static::$profilerClassName) {
+            throw new MissingProfilerException("Missing profiler");
+        }
+        return call_user_func_array([static::$profilerClassName, "start"], func_get_args());
+    }
+
+    /**
+     * @see SimpleProfiler::finish()
+     * @return bool|static
+     * @throws ProfileException
+     */
+    public static function finish()
+    {
+        if (!static::$profilerClassName) {
+            throw new MissingProfilerException("Missing profiler");
+        }
+        return call_user_func_array([static::$profilerClassName, "finish"], func_get_args());
     }
 }
