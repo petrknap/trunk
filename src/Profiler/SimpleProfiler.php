@@ -1,8 +1,8 @@
 <?php
 
 namespace PetrKnap\Php\Profiler;
+
 use PetrKnap\Php\Profiler\Exception\EmptyStackException;
-use PetrKnap\Php\Profiler\Exception\ProfilerException;
 
 /**
  * Simple PHP class for profiling
