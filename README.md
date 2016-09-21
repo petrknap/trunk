@@ -30,6 +30,8 @@ PHP profiler by [Petr Knap].
 
 #### Usage
 
+You can use profiler directly...
+
 ```php
 SimpleProfiler::enable();            // Enable profiler
 $img = Image::fromFile("./img.png"); // Do what you need to do before you start profiling
@@ -38,6 +40,20 @@ $img->rotate(180);                   // Do what you need to profile here
 $profile = SimpleProfiler::finish(); // Finish profiling where you wish to finish profiling
 unset($img);                         // Do what you need to do after you finish profiling
 var_dump($profile);                  // Process your profile here
+```
+
+...or indirectly...
+
+```php
+Profile::setProfiler("PetrKnap\\Php\\Profiler\\SimpleProfiler");
+SimpleProfiler::enable();
+
+$img = Image::fromFile("./img.png");
+Profile::start();
+$img->rotate(180);
+$profile = Profile::finish();
+unset($img);
+var_dump($profile);
 ```
 
 
