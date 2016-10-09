@@ -83,7 +83,7 @@ isTrue(false);                 // uncaught type error - OK
 
 ### Enum declaration
 ```php
-class DayOfWeekEnum extends \PetrKnap\Php\Enum\Enum
+class DayOfWeek extends \PetrKnap\Php\Enum\Enum
 {
     protected function members()
     {
@@ -102,23 +102,23 @@ class DayOfWeekEnum extends \PetrKnap\Php\Enum\Enum
 
 ### Enum usage
 ```php
-if (DayOfWeekEnum::FRIDAY() == DayOfWeekEnum::FRIDAY()) {
+if (DayOfWeek::FRIDAY() == DayOfWeek::FRIDAY()) {
     echo "This is OK.";
 }
 ```
 
 ```php
-if (DayOfWeekEnum::FRIDAY() == DayOfWeekEnum::MONDAY()) {
+if (DayOfWeek::FRIDAY() == DayOfWeek::MONDAY()) {
     echo "We are going to Hell!";
 }
 ```
 
 ```php
-function isWeekend(DayOfWeekEnum $dayOfWeek)
+function isWeekend(DayOfWeek $dayOfWeek)
 {
    switch ($dayOfWeek) {
-       case DayOfWeekEnum::SATURDAY():
-       case DayOfWeekEnum::SUNDAY():
+       case DayOfWeek::SATURDAY():
+       case DayOfWeek::SUNDAY():
            return true;
        default:
            return false;
@@ -127,7 +127,7 @@ function isWeekend(DayOfWeekEnum $dayOfWeek)
 ```
 
 ```php
-if (date('w') == DayOfWeekEnum::FRIDAY()->getValue()) {
+if (date('w') == DayOfWeek::FRIDAY()->getValue()) {
     echo "Finally it is Friday!";
 }
 ```
@@ -170,17 +170,17 @@ class MyEntity
     private $dayOfWeek;
 
     /**
-     * @return DayOfWeekEnum
+     * @return DayOfWeek
      */
     public function getDayOfWeek()
     {
-        return DayOfWeekEnum::getEnumByValue($this->dayOfWeek);
+        return DayOfWeek::getEnumByValue($this->dayOfWeek);
     }
 
     /**
-     * @param DayOfWeekEnum $dayOfWeek
+     * @param DayOfWeek $dayOfWeek
      */
-    public function setDayOfWeek(DayOfWeekEnum $dayOfWeek)
+    public function setDayOfWeek(DayOfWeek $dayOfWeek)
     {
         $this->dayOfWeek = $dayOfWeek->getValue();
     }
