@@ -130,6 +130,10 @@ function isWeekend(DayOfWeek $dayOfWeek)
 if (date('w') == DayOfWeek::FRIDAY()->getValue()) {
     echo "Finally it is Friday!";
 }
+// or
+if (DayOfWeek::getEnumByValue(date('w')) == DayOfWeek::FRIDAY()) {
+    echo "Finally it is Friday!";
+}
 ```
 
 ### Tips & Tricks
