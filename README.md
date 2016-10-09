@@ -155,6 +155,38 @@ class MixedValues extends \PetrKnap\Php\Enum\Enum
 }
 ```
 
+You can simply convert value to Enum instance and vice versa.
+
+```php
+/**
+ * @ORM\Entity
+ */
+class MyEntity
+{
+    /**
+     * @ORM\Column(type="integer")
+     * @var int
+     */
+    private $flag;
+    
+    /**
+     * @return MyBoolean
+     */
+    public function hasFlag()
+    {
+        return MyBoolean::getEnumByValue($this->flag);
+    }
+    
+    /**
+     * @param MyBoolean $value
+     */
+    public function setFlag(MyBoolean $value)
+    {
+        $this->flag = $value->getValue();
+    }
+}
+```
+
 
 ## How to install
 
