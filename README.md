@@ -7,6 +7,7 @@ Enumerated type for PHP by [Petr Knap].
 * [Usage of php-enum](#usage-of-php-enum)
     * [Enum declaration](#enum-declaration)
     * [Enum usage](#enum-usage)
+    * [Tips & Tricks](#tips--tricks)
 * [How to install](#how-to-install)
 
 
@@ -128,6 +129,29 @@ function isWeekend(DayOfWeekEnum $dayOfWeek)
 ```php
 if (date('w') == DayOfWeekEnum::FRIDAY()->getValue()) {
     echo "Finally it is Friday!";
+}
+```
+
+### Tips & Tricks
+
+Enum is capable to carry any data type as values, including another enum instance.
+
+```php
+class MixedValues extends \PetrKnap\Php\Enum\Enum
+{
+    protected function members()
+    {
+        return array(
+            "null" => null,
+            "boolean" => true,
+            "integer" => 1,
+            "float" => 1.0,
+            "string" => "s",
+            "array" => array(),
+            "object" => new \stdClass(),
+            "callable" => function() {}
+        );
+    }
 }
 ```
 

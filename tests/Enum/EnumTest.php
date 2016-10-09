@@ -5,6 +5,7 @@ namespace PetrKnap\Php\Enum\Test;
 use PetrKnap\Php\Enum\Enum;
 use PetrKnap\Php\Enum\Exception\EnumException;
 use PetrKnap\Php\Enum\Exception\EnumNotFoundException;
+use PetrKnap\Php\Enum\Test\EnumTest\MixedValues;
 use PetrKnap\Php\Enum\Test\EnumTest\MyBoolean;
 
 class EnumTest extends \PHPUnit_Framework_TestCase
@@ -91,5 +92,24 @@ class EnumTest extends \PHPUnit_Framework_TestCase
             array(MyBoolean::MY_TRUE(), MyBoolean::getClass() . "::MY_TRUE"),
             array(MyBoolean::MY_FALSE(), MyBoolean::getClass() . "::MY_FALSE")
         );
+    }
+
+    /**
+     * @dataProvider dataMixedValuesAreSupported
+     * @param MixedValues $enum
+     * @param string $expectedDataType
+     */
+    public function testMixedValuesAreSupported(MixedValues $enum, $expectedDataType)
+    {
+        $this->assertInternalType($expectedDataType, $enum->getValue());
+    }
+
+    public function dataMixedValuesAreSupported()
+    {
+        $data = array();
+        foreach (MixedValues::getMembers() as $name => $ignored) {
+            $data[] = array(MixedValues::__callStatic($name, array()), $name);
+        }
+        return $data;
     }
 }

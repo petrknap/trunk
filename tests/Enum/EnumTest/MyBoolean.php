@@ -10,6 +10,9 @@ use PetrKnap\Php\Enum\Enum;
  */
 class MyBoolean extends Enum
 {
+    /**
+     * @inheritdoc
+     */
     protected function members()
     {
         return array(
