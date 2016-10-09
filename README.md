@@ -167,22 +167,22 @@ class MyEntity
      * @ORM\Column(type="integer")
      * @var int
      */
-    private $flag;
-    
+    private $dayOfWeek;
+
     /**
-     * @return MyBoolean
+     * @return DayOfWeekEnum
      */
-    public function hasFlag()
+    public function getDayOfWeek()
     {
-        return MyBoolean::getEnumByValue($this->flag);
+        return DayOfWeekEnum::getEnumByValue($this->dayOfWeek);
     }
-    
+
     /**
-     * @param MyBoolean $value
+     * @param DayOfWeekEnum $dayOfWeek
      */
-    public function setFlag(MyBoolean $value)
+    public function setDayOfWeek(DayOfWeekEnum $dayOfWeek)
     {
-        $this->flag = $value->getValue();
+        $this->dayOfWeek = $dayOfWeek->getValue();
     }
 }
 ```
