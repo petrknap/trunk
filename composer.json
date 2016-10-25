@@ -1,0 +1,48 @@
+{
+  "name": "petrknap/nette-bootstrap",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Petr Knap",
+      "email": "dev@petrknap.cz"
+    }
+  ],
+  "homepage": "https://github.com/petrknap/php-enum",
+  "config": {
+    "preferred-install": "dist",
+    "platform": {
+      "php": "5.3.6",
+      "ext-dom": true
+    }
+  },
+  "require": {
+    "php": ">=5.3.6",
+    "nette/bootstrap": "^2.3",
+    "nette/di": "^2.3"
+  },
+  "conflict-note": "'conflict' combined with 'require-dev' to '*' is used as soft require",
+  "conflict": {
+    "phpunit/phpunit": "<4.8 || >=5"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "*"
+  },
+  "scripts": {
+    "tests/": [
+      "sudo docker run -v $(pwd):/app --rm php:5.3-cli bash -c 'cd /app && php ./vendor/bin/phpunit'"
+    ],
+    "post-autoload-dump": [
+      "@tests/"
+    ]
+  },
+  "autoload": {
+    "psr-4": {
+      "PetrKnap\\Nette\\Bootstrap\\": "src/Bootstrap"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "PetrKnap\\Nette\\Bootstrap\\Test\\": "tests/Bootstrap"
+    }
+  }
+}
