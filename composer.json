@@ -1,5 +1,6 @@
 {
   "name": "petrknap/nette-bootstrap",
+  "description": "Nette Bootstrap and Test-Case for PHPUnit",
   "license": "MIT",
   "authors": [
     {
@@ -7,9 +8,8 @@
       "email": "dev@petrknap.cz"
     }
   ],
-  "homepage": "https://github.com/petrknap/php-enum",
+  "homepage": "https://github.com/petrknap/nette-bootstrap",
   "config": {
-    "preferred-install": "dist",
     "platform": {
       "php": "5.3.6",
       "ext-dom": true

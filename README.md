@@ -1,6 +1,6 @@
 # Nette Bootstrap
 
-Bootstrap and TestCase for [Nette] and [PHPUnit] by [Petr Knap].
+[Nette] Bootstrap and Test-Case for [PHPUnit] by [Petr Knap].
 
 
 ## Container
