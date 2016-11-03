@@ -35,7 +35,7 @@ abstract class Bootstrap
      */
     protected static function getOption($name)
     {
-        return self::$options[$name];
+        return isset(self::$options[$name]) ? self::$options[$name] : null;
     }
 
     /**
