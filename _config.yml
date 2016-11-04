@@ -1,0 +1,16 @@
+author:
+  name: Petr Knap
+  email: kontakt@petrknap.cz
+  web: http://petrknap.cz/
+  linkedin: https://www.linkedin.com/in/pknap
+  github: https://github.com/petrknap
+
+blog:
+  lang: en
+  title: Petr Knap's Notes
+  urls:
+    home: /notes/
+
+created_on: 2016
+google_analytics_code: UA-1473207-7
+permalink: /notes/:year/:month/:day/:title.html
