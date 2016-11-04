@@ -1,0 +1,14 @@
+<article>
+    <header>
+        <h1>
+            <a href="{{ include.data.url }}" class="h1">{{ include.data.title }}</a>
+        </h1>
+    </header>
+    {{ include.content | replace: '<table>' : '<table class="table">' }}
+    <footer>
+        <p class="text-muted text-right small">
+            Written on {{ include.data.date | date: "%B %e, %Y" }}
+            by <a href="{{ site.author.web }}">{{ site.author.name }}</a>
+        </p>
+    </footer>
+</article>
