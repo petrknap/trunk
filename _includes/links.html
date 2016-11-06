@@ -19,6 +19,13 @@
 </a>
 {% endif %}
 
+{% if site.author.twitter %}
+<a href="{{ site.author.twitter }}" class="{{ include.a_class }}">
+    <span class="fa fa-twitter" aria-hidden="true"></span>
+    <span class="sr-only">Twitter</span>
+</a>
+{% endif %}
+
 {% if site.author.email %}
 <a href="mailto:{{ site.author.email | encode_email }}" class="{{ include.a_class }}">
     <span class="fa fa-envelope" aria-hidden="true"></span>
