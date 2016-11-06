@@ -1,0 +1,33 @@
+{% if include.to == "head" %}
+<link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.0.2/cookieconsent.min.css"
+      integrity="sha256-RWqxpxUH7ZGrrhTJ0I+v+zc6e8cRpm5ENBt7i3u3KrQ="
+      crossorigin="anonymous">
+{% endif %}
+
+{% if include.to == "body" %}
+<script type="application/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.0.2/cookieconsent.min.js"
+        integrity="sha256-KJg6h+Z4gtMtp25btuUpnyEclHY3dU588fYFNGdBFas="
+        crossorigin="anonymous"></script>
+<script>
+    window.addEventListener("load", function () {
+        window.cookieconsent.initialise({
+            "palette": {
+                "popup": {
+                    "background": "#000"
+                },
+                "button": {
+                    "background": "#f1d600"
+                }
+            },
+            "showLink": false,
+            "theme": "edgeless",
+            "position": "bottom-right",
+            "content": {
+                "message": "Website uses cookies to distinguish you from other users. By continuing to browse the site, you are agreeing to the use of cookies."
+            }
+        })
+    });
+</script>
+{% endif %}
