@@ -1,7 +1,8 @@
 ---
 layout: web
 lang: en
-title: english
+title: Petr Knap
+description: Software engineer with experience & master degree
 sections:
   -
     content: |+
