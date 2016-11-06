@@ -29,6 +29,20 @@
     margin-top: -1.25em;
 }
 
+.section p, .section h2 {
+    font-size: 1em;
+    margin-left: 1em;
+    margin-right: 1em;
+}
+
+.section a {
+    opacity: 0.75;
+}
+
+.section a, .section a:hover {
+    color: inherit;
+}
+
 @media (min-width: 800px) {
     .section h1 {
         font-size: 6em;
