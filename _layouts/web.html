@@ -1,0 +1,35 @@
+<!DOCTYPE HTML>
+<html lang="{{ page.lang }}">
+<head>
+    {% include meta.html %}
+    <title>{{ page.title }}</title>
+    {% include cdn/fullPage.js.html to="head" %}
+    {% include cdn/cookieConsent2.html to="head" %}
+    <link rel="stylesheet" href="/assets/web/style.css">
+</head>
+<body>
+<div id="fullPage">
+{% for section in page.sections %}
+    <div class="section{% if section.slides %} slider{% endif %}">
+        {{ section.content | markdownify }}
+        {% if section.slides %}
+        {% for slide in section.slides %}
+        <div class="slide{% if slide.active %} active{% endif %}">
+            {{ slide.content | markdownify }}
+        </div>
+        {% endfor %}
+        {% endif %}
+    </div>
+{% endfor %}
+</div>
+<footer>
+    {% include links.html %}
+    {% include footer.html %}
+</footer>
+{% include cdn/jQuery.html %}
+{% include cdn/fullPage.js.html to="body" %}
+{% include cdn/cookieConsent2.html to="body" %}
+<script type="application/javascript" src="/assets/web/script.js"></script>
+{% include google_analytics.html %}
+</body>
+</html>
