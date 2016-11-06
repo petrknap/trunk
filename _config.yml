@@ -16,7 +16,7 @@ web:
   menu:
     -
       title: english
-      url: /
+      url: //petrknap.github.io/
     -
       title: česky
       url: //petrknap.cz/
