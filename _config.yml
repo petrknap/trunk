@@ -11,6 +11,15 @@ blog:
   urls:
     home: /notes/
 
+web:
+  menu:
+    -
+      title: english
+      url: /
+    -
+      title: česky
+      url: //petrknap.cz/
+
 created_on: 2016
 google_analytics_code: UA-1473207-7
 permalink: /notes/:year/:month/:day/:title.html
