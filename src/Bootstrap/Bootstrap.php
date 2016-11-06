@@ -68,8 +68,10 @@ abstract class Bootstrap
         $me = @new static();
         $configurator = new Configurator(array("appDir" => $me->getAppDir()));
 
-        $configurator->setDebugMode($me->getDebugMode());
-        $configurator->enableDebugger($me->getLogDir());
+        if (class_exists("Tracy\\Debugger")) {
+            $configurator->setDebugMode($me->getDebugMode());
+            $configurator->enableDebugger($me->getLogDir());
+        }
         $configurator->setTempDirectory($me->getTempDir());
 
         foreach ($me->getConfigFiles() as $configFile) {
