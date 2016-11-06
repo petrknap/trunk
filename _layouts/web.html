@@ -3,6 +3,8 @@
 <head>
     {% include meta.html %}
     <title>{{ page.title }}</title>
+    {% include cdn/bootstrap.html %}
+    {% include cdn/font-awesome.html %}
     {% include cdn/fullPage.js.html to="head" %}
     {% include cdn/cookieConsent2.html to="head" %}
     <link rel="stylesheet" href="/assets/web/style.css">
@@ -22,9 +24,22 @@
     </div>
 {% endfor %}
 </div>
-<footer>
-    {% include links.html %}
-    {% include footer.html %}
+<footer class="web-footer row">
+    <div class="web-footer-menu pull-right">
+        <ul class="list-unstyled list-inline">
+            {% for item in site.web.menu %}
+            <li>
+                <a href="{{ item.url }}">{{ item.title }}</a>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+    <div class="web-footer-links col-md-3">
+        <div>{% include links.html a_class="btn padding0px2px" %}</div>
+    </div>
+    <div class="web-footer-info col-md-6">
+        {% include footer.html %}
+    </div>
 </footer>
 {% include cdn/jQuery.html %}
 {% include cdn/fullPage.js.html to="body" %}
