@@ -3,7 +3,7 @@
 namespace PetrKnap\Nette\Bootstrap\PhpUnit;
 
 use Nette\DI\Container;
-use PetrKnap\Nette\Bootstrap\Test\BootstrapTest\Bootstrap;
+use PetrKnap\Nette\Bootstrap\Bootstrap;
 
 abstract class NetteTestCase extends \PHPUnit_Framework_TestCase
 {
