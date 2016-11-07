@@ -7,9 +7,11 @@ layout: null
         xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     {% for page in site.pages %}
     {% unless page.private %}
+    {% unless page.url contains ".yml" %}
     <url>
         <loc>{{ page.url | prepend: site.url }}</loc>
     </url>
+    {% endunless %}
     {% endunless %}
     {% endfor %}
     {% for post in site.posts %}
