@@ -25,10 +25,3 @@
     <span class="sr-only">Twitter</span>
 </a>
 {% endif %}
-
-{% if site.author.email %}
-<a href="mailto:{{ site.author.email | encode_email }}" class="{{ include.a_class }}">
-    <span class="fa fa-envelope" aria-hidden="true"></span>
-    <span class="sr-only">e-mail</span>
-</a>
-{% endif %}
