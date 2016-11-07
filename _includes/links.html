@@ -5,6 +5,13 @@
 </a>
 {% endif %}
 
+{% if site.author.rss %}
+<a href="{{ site.author.rss }}" class="{{ include.a_class }}">
+    <span class="fa fa-rss" aria-hidden="true"></span>
+    <span class="sr-only">RSS</span>
+</a>
+{% endif %}
+
 {% if site.author.github %}
 <a href="{{ site.author.github }}" class="{{ include.a_class }}">
     <span class="fa fa-github" aria-hidden="true"></span>
