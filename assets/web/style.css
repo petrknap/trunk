@@ -65,10 +65,6 @@
 
 /* Non-fullPage CSS
  * --------------------------------------- */
-.padding0px2px {
-    padding: 0 2px;
-}
-
 .web-footer {
     position: fixed;
     z-index: 70;

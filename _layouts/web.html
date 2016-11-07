@@ -7,7 +7,8 @@
     {% include cdn/font-awesome.html %}
     {% include cdn/fullPage.js.html to="head" %}
     {% include cdn/cookieConsent2.html to="head" %}
-    <link rel="stylesheet" href="/assets/web/style.css">
+    <link rel="stylesheet" href="{{ site.url }}/assets/style.css">
+    <link rel="stylesheet" href="{{ site.url }}/assets/web/style.css">
 </head>
 <body>
 <div id="fullPage">
@@ -35,7 +36,7 @@
         </ul>
     </div>
     <div class="web-footer-links col-md-3">
-        <div>{% include links.html a_class="btn padding0px2px" %}</div>
+        <div>{% include links.html a_class="btn btn-link padding0px2px" %}</div>
     </div>
     <div class="web-footer-info col-md-6">
         {% include footer.html %}

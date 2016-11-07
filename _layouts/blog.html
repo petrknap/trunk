@@ -6,7 +6,8 @@
     {% include cdn/bootstrap.html %}
     {% include cdn/font-awesome.html %}
     {% include cdn/cookieConsent2.html to="head" %}
-    <link rel="stylesheet" href="/assets/blog/style.css">
+    <link rel="stylesheet" href="{{ site.url }}/assets/style.css">
+    <link rel="stylesheet" href="{{ site.url }}/assets/blog/style.css">
 </head>
 <body>
 <div class="blog-body">
@@ -19,7 +20,7 @@
         <div class="row">
             <div class="blog-menu col-md-3">
                 <nav class="blog-menu-links">
-                    {% include links.html a_class="btn btn-link" %}
+                    {% include links.html a_class="btn btn-link padding0px2px" %}
                 </nav>
                 <nav class="blog-menu-categories">
                     <ul class="nav nav-pills nav-stacked">
