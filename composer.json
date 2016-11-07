@@ -22,10 +22,15 @@
   },
   "conflict-note": "'conflict' combined with 'require-dev' to '*' is used as soft require",
   "conflict": {
-    "phpunit/phpunit": "<4.8 || >=5"
+    "phpunit/phpunit": "<4.8 || >=5",
+    "nette/application": "<2.3 || >=3",
+    "nette/robot-loader": "<2.3 || >=3"
   },
   "require-dev": {
-    "phpunit/phpunit": "*"
+    "phpunit/phpunit": "*",
+    "nette/application": "*",
+    "nette/robot-loader": "*",
+    "tracy/tracy": "^2.3"
   },
   "scripts": {
     "tests/": [

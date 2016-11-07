@@ -1,0 +1,6 @@
+application:
+    mapping:
+        *: PetrKnap\Nette\Bootstrap\Test\PhpUnit\NetteTestCaseTest\*Presenter
+
+services:
+    router: Nette\Application\Routers\RouteList()

@@ -62,6 +62,27 @@ class NetteTestCase extends \PetrKnap\Nette\Bootstrap\PhpUnit\NetteTestCase
 
 For access to application container in test use method `NetteTestCase::getContainer`.
 
+#### Presenter testing
+
+*Test case simulates `Application\Request` instead of `Http\Request`.*
+
+For presenter testing use method `NetteTestCase::runPresenter`.
+
+```php
+<?php
+
+class NetteTestCase extends \PetrKnap\Nette\Bootstrap\PhpUnit\NetteTestCase
+{
+    public function testHelloWorld()
+    {
+        /** @var \Nette\Application\Responses\TextResponse $response */
+        $response = $this->runPresenter("World", "hello"); // calls WorldPresenter::actionHello
+        $html = (string) $response->getSource(); // renders output
+        $this->assertContains("Hello, world!", $html);
+    }
+}
+```
+
 
 ## How to install
 
