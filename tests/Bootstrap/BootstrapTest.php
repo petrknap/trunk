@@ -28,7 +28,7 @@ class BootstrapTest extends \PHPUnit_Framework_TestCase
 
     public function dataMethodGetConfiguratorSetsCorrectParameters()
     {
-        $bootstrap = new Bootstrap();
+        $bootstrap = @new Bootstrap();
         return array(
             array("appDir", $bootstrap->getAppDir()),
             array("tempDir", __DIR__ . "/BootstrapTest/tmp"),

@@ -43,6 +43,8 @@ class Bootstrap extends Nette\Bootstrap\Bootstrap
      */
     public function getConfigFiles()
     {
-        return array();
+        return array(
+            __DIR__ . "/config.neon"
+        );
     }
 }
