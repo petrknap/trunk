@@ -38,19 +38,12 @@ abstract class NetteTestCase extends \PHPUnit_Framework_TestCase
     {
         parent::setUpBeforeClass();
 
+        $me = new static();
+        $me->clearTemp();
+
         self::$container = call_user_func(self::getBootstrapClass() . "::getContainer", array(
             Bootstrap::OPTION_IS_TEST_RUN => true
         ));
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function setUp()
-    {
-        $this->clearTemp();
-
-        parent::setUp();
     }
 
     /**
@@ -64,7 +57,7 @@ abstract class NetteTestCase extends \PHPUnit_Framework_TestCase
     /**
      * @return void
      */
-    protected function clearTemp()
+    public function clearTemp()
     {
         /** @var Bootstrap $bootstrap */
         $bootstrapClass = self::getBootstrapClass();
@@ -78,12 +71,21 @@ abstract class NetteTestCase extends \PHPUnit_Framework_TestCase
         $rdi = new \RecursiveDirectoryIterator($tempDir, \RecursiveDirectoryIterator::SKIP_DOTS);
         $rii = new \RecursiveIteratorIterator($rdi, \RecursiveIteratorIterator::CHILD_FIRST);
         foreach($rii as $item) {
+            /** @var \SplFileInfo $item */
             if ($item->isDir()){
-                rmdir($item->getRealPath());
-            } else {
+                @rmdir($item->getRealPath());
+            } elseif (!in_array($item->getFilename(), $this->clearTempExcludedFiles())) {
                 unlink($item->getRealPath());
             }
         }
+    }
+
+    /**
+     * @return string[]
+     */
+    protected function clearTempExcludedFiles()
+    {
+        return array(".gitignore");
     }
 
     /**
