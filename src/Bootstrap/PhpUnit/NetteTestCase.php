@@ -44,6 +44,16 @@ abstract class NetteTestCase extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @inheritdoc
+     */
+    public function setUp()
+    {
+        $this->clearTemp();
+
+        parent::setUp();
+    }
+
+    /**
      * @return Container
      */
     protected function getContainer()
