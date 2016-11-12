@@ -75,7 +75,7 @@ abstract class NetteTestCase extends \PHPUnit_Framework_TestCase
             if ($item->isDir()){
                 @rmdir($item->getRealPath());
             } elseif (!in_array($item->getFilename(), $this->clearTempExcludedFiles())) {
-                unlink($item->getRealPath());
+                @unlink($item->getRealPath());
             }
         }
     }
