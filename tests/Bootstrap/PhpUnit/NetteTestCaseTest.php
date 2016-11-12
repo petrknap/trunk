@@ -3,10 +3,30 @@
 namespace PetrKnap\Nette\Bootstrap\Test\PhpUnit;
 
 use Nette\Application\Responses\JsonResponse;
+use PetrKnap\Nette\Bootstrap\Test\PhpUnit\NetteTestCaseTest\Bootstrap;
 use PetrKnap\Nette\Bootstrap\Test\PhpUnit\NetteTestCaseTest\NetteTestCase;
 
 class NetteTestCaseTest extends \PHPUnit_Framework_TestCase
 {
+    public function testMethodClearTempWorks()
+    {
+        $bootstrap = @new Bootstrap();
+        NetteTestCase::setUpBeforeClass();
+        $testCase = new NetteTestCase();
+        $testCaseReflection = new \ReflectionClass($testCase);
+        $clearTempMethod = $testCaseReflection->getMethod("clearTemp");
+        $clearTempMethod->setAccessible(true);
+
+        $gitignore = file_get_contents($bootstrap->getTempDir() . "/.gitignore");
+        @mkdir($bootstrap->getTempDir() . "/dir");
+        touch($bootstrap->getTempDir() . "/dir/file.txt");
+
+        $this->assertTrue(file_exists($bootstrap->getTempDir() . "/dir/file.txt"));
+        $clearTempMethod->invoke($testCase);
+        $this->assertFalse(file_exists($bootstrap->getTempDir() . "/dir/file.txt"));
+        file_put_contents($bootstrap->getTempDir() . "/.gitignore", $gitignore);
+    }
+
     public function testMethodGetContainerWorks()
     {
         NetteTestCase::setUpBeforeClass();
