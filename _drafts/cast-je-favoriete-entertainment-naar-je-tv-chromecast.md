@@ -85,7 +85,7 @@ And finally, for [*VLC*] users, there is **native support in VLC 3**.
 
 
 
-[*LG 32LH530V*]:https://www.google.cz/search?q=LG%2032LH530V
+[*LG 32LH530V*]:https://www.google.com/search?q=LG%2032LH530V
 [*Raspberry pi*]:https://www.raspberrypi.org/
 [*Google Chromecast*]:https://www.google.com/chromecast/
 [*YouTube*]:https://www.youtube.com/
