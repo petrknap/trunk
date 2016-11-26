@@ -26,7 +26,7 @@ Development of display technology is very slow, but software development is one 
 If you buy "just" TV, it will be many years as good as today.
 If you buy "smart" TV, **it will be "just" TV in two years due to lack of updates**.
 
-![LG 32LH530V]()
+![LG 32LH530V](/notes/data/google-chromecast-2/lg-32lh530v.jpg)
 
 I wish to buy non-smart, DirectLED, FullHD, DVB-T2 compatible, 30" television under 400 USD with TAX - [*LG 32LH530V*] was the best.
 
@@ -37,11 +37,11 @@ I wish to buy non-smart, DirectLED, FullHD, DVB-T2 compatible, 30" television un
 The real question was which box I should choose.
 I was thinking about *HTPC*, [*Raspberry pi*] and [*Google Chromecast*].
 
+![Google Chromecast 2 plugged in LG 32LH530V](/notes/data/google-chromecast-2/google-chromecast-2.jpg)
+
 *HTPC* was terminated by price quickly.
 And *Raspberry pi* was my favorite.
 Until I realized that **I need something like wireless HDMI** and *Google Chromecast* is perfect solution for me.
-
-![Google Chromecast 2]()
 
 
 ### Eenvouding instellen
@@ -49,7 +49,7 @@ Until I realized that **I need something like wireless HDMI** and *Google Chrome
 It was very surprising when I plug in my new *Google Chromecast* to my new *LG 32LH530V*.
 It was from Netherlands distribution, I love our European Union's single market.
 
-![Instellen]()
+![Instellen](/notes/data/google-chromecast-2/google-chromecast-2-instellen.jpg)
 
 The good news is that the real setup is realized trough another device in correct language and during setup is *Google Chromecast* switched into the same language.
 
@@ -61,18 +61,20 @@ It communicates via WiFi and **the output stream consumes about 6 Mb/s**.
 If you are streaming from WiFi to *Google Chromecast* on the same WiFi, all data go trough your router and **you need twice as much data to transfer**.
 The ideal solution is to use 802.11n standard which provides enough speed.
 
-![Network statistic]()
+![Network history](/notes/data/google-chromecast-2/network-history.png)
 
 There are some applications which work with *Google Chromecast* natively (for example [*YouTube*]), but the main power is hidden in casting from [*Google Chrome*] via [*Google Cast*] extension.
 With this extension **you can cast a browser tab, application window or whole screen to your television**, in high resolution (delay included).
 
 
 
-# Conclusion
+## Conclusion
 
 *Google Chromecast* is really **useless if you are looking for media player**.
 You need another device which controls it and serves the content.
 Buy *HTPC* or [*Raspberry pi*] instead.
+
+![Google Chromecast 2](/notes/data/google-chromecast-2/google-chromecast-2-box.jpg)
 
 [*Google Chromecast*] is **great for these who can't directly connect theirs devices via HDMI cable**.
 It works great on *Windows 10*.
