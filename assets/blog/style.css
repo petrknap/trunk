@@ -11,6 +11,10 @@ article img.img-responsive {
     margin-right: auto;
 }
 
+article img.img-rounded[src$=".png"] {
+    border-radius: 0;
+}
+
 .blog-body {
     background-color: #fff;
     border-bottom: 1px solid #999;
