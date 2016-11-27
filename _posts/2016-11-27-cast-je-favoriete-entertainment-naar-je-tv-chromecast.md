@@ -50,7 +50,7 @@ It was very surprising when I plugged my new *Google Chromecast* to my new *LG 3
 ![Instellen](/notes/data/2016-11-27/google-chromecast-2/instellen.jpg)
 
 It comes from the Netherlands distribution, I love our European Union's single market.
-The good news is that the real setup is realized trough another device in correct language and during setup is *Google Chromecast* switched into the same language.
+The good news is that the real setup is realized trough another device in correct language and **during setup was *Google Chromecast* switched into the same language**.
 
 
 ### Cast je favoriete entertainment naar je tv
