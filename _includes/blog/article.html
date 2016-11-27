@@ -5,10 +5,14 @@
         </h1>
     </header>
     {{ include.content | replace: '<table>' : '<table class="table">' | replace: '<img ' : '<img class="img-rounded img-responsive" ' }}
-    <footer>
-        <p class="text-muted text-right small">
+    <footer class="row">
+        <p class="col-sm-6 text-muted text-left small">
+            Share it on <a href="https://www.facebook.com/sharer/sharer.php?u={{ site.url | append: include.data.url | cgi_escape }}" target="_blank">Facebook</a>
+            or tweet about it on <a href="https://twitter.com/home?status={{ include.data.title | append: ' ' | append: site.url | append: include.data.url | cgi_escape }}" target="_blank">Twitter</a>.
+        </p>
+        <p class="col-sm-6 text-muted text-right small">
             Written on {{ include.data.date | date: "%B %e, %Y" }}
-            by <a href="{{ site.author.web }}">{{ site.author.name }}</a>
+            by <a href="{{ site.author.web }}">{{ site.author.name }}</a>.
         </p>
     </footer>
 </article>
