@@ -26,7 +26,7 @@ Development of display technology is very slow, but software development is one 
 If you buy "just" TV, it will be many years as good as now.
 **If you buy "smart" TV, it will be "just" TV in two years due to lack of updates**.
 
-![LG 32LH530V](/notes/data/google-chromecast-2/lg-32lh530v.jpg)
+![LG 32LH530V](/notes/data/2016-11-27/google-chromecast-2/lg-32lh530v.jpg)
 
 I wanted to buy non-smart, DirectLED, FullHD, DVB-T2 compatible, 30" television under 400 USD with TAX - [*LG 32LH530V*] was the best.
 
@@ -37,7 +37,7 @@ I wanted to buy non-smart, DirectLED, FullHD, DVB-T2 compatible, 30" television 
 The real question was which which smart "box" to choose.
 I was thinking about *HTPC*, [*Raspberry pi*] and [*Google Chromecast*].
 
-![Google Chromecast 2 plugged in LG 32LH530V](/notes/data/google-chromecast-2/google-chromecast-2.jpg)
+![Google Chromecast 2 plugged in LG 32LH530V](/notes/data/2016-11-27/google-chromecast-2/google-chromecast-2.jpg)
 
 When high price eliminated *HTPC*, *Raspberry pi* was my favorite.
 Before I found out that **I needed something like a wireless HDMI** and *Google Chromecast* is perfect solution for me.
@@ -47,7 +47,7 @@ Before I found out that **I needed something like a wireless HDMI** and *Google 
 
 It was very surprising when I plugged my new *Google Chromecast* to my new *LG 32LH530V*...
 
-![Instellen](/notes/data/google-chromecast-2/google-chromecast-2-instellen.jpg)
+![Instellen](/notes/data/2016-11-27/google-chromecast-2/instellen.jpg)
 
 It comes from the Netherlands distribution, I love our European Union's single market.
 The good news is that the real setup is realized trough another device in correct language and during setup is *Google Chromecast* switched into the same language.
@@ -60,9 +60,9 @@ It communicates over WiFi and **the output stream consumes about 6 Mb/s**.
 If you are streaming from WiFi to *Google Chromecast* on the same WiFi, all data go through your router and **you need transfer twice as much data**.
 The ideal solution is to use 802.11n standard which provides enough speed.
 
-![Network history](/notes/data/google-chromecast-2/network-history.png)
+![Network history](/notes/data/2016-11-27/google-chromecast-2/network-history.png)
 
-There are some applications which work with *Google Chromecast* natively (for example [*YouTube*]), but the main power is hidden in casting from [*Google Chrome*] via [*Google Cast*] extension.
+There are some applications which work with *Google Chromecast* natively (for example [*YouTube*] and [*Videostream*]), but the main power is hidden in casting from [*Google Chrome*] via [*Google Cast*] extension.
 With this extension **you can cast a browser tab, application window or whole screen to your television**, in high resolution (delay included).
 
 
@@ -73,12 +73,12 @@ With this extension **you can cast a browser tab, application window or whole sc
 You need another device which controls it and provides the content.
 Buy *HTPC* or [*Raspberry pi*] instead.
 
-![Google Chromecast 2](/notes/data/google-chromecast-2/google-chromecast-2-box.jpg)
+![Google Chromecast 2](/notes/data/2016-11-27/google-chromecast-2/box.jpg)
 
 [*Google Chromecast*] is **great for these who can't directly connect theirs devices via HDMI cable**.
 It works great on *Windows 10*.
 On *Ubuntu 16* it works only for screen casting (without audio).
-Sure, applications with native support (for example *YouTube*) works on *Ubuntu 16* as well as on *Windows 10*.
+Sure, applications with native support (for example *YouTube* and *Videostream*) works on *Ubuntu 16* as well as on *Windows 10*.
 For *Windows Phone* there is application called [*TubeCast for YouTube*] which works.
 And finally, for [*VLC*] users, there is **native support in VLC 3**.
 
@@ -88,6 +88,7 @@ And finally, for [*VLC*] users, there is **native support in VLC 3**.
 [*Raspberry pi*]:https://www.raspberrypi.org/
 [*Google Chromecast*]:https://www.google.com/chromecast/
 [*YouTube*]:https://www.youtube.com/
+[*Videostream*]:http://getvideostream.com/
 [*Google Chrome*]:https://www.google.com/chrome/
 [*Google Cast*]:https://chrome.google.com/webstore/detail/google-cast/boadgeojelhgndaghljhdicfkmllpafd
 [*TubeCast for YouTube*]:https://www.microsoft.com/store/p/tubecast-for-youtube/9wzdncrdx3fs
