@@ -34,7 +34,7 @@ I wanted to buy non-smart, DirectLED, FullHD, DVB-T2 compatible, 30" television 
 
 ## Fun with smart "box"
 
-The real question was which which smart "box" to choose.
+The real question was which smart "box" to choose.
 I was thinking about *HTPC*, [*Raspberry pi*] and [*Google Chromecast*].
 
 ![Google Chromecast 2 plugged in LG 32LH530V](/notes/data/2016-11-27/google-chromecast-2/google-chromecast-2.jpg)
@@ -50,7 +50,7 @@ It was very surprising when I plugged my new *Google Chromecast* to my new *LG 3
 ![Instellen](/notes/data/2016-11-27/google-chromecast-2/instellen.jpg)
 
 It comes from the Netherlands distribution, I love our European Union's single market.
-The good news is that the real setup is realized trough another device in correct language and **during setup was *Google Chromecast* switched into the same language**.
+The good news is that the real setup is realized through another device in correct language and **during setup was *Google Chromecast* switched into the same language**.
 
 
 ### Cast je favoriete entertainment naar je tv
@@ -76,9 +76,9 @@ Buy *HTPC* or [*Raspberry pi*] instead.
 ![Google Chromecast 2](/notes/data/2016-11-27/google-chromecast-2/box.jpg)
 
 [*Google Chromecast*] is **great for these who can't directly connect theirs devices via HDMI cable**.
-It works great on *Windows 10*.
-On *Ubuntu 16* it works only for screen casting (without audio).
-Sure, applications with native support (for example *YouTube* and *Videostream*) works on *Ubuntu 16* as well as on *Windows 10*.
+[*Google Cast*] works great on *Windows 10*.
+On *Ubuntu 16* *Google Cast* works only for screen casting (without audio).
+Sure, applications with native support (for example [*YouTube*] and [*Videostream*]) works on *Ubuntu 16* as well as on *Windows 10*.
 For *Windows Phone* there is application called [*TubeCast for YouTube*] which works.
 And finally, for [*VLC*] users, there is **native support in VLC 3**.
 
