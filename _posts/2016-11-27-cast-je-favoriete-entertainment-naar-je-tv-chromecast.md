@@ -77,8 +77,8 @@ Buy *HTPC* or [*Raspberry pi*] instead.
 
 [*Google Chromecast*] is **great for these who can't directly connect theirs devices via HDMI cable**.
 [*Google Cast*] works great on *Windows 10*.
-On *Ubuntu 16* *Google Cast* works only for screen casting (without audio).
-Sure, applications with native support (for example [*YouTube*] and [*Videostream*]) works on *Ubuntu 16* as well as on *Windows 10*.
+On *Ubuntu 16* doesn't work audio in window and screen casting via *Google Cast*.
+Applications with native support (for example [*YouTube*] and [*Videostream*]) and [*Google Chrome*] tab cast works on *Ubuntu 16* as well as on *Windows 10*.
 For *Windows Phone* there is application called [*TubeCast for YouTube*] which works.
 And finally, for [*VLC*] users, there is **native support in VLC 3**.
 
