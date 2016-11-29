@@ -1,7 +1,14 @@
-{% if site.author.web %}
+{% if site.author.web and page.layout != "web" %}
 <a href="{{ site.author.web }}" class="{{ include.a_class }}">
     <span class="fa fa-globe" aria-hidden="true"></span>
     <span class="sr-only">web</span>
+</a>
+{% endif %}
+
+{% if site.author.blog and page.layout == "web" %}
+<a href="{{ site.author.blog }}" class="{{ include.a_class }}">
+    <span class="fa fa-pencil-square" aria-hidden="true"></span>
+    <span class="sr-only">blog</span>
 </a>
 {% endif %}
 
