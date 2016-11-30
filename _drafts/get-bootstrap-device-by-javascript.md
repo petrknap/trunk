@@ -19,9 +19,9 @@ It eliminates the problem when your JavaScript and Bootstrap detects different d
 
 ## The idea
 
-My idea was very simple - just create function which will returns detected Bootstrap device (`xs`, `sm`, `md`, or `lg`).
+My idea was very simple - just create function which will return detected Bootstrap device (`xs`, `sm`, `md`, or `lg`).
 A [`getBootstrapDevice`] function simply prepends document body by "testers" which are styled as invisible.
-The [`getBootstrapDevice`] just check which "tester" is currently visible.
+The [`getBootstrapDevice`] just checks which "tester" is currently visible.
 
 
 
@@ -41,7 +41,7 @@ $(function() {
             onDeviceChange(device);
         }
     }, onDeviceChange = function (device) {
-        console.log(device); // replace by your code
+        console.log(device); // replace it by your code
     };
     $(window).resize(onResize());
     onResize();
@@ -49,7 +49,7 @@ $(function() {
 ```
 
 This example will print the active devices on the console.
-You can **customize it by reimplementing `onDeviceChange`** method.
+You can **customize it by reimplementing `onDeviceChange`** function.
 
 
 
