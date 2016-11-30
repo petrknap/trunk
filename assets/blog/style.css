@@ -32,12 +32,20 @@ article img.img-rounded[src$=".png"] {
     padding-right: 40px;
 }
 
-.blog-menu-links {
+.blog-menu-links, .blog-menu-issues {
     text-align: center;
     border: 1px solid #eee;
     border-radius: 4px;
     background: #f5f5f5;
+}
+
+.blog-menu-links {
     margin-bottom: 15px;
+}
+
+.blog-menu-issues {
+    margin-top: 15px;
+    padding: 3px;
 }
 
 .blog-content {
