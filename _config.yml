@@ -1,4 +1,36 @@
+# -------------------------------------------------------------------------------------------------
+# Jekyll configuration
+#
+
 gems: [jekyll-gist]
+markdown: kramdown
+
+kramdown:
+  input: GFM
+  syntax_highlighter: rouge
+
+
+
+# -------------------------------------------------------------------------------------------------
+# Server configuration
+#
+
+http:
+  headers:
+    Content-Security-Policy: >
+      default-src 'self' 'unsafe-inline'
+      https://petrknap.github.io https://gist.github.com https://assets-cdn.github.com
+      https://maxcdn.bootstrapcdn.com https://cdnjs.cloudflare.com https://www.google-analytics.com;
+      report-uri https://petrknap.report-uri.io/r/default/csp/enforce
+    Strict-Transport-Security: max-age=259200
+    X-Content-Type-Options: nosniff
+
+
+
+# -------------------------------------------------------------------------------------------------
+# Site configuration
+#
+
 url: https://petrknap.github.io
 
 author:
@@ -21,10 +53,10 @@ web:
   menu:
     -
       title: english
-      url: //petrknap.github.io/
+      url: https://petrknap.github.io/
     -
       title: česky
-      url: //petrknap.cz/
+      url: https://petrknap.cz/
 
 created_on: 2016
 google_analytics_code: UA-88031264-1
