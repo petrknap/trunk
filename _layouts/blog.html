@@ -1,6 +1,7 @@
 <!DOCTYPE HTML>
 <html lang="{{ site.blog.lang }}">
 <head>
+    {% include http_headers.html %}
     {% include meta.html %}
     <title>{% if site.blog.title != page.title %}{{ site.blog.title }} - {% endif %}{{ page.title }}</title>
     {% include cdn/bootstrap.html %}
