@@ -32,23 +32,9 @@ The [`getBootstrapDevice`] just checks which "tester" is currently visible.
 
 ### Simple demo
 
-```javascript
-$(function() {
-    var prevDevice = null, onResize = function () {
-        var device = getBootstrapDevice();
-        if (device != prevDevice) {
-            prevDevice = device;
-            onDeviceChange(device);
-        }
-    }, onDeviceChange = function (device) {
-        console.log(device); // replace it by your code
-    };
-    $(window).resize(onResize());
-    onResize();
-});
-```
+{% gist e23834deff7d11bb516e demo.html %}
 
-This example will print the active devices on the console.
+This example prints the active devices on the screen.
 You can **customize it by reimplementing `onDeviceChange`** function.
 
 
