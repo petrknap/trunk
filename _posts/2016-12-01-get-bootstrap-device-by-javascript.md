@@ -39,4 +39,4 @@ You can **customize it by reimplementing `onDeviceChange`** function.
 
 
 
-[`getBootstrapDevice`]:(https://gist.github.com/petrknap/e23834deff7d11bb516e)
+[`getBootstrapDevice`]:https://gist.github.com/petrknap/e23834deff7d11bb516e
