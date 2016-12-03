@@ -61,7 +61,7 @@ It takes first argument as path to folder with songs and register following mark
  * `w` for *work songs*
  * `d` for *dynamic songs*
 
-The only thing you need to do is run by `php run.php ./Songs`.
+The only thing you need to do is run it via `php run.php ./Songs`.
 The [playlist generator] will creates playlists in working directory.
 
 
