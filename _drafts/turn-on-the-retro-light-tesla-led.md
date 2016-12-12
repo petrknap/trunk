@@ -3,7 +3,7 @@ layout: blog.post
 title: "Turn on the #retro light #Tesla #LED"
 category: hardware
 keywords:
-    - Tesla LED Crystal Retro
+    - Tesla CrystalRetro
     - EGLO COSSANO
     - LED bulb
     - light bulb
@@ -27,16 +27,14 @@ There are plenty of lightning sources from old-school light bulbs to super cool 
 My first choice was *10W LED panel from Teslux*.
 The light was bright and white, but **it was a problem for me** - I don't like this kind of light for relaxation.
 I love coldest light, the yellow one.
-After hours of browsing I found a [Tesla LED Crystal Retro] bulb.
+After hours of browsing I found a [Tesla CrystalRetro] bulb.
 
-![Tesla LED Crystal Retro (box)](/notes/data/tesla-led-crystal-retro/tesla-led-crystal-retro-box.jpg)
+![Tesla CrystalRetro](/notes/data/tesla-crystal-retro/tesla-crystal-retro.jpg)
 
-The [Tesla LED Crystal Retro] is **beautiful bulb with yellow light**.
+The [Tesla CrystalRetro] is **beautiful bulb with yellow light**.
 It has shape of old-school wolfram light bulb and the light has the same temperature (2700K).
 All electronics is hidden in the base of bulb.
 Only 4 filament strips and transparent skeleton is visible in the bulb.
-
-![Tesla LED Crystal Retro (bulb)](/notes/data/tesla-led-crystal-retro/tesla-led-crystal-retro-bulb.jpg)
 
 When I received first bulb I met second problem - **my luminaire was too ugly** for this bulb.
 
@@ -47,17 +45,17 @@ When I received first bulb I met second problem - **my luminaire was too ugly** 
 As you know, **I had 2 options when I was choosing material for my new luminaire** - bright wood and black metal.
 But I was worried about black luminaire, so I choose wooden one - an [EGLO COSSANO].
 
-![EGLO COSSANO](/notes/data/tesla-led-crystal-retro/eglo-cossano.jpg)
+![EGLO COSSANO](/notes/data/tesla-crystal-retro/eglo-cossano.jpg)
 
-The the [EGLO COSSANO] is simple spherical pendant luminaire cuted by laser from recycled paper with bright wood texture.
+The [EGLO COSSANO] is simple spherical pendant luminaire cuted by laser from recycled paper with bright wood texture.
 The metal parts are made from aluminium and as isolation is used decent beige plastic.
 
 
 
 ## Conclusion
 
-![Luminaire with bulb](/notes/data/tesla-led-crystal-retro/luminaire-with-bulb.jpg)
+![Luminaire with bulb](/notes/data/tesla-crystal-retro/luminaire-with-bulb.jpg)
 
 The result is biblical. I really love the play of light and shadow on the ceiling and walls.
-Now I have 2 identical [EGLO COSSANO] luminaires with identical [Tesla LED Crystal Retro] bulbs.
+Now I have 2 identical [EGLO COSSANO] luminaires with identical [Tesla CrystalRetro] bulbs.
 **I'm enjoying every evening and night with the light on.**
