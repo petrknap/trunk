@@ -43,7 +43,7 @@ $ tree
 0 directories, 3 files
 ```
 
-It will helps you with quick detection if it is new (`song.mp3`) or unwanted (`song.__.mp3`) song.
+It will help you with quick detection if it is new (`song.mp3`) or unwanted (`song.__.mp3`) song.
 
 
 
@@ -51,7 +51,7 @@ It will helps you with quick detection if it is new (`song.mp3`) or unwanted (`s
 
 If you have your files marked, you can use a [playlist generator].
 The [playlist generator] supports `m3u` and `pls` formats and needs [PHP] to run.
-You will also need script which configures [playlist generator] for you.
+You will also need script which configures the [playlist generator] for you.
 Like this one:
 
 {% gist 4f11249f720cf0213c2f run.php %}
@@ -73,7 +73,7 @@ The [playlist generator] will creates playlists in current working directory.
 I need to **organize my music over many devices** (notebook, desktop, car, etc.) via file synchronization and playlists.
 It helps me to keep my music files clear - **if a song lost last marker I can painlessly delete it**.
 
-If you like this idea, **let's enjoy it and share it** with your friends.
+If you like this idea then **enjoy it and share it** with your friends.
 
 
 
