@@ -104,7 +104,7 @@ class MySingleton implements \PetrKnap\Php\Singleton\SingletonInterface
 $a = MySingleton::getInstance();
 $b = MySingleton::getInstance();
 
-if ($a == $b) {
+if ($a === $b) {
     echo "Both variables contain the same instance.";
 }
 
