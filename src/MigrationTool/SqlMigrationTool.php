@@ -123,7 +123,7 @@ abstract class SqlMigrationTool extends AbstractMigrationTool
         $result = $this->pdo->exec($migrationData);
 
         if ($result === false || $result instanceof \Exception) {
-            if (!$result) {
+            if (!$result/* instanceof \Exception */) {
                 $result = new DatabaseException(implode(" ", $this->pdo->errorInfo()));
             }
 
@@ -131,9 +131,10 @@ abstract class SqlMigrationTool extends AbstractMigrationTool
             throw new MigrationFileException(
                 sprintf(
                     "You have an error in your SQL syntax [id='%s']",
-                    $this->getMigrationId($pathToMigrationFile),
-                    $result
-                )
+                    $this->getMigrationId($pathToMigrationFile)
+                ),
+                $result->getCode(),
+                $result
             );
         }
 
