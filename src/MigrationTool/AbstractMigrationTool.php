@@ -17,10 +17,10 @@ abstract class AbstractMigrationTool implements MigrationToolInterface, LoggerAw
 {
     const MIGRATION_FILE_PATTERN = '/^.*$/i';
 
-    const MESSAGE_MIGRATION_ID_FOR_FILE_IS_ID = "Migration id for file '%s' is '%s'";
-    const MESSAGE_FOUND_N_MIGRATION_FILES = "Found %d migration files";
-    const MESSAGE_APPLYING_MIGRATION_FROM_FILE = "Applying '%s'";
-    const MESSAGE_DETECTED_GAPE_BEFORE_MIGRATION = "Detected gape before migration [id='%s']\nFiles to migrate:\n\t%s";
+    const MESSAGE_MIGRATION_ID_EXTRACTED_PATH_ID = "Migration id extracted [path='%s', id='%s']";
+    const MESSAGE_FOUND_MIGRATION_FILES_COUNT = "Found migration files [count=%d]";
+    const MESSAGE_APPLYING_MIGRATION_FILE_PATH = "Applying migration file [path='%s']";
+    const MESSAGE_DETECTED_GAPE_BEFORE_MIGRATION_ID = "Detected gape before migration [id='%s']\nFiles to migrate:\n\t%s";
 
     /**
      * @var LoggerInterface
@@ -54,12 +54,12 @@ abstract class AbstractMigrationTool implements MigrationToolInterface, LoggerAw
             if ($this->isMigrationApplied($migrationFile)) {
                 if (!empty($migrationFilesToMigrate)) {
                     $message = sprintf(
-                        self::MESSAGE_DETECTED_GAPE_BEFORE_MIGRATION,
+                        self::MESSAGE_DETECTED_GAPE_BEFORE_MIGRATION_ID,
                         $this->getMigrationId($migrationFile),
                         implode("\n\t", $migrationFilesToMigrate)
                     );
 
-                    if (null !== $this->getLogger()) {
+                    if ($this->getLogger()) {
                         $this->getLogger()->critical($message);
                     }
 
@@ -71,10 +71,10 @@ abstract class AbstractMigrationTool implements MigrationToolInterface, LoggerAw
         }
 
         foreach ($migrationFilesToMigrate as $migrationFile) {
-            if (null !== $this->getLogger()) {
+            if ($this->getLogger()) {
                 $this->getLogger()->debug(
                     sprintf(
-                        self::MESSAGE_APPLYING_MIGRATION_FROM_FILE,
+                        self::MESSAGE_APPLYING_MIGRATION_FILE_PATH,
                         $migrationFile
                     )
                 );
@@ -103,10 +103,10 @@ abstract class AbstractMigrationTool implements MigrationToolInterface, LoggerAw
         }
         sort($migrationFiles);
 
-        if (null !== $this->getLogger()) {
+        if ($this->getLogger()) {
             $this->getLogger()->debug(
                 sprintf(
-                    self::MESSAGE_FOUND_N_MIGRATION_FILES,
+                    self::MESSAGE_FOUND_MIGRATION_FILES_COUNT,
                     count($migrationFiles)
                 )
             );
@@ -125,10 +125,10 @@ abstract class AbstractMigrationTool implements MigrationToolInterface, LoggerAw
         $basenameParts = explode(" ", $fileInfo->getBasename(".{$fileInfo->getExtension()}"));
         $migrationId =  $basenameParts[0];
 
-        if (null !== $this->getLogger()) {
+        if ($this->getLogger()) {
             $this->getLogger()->debug(
                 sprintf(
-                    self::MESSAGE_MIGRATION_ID_FOR_FILE_IS_ID,
+                    self::MESSAGE_MIGRATION_ID_EXTRACTED_PATH_ID,
                     $pathToMigrationFile,
                     $migrationId
                 )
