@@ -3,6 +3,8 @@
 namespace PetrKnap\Php\MigrationTool;
 
 use PetrKnap\Php\MigrationTool\Exception\MismatchException;
+use Psr\Log\LoggerAwareInterface;
+use Psr\Log\LoggerInterface;
 
 /**
  * Abstract migration tool
@@ -11,9 +13,35 @@ use PetrKnap\Php\MigrationTool\Exception\MismatchException;
  * @since    2016-06-22
  * @license  https://github.com/petrknap/php-migrationtool/blob/master/LICENSE MIT
  */
-abstract class AbstractMigrationTool implements MigrationToolInterface
+abstract class AbstractMigrationTool implements MigrationToolInterface, LoggerAwareInterface
 {
     const MIGRATION_FILE_PATTERN = '/^.*$/i';
+
+    const MESSAGE_MIGRATION_ID_FOR_FILE_IS_ID = "Migration id for file '%s' is '%s'";
+    const MESSAGE_FOUND_N_MIGRATION_FILES = "Found %d migration files";
+    const MESSAGE_APPLYING_MIGRATION_FROM_FILE = "Applying '%s'";
+    const MESSAGE_DETECTED_GAPE_BEFORE_MIGRATION = "Detected gape before migration [id='%s']\nFiles to migrate:\n\t%s";
+
+    /**
+     * @var LoggerInterface
+     */
+    private $logger;
+
+    /**
+     * @inheritdoc
+     */
+    public function setLogger(LoggerInterface $logger)
+    {
+        $this->logger = $logger;
+    }
+
+    /**
+     * @return LoggerInterface
+     */
+    protected function getLogger()
+    {
+        return $this->logger;
+    }
 
     /**
      * @inheritdoc
@@ -25,13 +53,17 @@ abstract class AbstractMigrationTool implements MigrationToolInterface
         foreach ($migrationFiles as $migrationFile) {
             if ($this->isMigrationApplied($migrationFile)) {
                 if (!empty($migrationFilesToMigrate)) {
-                    throw new MismatchException(
-                        sprintf(
-                            "Detected gape before migration [id='%s']\nFiles to migrate:\n\t%s",
-                            $this->getMigrationId($migrationFile),
-                            implode("\n\t", $migrationFilesToMigrate)
-                        )
+                    $message = sprintf(
+                        self::MESSAGE_DETECTED_GAPE_BEFORE_MIGRATION,
+                        $this->getMigrationId($migrationFile),
+                        implode("\n\t", $migrationFilesToMigrate)
                     );
+
+                    if (null !== $this->getLogger()) {
+                        $this->getLogger()->critical($message);
+                    }
+
+                    throw new MismatchException($message);
                 }
             } else {
                 $migrationFilesToMigrate[] = $migrationFile;
@@ -39,6 +71,15 @@ abstract class AbstractMigrationTool implements MigrationToolInterface
         }
 
         foreach ($migrationFilesToMigrate as $migrationFile) {
+            if (null !== $this->getLogger()) {
+                $this->getLogger()->debug(
+                    sprintf(
+                        self::MESSAGE_APPLYING_MIGRATION_FROM_FILE,
+                        $migrationFile
+                    )
+                );
+            }
+
             $this->applyMigrationFile($migrationFile);
         }
     }
@@ -61,6 +102,16 @@ abstract class AbstractMigrationTool implements MigrationToolInterface
             }
         }
         sort($migrationFiles);
+
+        if (null !== $this->getLogger()) {
+            $this->getLogger()->debug(
+                sprintf(
+                    self::MESSAGE_FOUND_N_MIGRATION_FILES,
+                    count($migrationFiles)
+                )
+            );
+        }
+
         return $migrationFiles;
     }
 
@@ -72,7 +123,19 @@ abstract class AbstractMigrationTool implements MigrationToolInterface
     {
         $fileInfo = new \SplFileInfo($pathToMigrationFile);
         $basenameParts = explode(" ", $fileInfo->getBasename(".{$fileInfo->getExtension()}"));
-        return $basenameParts[0];
+        $migrationId =  $basenameParts[0];
+
+        if (null !== $this->getLogger()) {
+            $this->getLogger()->debug(
+                sprintf(
+                    self::MESSAGE_MIGRATION_ID_FOR_FILE_IS_ID,
+                    $pathToMigrationFile,
+                    $migrationId
+                )
+            );
+        }
+
+        return $migrationId;
     }
 
     /**
