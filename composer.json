@@ -11,9 +11,6 @@
     }
   ],
   "homepage": "https://github.com/petrknap/php-migrationtool",
-  "config": {
-    "preferred-install": "dist"
-  },
   "require": {
     "php": ">=5.3.3"
   },
@@ -21,11 +18,11 @@
     "phpunit/phpunit": "^4.8"
   },
   "scripts": {
-    "test": [
+    "tests/": [
       "./vendor/bin/phpunit"
     ],
     "post-autoload-dump": [
-      "@test"
+      "@tests/"
     ]
   },
   "autoload": {
