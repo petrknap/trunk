@@ -11,6 +11,7 @@ class AbstractMigrationToolTest extends TestCase
      * @dataProvider dataMigrateWorks
      * @param array $appliedMigrations
      * @param \Exception $expectedException
+     * @throws \Exception
      */
     public function testMigrateWorks($appliedMigrations, $expectedException = null)
     {
@@ -20,7 +21,12 @@ class AbstractMigrationToolTest extends TestCase
             $this->setExpectedException(get_class($expectedException));
         }
 
-        $tool->migrate();
+        try {
+            $tool->migrate();
+        } catch (\Exception $e) {
+            $this->assertStringMatchesFormat($expectedException->getMessage(), $e->getMessage());
+            throw $e;
+        }
     }
 
     public function dataMigrateWorks()
@@ -28,8 +34,12 @@ class AbstractMigrationToolTest extends TestCase
         return array(
             array(array(), null),
             array(array("2016-06-22.1"), null),
-            array(array("2016-06-22.2"), new MismatchException()),
-            array(array("2016-06-22.1", "2016-06-22-2"), null)
+            array(array("2016-06-22.1", "2016-06-22.2"), null),
+            array(array("2016-06-22.1", "2016-06-22.2", "2016-06-22.3"), null),
+            array(array("2016-06-22.2"), new MismatchException("%a/2016-06-22.1 - First migration.ext")),
+            array(array("2016-06-22.3"), new MismatchException("%a/2016-06-22.1 - First migration.ext%a/2016-06-22.2 - Second migration.ext")),
+            array(array("2016-06-22.1", "2016-06-22.3"), new MismatchException("%a/2016-06-22.2 - Second migration.ext")),
+            array(array("2016-06-22.2", "2016-06-22.3"), new MismatchException("%a/2016-06-22.1 - First migration.ext")),
         );
     }
 
@@ -40,7 +50,8 @@ class AbstractMigrationToolTest extends TestCase
         $this->assertEquals(
             array(
                 __DIR__ . "/AbstractMigrationToolTest/migrations/2016-06-22.1 - First migration.ext",
-                __DIR__ . "/AbstractMigrationToolTest/migrations/2016-06-22.2 - Second migration.ext"
+                __DIR__ . "/AbstractMigrationToolTest/migrations/2016-06-22.2 - Second migration.ext",
+                __DIR__ . "/AbstractMigrationToolTest/migrations/2016-06-22.3 - Third migration.ext",
             ),
             $this->invokeMethod($tool, "getMigrationFiles")
         );
