@@ -55,10 +55,16 @@ abstract class SqlMigrationTool extends AbstractMigrationTool
                 ")"
             ) === false
         ) {
-            throw new DatabaseException(sprintf(
-                "Could not create table [name='%s']",
-                $this->migrationTableName
-            ), 0, new \Exception(implode(" ", $this->pdo->errorInfo())));
+            throw new DatabaseException(
+                sprintf(
+                    "Could not create table [name='%s']",
+                    $this->migrationTableName
+                ),
+                0,
+                new \Exception(
+                    implode(" ", $this->pdo->errorInfo())
+                )
+            );
         }
     }
 
@@ -71,10 +77,16 @@ abstract class SqlMigrationTool extends AbstractMigrationTool
         /** @noinspection SqlNoDataSourceInspection,SqlDialectInspection */
         $statement = $this->pdo->prepare("INSERT INTO {$this->migrationTableName} (id) VALUES (:id)");
         if ($statement->execute(array("id" => $this->getMigrationId($pathToMigrationFile))) === false) {
-            throw new DatabaseException(sprintf(
-                "Could not register migration [id='%s']",
-                $this->getMigrationId($pathToMigrationFile)
-            ), 0, new \Exception(implode(" ", $this->pdo->errorInfo())));
+            throw new DatabaseException(
+                sprintf(
+                    "Could not register migration [id='%s']",
+                    $this->getMigrationId($pathToMigrationFile)
+                ),
+                0,
+                new \Exception(
+                    implode(" ", $this->pdo->errorInfo())
+                )
+            );
         }
     }
 
