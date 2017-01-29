@@ -55,16 +55,10 @@ abstract class SqlMigrationTool extends AbstractMigrationTool
                 ")"
             ) === false
         ) {
-            throw new DatabaseException(
-                sprintf(
-                    "Could not create table [name='%s']",
-                    $this->migrationTableName
-                ),
-                0,
-                new \Exception(
-                    implode(" ", $this->pdo->errorInfo()
-                )
-            ));
+            throw new DatabaseException(sprintf(
+                "Could not create table [name='%s']",
+                $this->migrationTableName
+            ), 0, new \Exception(implode(" ", $this->pdo->errorInfo())));
         }
     }
 
@@ -77,16 +71,10 @@ abstract class SqlMigrationTool extends AbstractMigrationTool
         /** @noinspection SqlNoDataSourceInspection,SqlDialectInspection */
         $statement = $this->pdo->prepare("INSERT INTO {$this->migrationTableName} (id) VALUES (:id)");
         if ($statement->execute(array("id" => $this->getMigrationId($pathToMigrationFile))) === false) {
-            throw new DatabaseException(
-                sprintf(
-                    "Could not register migration [id='%s']",
-                    $this->getMigrationId($pathToMigrationFile)
-                ),
-                0,
-                new \Exception(
-                    implode(" ", $this->pdo->errorInfo()
-                    )
-                ));
+            throw new DatabaseException(sprintf(
+                "Could not register migration [id='%s']",
+                $this->getMigrationId($pathToMigrationFile)
+            ), 0, new \Exception(implode(" ", $this->pdo->errorInfo())));
         }
     }
 
@@ -120,7 +108,11 @@ abstract class SqlMigrationTool extends AbstractMigrationTool
 
         $this->pdo->beginTransaction();
 
-        $result = $this->pdo->exec($migrationData);
+        try {
+            $result = $this->pdo->exec($migrationData);
+        } catch (\Exception $e) {
+            $result = $e;
+        }
 
         if ($result === false || $result instanceof \Exception) {
             if (!$result/* instanceof \Exception */) {
