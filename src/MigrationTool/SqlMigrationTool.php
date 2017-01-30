@@ -16,6 +16,15 @@ abstract class SqlMigrationTool extends AbstractMigrationTool
 {
     const MIGRATION_FILE_PATTERN = '/\.sql$/i';
 
+    const MESSAGE_COULD_NOT_CREATE_TABLE_NAME = "Could not create migration table [name='%s']";
+    const MESSAGE_CREATED_MIGRATION_TABLE_NAME = "Created migration table [name='%s']";
+    const MESSAGE_COULD_NOT_REGISTER_MIGRATION_ID = "Could not register migration [id='%s']";
+    const MESSAGE_MIGRATION_REGISTERED_ID = "Migration registered [id='%s']";
+    const MESSAGE_MIGRATION_IS_APPLIED_ID_APPLIED = "Migration is applied [id='%s', applied=%s]";
+    const MESSAGE_COULD_NOT_READ_MIGRATION_FILE_PATH = "Could not read migration file [path='%s']";
+    const MESSAGE_YOU_HAVE_AN_ERROR_IN_YOUR_SQL_SYNTAX_PATH = "You have an error in your SQL syntax [path='%s']";
+    const MESSAGE_MIGRATION_FILE_APPLIED_PATH = "Migration file applied [path='%s']";
+
     /**
      * @var \PDO
      */
@@ -55,14 +64,29 @@ abstract class SqlMigrationTool extends AbstractMigrationTool
                 ")"
             ) === false
         ) {
+            $message = sprintf(
+                self::MESSAGE_COULD_NOT_CREATE_TABLE_NAME,
+                $this->migrationTableName
+            );
+
+            if ($this->getLogger()) {
+                $this->getLogger()->critical($message);
+            }
+
             throw new DatabaseException(
-                sprintf(
-                    "Could not create table [name='%s']",
-                    $this->migrationTableName
-                ),
+                $message,
                 0,
                 new \Exception(
                     implode(" ", $this->pdo->errorInfo())
+                )
+            );
+        }
+
+        if ($this->getLogger()) {
+            $this->getLogger()->debug(
+                sprintf(
+                    self::MESSAGE_CREATED_MIGRATION_TABLE_NAME,
+                    $this->migrationTableName
                 )
             );
         }
@@ -76,15 +100,31 @@ abstract class SqlMigrationTool extends AbstractMigrationTool
     {
         /** @noinspection SqlNoDataSourceInspection,SqlDialectInspection */
         $statement = $this->pdo->prepare("INSERT INTO {$this->migrationTableName} (id) VALUES (:id)");
-        if ($statement->execute(array("id" => $this->getMigrationId($pathToMigrationFile))) === false) {
+        $migrationId = $this->getMigrationId($pathToMigrationFile);
+        if ($statement->execute(array("id" => $migrationId)) === false) {
+            $message = sprintf(
+                self::MESSAGE_COULD_NOT_REGISTER_MIGRATION_ID,
+                $this->getMigrationId($pathToMigrationFile)
+            );
+
+            if (null != $this->getLogger()) {
+                $this->getLogger()->critical($message);
+            }
+
             throw new DatabaseException(
-                sprintf(
-                    "Could not register migration [id='%s']",
-                    $this->getMigrationId($pathToMigrationFile)
-                ),
+                $message,
                 0,
                 new \Exception(
                     implode(" ", $this->pdo->errorInfo())
+                )
+            );
+        }
+
+        if ($this->getLogger()) {
+            $this->getLogger()->debug(
+                sprintf(
+                    self::MESSAGE_MIGRATION_REGISTERED_ID,
+                    $migrationId
                 )
             );
         }
@@ -97,9 +137,21 @@ abstract class SqlMigrationTool extends AbstractMigrationTool
     {
         /** @noinspection SqlNoDataSourceInspection,SqlDialectInspection */
         $statement = $this->pdo->prepare("SELECT null FROM {$this->migrationTableName} WHERE id = :id");
-        $statement->execute(array("id" => $this->getMigrationId($pathToMigrationFile)));
+        $migrationId = $this->getMigrationId($pathToMigrationFile);
+        $statement->execute(array("id" => $migrationId));
+        $isApplied = $statement->fetch() !== false;
 
-        return $statement->fetch() !== false;
+        if ($this->getLogger()) {
+            $this->getLogger()->debug(
+                sprintf(
+                    self::MESSAGE_MIGRATION_IS_APPLIED_ID_APPLIED,
+                    $migrationId,
+                    var_export($isApplied, true)
+                )
+            );
+        }
+
+        return $isApplied;
     }
 
     /**
@@ -110,12 +162,16 @@ abstract class SqlMigrationTool extends AbstractMigrationTool
         $migrationData = @file_get_contents($pathToMigrationFile);
 
         if ($migrationData === false) {
-            throw new MigrationFileException(
-                sprintf(
-                    "Could not read migration file [id='%s']",
-                    $this->getMigrationId($pathToMigrationFile)
-                )
+            $message = sprintf(
+                self::MESSAGE_COULD_NOT_READ_MIGRATION_FILE_PATH,
+                $pathToMigrationFile
             );
+
+            if ($this->getLogger()) {
+                $this->getLogger()->critical($message);
+            }
+
+            throw new MigrationFileException($message);
         }
 
         $this->pdo->beginTransaction();
@@ -132,11 +188,17 @@ abstract class SqlMigrationTool extends AbstractMigrationTool
             }
 
             $this->pdo->rollBack();
+            $message = sprintf(
+                self::MESSAGE_YOU_HAVE_AN_ERROR_IN_YOUR_SQL_SYNTAX_PATH,
+                $pathToMigrationFile
+            );
+
+            if ($this->getLogger()) {
+                $this->getLogger()->critical($message);
+            }
+
             throw new MigrationFileException(
-                sprintf(
-                    "You have an error in your SQL syntax [id='%s']",
-                    $this->getMigrationId($pathToMigrationFile)
-                ),
+                $message,
                 $result->getCode(),
                 $result
             );
@@ -145,6 +207,15 @@ abstract class SqlMigrationTool extends AbstractMigrationTool
         $this->registerMigrationFile($pathToMigrationFile);
 
         $this->pdo->commit();
+
+        if ($this->getLogger()) {
+            $this->getLogger()->debug(
+                sprintf(
+                    self::MESSAGE_MIGRATION_FILE_APPLIED_PATH,
+                    $pathToMigrationFile
+                )
+            );
+        }
     }
 
     /**

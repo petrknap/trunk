@@ -5,6 +5,7 @@ namespace PetrKnap\Php\MigrationTool\Test;
 use PetrKnap\Php\MigrationTool\Exception\DatabaseException;
 use PetrKnap\Php\MigrationTool\Exception\MigrationException;
 use PetrKnap\Php\MigrationTool\Exception\MigrationFileException;
+use PetrKnap\Php\MigrationTool\SqlMigrationTool;
 use PetrKnap\Php\MigrationTool\Test\SqlMigrationToolTest\SqlMigrationToolMock;
 
 class SqlMigrationToolTest extends TestCase
@@ -155,5 +156,106 @@ class SqlMigrationToolTest extends TestCase
         foreach ($rows as $row) {
             $this->assertContains($row["id"], array("create_table", "multi_query"));
         }
+    }
+
+    /**
+     * @dataProvider dataLoggingWorks
+     * @param string $method
+     * @param array $arguments
+     * @param array $expectedLog
+     */
+    public function testLoggingWorks($method, array $arguments, array $expectedLog)
+    {
+        $log = array();
+        $pdo = $this->getPDO();
+        $tool = $this->getTool($pdo);
+        $tool->migrate();
+        $tool->setLogger($this->getLogger($log));
+
+        try {
+            $this->invokeMethod($tool, $method, $arguments);
+        } catch (\Exception $ignored) {
+            // Ignored exception
+        }
+
+        $this->assertLogEquals($expectedLog, $log);
+    }
+
+    public function dataLoggingWorks()
+    {
+        return array(
+            array(
+                "createMigrationTable",
+                array(),
+                array(
+                    "debug" => array(
+                        SqlMigrationTool::MESSAGE_CREATED_MIGRATION_TABLE_NAME,
+                    ),
+                ),
+            ),
+            array(
+                "registerMigrationFile",
+                array(
+                    __DIR__ . "/SqlMigrationToolTest/migrations/2016-06-22.1 - First migration.sql",
+                ),
+                array(
+                    "debug" => array(
+                        SqlMigrationTool::MESSAGE_MIGRATION_ID_EXTRACTED_PATH_ID,
+                        SqlMigrationTool::MESSAGE_MIGRATION_ID_EXTRACTED_PATH_ID,
+                    ),
+                    "critical" => array(
+                        SqlMigrationTool::MESSAGE_COULD_NOT_REGISTER_MIGRATION_ID,
+                    ),
+                ),
+            ),
+            array(
+                "registerMigrationFile",
+                array(
+                    __DIR__ . "/SqlMigrationToolTest/SQLs/create_table.sql",
+                ),
+                array(
+                    "debug" => array(
+                        SqlMigrationTool::MESSAGE_MIGRATION_ID_EXTRACTED_PATH_ID,
+                        SqlMigrationTool::MESSAGE_MIGRATION_REGISTERED_ID,
+                    ),
+                ),
+            ),
+            array(
+                "isMigrationApplied",
+                array(
+                    __DIR__ . "/SqlMigrationToolTest/migrations/2016-06-22.1 - First migration.sql",
+                ),
+                array(
+                    "debug" => array(
+                        SqlMigrationTool::MESSAGE_MIGRATION_ID_EXTRACTED_PATH_ID,
+                        SqlMigrationTool::MESSAGE_MIGRATION_IS_APPLIED_ID_APPLIED,
+                    ),
+                ),
+            ),
+            array(
+                "applyMigrationFile",
+                array(
+                    __DIR__ . "/SqlMigrationToolTest/SQLs/multi_query_with_error.sql",
+                ),
+                array(
+                    "critical" => array(
+                        SqlMigrationTool::MESSAGE_YOU_HAVE_AN_ERROR_IN_YOUR_SQL_SYNTAX_PATH,
+                    ),
+                ),
+            ),
+            array(
+                "applyMigrationFile",
+                array(
+                    __DIR__ . "/SqlMigrationToolTest/SQLs/create_table.sql",
+                ),
+                array(
+                    "debug" => array(
+                        SqlMigrationTool::MESSAGE_MIGRATION_ID_EXTRACTED_PATH_ID,
+                        SqlMigrationTool::MESSAGE_MIGRATION_REGISTERED_ID,
+                        SqlMigrationTool::MESSAGE_MIGRATION_FILE_APPLIED_PATH,
+                    ),
+                ),
+            ),
+        );
     }
 }
