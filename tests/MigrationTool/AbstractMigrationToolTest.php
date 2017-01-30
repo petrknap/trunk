@@ -24,7 +24,7 @@ class AbstractMigrationToolTest extends TestCase
         }
 
         try {
-            $tool->migrate();
+            @$tool->migrate();
         } catch (\Exception $e) {
             $this->assertStringMatchesFormat($expectedException->getMessage(), $e->getMessage());
             throw $e;
@@ -55,8 +55,11 @@ class AbstractMigrationToolTest extends TestCase
                 __DIR__ . "/AbstractMigrationToolTest/migrations/2016-06-22.2 - Second migration.ext",
                 __DIR__ . "/AbstractMigrationToolTest/migrations/2016-06-22.3 - Third migration.ext",
             ),
-            $this->invokeMethod($tool, "getMigrationFiles")
+            @$this->invokeMethod($tool, "getMigrationFiles")
         );
+
+        $this->setExpectedException("PHPUnit_Framework_Error_Warning");
+        $this->invokeMethod($tool, "getMigrationFiles");
     }
 
     /**
@@ -87,50 +90,38 @@ class AbstractMigrationToolTest extends TestCase
     /**
      * @dataProvider dataLoggingWorks
      * @param array $appliedMigrations
-     * @param array $expectedLogs
+     * @param array $expectedLog
      */
-    public function testLoggingWorks(array $appliedMigrations, array $expectedLogs)
+    public function testLoggingWorks(array $appliedMigrations, array $expectedLog)
     {
-        $logs = array(
-            "debug" => array(),
-            "critical" => array(),
-        );
-
-        $logger = $this->getMock("Psr\\Log\\LoggerInterface");
-        $logger->expects($this->any())
-            ->method("debug")
-            ->willReturnCallback(function ($message) use (&$logs) {
-                $logs["debug"][] = $message;
-            });
-        $logger->expects($this->any())
-            ->method("critical")
-            ->willReturnCallback(function ($message) use (&$logs) {
-                $logs["critical"][] = $message;
-            });
+        $log = array();
 
         try {
             /** @var LoggerInterface $logger */
             $tool = new AbstractMigrationToolMock($appliedMigrations);
-            $tool->setLogger($logger);
-            $tool->migrate();
+            $tool->setLogger($this->getLogger($log));
+            @$tool->migrate();
         } catch (\Exception $ignored) {
             // Ignored exception
         }
 
-        foreach ($expectedLogs as $key => $messages) {
-            $this->assertCount(count($messages), $logs[$key]);
-            foreach ($messages as $message) {
-                $this->assertStringMatchesFormat(str_replace("%s", "%a", $message), array_shift($logs[$key]));
-            }
-        }
+        $this->assertLogEquals($expectedLog, $log);
     }
 
     public function dataLoggingWorks()
     {
         return array(
             array(array(), array(
-                "debug" => array(
+                "warning" => array(
+                    AbstractMigrationTool::MESSAGE_FOUND_UNSUPPORTED_FILE_PATH,
+                ),
+                "info" => array(
                     AbstractMigrationTool::MESSAGE_FOUND_MIGRATION_FILES_COUNT,
+                    AbstractMigrationTool::MESSAGE_MIGRATION_FILE_APPLIED_PATH,
+                    AbstractMigrationTool::MESSAGE_MIGRATION_FILE_APPLIED_PATH,
+                    AbstractMigrationTool::MESSAGE_MIGRATION_FILE_APPLIED_PATH,
+                ),
+                "debug" => array(
                     AbstractMigrationTool::MESSAGE_MIGRATION_ID_EXTRACTED_PATH_ID,
                     AbstractMigrationTool::MESSAGE_MIGRATION_ID_EXTRACTED_PATH_ID,
                     AbstractMigrationTool::MESSAGE_MIGRATION_ID_EXTRACTED_PATH_ID,
@@ -143,8 +134,15 @@ class AbstractMigrationToolTest extends TestCase
                 ),
             )),
             array(array("2016-06-22.1"), array(
-                "debug" => array(
+                "warning" => array(
+                    AbstractMigrationTool::MESSAGE_FOUND_UNSUPPORTED_FILE_PATH,
+                ),
+                "info" => array(
                     AbstractMigrationTool::MESSAGE_FOUND_MIGRATION_FILES_COUNT,
+                    AbstractMigrationTool::MESSAGE_MIGRATION_FILE_APPLIED_PATH,
+                    AbstractMigrationTool::MESSAGE_MIGRATION_FILE_APPLIED_PATH,
+                ),
+                "debug" => array(
                     AbstractMigrationTool::MESSAGE_MIGRATION_ID_EXTRACTED_PATH_ID,
                     AbstractMigrationTool::MESSAGE_MIGRATION_ID_EXTRACTED_PATH_ID,
                     AbstractMigrationTool::MESSAGE_MIGRATION_ID_EXTRACTED_PATH_ID,
@@ -155,8 +153,14 @@ class AbstractMigrationToolTest extends TestCase
                 ),
             )),
             array(array("2016-06-22.1", "2016-06-22.2"), array(
-                "debug" => array(
+                "warning" => array(
+                    AbstractMigrationTool::MESSAGE_FOUND_UNSUPPORTED_FILE_PATH,
+                ),
+                "info" => array(
                     AbstractMigrationTool::MESSAGE_FOUND_MIGRATION_FILES_COUNT,
+                    AbstractMigrationTool::MESSAGE_MIGRATION_FILE_APPLIED_PATH,
+                ),
+                "debug" => array(
                     AbstractMigrationTool::MESSAGE_MIGRATION_ID_EXTRACTED_PATH_ID,
                     AbstractMigrationTool::MESSAGE_MIGRATION_ID_EXTRACTED_PATH_ID,
                     AbstractMigrationTool::MESSAGE_MIGRATION_ID_EXTRACTED_PATH_ID,
@@ -165,16 +169,26 @@ class AbstractMigrationToolTest extends TestCase
                 ),
             )),
             array(array("2016-06-22.1", "2016-06-22.2", "2016-06-22.3"), array(
-                "debug" => array(
+                "warning" => array(
+                    AbstractMigrationTool::MESSAGE_FOUND_UNSUPPORTED_FILE_PATH,
+                ),
+                "info" => array(
                     AbstractMigrationTool::MESSAGE_FOUND_MIGRATION_FILES_COUNT,
+                ),
+                "debug" => array(
                     AbstractMigrationTool::MESSAGE_MIGRATION_ID_EXTRACTED_PATH_ID,
                     AbstractMigrationTool::MESSAGE_MIGRATION_ID_EXTRACTED_PATH_ID,
                     AbstractMigrationTool::MESSAGE_MIGRATION_ID_EXTRACTED_PATH_ID,
                 ),
             )),
             array(array("2016-06-22.2"), array(
-                "debug" => array(
+                "warning" => array(
+                    AbstractMigrationTool::MESSAGE_FOUND_UNSUPPORTED_FILE_PATH,
+                ),
+                "info" => array(
                     AbstractMigrationTool::MESSAGE_FOUND_MIGRATION_FILES_COUNT,
+                ),
+                "debug" => array(
                     AbstractMigrationTool::MESSAGE_MIGRATION_ID_EXTRACTED_PATH_ID,
                     AbstractMigrationTool::MESSAGE_MIGRATION_ID_EXTRACTED_PATH_ID,
                     AbstractMigrationTool::MESSAGE_MIGRATION_ID_EXTRACTED_PATH_ID,
@@ -184,8 +198,13 @@ class AbstractMigrationToolTest extends TestCase
                 )
             )),
             array(array("2016-06-22.3"), array(
-                "debug" => array(
+                "warning" => array(
+                    AbstractMigrationTool::MESSAGE_FOUND_UNSUPPORTED_FILE_PATH,
+                ),
+                "info" => array(
                     AbstractMigrationTool::MESSAGE_FOUND_MIGRATION_FILES_COUNT,
+                ),
+                "debug" => array(
                     AbstractMigrationTool::MESSAGE_MIGRATION_ID_EXTRACTED_PATH_ID,
                     AbstractMigrationTool::MESSAGE_MIGRATION_ID_EXTRACTED_PATH_ID,
                     AbstractMigrationTool::MESSAGE_MIGRATION_ID_EXTRACTED_PATH_ID,
@@ -196,8 +215,13 @@ class AbstractMigrationToolTest extends TestCase
                 ),
             )),
             array(array("2016-06-22.1", "2016-06-22.3"), array(
-                "debug" => array(
+                "warning" => array(
+                    AbstractMigrationTool::MESSAGE_FOUND_UNSUPPORTED_FILE_PATH,
+                ),
+                "info" => array(
                     AbstractMigrationTool::MESSAGE_FOUND_MIGRATION_FILES_COUNT,
+                ),
+                "debug" => array(
                     AbstractMigrationTool::MESSAGE_MIGRATION_ID_EXTRACTED_PATH_ID,
                     AbstractMigrationTool::MESSAGE_MIGRATION_ID_EXTRACTED_PATH_ID,
                     AbstractMigrationTool::MESSAGE_MIGRATION_ID_EXTRACTED_PATH_ID,
@@ -208,8 +232,13 @@ class AbstractMigrationToolTest extends TestCase
                 ),
             )),
             array(array("2016-06-22.2", "2016-06-22.3"), array(
-                "debug" => array(
+                "warning" => array(
+                    AbstractMigrationTool::MESSAGE_FOUND_UNSUPPORTED_FILE_PATH,
+                ),
+                "info" => array(
                     AbstractMigrationTool::MESSAGE_FOUND_MIGRATION_FILES_COUNT,
+                ),
+                "debug" => array(
                     AbstractMigrationTool::MESSAGE_MIGRATION_ID_EXTRACTED_PATH_ID,
                     AbstractMigrationTool::MESSAGE_MIGRATION_ID_EXTRACTED_PATH_ID,
                     AbstractMigrationTool::MESSAGE_MIGRATION_ID_EXTRACTED_PATH_ID,

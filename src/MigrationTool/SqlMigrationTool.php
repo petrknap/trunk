@@ -23,7 +23,6 @@ abstract class SqlMigrationTool extends AbstractMigrationTool
     const MESSAGE_MIGRATION_IS_APPLIED_ID_APPLIED = "Migration is applied [id='%s', applied=%s]";
     const MESSAGE_COULD_NOT_READ_MIGRATION_FILE_PATH = "Could not read migration file [path='%s']";
     const MESSAGE_YOU_HAVE_AN_ERROR_IN_YOUR_SQL_SYNTAX_PATH = "You have an error in your SQL syntax [path='%s']";
-    const MESSAGE_MIGRATION_FILE_APPLIED_PATH = "Migration file applied [path='%s']";
 
     /**
      * @var \PDO
@@ -207,15 +206,6 @@ abstract class SqlMigrationTool extends AbstractMigrationTool
         $this->registerMigrationFile($pathToMigrationFile);
 
         $this->pdo->commit();
-
-        if ($this->getLogger()) {
-            $this->getLogger()->debug(
-                sprintf(
-                    self::MESSAGE_MIGRATION_FILE_APPLIED_PATH,
-                    $pathToMigrationFile
-                )
-            );
-        }
     }
 
     /**

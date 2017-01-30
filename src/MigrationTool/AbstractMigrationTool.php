@@ -18,8 +18,10 @@ abstract class AbstractMigrationTool implements MigrationToolInterface, LoggerAw
     const MIGRATION_FILE_PATTERN = '/^.*$/i';
 
     const MESSAGE_MIGRATION_ID_EXTRACTED_PATH_ID = "Migration id extracted [path='%s', id='%s']";
+    const MESSAGE_FOUND_UNSUPPORTED_FILE_PATH = "Found unsupported file [path='%s']";
     const MESSAGE_FOUND_MIGRATION_FILES_COUNT = "Found migration files [count=%d]";
     const MESSAGE_APPLYING_MIGRATION_FILE_PATH = "Applying migration file [path='%s']";
+    const MESSAGE_MIGRATION_FILE_APPLIED_PATH = "Migration file applied [path='%s']";
     const MESSAGE_DETECTED_GAPE_BEFORE_MIGRATION_ID = "Detected gape before migration [id='%s']\nFiles to migrate:\n\t%s";
 
     /**
@@ -81,6 +83,15 @@ abstract class AbstractMigrationTool implements MigrationToolInterface, LoggerAw
             }
 
             $this->applyMigrationFile($migrationFile);
+
+            if ($this->getLogger()) {
+                $this->getLogger()->info(
+                    sprintf(
+                        self::MESSAGE_MIGRATION_FILE_APPLIED_PATH,
+                        $migrationFile
+                    )
+                );
+            }
         }
     }
 
@@ -98,13 +109,24 @@ abstract class AbstractMigrationTool implements MigrationToolInterface, LoggerAw
             if ($fileInfo->isFile()) {
                 if (preg_match(static::MIGRATION_FILE_PATTERN, $fileInfo->getRealPath())) {
                     $migrationFiles[] = $fileInfo->getRealPath();
+                } else {
+                    $message = sprintf(
+                        self::MESSAGE_FOUND_UNSUPPORTED_FILE_PATH,
+                        $fileInfo->getRealPath()
+                    );
+
+                    if ($this->getLogger()) {
+                        $this->getLogger()->warning($message);
+                    }
+
+                    user_error($message, E_USER_WARNING);
                 }
             }
         }
         sort($migrationFiles);
 
         if ($this->getLogger()) {
-            $this->getLogger()->debug(
+            $this->getLogger()->info(
                 sprintf(
                     self::MESSAGE_FOUND_MIGRATION_FILES_COUNT,
                     count($migrationFiles)

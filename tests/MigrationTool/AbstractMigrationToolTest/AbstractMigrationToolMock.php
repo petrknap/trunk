@@ -6,6 +6,8 @@ use PetrKnap\Php\MigrationTool\AbstractMigrationTool;
 
 class AbstractMigrationToolMock extends AbstractMigrationTool
 {
+    const MIGRATION_FILE_PATTERN = '/\.ext/i';
+
     /**
      * @var array
      */
