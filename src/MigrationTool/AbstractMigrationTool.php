@@ -109,17 +109,13 @@ abstract class AbstractMigrationTool implements MigrationToolInterface, LoggerAw
             if ($fileInfo->isFile()) {
                 if (preg_match(static::MIGRATION_FILE_PATTERN, $fileInfo->getRealPath())) {
                     $migrationFiles[] = $fileInfo->getRealPath();
-                } else {
-                    $message = sprintf(
-                        self::MESSAGE_FOUND_UNSUPPORTED_FILE_PATH,
-                        $fileInfo->getRealPath()
+                } elseif ($this->getLogger()) {
+                    $this->getLogger()->notice(
+                        sprintf(
+                            self::MESSAGE_FOUND_UNSUPPORTED_FILE_PATH,
+                            $fileInfo->getRealPath()
+                        )
                     );
-
-                    if ($this->getLogger()) {
-                        $this->getLogger()->warning($message);
-                    }
-
-                    user_error($message, E_USER_WARNING);
                 }
             }
         }

@@ -24,7 +24,7 @@ class AbstractMigrationToolTest extends TestCase
         }
 
         try {
-            @$tool->migrate();
+            $tool->migrate();
         } catch (\Exception $e) {
             $this->assertStringMatchesFormat($expectedException->getMessage(), $e->getMessage());
             throw $e;
@@ -55,11 +55,8 @@ class AbstractMigrationToolTest extends TestCase
                 __DIR__ . "/AbstractMigrationToolTest/migrations/2016-06-22.2 - Second migration.ext",
                 __DIR__ . "/AbstractMigrationToolTest/migrations/2016-06-22.3 - Third migration.ext",
             ),
-            @$this->invokeMethod($tool, "getMigrationFiles")
+            $this->invokeMethod($tool, "getMigrationFiles")
         );
-
-        $this->setExpectedException("PHPUnit_Framework_Error_Warning");
-        $this->invokeMethod($tool, "getMigrationFiles");
     }
 
     /**
@@ -100,7 +97,7 @@ class AbstractMigrationToolTest extends TestCase
             /** @var LoggerInterface $logger */
             $tool = new AbstractMigrationToolMock($appliedMigrations);
             $tool->setLogger($this->getLogger($log));
-            @$tool->migrate();
+            $tool->migrate();
         } catch (\Exception $ignored) {
             // Ignored exception
         }
@@ -112,7 +109,7 @@ class AbstractMigrationToolTest extends TestCase
     {
         return array(
             array(array(), array(
-                "warning" => array(
+                "notice" => array(
                     AbstractMigrationTool::MESSAGE_FOUND_UNSUPPORTED_FILE_PATH,
                 ),
                 "info" => array(
@@ -134,7 +131,7 @@ class AbstractMigrationToolTest extends TestCase
                 ),
             )),
             array(array("2016-06-22.1"), array(
-                "warning" => array(
+                "notice" => array(
                     AbstractMigrationTool::MESSAGE_FOUND_UNSUPPORTED_FILE_PATH,
                 ),
                 "info" => array(
@@ -153,7 +150,7 @@ class AbstractMigrationToolTest extends TestCase
                 ),
             )),
             array(array("2016-06-22.1", "2016-06-22.2"), array(
-                "warning" => array(
+                "notice" => array(
                     AbstractMigrationTool::MESSAGE_FOUND_UNSUPPORTED_FILE_PATH,
                 ),
                 "info" => array(
@@ -169,7 +166,7 @@ class AbstractMigrationToolTest extends TestCase
                 ),
             )),
             array(array("2016-06-22.1", "2016-06-22.2", "2016-06-22.3"), array(
-                "warning" => array(
+                "notice" => array(
                     AbstractMigrationTool::MESSAGE_FOUND_UNSUPPORTED_FILE_PATH,
                 ),
                 "info" => array(
@@ -182,7 +179,7 @@ class AbstractMigrationToolTest extends TestCase
                 ),
             )),
             array(array("2016-06-22.2"), array(
-                "warning" => array(
+                "notice" => array(
                     AbstractMigrationTool::MESSAGE_FOUND_UNSUPPORTED_FILE_PATH,
                 ),
                 "info" => array(
@@ -198,7 +195,7 @@ class AbstractMigrationToolTest extends TestCase
                 )
             )),
             array(array("2016-06-22.3"), array(
-                "warning" => array(
+                "notice" => array(
                     AbstractMigrationTool::MESSAGE_FOUND_UNSUPPORTED_FILE_PATH,
                 ),
                 "info" => array(
@@ -215,7 +212,7 @@ class AbstractMigrationToolTest extends TestCase
                 ),
             )),
             array(array("2016-06-22.1", "2016-06-22.3"), array(
-                "warning" => array(
+                "notice" => array(
                     AbstractMigrationTool::MESSAGE_FOUND_UNSUPPORTED_FILE_PATH,
                 ),
                 "info" => array(
@@ -232,7 +229,7 @@ class AbstractMigrationToolTest extends TestCase
                 ),
             )),
             array(array("2016-06-22.2", "2016-06-22.3"), array(
-                "warning" => array(
+                "notice" => array(
                     AbstractMigrationTool::MESSAGE_FOUND_UNSUPPORTED_FILE_PATH,
                 ),
                 "info" => array(

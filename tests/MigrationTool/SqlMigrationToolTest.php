@@ -26,7 +26,7 @@ class SqlMigrationToolTest extends TestCase
     {
         $pdo = $this->getPDO();
         $tool = $this->getTool($pdo);
-        @$tool->migrate();
+        $tool->migrate();
 
         $this->invokeMethod($tool, "createMigrationTable");
 
@@ -42,7 +42,7 @@ class SqlMigrationToolTest extends TestCase
     {
         $pdo = $this->getPDO();
         $tool = $this->getTool($pdo);
-        @$tool->migrate();
+        $tool->migrate();
 
         $this->invokeMethod($tool, "registerMigrationFile", array(
             __DIR__ . "/SqlMigrationToolTest/migrations/2016-06-22.2 - Ignored migration.ext"
@@ -71,7 +71,7 @@ class SqlMigrationToolTest extends TestCase
     {
         $pdo = $this->getPDO();
         $tool = $this->getTool($pdo);
-        @$tool->migrate();
+        $tool->migrate();
 
         $this->assertEquals(
             $expectedResult,
@@ -97,7 +97,7 @@ class SqlMigrationToolTest extends TestCase
     {
         $pdo = $this->getPDO();
         $tool = $this->getTool($pdo);
-        @$tool->migrate();
+        $tool->migrate();
 
         $this->invokeMethod($tool, "applyMigrationFile", array(
             __DIR__ . "/SqlMigrationToolTest/SQLs/create_table.sql"
@@ -129,7 +129,7 @@ class SqlMigrationToolTest extends TestCase
                 __DIR__ . "/SqlMigrationToolTest/migrations/2016-06-22.1 - First migration.sql",
                 __DIR__ . "/SqlMigrationToolTest/migrations/2016-06-22.3 - Second migration.sql"
             ),
-            @$this->invokeMethod($tool, "getMigrationFiles")
+            $this->invokeMethod($tool, "getMigrationFiles")
         );
     }
 
@@ -139,7 +139,7 @@ class SqlMigrationToolTest extends TestCase
         $tool = $this->getTool($pdo, __DIR__ . "/SqlMigrationToolTest/SQLs");
 
         try {
-            @$tool->migrate();
+            $tool->migrate();
             $this->fail();
         } catch (MigrationException $ignored) {
             // Ignored exception
@@ -169,7 +169,7 @@ class SqlMigrationToolTest extends TestCase
         $log = array();
         $pdo = $this->getPDO();
         $tool = $this->getTool($pdo);
-        @$tool->migrate();
+        $tool->migrate();
         $tool->setLogger($this->getLogger($log));
 
         try {
