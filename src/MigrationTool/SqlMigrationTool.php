@@ -19,8 +19,6 @@ abstract class SqlMigrationTool extends AbstractMigrationTool
     const MESSAGE_COULD_NOT_CREATE_TABLE_NAME = "Could not create migration table [name='%s']";
     const MESSAGE_CREATED_MIGRATION_TABLE_NAME = "Created migration table [name='%s']";
     const MESSAGE_COULD_NOT_REGISTER_MIGRATION_ID = "Could not register migration [id='%s']";
-    const MESSAGE_MIGRATION_REGISTERED_ID = "Migration registered [id='%s']";
-    const MESSAGE_MIGRATION_IS_APPLIED_ID_APPLIED = "Migration is applied [id='%s', applied=%s]";
     const MESSAGE_COULD_NOT_READ_MIGRATION_FILE_PATH = "Could not read migration file [path='%s']";
     const MESSAGE_YOU_HAVE_AN_ERROR_IN_YOUR_SQL_SYNTAX_PATH = "You have an error in your SQL syntax [path='%s']";
 
@@ -118,15 +116,6 @@ abstract class SqlMigrationTool extends AbstractMigrationTool
                 )
             );
         }
-
-        if ($this->getLogger()) {
-            $this->getLogger()->debug(
-                sprintf(
-                    self::MESSAGE_MIGRATION_REGISTERED_ID,
-                    $migrationId
-                )
-            );
-        }
     }
 
     /**
@@ -139,16 +128,6 @@ abstract class SqlMigrationTool extends AbstractMigrationTool
         $migrationId = $this->getMigrationId($pathToMigrationFile);
         $statement->execute(array("id" => $migrationId));
         $isApplied = $statement->fetch() !== false;
-
-        if ($this->getLogger()) {
-            $this->getLogger()->debug(
-                sprintf(
-                    self::MESSAGE_MIGRATION_IS_APPLIED_ID_APPLIED,
-                    $migrationId,
-                    var_export($isApplied, true)
-                )
-            );
-        }
 
         return $isApplied;
     }

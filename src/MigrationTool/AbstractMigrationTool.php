@@ -17,10 +17,8 @@ abstract class AbstractMigrationTool implements MigrationToolInterface, LoggerAw
 {
     const MIGRATION_FILE_PATTERN = '/^.*$/i';
 
-    const MESSAGE_MIGRATION_ID_EXTRACTED_PATH_ID = "Migration id extracted [path='%s', id='%s']";
     const MESSAGE_FOUND_UNSUPPORTED_FILE_PATH = "Found unsupported file [path='%s']";
     const MESSAGE_FOUND_MIGRATION_FILES_COUNT = "Found migration files [count=%d]";
-    const MESSAGE_APPLYING_MIGRATION_FILE_PATH = "Applying migration file [path='%s']";
     const MESSAGE_MIGRATION_FILE_APPLIED_PATH = "Migration file applied [path='%s']";
     const MESSAGE_THERE_IS_NOTHING_TO_MIGRATE_CLASS = "There is nothing to migrate [class='%s']";
     const MESSAGE_DETECTED_GAPE_BEFORE_MIGRATION_ID = "Detected gape before migration [id='%s']\nFiles to migrate:\n\t%s";
@@ -84,15 +82,6 @@ abstract class AbstractMigrationTool implements MigrationToolInterface, LoggerAw
             }
         } else {
             foreach ($migrationFilesToMigrate as $migrationFile) {
-                if ($this->getLogger()) {
-                    $this->getLogger()->debug(
-                        sprintf(
-                            self::MESSAGE_APPLYING_MIGRATION_FILE_PATH,
-                            $migrationFile
-                        )
-                    );
-                }
-
                 $this->applyMigrationFile($migrationFile);
 
                 if ($this->getLogger()) {
@@ -153,19 +142,7 @@ abstract class AbstractMigrationTool implements MigrationToolInterface, LoggerAw
     {
         $fileInfo = new \SplFileInfo($pathToMigrationFile);
         $basenameParts = explode(" ", $fileInfo->getBasename(".{$fileInfo->getExtension()}"));
-        $migrationId =  $basenameParts[0];
-
-        if ($this->getLogger()) {
-            $this->getLogger()->debug(
-                sprintf(
-                    self::MESSAGE_MIGRATION_ID_EXTRACTED_PATH_ID,
-                    $pathToMigrationFile,
-                    $migrationId
-                )
-            );
-        }
-
-        return $migrationId;
+        return $basenameParts[0];
     }
 
     /**

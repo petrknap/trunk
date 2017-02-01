@@ -199,10 +199,6 @@ class SqlMigrationToolTest extends TestCase
                     __DIR__ . "/SqlMigrationToolTest/migrations/2016-06-22.1 - First migration.sql",
                 ),
                 array(
-                    "debug" => array(
-                        SqlMigrationTool::MESSAGE_MIGRATION_ID_EXTRACTED_PATH_ID,
-                        SqlMigrationTool::MESSAGE_MIGRATION_ID_EXTRACTED_PATH_ID,
-                    ),
                     "critical" => array(
                         SqlMigrationTool::MESSAGE_COULD_NOT_REGISTER_MIGRATION_ID,
                     ),
@@ -214,10 +210,6 @@ class SqlMigrationToolTest extends TestCase
                     __DIR__ . "/SqlMigrationToolTest/SQLs/create_table.sql",
                 ),
                 array(
-                    "debug" => array(
-                        SqlMigrationTool::MESSAGE_MIGRATION_ID_EXTRACTED_PATH_ID,
-                        SqlMigrationTool::MESSAGE_MIGRATION_REGISTERED_ID,
-                    ),
                 ),
             ),
             array(
@@ -226,10 +218,6 @@ class SqlMigrationToolTest extends TestCase
                     __DIR__ . "/SqlMigrationToolTest/migrations/2016-06-22.1 - First migration.sql",
                 ),
                 array(
-                    "debug" => array(
-                        SqlMigrationTool::MESSAGE_MIGRATION_ID_EXTRACTED_PATH_ID,
-                        SqlMigrationTool::MESSAGE_MIGRATION_IS_APPLIED_ID_APPLIED,
-                    ),
                 ),
             ),
             array(
@@ -249,10 +237,6 @@ class SqlMigrationToolTest extends TestCase
                     __DIR__ . "/SqlMigrationToolTest/SQLs/create_table.sql",
                 ),
                 array(
-                    "debug" => array(
-                        SqlMigrationTool::MESSAGE_MIGRATION_ID_EXTRACTED_PATH_ID,
-                        SqlMigrationTool::MESSAGE_MIGRATION_REGISTERED_ID,
-                    ),
                 ),
             ),
         );

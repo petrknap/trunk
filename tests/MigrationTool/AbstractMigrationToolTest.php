@@ -118,17 +118,6 @@ class AbstractMigrationToolTest extends TestCase
                     AbstractMigrationTool::MESSAGE_MIGRATION_FILE_APPLIED_PATH,
                     AbstractMigrationTool::MESSAGE_MIGRATION_FILE_APPLIED_PATH,
                 ),
-                "debug" => array(
-                    AbstractMigrationTool::MESSAGE_MIGRATION_ID_EXTRACTED_PATH_ID,
-                    AbstractMigrationTool::MESSAGE_MIGRATION_ID_EXTRACTED_PATH_ID,
-                    AbstractMigrationTool::MESSAGE_MIGRATION_ID_EXTRACTED_PATH_ID,
-                    AbstractMigrationTool::MESSAGE_APPLYING_MIGRATION_FILE_PATH,
-                    AbstractMigrationTool::MESSAGE_MIGRATION_ID_EXTRACTED_PATH_ID,
-                    AbstractMigrationTool::MESSAGE_APPLYING_MIGRATION_FILE_PATH,
-                    AbstractMigrationTool::MESSAGE_MIGRATION_ID_EXTRACTED_PATH_ID,
-                    AbstractMigrationTool::MESSAGE_APPLYING_MIGRATION_FILE_PATH,
-                    AbstractMigrationTool::MESSAGE_MIGRATION_ID_EXTRACTED_PATH_ID,
-                ),
             )),
             array(array("2016-06-22.1"), array(
                 "notice" => array(
@@ -139,15 +128,6 @@ class AbstractMigrationToolTest extends TestCase
                     AbstractMigrationTool::MESSAGE_MIGRATION_FILE_APPLIED_PATH,
                     AbstractMigrationTool::MESSAGE_MIGRATION_FILE_APPLIED_PATH,
                 ),
-                "debug" => array(
-                    AbstractMigrationTool::MESSAGE_MIGRATION_ID_EXTRACTED_PATH_ID,
-                    AbstractMigrationTool::MESSAGE_MIGRATION_ID_EXTRACTED_PATH_ID,
-                    AbstractMigrationTool::MESSAGE_MIGRATION_ID_EXTRACTED_PATH_ID,
-                    AbstractMigrationTool::MESSAGE_APPLYING_MIGRATION_FILE_PATH,
-                    AbstractMigrationTool::MESSAGE_MIGRATION_ID_EXTRACTED_PATH_ID,
-                    AbstractMigrationTool::MESSAGE_APPLYING_MIGRATION_FILE_PATH,
-                    AbstractMigrationTool::MESSAGE_MIGRATION_ID_EXTRACTED_PATH_ID,
-                ),
             )),
             array(array("2016-06-22.1", "2016-06-22.2"), array(
                 "notice" => array(
@@ -156,13 +136,6 @@ class AbstractMigrationToolTest extends TestCase
                 "info" => array(
                     AbstractMigrationTool::MESSAGE_FOUND_MIGRATION_FILES_COUNT,
                     AbstractMigrationTool::MESSAGE_MIGRATION_FILE_APPLIED_PATH,
-                ),
-                "debug" => array(
-                    AbstractMigrationTool::MESSAGE_MIGRATION_ID_EXTRACTED_PATH_ID,
-                    AbstractMigrationTool::MESSAGE_MIGRATION_ID_EXTRACTED_PATH_ID,
-                    AbstractMigrationTool::MESSAGE_MIGRATION_ID_EXTRACTED_PATH_ID,
-                    AbstractMigrationTool::MESSAGE_APPLYING_MIGRATION_FILE_PATH,
-                    AbstractMigrationTool::MESSAGE_MIGRATION_ID_EXTRACTED_PATH_ID,
                 ),
             )),
             array(array("2016-06-22.1", "2016-06-22.2", "2016-06-22.3"), array(
@@ -173,11 +146,6 @@ class AbstractMigrationToolTest extends TestCase
                 "info" => array(
                     AbstractMigrationTool::MESSAGE_FOUND_MIGRATION_FILES_COUNT,
                 ),
-                "debug" => array(
-                    AbstractMigrationTool::MESSAGE_MIGRATION_ID_EXTRACTED_PATH_ID,
-                    AbstractMigrationTool::MESSAGE_MIGRATION_ID_EXTRACTED_PATH_ID,
-                    AbstractMigrationTool::MESSAGE_MIGRATION_ID_EXTRACTED_PATH_ID,
-                ),
             )),
             array(array("2016-06-22.2"), array(
                 "notice" => array(
@@ -185,11 +153,6 @@ class AbstractMigrationToolTest extends TestCase
                 ),
                 "info" => array(
                     AbstractMigrationTool::MESSAGE_FOUND_MIGRATION_FILES_COUNT,
-                ),
-                "debug" => array(
-                    AbstractMigrationTool::MESSAGE_MIGRATION_ID_EXTRACTED_PATH_ID,
-                    AbstractMigrationTool::MESSAGE_MIGRATION_ID_EXTRACTED_PATH_ID,
-                    AbstractMigrationTool::MESSAGE_MIGRATION_ID_EXTRACTED_PATH_ID,
                 ),
                 "critical" => array(
                     AbstractMigrationTool::MESSAGE_DETECTED_GAPE_BEFORE_MIGRATION_ID,
@@ -202,12 +165,6 @@ class AbstractMigrationToolTest extends TestCase
                 "info" => array(
                     AbstractMigrationTool::MESSAGE_FOUND_MIGRATION_FILES_COUNT,
                 ),
-                "debug" => array(
-                    AbstractMigrationTool::MESSAGE_MIGRATION_ID_EXTRACTED_PATH_ID,
-                    AbstractMigrationTool::MESSAGE_MIGRATION_ID_EXTRACTED_PATH_ID,
-                    AbstractMigrationTool::MESSAGE_MIGRATION_ID_EXTRACTED_PATH_ID,
-                    AbstractMigrationTool::MESSAGE_MIGRATION_ID_EXTRACTED_PATH_ID,
-                ),
                 "critical" => array(
                     AbstractMigrationTool::MESSAGE_DETECTED_GAPE_BEFORE_MIGRATION_ID,
                 ),
@@ -219,12 +176,6 @@ class AbstractMigrationToolTest extends TestCase
                 "info" => array(
                     AbstractMigrationTool::MESSAGE_FOUND_MIGRATION_FILES_COUNT,
                 ),
-                "debug" => array(
-                    AbstractMigrationTool::MESSAGE_MIGRATION_ID_EXTRACTED_PATH_ID,
-                    AbstractMigrationTool::MESSAGE_MIGRATION_ID_EXTRACTED_PATH_ID,
-                    AbstractMigrationTool::MESSAGE_MIGRATION_ID_EXTRACTED_PATH_ID,
-                    AbstractMigrationTool::MESSAGE_MIGRATION_ID_EXTRACTED_PATH_ID,
-                ),
                 "critical" => array(
                     AbstractMigrationTool::MESSAGE_DETECTED_GAPE_BEFORE_MIGRATION_ID,
                 ),
@@ -235,11 +186,6 @@ class AbstractMigrationToolTest extends TestCase
                 ),
                 "info" => array(
                     AbstractMigrationTool::MESSAGE_FOUND_MIGRATION_FILES_COUNT,
-                ),
-                "debug" => array(
-                    AbstractMigrationTool::MESSAGE_MIGRATION_ID_EXTRACTED_PATH_ID,
-                    AbstractMigrationTool::MESSAGE_MIGRATION_ID_EXTRACTED_PATH_ID,
-                    AbstractMigrationTool::MESSAGE_MIGRATION_ID_EXTRACTED_PATH_ID,
                 ),
                 "critical" => array(
                     AbstractMigrationTool::MESSAGE_DETECTED_GAPE_BEFORE_MIGRATION_ID,
