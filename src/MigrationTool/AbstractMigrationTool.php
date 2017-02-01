@@ -22,6 +22,7 @@ abstract class AbstractMigrationTool implements MigrationToolInterface, LoggerAw
     const MESSAGE_FOUND_MIGRATION_FILES_COUNT = "Found migration files [count=%d]";
     const MESSAGE_APPLYING_MIGRATION_FILE_PATH = "Applying migration file [path='%s']";
     const MESSAGE_MIGRATION_FILE_APPLIED_PATH = "Migration file applied [path='%s']";
+    const MESSAGE_THERE_IS_NOTHING_TO_MIGRATE_CLASS = "There is nothing to migrate [class='%s']";
     const MESSAGE_DETECTED_GAPE_BEFORE_MIGRATION_ID = "Detected gape before migration [id='%s']\nFiles to migrate:\n\t%s";
 
     /**
@@ -72,25 +73,36 @@ abstract class AbstractMigrationTool implements MigrationToolInterface, LoggerAw
             }
         }
 
-        foreach ($migrationFilesToMigrate as $migrationFile) {
+        if (empty($migrationFilesToMigrate)) {
             if ($this->getLogger()) {
-                $this->getLogger()->debug(
+                $this->getLogger()->notice(
                     sprintf(
-                        self::MESSAGE_APPLYING_MIGRATION_FILE_PATH,
-                        $migrationFile
+                        self::MESSAGE_THERE_IS_NOTHING_TO_MIGRATE_CLASS,
+                        get_called_class()
                     )
                 );
             }
+        } else {
+            foreach ($migrationFilesToMigrate as $migrationFile) {
+                if ($this->getLogger()) {
+                    $this->getLogger()->debug(
+                        sprintf(
+                            self::MESSAGE_APPLYING_MIGRATION_FILE_PATH,
+                            $migrationFile
+                        )
+                    );
+                }
 
-            $this->applyMigrationFile($migrationFile);
+                $this->applyMigrationFile($migrationFile);
 
-            if ($this->getLogger()) {
-                $this->getLogger()->info(
-                    sprintf(
-                        self::MESSAGE_MIGRATION_FILE_APPLIED_PATH,
-                        $migrationFile
-                    )
-                );
+                if ($this->getLogger()) {
+                    $this->getLogger()->info(
+                        sprintf(
+                            self::MESSAGE_MIGRATION_FILE_APPLIED_PATH,
+                            $migrationFile
+                        )
+                    );
+                }
             }
         }
     }

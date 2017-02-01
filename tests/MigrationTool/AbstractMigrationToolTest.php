@@ -168,6 +168,7 @@ class AbstractMigrationToolTest extends TestCase
             array(array("2016-06-22.1", "2016-06-22.2", "2016-06-22.3"), array(
                 "notice" => array(
                     AbstractMigrationTool::MESSAGE_FOUND_UNSUPPORTED_FILE_PATH,
+                    AbstractMigrationTool::MESSAGE_THERE_IS_NOTHING_TO_MIGRATE_CLASS,
                 ),
                 "info" => array(
                     AbstractMigrationTool::MESSAGE_FOUND_MIGRATION_FILES_COUNT,
