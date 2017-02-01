@@ -160,6 +160,7 @@ class SqlMigrationToolTest extends TestCase
 
     /**
      * @dataProvider dataLoggingWorks
+     * @runInSeparateProcess
      * @param string $method
      * @param array $arguments
      * @param array $expectedLog

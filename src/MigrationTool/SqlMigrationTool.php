@@ -51,16 +51,16 @@ abstract class SqlMigrationTool extends AbstractMigrationTool
     protected function createMigrationTable()
     {
         /** @noinspection SqlNoDataSourceInspection,SqlDialectInspection */
-        if (
-            $this->pdo->exec(
-                "CREATE TABLE IF NOT EXISTS {$this->migrationTableName}" .
-                "(" .
-                "id VARCHAR(16) NOT NULL," .
-                "applied DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP," .
-                "PRIMARY KEY (id)" .
-                ")"
-            ) === false
-        ) {
+        $result = $this->pdo->exec(
+            "CREATE TABLE IF NOT EXISTS {$this->migrationTableName}" .
+            "(" .
+            "id VARCHAR(16) NOT NULL," .
+            "applied DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP," .
+            "PRIMARY KEY (id)" .
+            ")"
+        );
+
+        if ($result === false) {
             $message = sprintf(
                 self::MESSAGE_COULD_NOT_CREATE_TABLE_NAME,
                 $this->migrationTableName
@@ -79,7 +79,7 @@ abstract class SqlMigrationTool extends AbstractMigrationTool
             );
         }
 
-        if ($this->getLogger()) {
+        if ($result > 0 && $this->getLogger()) {
             $this->getLogger()->debug(
                 sprintf(
                     self::MESSAGE_CREATED_MIGRATION_TABLE_NAME,
