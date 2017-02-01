@@ -18,9 +18,9 @@ abstract class AbstractMigrationTool implements MigrationToolInterface, LoggerAw
     const MIGRATION_FILE_PATTERN = '/^.*$/i';
 
     const MESSAGE_FOUND_UNSUPPORTED_FILE_PATH = "Found unsupported file [path='%s']";
-    const MESSAGE_FOUND_MIGRATION_FILES_COUNT = "Found migration files [count=%d]";
+    const MESSAGE_FOUND_MIGRATION_FILES_COUNT_PATH_PATTERN = "Found migration files [count=%d, path='%s', pattern='%s']";
     const MESSAGE_MIGRATION_FILE_APPLIED_PATH = "Migration file applied [path='%s']";
-    const MESSAGE_THERE_IS_NOTHING_TO_MIGRATE_CLASS = "There is nothing to migrate [class='%s']";
+    const MESSAGE_THERE_IS_NOTHING_TO_MIGRATE_PATH_PATTERN = "There is nothing to migrate [path='%s', pattern='%s']";
     const MESSAGE_DETECTED_GAPE_BEFORE_MIGRATION_ID = "Detected gape before migration [id='%s']\nFiles to migrate:\n\t%s";
 
     /**
@@ -75,8 +75,9 @@ abstract class AbstractMigrationTool implements MigrationToolInterface, LoggerAw
             if ($this->getLogger()) {
                 $this->getLogger()->notice(
                     sprintf(
-                        self::MESSAGE_THERE_IS_NOTHING_TO_MIGRATE_CLASS,
-                        get_called_class()
+                        self::MESSAGE_THERE_IS_NOTHING_TO_MIGRATE_PATH_PATTERN,
+                        $this->getPathToDirectoryWithMigrationFiles(),
+                        static::MIGRATION_FILE_PATTERN
                     )
                 );
             }
@@ -125,8 +126,10 @@ abstract class AbstractMigrationTool implements MigrationToolInterface, LoggerAw
         if ($this->getLogger()) {
             $this->getLogger()->info(
                 sprintf(
-                    self::MESSAGE_FOUND_MIGRATION_FILES_COUNT,
-                    count($migrationFiles)
+                    self::MESSAGE_FOUND_MIGRATION_FILES_COUNT_PATH_PATTERN,
+                    count($migrationFiles),
+                    $this->getPathToDirectoryWithMigrationFiles(),
+                    static::MIGRATION_FILE_PATTERN
                 )
             );
         }
