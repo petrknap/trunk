@@ -110,85 +110,89 @@ class AbstractMigrationToolTest extends TestCase
         return array(
             array(array(), array(
                 "notice" => array(
-                    AbstractMigrationTool::MESSAGE_FOUND_UNSUPPORTED_FILE_PATH,
+                    AbstractMigrationTool::MESSAGE__FOUND_UNSUPPORTED_FILE__PATH,
                 ),
                 "info" => array(
-                    AbstractMigrationTool::MESSAGE_FOUND_MIGRATION_FILES_COUNT_PATH_PATTERN,
-                    AbstractMigrationTool::MESSAGE_MIGRATION_FILE_APPLIED_PATH,
-                    AbstractMigrationTool::MESSAGE_MIGRATION_FILE_APPLIED_PATH,
-                    AbstractMigrationTool::MESSAGE_MIGRATION_FILE_APPLIED_PATH,
+                    AbstractMigrationTool::MESSAGE__FOUND_MIGRATION_FILES__COUNT_PATH_PATTERN,
+                    AbstractMigrationTool::MESSAGE__MIGRATION_FILE_APPLIED__PATH,
+                    AbstractMigrationTool::MESSAGE__MIGRATION_FILE_APPLIED__PATH,
+                    AbstractMigrationTool::MESSAGE__MIGRATION_FILE_APPLIED__PATH,
+                    AbstractMigrationTool::MESSAGE__DONE,
                 ),
             )),
             array(array("2016-06-22.1"), array(
                 "notice" => array(
-                    AbstractMigrationTool::MESSAGE_FOUND_UNSUPPORTED_FILE_PATH,
+                    AbstractMigrationTool::MESSAGE__FOUND_UNSUPPORTED_FILE__PATH,
                 ),
                 "info" => array(
-                    AbstractMigrationTool::MESSAGE_FOUND_MIGRATION_FILES_COUNT_PATH_PATTERN,
-                    AbstractMigrationTool::MESSAGE_MIGRATION_FILE_APPLIED_PATH,
-                    AbstractMigrationTool::MESSAGE_MIGRATION_FILE_APPLIED_PATH,
+                    AbstractMigrationTool::MESSAGE__FOUND_MIGRATION_FILES__COUNT_PATH_PATTERN,
+                    AbstractMigrationTool::MESSAGE__MIGRATION_FILE_APPLIED__PATH,
+                    AbstractMigrationTool::MESSAGE__MIGRATION_FILE_APPLIED__PATH,
+                    AbstractMigrationTool::MESSAGE__DONE,
                 ),
             )),
             array(array("2016-06-22.1", "2016-06-22.2"), array(
                 "notice" => array(
-                    AbstractMigrationTool::MESSAGE_FOUND_UNSUPPORTED_FILE_PATH,
+                    AbstractMigrationTool::MESSAGE__FOUND_UNSUPPORTED_FILE__PATH,
                 ),
                 "info" => array(
-                    AbstractMigrationTool::MESSAGE_FOUND_MIGRATION_FILES_COUNT_PATH_PATTERN,
-                    AbstractMigrationTool::MESSAGE_MIGRATION_FILE_APPLIED_PATH,
+                    AbstractMigrationTool::MESSAGE__FOUND_MIGRATION_FILES__COUNT_PATH_PATTERN,
+                    AbstractMigrationTool::MESSAGE__MIGRATION_FILE_APPLIED__PATH,
+                    AbstractMigrationTool::MESSAGE__DONE,
                 ),
             )),
             array(array("2016-06-22.1", "2016-06-22.2", "2016-06-22.3"), array(
                 "notice" => array(
-                    AbstractMigrationTool::MESSAGE_FOUND_UNSUPPORTED_FILE_PATH,
-                    AbstractMigrationTool::MESSAGE_THERE_IS_NOTHING_TO_MIGRATE_PATH_PATTERN,
+                    AbstractMigrationTool::MESSAGE__FOUND_UNSUPPORTED_FILE__PATH,
+                    AbstractMigrationTool::MESSAGE__THERE_IS_NOTHING_TO_MIGRATE__PATH_PATTERN,
                 ),
                 "info" => array(
-                    AbstractMigrationTool::MESSAGE_FOUND_MIGRATION_FILES_COUNT_PATH_PATTERN,
+                    AbstractMigrationTool::MESSAGE__FOUND_MIGRATION_FILES__COUNT_PATH_PATTERN,
+                    AbstractMigrationTool::MESSAGE__DONE,
                 ),
             )),
             array(array("2016-06-22.2"), array(
                 "notice" => array(
-                    AbstractMigrationTool::MESSAGE_FOUND_UNSUPPORTED_FILE_PATH,
+                    AbstractMigrationTool::MESSAGE__FOUND_UNSUPPORTED_FILE__PATH,
                 ),
                 "info" => array(
-                    AbstractMigrationTool::MESSAGE_FOUND_MIGRATION_FILES_COUNT_PATH_PATTERN,
+                    AbstractMigrationTool::MESSAGE__FOUND_MIGRATION_FILES__COUNT_PATH_PATTERN,
                 ),
                 "critical" => array(
-                    AbstractMigrationTool::MESSAGE_DETECTED_GAPE_BEFORE_MIGRATION_ID,
+                    AbstractMigrationTool::MESSAGE__DETECTED_GAPE_BEFORE_MIGRATION__ID,
                 )
             )),
             array(array("2016-06-22.3"), array(
                 "notice" => array(
-                    AbstractMigrationTool::MESSAGE_FOUND_UNSUPPORTED_FILE_PATH,
+                    AbstractMigrationTool::MESSAGE__FOUND_UNSUPPORTED_FILE__PATH,
                 ),
                 "info" => array(
-                    AbstractMigrationTool::MESSAGE_FOUND_MIGRATION_FILES_COUNT_PATH_PATTERN,
+                    AbstractMigrationTool::MESSAGE__FOUND_MIGRATION_FILES__COUNT_PATH_PATTERN,
                 ),
                 "critical" => array(
-                    AbstractMigrationTool::MESSAGE_DETECTED_GAPE_BEFORE_MIGRATION_ID,
+                    AbstractMigrationTool::MESSAGE__DETECTED_GAPE_BEFORE_MIGRATION__ID,
                 ),
             )),
             array(array("2016-06-22.1", "2016-06-22.3"), array(
                 "notice" => array(
-                    AbstractMigrationTool::MESSAGE_FOUND_UNSUPPORTED_FILE_PATH,
+                    AbstractMigrationTool::MESSAGE__FOUND_UNSUPPORTED_FILE__PATH,
                 ),
                 "info" => array(
-                    AbstractMigrationTool::MESSAGE_FOUND_MIGRATION_FILES_COUNT_PATH_PATTERN,
+                    AbstractMigrationTool::MESSAGE__FOUND_MIGRATION_FILES__COUNT_PATH_PATTERN,
                 ),
                 "critical" => array(
-                    AbstractMigrationTool::MESSAGE_DETECTED_GAPE_BEFORE_MIGRATION_ID,
+                    AbstractMigrationTool::MESSAGE__DETECTED_GAPE_BEFORE_MIGRATION__ID,
                 ),
             )),
             array(array("2016-06-22.2", "2016-06-22.3"), array(
                 "notice" => array(
-                    AbstractMigrationTool::MESSAGE_FOUND_UNSUPPORTED_FILE_PATH,
+                    AbstractMigrationTool::MESSAGE__FOUND_UNSUPPORTED_FILE__PATH,
                 ),
                 "info" => array(
-                    AbstractMigrationTool::MESSAGE_FOUND_MIGRATION_FILES_COUNT_PATH_PATTERN,
+                    AbstractMigrationTool::MESSAGE__FOUND_MIGRATION_FILES__COUNT_PATH_PATTERN,
                 ),
                 "critical" => array(
-                    AbstractMigrationTool::MESSAGE_DETECTED_GAPE_BEFORE_MIGRATION_ID,
+                    AbstractMigrationTool::MESSAGE__DETECTED_GAPE_BEFORE_MIGRATION__ID,
                 ),
             )),
         );

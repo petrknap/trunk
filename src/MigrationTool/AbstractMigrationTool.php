@@ -17,16 +17,37 @@ abstract class AbstractMigrationTool implements MigrationToolInterface, LoggerAw
 {
     const MIGRATION_FILE_PATTERN = '/^.*$/i';
 
-    const MESSAGE_FOUND_UNSUPPORTED_FILE_PATH = "Found unsupported file [path='%s']";
-    const MESSAGE_FOUND_MIGRATION_FILES_COUNT_PATH_PATTERN = "Found migration files [count=%d, path='%s', pattern='%s']";
-    const MESSAGE_MIGRATION_FILE_APPLIED_PATH = "Migration file applied [path='%s']";
-    const MESSAGE_THERE_IS_NOTHING_TO_MIGRATE_PATH_PATTERN = "There is nothing to migrate [path='%s', pattern='%s']";
-    const MESSAGE_DETECTED_GAPE_BEFORE_MIGRATION_ID = "Detected gape before migration [id='%s']\nFiles to migrate:\n\t%s";
+    const MESSAGE__FOUND_UNSUPPORTED_FILE__PATH = "Found unsupported file {path}";
+    const MESSAGE__FOUND_MIGRATION_FILES__COUNT_PATH_PATTERN = "Found {count} migration files in {path} matching {pattern}";
+    const MESSAGE__MIGRATION_FILE_APPLIED__PATH = "Migration file {path} applied";
+    const MESSAGE__THERE_IS_NOTHING_TO_MIGRATE__PATH_PATTERN = "In {path} is nothing matching {pattern} to migrate";
+    const MESSAGE__DETECTED_GAPE_BEFORE_MIGRATION__ID = "Detected gape before migration {id}";
+    const MESSAGE__DONE = "Database is now up-to-date";
 
     /**
      * @var LoggerInterface
      */
     private $logger;
+
+    /**
+     * Interpolates context values into the message placeholders for exceptions
+     *
+     * @param string $message
+     * @param array $context
+     * @return string
+     */
+    protected function interpolate($message, array $context = array())
+    {
+        $replace = array();
+        foreach ($context as $key => $val) {
+            // check that the value can be casted to string
+            if (!is_array($val) && (!is_object($val) || method_exists($val, '__toString'))) {
+                $replace['{' . $key . '}'] = $val;
+            }
+        }
+
+        return strtr($message, $replace);
+    }
 
     /**
      * @inheritdoc
@@ -54,17 +75,27 @@ abstract class AbstractMigrationTool implements MigrationToolInterface, LoggerAw
         foreach ($migrationFiles as $migrationFile) {
             if ($this->isMigrationApplied($migrationFile)) {
                 if (!empty($migrationFilesToMigrate)) {
-                    $message = sprintf(
-                        self::MESSAGE_DETECTED_GAPE_BEFORE_MIGRATION_ID,
-                        $this->getMigrationId($migrationFile),
-                        implode("\n\t", $migrationFilesToMigrate)
+                    $context = array(
+                        "id" => $this->getMigrationId($migrationFile)
                     );
 
                     if ($this->getLogger()) {
-                        $this->getLogger()->critical($message);
+                        $this->getLogger()->critical(
+                            self::MESSAGE__DETECTED_GAPE_BEFORE_MIGRATION__ID,
+                            $context
+                        );
                     }
 
-                    throw new MismatchException($message);
+                    throw new MismatchException(
+                        sprintf(
+                            "%s\nFiles to migrate:\n\t%s",
+                            $this->interpolate(
+                                self::MESSAGE__DETECTED_GAPE_BEFORE_MIGRATION__ID,
+                                $context
+                            ),
+                            implode("\n\t", $migrationFilesToMigrate)
+                        )
+                    );
                 }
             } else {
                 $migrationFilesToMigrate[] = $migrationFile;
@@ -74,10 +105,10 @@ abstract class AbstractMigrationTool implements MigrationToolInterface, LoggerAw
         if (empty($migrationFilesToMigrate)) {
             if ($this->getLogger()) {
                 $this->getLogger()->notice(
-                    sprintf(
-                        self::MESSAGE_THERE_IS_NOTHING_TO_MIGRATE_PATH_PATTERN,
-                        $this->getPathToDirectoryWithMigrationFiles(),
-                        static::MIGRATION_FILE_PATTERN
+                    self::MESSAGE__THERE_IS_NOTHING_TO_MIGRATE__PATH_PATTERN,
+                    array(
+                        "path" => $this->getPathToDirectoryWithMigrationFiles(),
+                        "pattern" => static::MIGRATION_FILE_PATTERN,
                     )
                 );
             }
@@ -87,13 +118,19 @@ abstract class AbstractMigrationTool implements MigrationToolInterface, LoggerAw
 
                 if ($this->getLogger()) {
                     $this->getLogger()->info(
-                        sprintf(
-                            self::MESSAGE_MIGRATION_FILE_APPLIED_PATH,
-                            $migrationFile
+                        self::MESSAGE__MIGRATION_FILE_APPLIED__PATH,
+                        array(
+                            "path" => $migrationFile,
                         )
                     );
                 }
             }
+        }
+
+        if ($this->getLogger()) {
+            $this->getLogger()->info(
+                self::MESSAGE__DONE
+            );
         }
     }
 
@@ -113,10 +150,10 @@ abstract class AbstractMigrationTool implements MigrationToolInterface, LoggerAw
                     $migrationFiles[] = $fileInfo->getRealPath();
                 } elseif ($this->getLogger()) {
                     $this->getLogger()->notice(
-                        sprintf(
-                            self::MESSAGE_FOUND_UNSUPPORTED_FILE_PATH,
-                            $fileInfo->getRealPath()
-                        )
+                            self::MESSAGE__FOUND_UNSUPPORTED_FILE__PATH,
+                            array(
+                                "path" => $fileInfo->getRealPath(),
+                            )
                     );
                 }
             }
@@ -125,11 +162,11 @@ abstract class AbstractMigrationTool implements MigrationToolInterface, LoggerAw
 
         if ($this->getLogger()) {
             $this->getLogger()->info(
-                sprintf(
-                    self::MESSAGE_FOUND_MIGRATION_FILES_COUNT_PATH_PATTERN,
-                    count($migrationFiles),
-                    $this->getPathToDirectoryWithMigrationFiles(),
-                    static::MIGRATION_FILE_PATTERN
+                self::MESSAGE__FOUND_MIGRATION_FILES__COUNT_PATH_PATTERN,
+                array(
+                    "count" => count($migrationFiles),
+                    "path" => $this->getPathToDirectoryWithMigrationFiles(),
+                    "pattern" => static::MIGRATION_FILE_PATTERN,
                 )
             );
         }

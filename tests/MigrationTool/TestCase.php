@@ -44,10 +44,7 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
         foreach ($expected as $key => $messages) {
             $this->assertCount(count($messages), $actual[$key]);
             foreach ($messages as $message) {
-                $this->assertStringMatchesFormat(
-                    str_replace("%s", "%a", $message),
-                    array_shift($actual[$key])
-                );
+                $this->assertEquals($message, array_shift($actual[$key]));
             }
         }
     }

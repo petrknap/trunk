@@ -10,36 +10,36 @@ class SqlMigrationToolMock extends SqlMigrationTool
     private $nameOfMigrationTable;
     private $pathToDirectoryWithMigrationFiles;
 
-    public function __construct(\PDO $phpDataObject, $nameOfMigrationTable, $pathToDirectoryWithMigrationFiles = null)
+    public function __construct()
     {
-        if ($pathToDirectoryWithMigrationFiles === null) {
-            $pathToDirectoryWithMigrationFiles = __DIR__ . "/migrations";
-        }
-
-        $this->phpDataObject = $phpDataObject;
-        $this->nameOfMigrationTable = $nameOfMigrationTable;
-        $this->pathToDirectoryWithMigrationFiles = $pathToDirectoryWithMigrationFiles;
+        $this->pathToDirectoryWithMigrationFiles = __DIR__ . "/migrations";
     }
 
-    /**
-     * @inheritdoc
-     */
+    public function setPhpDataObject(\PDO $phpDataObject)
+    {
+        $this->phpDataObject = $phpDataObject;
+    }
+
     protected function getPhpDataObject()
     {
         return $this->phpDataObject;
     }
 
-    /**
-     * @inheritdoc
-     */
+    public function setNameOfMigrationTable($nameOfMigrationTable)
+    {
+        $this->nameOfMigrationTable = $nameOfMigrationTable;
+    }
+
     protected function getNameOfMigrationTable()
     {
         return $this->nameOfMigrationTable;
     }
 
-    /**
-     * @inheritdoc
-     */
+    public function setPathToDirectoryWithMigrationFiles($pathToDirectoryWithMigrationFiles)
+    {
+        $this->pathToDirectoryWithMigrationFiles = $pathToDirectoryWithMigrationFiles;
+    }
+
     protected function getPathToDirectoryWithMigrationFiles()
     {
         return $this->pathToDirectoryWithMigrationFiles;
