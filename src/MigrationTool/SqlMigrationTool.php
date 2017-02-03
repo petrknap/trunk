@@ -16,24 +16,18 @@ abstract class SqlMigrationTool extends AbstractMigrationTool
 {
     const MIGRATION_FILE_PATTERN = '/\.sql$/i';
 
-    /**
-     * @var \PDO
-     */
-    private $pdo;
-
-    /**
-     * @var string
-     */
-    private $migrationTableName;
+    const MESSAGE__COULD_NOT_CREATE_TABLE__TABLE = "Could not create migration table {table}";
+    const MESSAGE__CREATED_MIGRATION_TABLE__TABLE = "Created migration table {table}";
+    const MESSAGE__COULD_NOT_REGISTER_MIGRATION__ID = "Could not register migration {id}";
+    const MESSAGE__COULD_NOT_READ_MIGRATION_FILE__PATH = "Could not read migration file {path}";
+    const MESSAGE__COULD_NOT_READ_FROM_TABLE__TABLE = "Could not read from table {table}";
+    const MESSAGE__YOU_HAVE_AN_ERROR_IN_YOUR_SQL_SYNTAX__PATH = "You have an error in your SQL syntax in {path}";
 
     /**
      * @inheritdoc
      */
     public function migrate()
     {
-        $this->pdo = $this->getPhpDataObject();
-        $this->migrationTableName = $this->getNameOfMigrationTable();
-
         $this->createMigrationTable();
 
         parent::migrate();
@@ -45,26 +39,49 @@ abstract class SqlMigrationTool extends AbstractMigrationTool
     protected function createMigrationTable()
     {
         /** @noinspection SqlNoDataSourceInspection,SqlDialectInspection */
-        if (
-            $this->pdo->exec(
-                "CREATE TABLE IF NOT EXISTS {$this->migrationTableName}" .
+        if (false === $this->getPhpDataObject()->exec("SELECT null FROM {$this->getNameOfMigrationTable()} LIMIT 1")) {
+            /** @noinspection SqlNoDataSourceInspection,SqlDialectInspection */
+            $result = $this->getPhpDataObject()->exec(
+                "CREATE TABLE IF NOT EXISTS {$this->getNameOfMigrationTable()}" .
                 "(" .
                 "id VARCHAR(16) NOT NULL," .
                 "applied DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP," .
                 "PRIMARY KEY (id)" .
                 ")"
-            ) === false
-        ) {
-            throw new DatabaseException(
-                sprintf(
-                    "Could not create table [name='%s']",
-                    $this->migrationTableName
-                ),
-                0,
-                new \Exception(
-                    implode(" ", $this->pdo->errorInfo())
-                )
             );
+
+            if ($result === false) {
+                $context = array(
+                    "table" => $this->getNameOfMigrationTable()
+                );
+
+                if ($this->getLogger()) {
+                    $this->getLogger()->critical(
+                        self::MESSAGE__COULD_NOT_CREATE_TABLE__TABLE,
+                        $context
+                    );
+                }
+
+                throw new DatabaseException(
+                    $this->interpolate(
+                        self::MESSAGE__COULD_NOT_CREATE_TABLE__TABLE,
+                        $context
+                    ),
+                    0,
+                    new \Exception(
+                        implode(" ", $this->getPhpDataObject()->errorInfo())
+                    )
+                );
+            }
+
+            if ($this->getLogger()) {
+                $this->getLogger()->debug(
+                    self::MESSAGE__CREATED_MIGRATION_TABLE__TABLE,
+                    array(
+                        "table" => $this->getNameOfMigrationTable(),
+                    )
+                );
+            }
         }
     }
 
@@ -75,16 +92,28 @@ abstract class SqlMigrationTool extends AbstractMigrationTool
     protected function registerMigrationFile($pathToMigrationFile)
     {
         /** @noinspection SqlNoDataSourceInspection,SqlDialectInspection */
-        $statement = $this->pdo->prepare("INSERT INTO {$this->migrationTableName} (id) VALUES (:id)");
-        if ($statement->execute(array("id" => $this->getMigrationId($pathToMigrationFile))) === false) {
+        $statement = $this->getPhpDataObject()->prepare("INSERT INTO {$this->getNameOfMigrationTable()} (id) VALUES (:id)");
+        $migrationId = $this->getMigrationId($pathToMigrationFile);
+        if (false === $statement || false === $statement->execute(array("id" => $migrationId))) {
+            $context = array(
+                "id" => $migrationId
+            );
+
+            if (null != $this->getLogger()) {
+                $this->getLogger()->critical(
+                    self::MESSAGE__COULD_NOT_REGISTER_MIGRATION__ID,
+                    $context
+                );
+            }
+
             throw new DatabaseException(
-                sprintf(
-                    "Could not register migration [id='%s']",
-                    $this->getMigrationId($pathToMigrationFile)
+                $this->interpolate(
+                    self::MESSAGE__COULD_NOT_REGISTER_MIGRATION__ID,
+                    $context
                 ),
                 0,
                 new \Exception(
-                    implode(" ", $this->pdo->errorInfo())
+                    implode(" ", $this->getPhpDataObject()->errorInfo())
                 )
             );
         }
@@ -96,8 +125,27 @@ abstract class SqlMigrationTool extends AbstractMigrationTool
     protected function isMigrationApplied($pathToMigrationFile)
     {
         /** @noinspection SqlNoDataSourceInspection,SqlDialectInspection */
-        $statement = $this->pdo->prepare("SELECT null FROM {$this->migrationTableName} WHERE id = :id");
-        $statement->execute(array("id" => $this->getMigrationId($pathToMigrationFile)));
+        $statement = $this->getPhpDataObject()->prepare("SELECT null FROM {$this->getNameOfMigrationTable()} WHERE id = :id");
+        $migrationId = $this->getMigrationId($pathToMigrationFile);
+        if (false === $statement || false === $statement->execute(array("id" => $migrationId))) {
+            $context = array(
+                "path" => $pathToMigrationFile
+            );
+
+            if ($this->getLogger()) {
+                $this->getLogger()->critical(
+                    self::MESSAGE__COULD_NOT_READ_FROM_TABLE__TABLE,
+                    $context
+                );
+            }
+
+            throw new DatabaseException(
+                $this->interpolate(
+                    self::MESSAGE__COULD_NOT_READ_FROM_TABLE__TABLE,
+                    $context
+                )
+            );
+        }
 
         return $statement->fetch() !== false;
     }
@@ -110,32 +158,54 @@ abstract class SqlMigrationTool extends AbstractMigrationTool
         $migrationData = @file_get_contents($pathToMigrationFile);
 
         if ($migrationData === false) {
+            $context = array(
+                "path" => $pathToMigrationFile
+            );
+
+            if ($this->getLogger()) {
+                $this->getLogger()->critical(
+                    self::MESSAGE__COULD_NOT_READ_MIGRATION_FILE__PATH,
+                    $context
+                );
+            }
+
             throw new MigrationFileException(
-                sprintf(
-                    "Could not read migration file [id='%s']",
-                    $this->getMigrationId($pathToMigrationFile)
+                $this->interpolate(
+                    self::MESSAGE__COULD_NOT_READ_MIGRATION_FILE__PATH,
+                    $context
                 )
             );
         }
 
-        $this->pdo->beginTransaction();
+        $this->getPhpDataObject()->beginTransaction();
 
         try {
-            $result = $this->pdo->exec($migrationData);
+            $result = $this->getPhpDataObject()->exec($migrationData);
         } catch (\Exception $e) {
             $result = $e;
         }
 
         if ($result === false || $result instanceof \Exception) {
             if (!$result/* instanceof \Exception */) {
-                $result = new DatabaseException(implode(" ", $this->pdo->errorInfo()));
+                $result = new DatabaseException(implode(" ", $this->getPhpDataObject()->errorInfo()));
             }
 
-            $this->pdo->rollBack();
+            $this->getPhpDataObject()->rollBack();
+            $context = array(
+                "path" => $pathToMigrationFile,
+            );
+
+            if ($this->getLogger()) {
+                $this->getLogger()->critical(
+                    self::MESSAGE__YOU_HAVE_AN_ERROR_IN_YOUR_SQL_SYNTAX__PATH,
+                    $context
+                );
+            }
+
             throw new MigrationFileException(
-                sprintf(
-                    "You have an error in your SQL syntax [id='%s']",
-                    $this->getMigrationId($pathToMigrationFile)
+                $this->interpolate(
+                    self::MESSAGE__YOU_HAVE_AN_ERROR_IN_YOUR_SQL_SYNTAX__PATH,
+                    $context
                 ),
                 $result->getCode(),
                 $result
@@ -144,7 +214,7 @@ abstract class SqlMigrationTool extends AbstractMigrationTool
 
         $this->registerMigrationFile($pathToMigrationFile);
 
-        $this->pdo->commit();
+        $this->getPhpDataObject()->commit();
     }
 
     /**
