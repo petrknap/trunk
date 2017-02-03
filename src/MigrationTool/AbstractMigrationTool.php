@@ -3,6 +3,8 @@
 namespace PetrKnap\Php\MigrationTool;
 
 use PetrKnap\Php\MigrationTool\Exception\MismatchException;
+use Psr\Log\LoggerAwareInterface;
+use Psr\Log\LoggerInterface;
 
 /**
  * Abstract migration tool
@@ -11,9 +13,57 @@ use PetrKnap\Php\MigrationTool\Exception\MismatchException;
  * @since    2016-06-22
  * @license  https://github.com/petrknap/php-migrationtool/blob/master/LICENSE MIT
  */
-abstract class AbstractMigrationTool implements MigrationToolInterface
+abstract class AbstractMigrationTool implements MigrationToolInterface, LoggerAwareInterface
 {
     const MIGRATION_FILE_PATTERN = '/^.*$/i';
+
+    const MESSAGE__FOUND_UNSUPPORTED_FILE__PATH = "Found unsupported file {path}";
+    const MESSAGE__FOUND_MIGRATION_FILES__COUNT_PATH_PATTERN = "Found {count} migration files in {path} matching {pattern}";
+    const MESSAGE__MIGRATION_FILE_APPLIED__PATH = "Migration file {path} applied";
+    const MESSAGE__THERE_IS_NOTHING_TO_MIGRATE__PATH_PATTERN = "In {path} is nothing matching {pattern} to migrate";
+    const MESSAGE__DETECTED_GAPE_BEFORE_MIGRATION__ID = "Detected gape before migration {id}";
+    const MESSAGE__DONE = "Database is now up-to-date";
+
+    /**
+     * @var LoggerInterface
+     */
+    private $logger;
+
+    /**
+     * Interpolates context values into the message placeholders for exceptions
+     *
+     * @param string $message
+     * @param array $context
+     * @return string
+     */
+    protected function interpolate($message, array $context = array())
+    {
+        $replace = array();
+        foreach ($context as $key => $val) {
+            // check that the value can be casted to string
+            if (!is_array($val) && (!is_object($val) || method_exists($val, '__toString'))) {
+                $replace['{' . $key . '}'] = $val;
+            }
+        }
+
+        return strtr($message, $replace);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function setLogger(LoggerInterface $logger)
+    {
+        $this->logger = $logger;
+    }
+
+    /**
+     * @return LoggerInterface
+     */
+    protected function getLogger()
+    {
+        return $this->logger;
+    }
 
     /**
      * @inheritdoc
@@ -25,10 +75,24 @@ abstract class AbstractMigrationTool implements MigrationToolInterface
         foreach ($migrationFiles as $migrationFile) {
             if ($this->isMigrationApplied($migrationFile)) {
                 if (!empty($migrationFilesToMigrate)) {
+                    $context = array(
+                        "id" => $this->getMigrationId($migrationFile)
+                    );
+
+                    if ($this->getLogger()) {
+                        $this->getLogger()->critical(
+                            self::MESSAGE__DETECTED_GAPE_BEFORE_MIGRATION__ID,
+                            $context
+                        );
+                    }
+
                     throw new MismatchException(
                         sprintf(
-                            "Detected gape before migration [id='%s']\nFiles to migrate:\n\t%s",
-                            $this->getMigrationId($migrationFile),
+                            "%s\nFiles to migrate:\n\t%s",
+                            $this->interpolate(
+                                self::MESSAGE__DETECTED_GAPE_BEFORE_MIGRATION__ID,
+                                $context
+                            ),
                             implode("\n\t", $migrationFilesToMigrate)
                         )
                     );
@@ -38,8 +102,35 @@ abstract class AbstractMigrationTool implements MigrationToolInterface
             }
         }
 
-        foreach ($migrationFilesToMigrate as $migrationFile) {
-            $this->applyMigrationFile($migrationFile);
+        if (empty($migrationFilesToMigrate)) {
+            if ($this->getLogger()) {
+                $this->getLogger()->notice(
+                    self::MESSAGE__THERE_IS_NOTHING_TO_MIGRATE__PATH_PATTERN,
+                    array(
+                        "path" => $this->getPathToDirectoryWithMigrationFiles(),
+                        "pattern" => static::MIGRATION_FILE_PATTERN,
+                    )
+                );
+            }
+        } else {
+            foreach ($migrationFilesToMigrate as $migrationFile) {
+                $this->applyMigrationFile($migrationFile);
+
+                if ($this->getLogger()) {
+                    $this->getLogger()->info(
+                        self::MESSAGE__MIGRATION_FILE_APPLIED__PATH,
+                        array(
+                            "path" => $migrationFile,
+                        )
+                    );
+                }
+            }
+        }
+
+        if ($this->getLogger()) {
+            $this->getLogger()->info(
+                self::MESSAGE__DONE
+            );
         }
     }
 
@@ -57,10 +148,29 @@ abstract class AbstractMigrationTool implements MigrationToolInterface
             if ($fileInfo->isFile()) {
                 if (preg_match(static::MIGRATION_FILE_PATTERN, $fileInfo->getRealPath())) {
                     $migrationFiles[] = $fileInfo->getRealPath();
+                } elseif ($this->getLogger()) {
+                    $this->getLogger()->notice(
+                            self::MESSAGE__FOUND_UNSUPPORTED_FILE__PATH,
+                            array(
+                                "path" => $fileInfo->getRealPath(),
+                            )
+                    );
                 }
             }
         }
         sort($migrationFiles);
+
+        if ($this->getLogger()) {
+            $this->getLogger()->info(
+                self::MESSAGE__FOUND_MIGRATION_FILES__COUNT_PATH_PATTERN,
+                array(
+                    "count" => count($migrationFiles),
+                    "path" => $this->getPathToDirectoryWithMigrationFiles(),
+                    "pattern" => static::MIGRATION_FILE_PATTERN,
+                )
+            );
+        }
+
         return $migrationFiles;
     }
 

@@ -5,6 +5,7 @@ namespace PetrKnap\Php\MigrationTool\Test;
 use PetrKnap\Php\MigrationTool\Exception\DatabaseException;
 use PetrKnap\Php\MigrationTool\Exception\MigrationException;
 use PetrKnap\Php\MigrationTool\Exception\MigrationFileException;
+use PetrKnap\Php\MigrationTool\SqlMigrationTool;
 use PetrKnap\Php\MigrationTool\Test\SqlMigrationToolTest\SqlMigrationToolMock;
 
 class SqlMigrationToolTest extends TestCase
@@ -16,16 +17,19 @@ class SqlMigrationToolTest extends TestCase
         return new \PDO("sqlite::memory:");
     }
 
-    private function getTool(\PDO $pdo, $pathToDirectoryWithMigrationFiles = null)
+    private function getTool(\PDO $pdo)
     {
-        return new SqlMigrationToolMock($pdo, self::TABLE_NAME, $pathToDirectoryWithMigrationFiles);
+        $tool = new SqlMigrationToolMock();
+        $tool->setPhpDataObject($pdo);
+        $tool->setNameOfMigrationTable(self::TABLE_NAME);
+
+        return $tool;
     }
 
     public function testCreateMigrationTableWorks()
     {
         $pdo = $this->getPDO();
         $tool = $this->getTool($pdo);
-        $tool->migrate();
 
         $this->invokeMethod($tool, "createMigrationTable");
 
@@ -41,8 +45,8 @@ class SqlMigrationToolTest extends TestCase
     {
         $pdo = $this->getPDO();
         $tool = $this->getTool($pdo);
-        $tool->migrate();
 
+        $this->invokeMethod($tool, "createMigrationTable");
         $this->invokeMethod($tool, "registerMigrationFile", array(
             __DIR__ . "/SqlMigrationToolTest/migrations/2016-06-22.2 - Ignored migration.ext"
         ));
@@ -52,7 +56,7 @@ class SqlMigrationToolTest extends TestCase
         $statement = $pdo->prepare(sprintf("SELECT COUNT(id) AS count FROM %s", self::TABLE_NAME));
         $statement->execute();
 
-        $this->assertEquals(array("count" => 3), $statement->fetch(\PDO::FETCH_ASSOC));
+        $this->assertEquals(array("count" => 1), $statement->fetch(\PDO::FETCH_ASSOC));
 
         $this->setExpectedException(get_class(new DatabaseException()));
 
@@ -96,8 +100,8 @@ class SqlMigrationToolTest extends TestCase
     {
         $pdo = $this->getPDO();
         $tool = $this->getTool($pdo);
-        $tool->migrate();
 
+        $this->invokeMethod($tool, "createMigrationTable");
         $this->invokeMethod($tool, "applyMigrationFile", array(
             __DIR__ . "/SqlMigrationToolTest/SQLs/create_table.sql"
         ));
@@ -135,7 +139,8 @@ class SqlMigrationToolTest extends TestCase
     public function testMigrateStopsAtFirstException()
     {
         $pdo = $this->getPDO();
-        $tool = $this->getTool($pdo, __DIR__ . "/SqlMigrationToolTest/SQLs");
+        $tool = $this->getTool($pdo);
+        $tool->setPathToDirectoryWithMigrationFiles(__DIR__ . "/SqlMigrationToolTest/SQLs");
 
         try {
             $tool->migrate();
@@ -155,5 +160,135 @@ class SqlMigrationToolTest extends TestCase
         foreach ($rows as $row) {
             $this->assertContains($row["id"], array("create_table", "multi_query"));
         }
+    }
+
+    /**
+     * @dataProvider dataLoggingWorks
+     * @param array $invokes
+     * @param array $expectedLog
+     */
+    public function testLoggingWorks(array $invokes, array $expectedLog)
+    {
+        $log = array();
+        $tool = $this->getTool($this->getPDO());
+        $tool->setLogger($this->getLogger($log));
+
+        try {
+            foreach ($invokes as $invoke) {
+                $this->invokeMethod($tool, $invoke[0], $invoke[1]);
+            }
+        } catch (\Exception $ignored) {
+            // Ignored exception
+        }
+
+        $this->assertLogEquals($expectedLog, $log);
+    }
+
+    public function dataLoggingWorks()
+    {
+        return array(
+            // createMigrationTable
+            array(
+                array(
+                    array("setNameOfMigrationTable", array("invalid table name")),
+                    array("createMigrationTable", array()),
+                ),
+                array(
+                    "critical" => array(
+                        SqlMigrationTool::MESSAGE__COULD_NOT_CREATE_TABLE__TABLE,
+                    ),
+                ),
+            ),
+            array(
+                array(
+                    array("createMigrationTable", array()),
+                ),
+                array(
+                    "debug" => array(
+                        SqlMigrationTool::MESSAGE__CREATED_MIGRATION_TABLE__TABLE,
+                    ),
+                ),
+            ),
+            array(
+                array(
+                    array("createMigrationTable", array()),
+                    array("createMigrationTable", array()),
+                ),
+                array(
+                    "debug" => array(
+                        SqlMigrationTool::MESSAGE__CREATED_MIGRATION_TABLE__TABLE,
+                    ),
+                ),
+            ),
+            // registerMigrationFile
+            array(
+                array(
+                    array("registerMigrationFile", array(__DIR__ . "/SqlMigrationToolTest/SQLs/single_query.sql")),
+                ),
+                array(
+                    "critical" => array(
+                        SqlMigrationTool::MESSAGE__COULD_NOT_REGISTER_MIGRATION__ID
+                    ),
+                ),
+            ),
+            array(
+                array(
+                    array("createMigrationTable", array()),
+                    array("registerMigrationFile", array(__DIR__ . "/SqlMigrationToolTest/SQLs/single_query.sql")),
+                ),
+                array(
+                    "debug" => array(
+                        SqlMigrationTool::MESSAGE__CREATED_MIGRATION_TABLE__TABLE,
+                    ),
+                ),
+            ),
+            array(
+                array(
+                    array("createMigrationTable", array()),
+                    array("registerMigrationFile", array(__DIR__ . "/SqlMigrationToolTest/SQLs/single_query.sql")),
+                    array("registerMigrationFile", array(__DIR__ . "/SqlMigrationToolTest/SQLs/single_query.sql")),
+                ),
+                array(
+                    "debug" => array(
+                        SqlMigrationTool::MESSAGE__CREATED_MIGRATION_TABLE__TABLE,
+                    ),
+                    "critical" => array(
+                        SqlMigrationTool::MESSAGE__COULD_NOT_REGISTER_MIGRATION__ID,
+                    )
+                ),
+            ),
+            // isMigrationApplied
+            array(
+                array(
+                    array("isMigrationApplied", array(__DIR__ . "/SqlMigrationToolTest/SQLs/single_query.sql")),
+                ),
+                array(
+                    "critical" => array(
+                        SqlMigrationTool::MESSAGE__COULD_NOT_READ_FROM_TABLE__TABLE,
+                    ),
+                ),
+            ),
+            // applyMigrationFile
+            array(
+                array(
+                    array("applyMigrationFile", array(__DIR__ . "/SqlMigrationToolTest/SQLs/missing.sql")),
+                ),
+                array(
+                    "critical" => array(
+                        SqlMigrationTool::MESSAGE__COULD_NOT_READ_MIGRATION_FILE__PATH,
+                    ),
+                ),
+            ),
+            array(
+                array(
+                    array("applyMigrationFile", array(__DIR__ . "/SqlMigrationToolTest/SQLs/single_query_with_error.sql")),
+                ),
+                array(
+                    "critical" => array(
+                        SqlMigrationTool::MESSAGE__YOU_HAVE_AN_ERROR_IN_YOUR_SQL_SYNTAX__PATH,
+                    ),
+                ),
+            ),
+        );
     }
 }
