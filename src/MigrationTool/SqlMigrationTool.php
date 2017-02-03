@@ -39,10 +39,10 @@ abstract class SqlMigrationTool extends AbstractMigrationTool
     protected function createMigrationTable()
     {
         /** @noinspection SqlNoDataSourceInspection,SqlDialectInspection */
-        if (false === $this->getPhpDataObject()->exec("SELECT null FROM {$this->getMigrationTableName()} LIMIT 1")) {
+        if (false === $this->phpDataObject()->exec("SELECT null FROM {$this->migrationTableName()} LIMIT 1")) {
             /** @noinspection SqlNoDataSourceInspection,SqlDialectInspection */
-            $result = $this->getPhpDataObject()->exec(
-                "CREATE TABLE IF NOT EXISTS {$this->getMigrationTableName()}" .
+            $result = $this->phpDataObject()->exec(
+                "CREATE TABLE IF NOT EXISTS {$this->migrationTableName()}" .
                 "(" .
                 "id VARCHAR(16) NOT NULL," .
                 "applied DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP," .
@@ -52,7 +52,7 @@ abstract class SqlMigrationTool extends AbstractMigrationTool
 
             if ($result === false) {
                 $context = array(
-                    "table" => $this->getMigrationTableName()
+                    "table" => $this->migrationTableName()
                 );
 
                 if ($this->getLogger()) {
@@ -69,7 +69,7 @@ abstract class SqlMigrationTool extends AbstractMigrationTool
                     ),
                     0,
                     new \Exception(
-                        implode(" ", $this->getPhpDataObject()->errorInfo())
+                        implode(" ", $this->phpDataObject()->errorInfo())
                     )
                 );
             }
@@ -78,7 +78,7 @@ abstract class SqlMigrationTool extends AbstractMigrationTool
                 $this->getLogger()->debug(
                     self::MESSAGE__CREATED_MIGRATION_TABLE__TABLE,
                     array(
-                        "table" => $this->getMigrationTableName(),
+                        "table" => $this->migrationTableName(),
                     )
                 );
             }
@@ -92,7 +92,7 @@ abstract class SqlMigrationTool extends AbstractMigrationTool
     protected function registerMigrationFile($pathToMigrationFile)
     {
         /** @noinspection SqlNoDataSourceInspection,SqlDialectInspection */
-        $statement = $this->getPhpDataObject()->prepare("INSERT INTO {$this->getMigrationTableName()} (id) VALUES (:id)");
+        $statement = $this->phpDataObject()->prepare("INSERT INTO {$this->migrationTableName()} (id) VALUES (:id)");
         $migrationId = $this->getMigrationId($pathToMigrationFile);
         if (false === $statement || false === $statement->execute(array("id" => $migrationId))) {
             $context = array(
@@ -113,7 +113,7 @@ abstract class SqlMigrationTool extends AbstractMigrationTool
                 ),
                 0,
                 new \Exception(
-                    implode(" ", $this->getPhpDataObject()->errorInfo())
+                    implode(" ", $this->phpDataObject()->errorInfo())
                 )
             );
         }
@@ -125,7 +125,7 @@ abstract class SqlMigrationTool extends AbstractMigrationTool
     protected function isMigrationApplied($pathToMigrationFile)
     {
         /** @noinspection SqlNoDataSourceInspection,SqlDialectInspection */
-        $statement = $this->getPhpDataObject()->prepare("SELECT null FROM {$this->getMigrationTableName()} WHERE id = :id");
+        $statement = $this->phpDataObject()->prepare("SELECT null FROM {$this->migrationTableName()} WHERE id = :id");
         $migrationId = $this->getMigrationId($pathToMigrationFile);
         if (false === $statement || false === $statement->execute(array("id" => $migrationId))) {
             $context = array(
@@ -177,20 +177,20 @@ abstract class SqlMigrationTool extends AbstractMigrationTool
             );
         }
 
-        $this->getPhpDataObject()->beginTransaction();
+        $this->phpDataObject()->beginTransaction();
 
         try {
-            $result = $this->getPhpDataObject()->exec($migrationData);
+            $result = $this->phpDataObject()->exec($migrationData);
         } catch (\Exception $e) {
             $result = $e;
         }
 
         if ($result === false || $result instanceof \Exception) {
             if (!$result/* instanceof \Exception */) {
-                $result = new DatabaseException(implode(" ", $this->getPhpDataObject()->errorInfo()));
+                $result = new DatabaseException(implode(" ", $this->phpDataObject()->errorInfo()));
             }
 
-            $this->getPhpDataObject()->rollBack();
+            $this->phpDataObject()->rollBack();
             $context = array(
                 "path" => $pathToMigrationFile,
             );
@@ -214,7 +214,7 @@ abstract class SqlMigrationTool extends AbstractMigrationTool
 
         $this->registerMigrationFile($pathToMigrationFile);
 
-        $this->getPhpDataObject()->commit();
+        $this->phpDataObject()->commit();
     }
 
     /**
@@ -226,4 +226,26 @@ abstract class SqlMigrationTool extends AbstractMigrationTool
      * @return string
      */
     abstract protected function getMigrationTableName();
+
+    /**
+     * @return \PDO
+     */
+    private function phpDataObject()
+    {
+        if (!$this->{__METHOD__}) {
+            $this->{__METHOD__} = $this->getPhpDataObject();
+        }
+        return $this->{__METHOD__};
+    }
+
+    /**
+     * @return string
+     */
+    private function migrationTableName()
+    {
+        if (!$this->{__METHOD__}) {
+            $this->{__METHOD__} = $this->getMigrationTableName();
+        }
+        return $this->{__METHOD__};
+    }
 }

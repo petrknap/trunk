@@ -26,6 +26,16 @@ class SqlMigrationToolTest extends TestCase
         return $tool;
     }
 
+    public function testMethodGetPhpDataObjectIsCalledOnlyOnce()
+    {
+        $this->markTestIncomplete();
+    }
+
+    public function testMethodGetMigrationTableNameIsCalledOnlyOnce()
+    {
+        $this->markTestIncomplete();
+    }
+
     public function testCreateMigrationTableWorks()
     {
         $pdo = $this->getPDO();
