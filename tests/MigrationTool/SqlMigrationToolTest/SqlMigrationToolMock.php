@@ -30,7 +30,7 @@ class SqlMigrationToolMock extends SqlMigrationTool
         $this->nameOfMigrationTable = $nameOfMigrationTable;
     }
 
-    protected function getNameOfMigrationTable()
+    protected function getMigrationTableName()
     {
         return $this->nameOfMigrationTable;
     }
