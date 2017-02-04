@@ -55,7 +55,7 @@ class AbstractMigrationToolTest extends TestCase
                 __DIR__ . "/AbstractMigrationToolTest/migrations/2016-06-22.2 - Second migration.ext",
                 __DIR__ . "/AbstractMigrationToolTest/migrations/2016-06-22.3 - Third migration.ext",
             ),
-            $this->invokeMethod($tool, "getMigrationFiles")
+            $this->invokeMethods($tool, array(array("getMigrationFiles")))
         );
     }
 
@@ -70,7 +70,7 @@ class AbstractMigrationToolTest extends TestCase
 
         $this->assertEquals(
             $expectedMigrationId,
-            $this->invokeMethod($tool, "getMigrationId", array($pathToMigrationFile))
+            $this->invokeMethods($tool, array(array("getMigrationId", array($pathToMigrationFile))))
         );
     }
 

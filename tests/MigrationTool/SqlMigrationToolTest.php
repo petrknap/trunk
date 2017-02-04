@@ -41,7 +41,7 @@ class SqlMigrationToolTest extends TestCase
         $pdo = $this->getPDO();
         $tool = $this->getTool($pdo);
 
-        $this->invokeMethod($tool, "createMigrationTable");
+        $this->invokeMethods($tool, array(array("createMigrationTable")));
 
         /** @noinspection SqlDialectInspection */
         /** @noinspection SqlNoDataSourceInspection */
@@ -56,9 +56,11 @@ class SqlMigrationToolTest extends TestCase
         $pdo = $this->getPDO();
         $tool = $this->getTool($pdo);
 
-        $this->invokeMethod($tool, "createMigrationTable");
-        $this->invokeMethod($tool, "registerMigrationFile", array(
-            __DIR__ . "/SqlMigrationToolTest/migrations/2016-06-22.2 - Ignored migration.ext"
+        $this->invokeMethods($tool, array(
+            array("createMigrationTable"),
+            array("registerMigrationFile", array(
+                __DIR__ . "/SqlMigrationToolTest/migrations/2016-06-22.2 - Ignored migration.ext"
+            )),
         ));
 
         /** @noinspection SqlDialectInspection */
@@ -70,8 +72,10 @@ class SqlMigrationToolTest extends TestCase
 
         $this->setExpectedException(get_class(new DatabaseException()));
 
-        $this->invokeMethod($tool, "registerMigrationFile", array(
-            __DIR__ . "/SqlMigrationToolTest/migrations/2016-06-22.2 - Ignored migration.ext"
+        $this->invokeMethods($tool, array(
+            array("registerMigrationFile", array(
+                __DIR__ . "/SqlMigrationToolTest/migrations/2016-06-22.2 - Ignored migration.ext"
+            )),
         ));
     }
 
@@ -88,7 +92,9 @@ class SqlMigrationToolTest extends TestCase
 
         $this->assertEquals(
             $expectedResult,
-            $this->invokeMethod($tool, "isMigrationApplied", array($pathToMigrationFile))
+            $this->invokeMethods($tool, array(
+                array("isMigrationApplied", array($pathToMigrationFile)),
+            ))
         );
     }
 
@@ -111,16 +117,22 @@ class SqlMigrationToolTest extends TestCase
         $pdo = $this->getPDO();
         $tool = $this->getTool($pdo);
 
-        $this->invokeMethod($tool, "createMigrationTable");
-        $this->invokeMethod($tool, "applyMigrationFile", array(
-            __DIR__ . "/SqlMigrationToolTest/SQLs/create_table.sql"
+        $this->invokeMethods($tool, array(
+            array("createMigrationTable"),
+            array("applyMigrationFile", array(
+                __DIR__ . "/SqlMigrationToolTest/SQLs/create_table.sql",
+            )),
         ));
 
         if ($expectedException) {
             $this->setExpectedException(get_class($expectedException));
         }
 
-        $this->invokeMethod($tool, "applyMigrationFile", array($pathToMigrationFile));
+        $this->invokeMethods($tool, array(
+            array("applyMigrationFile", array(
+                $pathToMigrationFile,
+            )),
+        ));
     }
 
     public function dataApplyMigrationFileWorks()
@@ -142,7 +154,7 @@ class SqlMigrationToolTest extends TestCase
                 __DIR__ . "/SqlMigrationToolTest/migrations/2016-06-22.1 - First migration.sql",
                 __DIR__ . "/SqlMigrationToolTest/migrations/2016-06-22.3 - Second migration.sql"
             ),
-            $this->invokeMethod($tool, "getMigrationFiles")
+            $this->invokeMethods($tool, array(array("getMigrationFiles")))
         );
     }
 
@@ -184,9 +196,7 @@ class SqlMigrationToolTest extends TestCase
         $tool->setLogger($this->getLogger($log));
 
         try {
-            foreach ($invokes as $invoke) {
-                $this->invokeMethod($tool, $invoke[0], $invoke[1]);
-            }
+            $this->invokeMethods($tool, $invokes);
         } catch (\Exception $ignored) {
             // Ignored exception
         }
@@ -201,7 +211,7 @@ class SqlMigrationToolTest extends TestCase
             array(
                 array(
                     array("setNameOfMigrationTable", array("invalid table name")),
-                    array("createMigrationTable", array()),
+                    array("createMigrationTable"),
                 ),
                 array(
                     "critical" => array(
@@ -211,7 +221,7 @@ class SqlMigrationToolTest extends TestCase
             ),
             array(
                 array(
-                    array("createMigrationTable", array()),
+                    array("createMigrationTable"),
                 ),
                 array(
                     "debug" => array(
@@ -221,8 +231,8 @@ class SqlMigrationToolTest extends TestCase
             ),
             array(
                 array(
-                    array("createMigrationTable", array()),
-                    array("createMigrationTable", array()),
+                    array("createMigrationTable"),
+                    array("createMigrationTable"),
                 ),
                 array(
                     "debug" => array(
@@ -243,7 +253,7 @@ class SqlMigrationToolTest extends TestCase
             ),
             array(
                 array(
-                    array("createMigrationTable", array()),
+                    array("createMigrationTable"),
                     array("registerMigrationFile", array(__DIR__ . "/SqlMigrationToolTest/SQLs/single_query.sql")),
                 ),
                 array(
@@ -254,7 +264,7 @@ class SqlMigrationToolTest extends TestCase
             ),
             array(
                 array(
-                    array("createMigrationTable", array()),
+                    array("createMigrationTable"),
                     array("registerMigrationFile", array(__DIR__ . "/SqlMigrationToolTest/SQLs/single_query.sql")),
                     array("registerMigrationFile", array(__DIR__ . "/SqlMigrationToolTest/SQLs/single_query.sql")),
                 ),
