@@ -88,7 +88,7 @@ class SqlMigrationToolTest extends TestCase
     {
         $pdo = $this->getPDO();
         $tool = $this->getTool($pdo);
-        $tool->migrate();
+        @$tool->migrate();
 
         $this->assertEquals(
             $expectedResult,
@@ -154,8 +154,11 @@ class SqlMigrationToolTest extends TestCase
                 __DIR__ . "/SqlMigrationToolTest/migrations/2016-06-22.1 - First migration.sql",
                 __DIR__ . "/SqlMigrationToolTest/migrations/2016-06-22.3 - Second migration.sql"
             ),
-            $this->invokeMethods($tool, array(array("getMigrationFiles")))
+            @$this->invokeMethods($tool, array(array("getMigrationFiles")))
         );
+
+        $this->setExpectedException("PHPUnit_Framework_Error_Notice");
+        $this->invokeMethods($tool, array(array("getMigrationFiles")));
     }
 
     public function testMigrateStopsAtFirstException()

@@ -103,15 +103,25 @@ abstract class AbstractMigrationTool implements MigrationToolInterface, LoggerAw
         }
 
         if (empty($migrationFilesToMigrate)) {
+            $context = array(
+                "path" => $this->getPathToDirectoryWithMigrationFiles(),
+                "pattern" => static::MIGRATION_FILE_PATTERN,
+            );
+
             if ($this->getLogger()) {
                 $this->getLogger()->notice(
                     self::MESSAGE__THERE_IS_NOTHING_TO_MIGRATE__PATH_PATTERN,
-                    array(
-                        "path" => $this->getPathToDirectoryWithMigrationFiles(),
-                        "pattern" => static::MIGRATION_FILE_PATTERN,
-                    )
+                    $context
                 );
             }
+
+            user_error(
+                $this->interpolate(
+                    self::MESSAGE__THERE_IS_NOTHING_TO_MIGRATE__PATH_PATTERN,
+                    $context
+                ),
+                E_USER_NOTICE
+            );
         } else {
             foreach ($migrationFilesToMigrate as $migrationFile) {
                 $this->applyMigrationFile($migrationFile);
@@ -148,12 +158,24 @@ abstract class AbstractMigrationTool implements MigrationToolInterface, LoggerAw
             if ($fileInfo->isFile()) {
                 if (preg_match(static::MIGRATION_FILE_PATTERN, $fileInfo->getRealPath())) {
                     $migrationFiles[] = $fileInfo->getRealPath();
-                } elseif ($this->getLogger()) {
-                    $this->getLogger()->notice(
+                } else {
+                    $context = array(
+                        "path" => $fileInfo->getRealPath(),
+                    );
+
+                    if ($this->getLogger()) {
+                        $this->getLogger()->notice(
                             self::MESSAGE__FOUND_UNSUPPORTED_FILE__PATH,
-                            array(
-                                "path" => $fileInfo->getRealPath(),
-                            )
+                            $context
+                        );
+                    }
+
+                    user_error(
+                        $this->interpolate(
+                            self::MESSAGE__FOUND_UNSUPPORTED_FILE__PATH,
+                            $context
+                        ),
+                        E_USER_NOTICE
                     );
                 }
             }

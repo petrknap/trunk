@@ -24,7 +24,7 @@ class AbstractMigrationToolTest extends TestCase
         }
 
         try {
-            $tool->migrate();
+            @$tool->migrate();
         } catch (\Exception $e) {
             $this->assertStringMatchesFormat($expectedException->getMessage(), $e->getMessage());
             throw $e;
@@ -55,8 +55,11 @@ class AbstractMigrationToolTest extends TestCase
                 __DIR__ . "/AbstractMigrationToolTest/migrations/2016-06-22.2 - Second migration.ext",
                 __DIR__ . "/AbstractMigrationToolTest/migrations/2016-06-22.3 - Third migration.ext",
             ),
-            $this->invokeMethods($tool, array(array("getMigrationFiles")))
+            @$this->invokeMethods($tool, array(array("getMigrationFiles")))
         );
+
+        $this->setExpectedException("PHPUnit_Framework_Error_Notice");
+        $this->invokeMethods($tool, array(array("getMigrationFiles")));
     }
 
     /**
@@ -97,7 +100,7 @@ class AbstractMigrationToolTest extends TestCase
             /** @var LoggerInterface $logger */
             $tool = new AbstractMigrationToolMock($appliedMigrations);
             $tool->setLogger($this->getLogger($log));
-            $tool->migrate();
+            @$tool->migrate();
         } catch (\Exception $ignored) {
             // Ignored exception
         }
