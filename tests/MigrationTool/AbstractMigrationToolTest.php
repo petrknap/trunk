@@ -5,10 +5,131 @@ namespace PetrKnap\Php\MigrationTool\Test;
 use PetrKnap\Php\MigrationTool\AbstractMigrationTool;
 use PetrKnap\Php\MigrationTool\Exception\MismatchException;
 use PetrKnap\Php\MigrationTool\Test\AbstractMigrationToolTest\AbstractMigrationToolMock;
+use PHPUnit_Framework_Error_Notice;
+use PHPUnit_Framework_Error_Warning;
 use Psr\Log\LoggerInterface;
 
 class AbstractMigrationToolTest extends TestCase
 {
+
+    /**
+     * @dataProvider dataMigrateMethodWorks
+     * @param array $appliedMigrations
+     * @param array $expectedAppliedMigrations
+     */
+    public function testMigrateMethodWorks(array $appliedMigrations, array $expectedAppliedMigrations)
+    {
+        $tool = new AbstractMigrationToolMock(
+            $appliedMigrations,
+            __DIR__ . "/AbstractMigrationToolTest/MigrateMethodWorks"
+        );
+
+        try {
+            $tool->migrate();
+        } catch (PHPUnit_Framework_Error_Notice $ignored) {
+            // It throws notice if all migrations are applied
+        }
+
+        $this->assertEquals($expectedAppliedMigrations, $tool->getAppliedMigrations());
+    }
+
+    public function dataMigrateMethodWorks()
+    {
+        $expectedAppliedMigrations = array("2017-02-05.1", "2017-02-05.2", "2017-02-05.3");
+        return array(
+            array(array(), $expectedAppliedMigrations),
+            array(array("2017-02-05.1"), $expectedAppliedMigrations),
+            array(array("2017-02-05.1", "2017-02-05.2"), $expectedAppliedMigrations),
+            array(array("2017-02-05.1", "2017-02-05.2", "2017-02-05.3"), $expectedAppliedMigrations),
+        );
+    }
+
+    /**
+     * @dataProvider dataThrowsMismatchExceptionIfThereIsGapeInMigrations
+     * @param array $appliedMigrations
+     */
+    public function testThrowsMismatchExceptionIfThereIsGapeInMigrations(array $appliedMigrations)
+    {
+        $tool = new AbstractMigrationToolMock(
+            $appliedMigrations,
+            __DIR__ . "/AbstractMigrationToolTest/ThrowsMismatchExceptionIfThereIsGapeInMigrations"
+        );
+
+        try {
+            $tool->migrate();
+        } catch (MismatchException $exception) {
+            $this->assertStringMatchesFormat(
+                $this->getFormatForMessage(AbstractMigrationTool::MESSAGE__DETECTED_GAPE_BEFORE_MIGRATION__ID),
+                $exception->getMessage()
+            );
+        }
+    }
+
+    public function dataThrowsMismatchExceptionIfThereIsGapeInMigrations()
+    {
+        return array(
+            array(array("2017-02-05.2")),
+            array(array("2017-02-05.3")),
+            array(array("2017-02-05.1", "2017-02-05.3")),
+            array(array("2017-02-05.2", "2017-02-05.3")),
+        );
+    }
+
+    public function testThrowsWarningIfMigrationFolderIsEmpty()
+    {
+        $dir = __DIR__ . "/AbstractMigrationToolTest/ThrowsWarningIfMigrationFolderIsEmpty";
+        @mkdir($dir);
+        $tool = new AbstractMigrationToolMock(array(), $dir);
+
+        try {
+            $tool->migrate();
+            $this->fail();
+        } catch (PHPUnit_Framework_Error_Warning $warning) {
+            $this->assertStringMatchesFormat(
+                $this->getFormatForMessage(AbstractMigrationTool::MESSAGE__THERE_IS_NOTHING_TO_MIGRATE__PATH_PATTERN),
+                $warning->getMessage()
+            );
+        }
+    }
+
+    public function testThrowsNoticeIfThereIsNothingToMigrate()
+    {
+        $tool = new AbstractMigrationToolMock(
+            array("2017-02-05.1", "2017-02-05.2", "2017-02-05.3"),
+            __DIR__ . "/AbstractMigrationToolTest/ThrowsNoticeIfThereIsNothingToMigrate"
+        );
+
+        try {
+            $tool->migrate();
+            $this->fail();
+        } catch (PHPUnit_Framework_Error_Notice $notice) {
+            $this->assertStringMatchesFormat(
+                $this->getFormatForMessage(AbstractMigrationTool::MESSAGE__THERE_IS_NOTHING_TO_MIGRATE__PATH_PATTERN),
+                $notice->getMessage()
+            );
+        }
+    }
+
+    public function testThrowsNoticeIfThereIsUnsupportedFile()
+    {
+        $tool = new AbstractMigrationToolMock(
+            array(),
+            __DIR__ . "/AbstractMigrationToolTest/ThrowsNoticeIfThereIsUnsupportedFile"
+        );
+
+        try {
+            $tool->migrate();
+            $this->fail();
+        } catch (PHPUnit_Framework_Error_Notice $notice) {
+            $this->assertStringMatchesFormat(
+                $this->getFormatForMessage(AbstractMigrationTool::MESSAGE__FOUND_UNSUPPORTED_FILE__PATH),
+                $notice->getMessage()
+            );
+        }
+    }
+
+    // Old test below
+
     /**
      * @dataProvider dataMigrateWorks
      * @param array $appliedMigrations

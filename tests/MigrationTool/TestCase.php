@@ -65,4 +65,9 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
             }
         }
     }
+
+    protected function getFormatForMessage($message)
+    {
+        return preg_replace('/\{[^\{]*\}/', "%a", $message);
+    }
 }

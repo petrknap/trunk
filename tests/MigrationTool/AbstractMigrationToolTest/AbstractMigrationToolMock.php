@@ -13,9 +13,26 @@ class AbstractMigrationToolMock extends AbstractMigrationTool
      */
     private $appliedMigrations;
 
-    public function __construct(array $appliedMigrations)
+    /**
+     * @var string
+     */
+    private $pathToDirectoryWithMigrationFiles;
+
+    public function __construct(array $appliedMigrations, $pathToDirectoryWithMigrationFiles = null)
     {
+        if (null === $pathToDirectoryWithMigrationFiles) {
+            $pathToDirectoryWithMigrationFiles =__DIR__ . "/migrations";
+        }
         $this->appliedMigrations = $appliedMigrations;
+        $this->pathToDirectoryWithMigrationFiles = $pathToDirectoryWithMigrationFiles;
+    }
+
+    /**
+     * @return array
+     */
+    public function getAppliedMigrations()
+    {
+        return $this->appliedMigrations;
     }
 
     /**
@@ -39,6 +56,6 @@ class AbstractMigrationToolMock extends AbstractMigrationTool
      */
     protected function getPathToDirectoryWithMigrationFiles()
     {
-        return __DIR__ . "/migrations";
+        return $this->pathToDirectoryWithMigrationFiles;
     }
 }
