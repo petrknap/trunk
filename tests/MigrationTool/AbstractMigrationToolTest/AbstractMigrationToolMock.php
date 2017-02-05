@@ -20,9 +20,6 @@ class AbstractMigrationToolMock extends AbstractMigrationTool
 
     public function __construct(array $appliedMigrations, $pathToDirectoryWithMigrationFiles = null)
     {
-        if (null === $pathToDirectoryWithMigrationFiles) {
-            $pathToDirectoryWithMigrationFiles =__DIR__ . "/migrations";
-        }
         $this->appliedMigrations = $appliedMigrations;
         $this->pathToDirectoryWithMigrationFiles = $pathToDirectoryWithMigrationFiles;
     }
