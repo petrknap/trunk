@@ -7,13 +7,8 @@ use PetrKnap\Php\MigrationTool\SqlMigrationTool;
 class SqlMigrationToolMock extends SqlMigrationTool
 {
     private $phpDataObject;
-    private $nameOfMigrationTable;
+    private $migrationTableName;
     private $pathToDirectoryWithMigrationFiles;
-
-    public function __construct()
-    {
-        $this->pathToDirectoryWithMigrationFiles = __DIR__ . "/migrations";
-    }
 
     public function setPhpDataObject(\PDO $phpDataObject)
     {
@@ -25,14 +20,14 @@ class SqlMigrationToolMock extends SqlMigrationTool
         return $this->phpDataObject;
     }
 
-    public function setNameOfMigrationTable($nameOfMigrationTable)
+    public function setMigrationTableName($migrationTableName)
     {
-        $this->nameOfMigrationTable = $nameOfMigrationTable;
+        $this->migrationTableName = $migrationTableName;
     }
 
     protected function getMigrationTableName()
     {
-        return $this->nameOfMigrationTable;
+        return $this->migrationTableName;
     }
 
     public function setPathToDirectoryWithMigrationFiles($pathToDirectoryWithMigrationFiles)
