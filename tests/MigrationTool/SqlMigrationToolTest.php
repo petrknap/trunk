@@ -32,14 +32,24 @@ class SqlMigrationToolTest extends TestCase
         $this->assertEquals('/\.sql$/i', SqlMigrationTool::MIGRATION_FILE_PATTERN);
     }
 
-    public function testMethodGetPhpDataObjectIsCalledOnlyOnce()
+    public function testGetPhpDataObjectMethodIsCalledOnlyOnce()
     {
-        $this->markTestIncomplete();
+        $tool = $this->getTool($this->getPDO());
+        $tool->setPathToDirectoryWithMigrationFiles(__DIR__ . "/SqlMigrationToolTest/GetPhpDataObjectMethodIsCalledOnlyOnce");
+
+        $tool->migrate();
+
+        $this->assertEquals(1, $tool->getPhpDataObjectCalls);
     }
 
-    public function testMethodGetMigrationTableNameIsCalledOnlyOnce()
+    public function testGetMigrationTableNameMethodIsCalledOnlyOnce()
     {
-        $this->markTestIncomplete();
+        $tool = $this->getTool($this->getPDO());
+        $tool->setPathToDirectoryWithMigrationFiles(__DIR__ . "/SqlMigrationToolTest/GetMigrationTableNameMethodIsCalledOnlyOnce");
+
+        $tool->migrate();
+
+        $this->assertEquals(1, $tool->getMigrationTableNameCalls);
     }
 
     public function testCreateMigrationTableMethodWorks(LoggerInterface $logger = null)
