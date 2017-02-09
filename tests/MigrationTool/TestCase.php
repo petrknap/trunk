@@ -4,6 +4,8 @@ namespace PetrKnap\Php\MigrationTool\Test;
 
 use Psr\Log\LoggerInterface;
 
+error_reporting(E_ALL);
+
 abstract class TestCase extends \PHPUnit_Framework_TestCase
 {
     /**

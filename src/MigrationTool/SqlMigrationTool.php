@@ -22,6 +22,16 @@ abstract class SqlMigrationTool extends AbstractMigrationTool
     const MESSAGE__YOU_HAVE_AN_ERROR_IN_YOUR_SQL_SYNTAX__PATH = "You have an error in your SQL syntax in {path}";
 
     /**
+     * @var \PDO
+     */
+    private $_phpDataObject;
+
+    /**
+     * @var string
+     */
+    private $_migrationTableName;
+
+    /**
      * @inheritdoc
      */
     public function migrate()
@@ -238,10 +248,10 @@ abstract class SqlMigrationTool extends AbstractMigrationTool
      */
     private function phpDataObject()
     {
-        if (!$this->{__METHOD__}) {
-            $this->{__METHOD__} = $this->getPhpDataObject();
+        if (!$this->_phpDataObject) {
+            $this->_phpDataObject = $this->getPhpDataObject();
         }
-        return $this->{__METHOD__};
+        return $this->_phpDataObject;
     }
 
     /**
@@ -249,9 +259,9 @@ abstract class SqlMigrationTool extends AbstractMigrationTool
      */
     private function migrationTableName()
     {
-        if (!$this->{__METHOD__}) {
-            $this->{__METHOD__} = $this->getMigrationTableName();
+        if (!$this->_migrationTableName) {
+            $this->_migrationTableName = $this->getMigrationTableName();
         }
-        return $this->{__METHOD__};
+        return $this->_migrationTableName;
     }
 }
