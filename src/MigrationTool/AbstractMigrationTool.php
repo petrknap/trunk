@@ -15,8 +15,6 @@ use Psr\Log\LoggerInterface;
  */
 abstract class AbstractMigrationTool implements MigrationToolInterface, LoggerAwareInterface
 {
-    const MIGRATION_FILE_PATTERN = '/^.*$/i';
-
     const MESSAGE__FOUND_UNSUPPORTED_FILE__PATH = "Found unsupported file {path}";
     const MESSAGE__FOUND_MIGRATION_FILES__COUNT_PATH_PATTERN = "Found {count} migration files in {path} matching {pattern}";
     const MESSAGE__MIGRATION_FILE_APPLIED__PATH = "Migration file {path} applied";
@@ -105,7 +103,7 @@ abstract class AbstractMigrationTool implements MigrationToolInterface, LoggerAw
         if (empty($migrationFilesToMigrate)) {
             $context = array(
                 "path" => $this->getPathToDirectoryWithMigrationFiles(),
-                "pattern" => static::MIGRATION_FILE_PATTERN,
+                "pattern" => $this->getMigrationFilePattern(),
             );
 
             if ($this->getLogger()) {
@@ -156,7 +154,7 @@ abstract class AbstractMigrationTool implements MigrationToolInterface, LoggerAw
         foreach ($directoryIterator as $fileInfo) {
             /** @var \SplFileInfo $fileInfo */
             if ($fileInfo->isFile()) {
-                if (preg_match(static::MIGRATION_FILE_PATTERN, $fileInfo->getRealPath())) {
+                if (preg_match($this->getMigrationFilePattern(), $fileInfo->getRealPath())) {
                     $migrationFiles[] = $fileInfo->getRealPath();
                 } else {
                     $context = array(
@@ -207,7 +205,7 @@ abstract class AbstractMigrationTool implements MigrationToolInterface, LoggerAw
                 array(
                     "count" => count($migrationFiles),
                     "path" => $this->getPathToDirectoryWithMigrationFiles(),
-                    "pattern" => static::MIGRATION_FILE_PATTERN,
+                    "pattern" => $this->getMigrationFilePattern(),
                 )
             );
         }
@@ -224,6 +222,14 @@ abstract class AbstractMigrationTool implements MigrationToolInterface, LoggerAw
         $fileInfo = new \SplFileInfo($pathToMigrationFile);
         $basenameParts = explode(" ", $fileInfo->getBasename(".{$fileInfo->getExtension()}"));
         return $basenameParts[0];
+    }
+
+    /**
+     * @return string
+     */
+    protected function getMigrationFilePattern()
+    {
+        return '/^.*$/i';
     }
 
     /**

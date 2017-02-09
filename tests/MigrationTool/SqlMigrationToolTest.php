@@ -29,7 +29,8 @@ class SqlMigrationToolTest extends TestCase
 
     public function testItAcceptsOnlySqlFiles()
     {
-        $this->assertEquals('/\.sql$/i', SqlMigrationTool::MIGRATION_FILE_PATTERN);
+        $tool = $this->getTool($this->getPDO());
+        $this->assertEquals('/\.sql$/i', $this->invokeMethods($tool, array(array("getMigrationFilePattern"))));
     }
 
     public function testGetPhpDataObjectMethodIsCalledOnlyOnce()

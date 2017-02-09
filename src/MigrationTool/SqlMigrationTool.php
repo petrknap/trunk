@@ -14,8 +14,6 @@ use PetrKnap\Php\MigrationTool\Exception\MigrationFileException;
  */
 abstract class SqlMigrationTool extends AbstractMigrationTool
 {
-    const MIGRATION_FILE_PATTERN = '/\.sql$/i';
-
     const MESSAGE__COULD_NOT_CREATE_TABLE__TABLE = "Could not create migration table {table}";
     const MESSAGE__CREATED_MIGRATION_TABLE__TABLE = "Created migration table {table}";
     const MESSAGE__COULD_NOT_REGISTER_MIGRATION__ID = "Could not register migration {id}";
@@ -215,6 +213,14 @@ abstract class SqlMigrationTool extends AbstractMigrationTool
         $this->registerMigrationFile($pathToMigrationFile);
 
         $this->phpDataObject()->commit();
+    }
+
+    /**
+     * @inheritdoc
+     */
+    protected function getMigrationFilePattern()
+    {
+        return '/\.sql$/i';
     }
 
     /**
