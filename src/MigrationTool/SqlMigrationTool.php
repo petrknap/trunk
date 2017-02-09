@@ -47,7 +47,7 @@ abstract class SqlMigrationTool extends AbstractMigrationTool
     protected function createMigrationTable()
     {
         /** @noinspection SqlNoDataSourceInspection,SqlDialectInspection */
-        if (false === $this->phpDataObject()->exec("SELECT null FROM {$this->migrationTableName()} LIMIT 1")) {
+        if (false === $this->phpDataObject()->prepare("SELECT null FROM {$this->migrationTableName()} LIMIT 1")) {
             /** @noinspection SqlNoDataSourceInspection,SqlDialectInspection */
             $result = $this->phpDataObject()->exec(
                 "CREATE TABLE IF NOT EXISTS {$this->migrationTableName()}" .
