@@ -6,8 +6,6 @@ use PetrKnap\Php\MigrationTool\SqlMigrationTool;
 
 class SqlMigrationToolMock extends SqlMigrationTool
 {
-    public $getPhpDataObjectCalls = 0;
-    public $getMigrationTableNameCalls = 0;
     private $phpDataObject;
     private $migrationTableName;
     private $pathToDirectoryWithMigrationFiles;
@@ -19,7 +17,6 @@ class SqlMigrationToolMock extends SqlMigrationTool
 
     protected function getPhpDataObject()
     {
-        $this->getPhpDataObjectCalls++;
         return $this->phpDataObject;
     }
 
@@ -30,7 +27,6 @@ class SqlMigrationToolMock extends SqlMigrationTool
 
     protected function getMigrationTableName()
     {
-        $this->getMigrationTableNameCalls++;
         return $this->migrationTableName;
     }
 

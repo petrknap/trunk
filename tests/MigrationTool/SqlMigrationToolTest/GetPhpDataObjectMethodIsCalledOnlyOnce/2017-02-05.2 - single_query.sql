@@ -1,1 +1,0 @@
-DELETE FROM t WHERE v = 1
