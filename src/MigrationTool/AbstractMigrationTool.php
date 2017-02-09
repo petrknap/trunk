@@ -181,7 +181,10 @@ abstract class AbstractMigrationTool implements MigrationToolInterface, LoggerAw
         sort($migrationFiles);
 
         if (empty($migrationFiles)) {
-            $context = array();
+            $context = array(
+                "path" => $this->getPathToDirectoryWithMigrationFiles(),
+                "pattern" => $this->getMigrationFilePattern(),
+            );
 
             if ($this->getLogger()) {
                 $this->getLogger()->warning(
