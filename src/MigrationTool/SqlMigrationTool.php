@@ -178,7 +178,10 @@ abstract class SqlMigrationTool extends AbstractMigrationTool
         $this->getPhpDataObject()->beginTransaction();
 
         try {
-            $result = $this->getPhpDataObject()->exec($migrationData);
+            $statement = $this->getPhpDataObject()->prepare($migrationData);
+            $result = $statement->execute();
+            while ($statement->nextRowset());
+            $statement->closeCursor();
         } catch (\Exception $e) {
             $result = $e;
         }
@@ -205,7 +208,7 @@ abstract class SqlMigrationTool extends AbstractMigrationTool
                     self::MESSAGE__YOU_HAVE_AN_ERROR_IN_YOUR_SQL_SYNTAX__PATH,
                     $context
                 ),
-                $result->getCode(),
+                intval($result->getCode()),
                 $result
             );
         }
