@@ -129,7 +129,7 @@ abstract class SqlMigrationTool extends AbstractMigrationTool
         $migrationId = $this->getMigrationId($pathToMigrationFile);
         if (false === $statement || false === $statement->execute(array("id" => $migrationId))) {
             $context = array(
-                "path" => $pathToMigrationFile
+                "table" => $this->getNameOfMigrationTable()
             );
 
             if ($this->getLogger()) {
