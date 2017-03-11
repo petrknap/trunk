@@ -1,2 +1,3 @@
-# php
-Monolithic repository for petrknap/php-* packages
+# petrknap/php
+
+Monolithic repository for all `petrknap/php-*` packages.
