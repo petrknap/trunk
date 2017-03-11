@@ -1,0 +1,26 @@
+{
+    "name": "petrknap/php",
+    "description": "Monolithic repository for petrknap/php-* packages",
+    "type": "project",
+    "license": "MIT",
+    "homepage": "https://github.com/petrknap/php",
+    "authors": [
+        {
+            "name": "Petr Knap",
+            "email": "dev@petrknap.cz"
+        }
+    ],
+    "minimum-stability": "dev",
+    "repositories": [
+        {
+            "type": "path",
+            "url": "./packages/*"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.3"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^4.8"
+    }
+}
