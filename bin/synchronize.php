@@ -52,6 +52,11 @@ class Synchronize
             __DIR__ . "/../src/" . $package . "/.gitignore",
             $this->read(__DIR__ . "/../.gitignore")
         );
+
+        $this->write(
+            __DIR__ . "/../src/" . $package . "/.gitattributes",
+            $this->read(__DIR__ . "/../.gitattributes")
+        );
     }
 
     public function license($package)
