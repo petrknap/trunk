@@ -1,6 +1,6 @@
 ---
 layout: blueprint
-title: petrknap/php-singleton
+title: singleton
 ---
 # petrknap/php-singleton
 

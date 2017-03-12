@@ -70,10 +70,6 @@ class Synchronize
                 $this->read(__DIR__ . "/../Makefile")
             )
         );
-        $this->write(
-            __DIR__ . "/../docs/packages.json",
-            json_encode($this->packages, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES) . PHP_EOL
-        );
     }
 
     private function getComposerName($package, $prefix = "name")

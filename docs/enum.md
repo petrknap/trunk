@@ -1,6 +1,6 @@
 ---
 layout: blueprint
-title: petrknap/php-enum
+title: enum
 ---
 # petrknap/php-enum
 
