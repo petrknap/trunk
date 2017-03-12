@@ -21,6 +21,10 @@ foreach(scandir(__DIR__ . "/../src/") as $package) {
     $synchronize->license($package);
     print(" [done]\n");
 
+    print("\t* Update README.md");
+    $synchronize->readme($package);
+    print(" [done]\n");
+
     print("\t* Update composer.json");
     $synchronize->composer($package);
     print(" [done]\n");
@@ -96,6 +100,14 @@ class Synchronize
         $this->write(
             __DIR__ . "/../src/" . $package . "/LICENSE",
             $this->read(__DIR__ . "/../LICENSE")
+        );
+    }
+
+    public function readme($package)
+    {
+        $this->write(
+            __DIR__ . "/../src/" . $package . "/README.md",
+            $this->read(__DIR__ . "/../docs/" . strtolower($package) . ".md")
         );
     }
 
