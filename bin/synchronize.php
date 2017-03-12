@@ -48,10 +48,24 @@ class Synchronize
 
     public function __destruct()
     {
+        $publish = "";
         foreach ($this->packages as $package) {
             $this->composer["require-dev"][$this->getComposerName($package)] = "dev-master";
+            $publish .= "src/{$package}:git@github.com:{$this->getComposerName($package)}.git ";
         }
-        $this->write($this->composerFile, json_encode($this->composer, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES) . PHP_EOL);
+
+        $this->write(
+            $this->composerFile,
+            json_encode($this->composer, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES) . PHP_EOL
+        );
+        $this->write(
+            __DIR__ . "/../Makefile",
+            preg_replace(
+                '/git subsplit publish --heads=master --update "([^"]*)"/',
+                'git subsplit publish --heads=master --update "' . trim($publish) . '"',
+                $this->read(__DIR__ . "/../Makefile")
+            )
+        );
     }
 
     private function getComposerName($package, $prefix = "name")
