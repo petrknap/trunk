@@ -1,12 +1,17 @@
 .PHONY: *
 
-all: docker synchronization composer-update
+all: docker synchronization composer-update tests
+
+clean:
+	_USER=$$USER && \
+	sudo chown $$_USER:$$_USER . -R
 
 docker:
 	sudo docker build -t petrknap/php .
 
 docker-run:
 	sudo docker run -v $$(pwd):/app --rm petrknap/php bash -c "cd /app && ${ARGS}"
+	make clean
 
 composer:
 	make docker-run ARGS="composer ${ARGS}"
