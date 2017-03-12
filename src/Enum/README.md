@@ -1,4 +1,4 @@
-# Enumerated type for PHP by [Petr Knap]
+# Enumerated type for PHP
 
 * [What is Enum?](#what-is-enum)
 * [Why use Enums instead of Constants?](#why-use-enums-instead-of-constants)
@@ -212,5 +212,4 @@ Or manually clone this repository via `git clone https://github.com/petrknap/php
 
 
 
-[Petr Knap]:http://petrknap.cz/
 [Enumerated type - Wikipedia, The Free Encyclopedia]:https://en.wikipedia.org/w/index.php?title=Enumerated_type&oldid=701057934

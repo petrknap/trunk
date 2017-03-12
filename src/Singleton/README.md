@@ -1,4 +1,4 @@
-# Singleton pattern for PHP by [Petr Knap]
+# Singleton pattern for PHP
 
 * [What is Singleton pattern?](#what-is-singleton-pattern)
 * [Why use Singletons?](#why-use-singletons)
@@ -136,5 +136,4 @@ Or manually clone this repository via `git clone https://github.com/petrknap/php
 
 
 
-[Petr Knap]:http://petrknap.cz/
 [Singleton pattern - Wikipedia, The Free Encyclopedia]:https://en.wikipedia.org/w/index.php?title=Singleton_pattern&oldid=706466443

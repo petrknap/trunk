@@ -2,7 +2,7 @@
 layout: blueprint
 title: singleton
 ---
-# Singleton pattern for PHP by [Petr Knap]
+# Singleton pattern for PHP
 
 * [What is Singleton pattern?](#what-is-singleton-pattern)
 * [Why use Singletons?](#why-use-singletons)
@@ -122,5 +122,4 @@ if ($b->getName() == "Singleton A") {
 
 
 
-[Petr Knap]:http://petrknap.cz/
 [Singleton pattern - Wikipedia, The Free Encyclopedia]:https://en.wikipedia.org/w/index.php?title=Singleton_pattern&oldid=706466443
