@@ -34,16 +34,34 @@ class Synchronize
 {
     private $composerFile;
     private $composer;
-    private $composerRequireDev;
+    private $packages;
 
     public function __construct()
     {
         $this->composerFile = __DIR__ . "/../composer.json";
         $this->composer = json_decode($this->read($this->composerFile), true);
-        $this->composerRequireDev = [
+        $this->composer["require-dev"] = [
             "phpunit/phpunit" => $this->composer["require-dev"]["phpunit/phpunit"]
         ];
-        $this->composer["require-dev"] = $this->composerRequireDev;
+        $this->packages = [];
+    }
+
+    public function __destruct()
+    {
+        foreach ($this->packages as $package) {
+            $this->composer["require-dev"][$this->getComposerName($package)] = "dev-master";
+        }
+        $this->write($this->composerFile, json_encode($this->composer, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES) . PHP_EOL);
+    }
+
+    private function getComposerName($package, $prefix = "name")
+    {
+        return $this->composer[$prefix] . "-" . strtolower($package);
+    }
+
+    public function registerPackage($package)
+    {
+        $this->packages[] = $package;
     }
 
     public function git($package)
@@ -73,12 +91,12 @@ class Synchronize
         $composer = json_decode($this->read($composerFile), true);
 
         $composer["WARNING"] = "This file is updated automatically. All keys will be overwritten, except of 'description' and 'require'.";
-        $composer["name"] = $this->composer["name"] . "-" . strtolower($package);
-        $composer["homepage"] = $this->composer["homepage"] . "-" . strtolower($package);
+        $composer["name"] = $this->getComposerName($package);
+        $composer["homepage"] = $this->getComposerName($package, "homepage");
         $composer["license"] = $this->composer["license"];
         $composer["authors"] = $this->composer["authors"];
         $composer["require"] = array_merge($composer["require"], $this->composer["require"]);
-        $composer["require-dev"] = $this->composerRequireDev;
+        $composer["require-dev"] = $this->composer["require-dev"];
         $composer["autoload"] = array("psr-4" => array("PetrKnap\\Php\\" . $package ."\\" => "."));
 
         $this->write($composerFile, json_encode($composer, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES) . PHP_EOL);
@@ -90,12 +108,6 @@ class Synchronize
             __DIR__ . "/../src/" . $package . "/phpunit.xml",
             $this->read(__DIR__ . "/../phpunit.xml")
         );
-    }
-
-    public function registerPackage($package)
-    {
-        $this->composer["require-dev"]["petrknap/php-" . strtolower($package)] = "dev-master";
-        $this->write($this->composerFile, json_encode($this->composer, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES) . PHP_EOL);
     }
 
     private function read($file)
