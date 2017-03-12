@@ -1,6 +1,4 @@
-# petrknap/php-singleton
-
-Singleton pattern for PHP by [Petr Knap].
+# Singleton pattern for PHP by [Petr Knap]
 
 * [What is Singleton pattern?](#what-is-singleton-pattern)
 * [Why use Singletons?](#why-use-singletons)

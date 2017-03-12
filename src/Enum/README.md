@@ -1,6 +1,4 @@
-# petrknap/php-enum
-
-Enumerated type for PHP by [Petr Knap].
+# Enumerated type for PHP by [Petr Knap]
 
 * [What is Enum?](#what-is-enum)
 * [Why use Enums instead of Constants?](#why-use-enums-instead-of-constants)
