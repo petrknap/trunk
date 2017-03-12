@@ -38,7 +38,7 @@
         <div class="navbar-collapse collapse" id="navbar">
             <ul class="nav navbar-nav">
                 {% for package in site.pages %}
-                    {% if package.name contains ".md" %}
+                    {% if package.name contains ".md" and package.name != "index.md" %}
                         <li{% if page.url == package.url %} class="active"{% endif %}>
                             <a href=".{{ package.url }}">{{ package.title }}</a>
                         </li>
