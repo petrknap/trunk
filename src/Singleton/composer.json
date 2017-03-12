@@ -1,5 +1,9 @@
 {
     "description": "Singleton pattern for PHP",
+    "require-dev": {
+        "phpunit/phpunit": "^4.8"
+    },
+    "WARNING": "This file is updated automatically. All keys will be overwritten, except of 'description' and 'require'.",
     "name": "petrknap/php-singleton",
     "homepage": "https://github.com/petrknap/php-singleton",
     "license": "MIT",
@@ -9,12 +13,7 @@
             "email": "dev@petrknap.cz"
         }
     ],
-    "require": {
-        "php": ">=5.4"
-    },
-    "require-dev": {
-        "phpunit/phpunit": "^4.8"
-    },
+    "require": null,
     "autoload": {
         "psr-4": {
             "PetrKnap\\Php\\Singleton\\": "."

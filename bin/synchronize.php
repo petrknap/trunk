@@ -72,6 +72,7 @@ class Synchronize
         $composerFile = __DIR__ . "/../src/" . $package . "/composer.json";
         $composer = json_decode($this->read($composerFile), true);
 
+        $composer["WARNING"] = "This file is updated automatically. All keys will be overwritten, except of 'description' and 'require'.";
         $composer["name"] = $this->composer["name"] . "-" . strtolower($package);
         $composer["homepage"] = $this->composer["homepage"] . "-" . strtolower($package);
         $composer["license"] = $this->composer["license"];
