@@ -27,3 +27,10 @@ synchronization:
 
 tests: composer-install
 	make docker-run ARGS="./vendor/bin/phpunit ${ARGS}"
+
+publish: tests
+	git subsplit init https://github.com/petrknap/php
+	git subsplit publish --heads=master --update "\
+		src/Enum:git@github.com:petrknap/php-enum.git \
+	"
+	rm -rf .subsplit
