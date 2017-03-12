@@ -130,7 +130,11 @@ Or manually clone this repository via `git clone https://github.com/petrknap/php
 
 
 
-[Petr Knap]:http://petrknap.cz/
-[Singleton pattern - Wikipedia, The Free Encyclopedia]:https://en.wikipedia.org/w/index.php?title=Singleton_pattern&oldid=706466443
 [one of released versions]:https://github.com/petrknap/php-singleton/releases
 [this repository as ZIP]:https://github.com/petrknap/php-singleton/archive/master.zip
+
+
+
+
+[Petr Knap]:http://petrknap.cz/
+[Singleton pattern - Wikipedia, The Free Encyclopedia]:https://en.wikipedia.org/w/index.php?title=Singleton_pattern&oldid=706466443
