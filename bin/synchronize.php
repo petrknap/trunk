@@ -109,6 +109,11 @@ class Synchronize
         $readme = explode(PHP_EOL, $readme);
         $readme = array_slice($readme, 4);
         $readme = implode(PHP_EOL, $readme);
+        $readme = str_replace(
+            ["{% include how-to-install.md %}", "{{ page.title }}"],
+            [$this->read(__DIR__ . "/../docs/_includes/how-to-install.md"), strtolower($package)],
+            $readme
+        );
 
         $this->write(
             __DIR__ . "/../src/" . $package . "/README.md",
