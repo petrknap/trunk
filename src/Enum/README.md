@@ -1,4 +1,4 @@
-# php-enum
+# petrknap/php-enum
 
 Enumerated type for PHP by [Petr Knap].
 

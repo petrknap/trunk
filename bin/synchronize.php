@@ -70,6 +70,10 @@ class Synchronize
                 $this->read(__DIR__ . "/../Makefile")
             )
         );
+        $this->write(
+            __DIR__ . "/../docs/packages.json",
+            json_encode($this->packages, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES) . PHP_EOL
+        );
     }
 
     private function getComposerName($package, $prefix = "name")
@@ -105,9 +109,14 @@ class Synchronize
 
     public function readme($package)
     {
+        $readme = $this->read(__DIR__ . "/../docs/" . strtolower($package) . ".md");
+        $readme = explode(PHP_EOL, $readme);
+        $readme = array_slice($readme, 4);
+        $readme = implode(PHP_EOL, $readme);
+
         $this->write(
             __DIR__ . "/../src/" . $package . "/README.md",
-            $this->read(__DIR__ . "/../docs/" . strtolower($package) . ".md")
+            $readme
         );
     }
 

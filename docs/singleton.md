@@ -1,4 +1,8 @@
-# php-singleton
+---
+layout: blueprint
+title: petrknap/php-singleton
+---
+# petrknap/php-singleton
 
 Singleton pattern for PHP by [Petr Knap].
 
