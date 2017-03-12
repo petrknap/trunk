@@ -13,6 +13,10 @@ foreach(scandir(__DIR__ . "/../src/") as $package) {
     $synchronize->registerPackage($package);
     print(" [done]\n");
 
+    print("\t* Update git");
+    $synchronize->git($package);
+    print(" [done]\n");
+
     print("\t* Update LICENSE");
     $synchronize->license($package);
     print(" [done]\n");
@@ -40,6 +44,14 @@ class Synchronize
             "phpunit/phpunit" => $this->composer["require-dev"]["phpunit/phpunit"]
         ];
         $this->composer["require-dev"] = $this->composerRequireDev;
+    }
+
+    public function git($package)
+    {
+        $this->write(
+            __DIR__ . "/../src/" . $package . "/.gitignore",
+            $this->read(__DIR__ . "/../.gitignore")
+        );
     }
 
     public function license($package)
