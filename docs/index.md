@@ -1,5 +1,6 @@
 ---
 layout: blueprint
+title: ""
 ---
 # Available packages
 
