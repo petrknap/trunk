@@ -56,7 +56,7 @@ abstract class Enum implements EnumInterface
      *
      * @param string $memberName enum key
      * @param array $args ignored
-     * @return self
+     * @return static
      */
     public static function __callStatic($memberName, array $args)
     {
@@ -153,7 +153,7 @@ abstract class Enum implements EnumInterface
 
     /**
      * @param mixed $value
-     * @return self
+     * @return static
      * @throws EnumNotFoundException
      */
     public static function getEnumByValue($value)
