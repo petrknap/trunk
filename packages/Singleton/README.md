@@ -1,6 +1,4 @@
-# php-singleton
-
-Singleton pattern for PHP by [Petr Knap].
+# Singleton pattern for PHP
 
 * [What is Singleton pattern?](#what-is-singleton-pattern)
 * [Why use Singletons?](#why-use-singletons)
@@ -104,7 +102,7 @@ class MySingleton implements \PetrKnap\Php\Singleton\SingletonInterface
 $a = MySingleton::getInstance();
 $b = MySingleton::getInstance();
 
-if ($a === $b) {
+if ($a == $b) {
     echo "Both variables contain the same instance.";
 }
 
@@ -132,7 +130,10 @@ Or manually clone this repository via `git clone https://github.com/petrknap/php
 
 
 
-[Petr Knap]:http://petrknap.cz/
-[Singleton pattern - Wikipedia, The Free Encyclopedia]:https://en.wikipedia.org/w/index.php?title=Singleton_pattern&oldid=706466443
 [one of released versions]:https://github.com/petrknap/php-singleton/releases
 [this repository as ZIP]:https://github.com/petrknap/php-singleton/archive/master.zip
+
+
+
+
+[Singleton pattern - Wikipedia, The Free Encyclopedia]:https://en.wikipedia.org/w/index.php?title=Singleton_pattern&oldid=706466443
