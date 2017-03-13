@@ -29,13 +29,16 @@ composer-update:
 synchronization:
 	make docker-run ARGS="./bin/synchronize.php"
 
-tests:
+tests: composer-install
+	make docker-run ARGS="vendor/bin/phpunit"
+
+tests-on-packages:
 	rsync -r --delete --exclude=composer.lock --exclude=vendor packages/ temp/packages/;
-	for package in temp/packages/* .; do \
+	for package in temp/packages/*; do \
 		make docker-run ARGS="cd $${package} && composer update && vendor/bin/phpunit"; \
 	done
 
-publish: tests
+publish: tests tests-on-packages
 	git subsplit init https://github.com/petrknap/php
 	git subsplit publish --heads=master --update "packages/Enum:git@github.com:petrknap/php-enum.git packages/Singleton:git@github.com:petrknap/php-singleton.git"
 	rm -rf .subsplit
