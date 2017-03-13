@@ -29,8 +29,11 @@ composer-update:
 synchronization:
 	make docker-run ARGS="./bin/synchronize.php"
 
-tests: composer-install
-	make docker-run ARGS="./vendor/bin/phpunit ${ARGS}"
+tests:
+	rsync -r --delete --exclude=composer.lock --exclude=vendor packages/ temp/packages/;
+	for package in temp/packages/* .; do \
+		make docker-run ARGS="cd $${package} && composer update && vendor/bin/phpunit"; \
+	done
 
 publish: tests
 	git subsplit init https://github.com/petrknap/php
