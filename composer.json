@@ -3,7 +3,7 @@
     "description": "Monolithic repository for petrknap/php-* packages",
     "type": "project",
     "license": "MIT",
-    "homepage": "https://github.com/petrknap/php",
+    "homepage": "https://petrknap.github.io/php/",
     "authors": [
         {
             "name": "Petr Knap",

@@ -76,9 +76,9 @@ class Synchronize
         );
     }
 
-    private function getComposerName($package, $prefix = "name")
+    private function getComposerName($package)
     {
-        return $this->composer[$prefix] . "-" . strtolower($package);
+        return $this->composer["name"] . "-" . strtolower($package);
     }
 
     public function registerPackage($package)
@@ -137,7 +137,7 @@ class Synchronize
 
         $composer["WARNING"] = "This file is updated automatically. All keys will be overwritten, except of 'description' and 'require'.";
         $composer["name"] = $this->getComposerName($package);
-        $composer["homepage"] = $this->getComposerName($package, "homepage");
+        $composer["homepage"] = $this->composer["homepage"] . strtolower($package) . ".html";
         $composer["license"] = $this->composer["license"];
         $composer["authors"] = $this->composer["authors"];
         $composer["require"] = array_merge($composer["require"], $this->composer["require"]);
