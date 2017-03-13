@@ -34,5 +34,5 @@ tests: composer-install
 
 publish: tests
 	git subsplit init https://github.com/petrknap/php
-	git subsplit publish --heads=master --update "src/Enum:git@github.com:petrknap/php-enum.git src/Singleton:git@github.com:petrknap/php-singleton.git"
+	git subsplit publish --heads=master --update "packages/Enum:git@github.com:petrknap/php-enum.git packages/Singleton:git@github.com:petrknap/php-singleton.git"
 	rm -rf .subsplit

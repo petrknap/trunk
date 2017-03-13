@@ -3,7 +3,7 @@
 
 $synchronize = new Synchronize();
 
-foreach(scandir(__DIR__ . "/../src/") as $package) {
+foreach(scandir(__DIR__ . "/../packages/") as $package) {
     if (in_array($package, array(".", ".."))) {
         continue;
     }
@@ -47,6 +47,9 @@ class Synchronize
         $this->composer["require-dev"] = [
             "phpunit/phpunit" => $this->composer["require-dev"]["phpunit/phpunit"]
         ];
+        $this->composer["autoload-dev"] = [
+            "psr-4" => []
+        ];
         $this->packages = [];
     }
 
@@ -55,7 +58,8 @@ class Synchronize
         $publish = "";
         foreach ($this->packages as $package) {
             $this->composer["require-dev"][$this->getComposerName($package)] = "dev-master";
-            $publish .= "src/{$package}:git@github.com:{$this->getComposerName($package)}.git ";
+            $this->composer["autoload-dev"]["psr-4"]["PetrKnap\\Php\\" . $package ."\\Test\\"] = "packages/" . $package . "/tests/" . $package;
+            $publish .= "packages/{$package}:git@github.com:{$this->getComposerName($package)}.git ";
         }
 
         $this->write(
@@ -85,12 +89,12 @@ class Synchronize
     public function git($package)
     {
         $this->write(
-            __DIR__ . "/../src/" . $package . "/.gitignore",
+            __DIR__ . "/../packages/" . $package . "/.gitignore",
             $this->read(__DIR__ . "/../.gitignore")
         );
 
         $this->write(
-            __DIR__ . "/../src/" . $package . "/.gitattributes",
+            __DIR__ . "/../packages/" . $package . "/.gitattributes",
             $this->read(__DIR__ . "/../.gitattributes")
         );
     }
@@ -98,7 +102,7 @@ class Synchronize
     public function license($package)
     {
         $this->write(
-            __DIR__ . "/../src/" . $package . "/LICENSE",
+            __DIR__ . "/../packages/" . $package . "/LICENSE",
             $this->read(__DIR__ . "/../LICENSE")
         );
     }
@@ -116,15 +120,20 @@ class Synchronize
         );
 
         $this->write(
-            __DIR__ . "/../src/" . $package . "/README.md",
+            __DIR__ . "/../packages/" . $package . "/README.md",
             $readme
         );
     }
 
     public function composer($package)
     {
-        $composerFile = __DIR__ . "/../src/" . $package . "/composer.json";
+        $composerFile = __DIR__ . "/../packages/" . $package . "/composer.json";
         $composer = json_decode($this->read($composerFile), true);
+
+        $composer = [
+            "description" => $composer["description"],
+            "require" => $composer["require"]
+        ];
 
         $composer["WARNING"] = "This file is updated automatically. All keys will be overwritten, except of 'description' and 'require'.";
         $composer["name"] = $this->getComposerName($package);
@@ -133,7 +142,8 @@ class Synchronize
         $composer["authors"] = $this->composer["authors"];
         $composer["require"] = array_merge($composer["require"], $this->composer["require"]);
         $composer["require-dev"] = $this->composer["require-dev"];
-        $composer["autoload"] = array("psr-4" => array("PetrKnap\\Php\\" . $package ."\\" => "."));
+        $composer["autoload"] = array("psr-4" => array("PetrKnap\\Php\\" . $package ."\\" => "src/" . $package));
+        $composer["autoload-dev"] = array("psr-4" => array("PetrKnap\\Php\\" . $package ."\\Test\\" => "tests/" . $package));
 
         $this->write($composerFile, json_encode($composer, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES) . PHP_EOL);
     }
@@ -141,7 +151,7 @@ class Synchronize
     public function phpunit($package)
     {
         $this->write(
-            __DIR__ . "/../src/" . $package . "/phpunit.xml",
+            __DIR__ . "/../packages/" . $package . "/phpunit.xml",
             $this->read(__DIR__ . "/../phpunit.xml")
         );
     }
