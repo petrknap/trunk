@@ -27,8 +27,8 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "PetrKnap\\Php\\Enum\\Test\\": "packages/Enum/tests/Enum",
-            "PetrKnap\\Php\\Singleton\\Test\\": "packages/Singleton/tests/Singleton"
+            "PetrKnap\\Php\\Enum\\Test\\": "packages/Enum/tests",
+            "PetrKnap\\Php\\Singleton\\Test\\": "packages/Singleton/tests"
         }
     }
 }

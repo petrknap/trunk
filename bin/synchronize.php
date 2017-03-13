@@ -58,7 +58,7 @@ class Synchronize
         $publish = "";
         foreach ($this->packages as $package) {
             $this->composer["require-dev"][$this->getComposerName($package)] = "dev-master";
-            $this->composer["autoload-dev"]["psr-4"]["PetrKnap\\Php\\" . $package ."\\Test\\"] = "packages/" . $package . "/tests/" . $package;
+            $this->composer["autoload-dev"]["psr-4"]["PetrKnap\\Php\\" . $package ."\\Test\\"] = "packages/" . $package . "/tests";
             $publish .= "packages/{$package}:git@github.com:{$this->getComposerName($package)}.git ";
         }
 
@@ -142,8 +142,8 @@ class Synchronize
         $composer["authors"] = $this->composer["authors"];
         $composer["require"] = array_merge($composer["require"], $this->composer["require"]);
         $composer["require-dev"] = $this->composer["require-dev"];
-        $composer["autoload"] = array("psr-4" => array("PetrKnap\\Php\\" . $package ."\\" => "src/" . $package));
-        $composer["autoload-dev"] = array("psr-4" => array("PetrKnap\\Php\\" . $package ."\\Test\\" => "tests/" . $package));
+        $composer["autoload"] = array("psr-4" => array("PetrKnap\\Php\\" . $package ."\\" => "src"));
+        $composer["autoload-dev"] = array("psr-4" => array("PetrKnap\\Php\\" . $package ."\\Test\\" => "tests"));
 
         $this->write($composerFile, json_encode($composer, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES) . PHP_EOL);
     }

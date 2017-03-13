@@ -18,12 +18,12 @@
     },
     "autoload": {
         "psr-4": {
-            "PetrKnap\\Php\\Enum\\": "src/Enum"
+            "PetrKnap\\Php\\Enum\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "PetrKnap\\Php\\Enum\\Test\\": "tests/Enum"
+            "PetrKnap\\Php\\Enum\\Test\\": "tests"
         }
     }
 }

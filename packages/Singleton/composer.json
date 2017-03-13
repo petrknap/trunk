@@ -18,12 +18,12 @@
     },
     "autoload": {
         "psr-4": {
-            "PetrKnap\\Php\\Singleton\\": "src/Singleton"
+            "PetrKnap\\Php\\Singleton\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "PetrKnap\\Php\\Singleton\\Test\\": "tests/Singleton"
+            "PetrKnap\\Php\\Singleton\\Test\\": "tests"
         }
     }
 }
