@@ -6,6 +6,10 @@ clean:
 	_USER=$$USER && \
 	sudo chown $$_USER:$$_USER . -R
 
+add-package:
+	[ "${ARGS}" != "" ] && \
+	git subtree add --prefix=packages/${ARGS} git://github.com/petrknap/php-`echo ${ARGS} | tr A-Z a-z`.git master
+
 docker:
 	sudo docker build -t petrknap/php .
 
