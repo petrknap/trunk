@@ -2,7 +2,7 @@
     "description": "Service locator pattern for PHP",
     "require": {
         "php": ">=5.4",
-        "petrknap/php-singleton": "0.1.*"
+        "petrknap/php-singleton": "^1.0"
     },
     "WARNING": "This file is updated automatically. All keys will be overwritten, except of 'description' and 'require'.",
     "name": "petrknap/php-servicemanager",
