@@ -1,6 +1,5 @@
 ---
 layout: blueprint
-title: enum
 ---
 # Enumerated type for PHP
 

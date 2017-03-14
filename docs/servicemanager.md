@@ -1,6 +1,5 @@
 ---
 layout: blueprint
-title: servicemanager
 ---
 # Service locator pattern for PHP
 

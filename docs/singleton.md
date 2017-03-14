@@ -1,6 +1,5 @@
 ---
 layout: blueprint
-title: singleton
 ---
 # Singleton pattern for PHP
 
