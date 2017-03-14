@@ -19,39 +19,41 @@
 Because **it is easier than not to used it**. Don't trust me? Let see at this code:
 
 ```php
-// classes.php
+<?php // classes.php
+
 class MyDatabase
 {
    public function __construct($dsn, $user, $password)
-   {...}
+   {/* ... */}
 }
 
 class MyWeb
 {
    public function __construct(MyDatabase $database)
-   {...}
+   {/* ... */}
 }
 
 class MyBlog
 {
    public function __construct(MyWeb $web)
-   {...}
+   {/* ... */}
    
    public function show($page)
-   {...}
+   {/* ... */}
 }
 
 class MyAdmin
 {
    public function __construct(MyWeb $web)
-   {...}
+   {/* ... */}
    
    public function show($page)
-   {...}
+   {/* ... */}
 }
 ```
 ```php
-// index.php
+<?php // index.php
+
 require_once("classes.php");
 $config = require("config.php");
 $database = new MyDatabase($config["dsn"], $config["username"], $config["password"]);
@@ -60,7 +62,7 @@ $blog = new MyBlog($web);
 $blog->show("homepage");
 ```
 ```php
-// admin.php
+<?php // admin.php
 require_once("classes.php");
 $config = require("config.php");
 $database = new MyDatabase($config["dsn"], $config["username"], $config["password"]);
@@ -72,35 +74,36 @@ $admin->show("dashboard");
 And now the **same code with service locator**:
 
 ```php
-// classes.php
+<?php // classes.php
+
 class MyDatabase
 {
    public function __construct($dsn, $user, $password)
-   {...}
+   {/* ... */}
 }
 
 class MyWeb
 {
    public function __construct(MyDatabase $database)
-   {...}
+   {/* ... */}
 }
 
 class MyBlog
 {
    public function __construct(MyWeb $web)
-   {...}
+   {/* ... */}
    
    public function show($page)
-   {...}
+   {/* ... */}
 }
 
 class MyAdmin
 {
    public function __construct(MyWeb $web)
-   {...}
+   {/* ... */}
    
    public function show($page)
-   {...}
+   {/* ... */}
 }
 
 ServiceManager::setConfig([
@@ -122,12 +125,13 @@ ServiceManager::setConfig([
 ]);
 ```
 ```php
-// index.php
+<?php // index.php
+
 require_once("classes.php");
 ServiceManager::getInstance()->get("MyBlog")->show("homepage");
 ```
 ```php
-// admin.php
+<?php // admin.php
 require_once("classes.php");
 ServiceManager::getInstance()->get("MyAdmin")->show("dashboard");
 ```
@@ -137,12 +141,15 @@ ServiceManager::getInstance()->get("MyAdmin")->show("dashboard");
 
 ### Service manager configuration
 ```php
+<?php
+
 use PetrKnap\Php\ServiceManager\ConfigurationBuilder;
 use PetrKnap\Php\ServiceManager\ServiceLocatorInterface;
 use PetrKnap\Php\ServiceManager\ServiceManager;
 
 class MyCoreClass
 {
+    /* ... */
 }
 
 class MyClass
@@ -167,6 +174,8 @@ ServiceManager::setConfig($configBuilder);
 
 ### Service manager usage
 ```php
+<?php
+
 use PetrKnap\Php\ServiceManager\ServiceManager;
 
 $serviceManager = ServiceManager::getInstance();

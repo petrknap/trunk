@@ -19,6 +19,8 @@
 Because **it is deadlock-safe**. Don't trust me? Let see at this code:
 
 ```php
+<?php
+
 class MyFileAppender
 {
     const MY_FILE = "./my.file";
@@ -45,6 +47,8 @@ $second = new MyFileAppender(); // Deadlock
 And now the **same code with Singleton pattern**:
 
 ```php
+<?php
+
 class MyFileAppender implements \PetrKnap\Php\Singleton\SingletonInterface
 {
     use \PetrKnap\Php\Singleton\SingletonTrait;
@@ -74,6 +78,8 @@ $second = MyFileAppender::getInstance(); // OK
 
 ### Singleton declaration
 ```php
+<?php
+
 class MySingleton implements \PetrKnap\Php\Singleton\SingletonInterface
 {
     use \PetrKnap\Php\Singleton\SingletonTrait;
@@ -92,13 +98,15 @@ class MySingleton implements \PetrKnap\Php\Singleton\SingletonInterface
     
     public function setName($name)
     {
-        $this->name = name;
+        $this->name = $name;
     }
 }
 ```
 
 ### Singleton usage
 ```php
+<?php
+
 $a = MySingleton::getInstance();
 $b = MySingleton::getInstance();
 

@@ -20,13 +20,15 @@
 Because **it is safer and less scary** than using constants. Don't trust me? Let see at this code:
 
 ```php
+<?php
+
 class MyBoolean
 {
     const MY_TRUE = 1;
     const MY_FALSE = 2;
 }
 
-function isTrue(int $myBoolean)
+function isTrue($myBoolean)
 {
     switch($myBoolean) {
         case MyBoolean::MY_TRUE:
@@ -47,6 +49,8 @@ isTrue(false);               // returns null - WTF?
 And now the **same code with Enum** instead of Constants:
 
 ```php
+<?php
+
 class MyBoolean extends \PetrKnap\Php\Enum\Enum
 {
     protected function members()
@@ -81,6 +85,8 @@ isTrue(false);                 // uncaught type error - OK
 
 ### Enum declaration
 ```php
+<?php
+
 class DayOfWeek extends \PetrKnap\Php\Enum\Enum
 {
     protected function members()
@@ -100,18 +106,16 @@ class DayOfWeek extends \PetrKnap\Php\Enum\Enum
 
 ### Enum usage
 ```php
+<?php
+
 if (DayOfWeek::FRIDAY() == DayOfWeek::FRIDAY()) {
     echo "This is OK.";
 }
-```
 
-```php
 if (DayOfWeek::FRIDAY() == DayOfWeek::MONDAY()) {
     echo "We are going to Hell!";
 }
-```
 
-```php
 function isWeekend(DayOfWeek $dayOfWeek)
 {
    switch ($dayOfWeek) {
@@ -122,9 +126,7 @@ function isWeekend(DayOfWeek $dayOfWeek)
            return false;
    }
 }
-```
 
-```php
 if (date('w') == DayOfWeek::FRIDAY()->getValue()) {
     echo "Finally it is Friday!";
 }
@@ -139,6 +141,8 @@ if (DayOfWeek::getEnumByValue(date('w')) == DayOfWeek::FRIDAY()) {
 Enum is capable to carry any data type as values, including another enum instance.
 
 ```php
+<?php
+
 class MixedValues extends \PetrKnap\Php\Enum\Enum
 {
     protected function members()
@@ -160,6 +164,8 @@ class MixedValues extends \PetrKnap\Php\Enum\Enum
 You can simply convert value to Enum instance and vice versa.
 
 ```php
+<?php
+
 /**
  * @ORM\Entity
  */
