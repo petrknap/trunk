@@ -1,5 +1,5 @@
 {
-    "description": "Service locator pattern for PHP",
+    "description": "Service manager for PHP",
     "require": {
         "php": ">=5.4",
         "psr/container": "^1.0",

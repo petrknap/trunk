@@ -1,7 +1,7 @@
 ---
 layout: blueprint
 ---
-# Service locator pattern for PHP
+# Service manager for PHP
 
 * [What is service locator pattern?](#what-is-service-locator-pattern)
 * [Why use service locator?](#why-use-service-locator)
