@@ -13,6 +13,6 @@ keywords:
 3. Focus the camera on QR code and it will **scan it**
 4. Tap on scanned code
 
-![Focus the camera on QR code](/notes/data/how-to-scan-qr-codes-on-windows-phone/focus-the-camera-on-qr-code.jpg)
+![Focus the camera on QR code](/notes/data/windows-phone-qr-scanner/focus-the-camera-on-qr-code.jpg)
 
 That's all Folks!
