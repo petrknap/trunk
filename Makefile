@@ -38,7 +38,7 @@ tests-on-packages:
 		make docker-run ARGS="cd $${package} && composer update && vendor/bin/phpunit"; \
 	done
 
-publish: tests tests-on-packages
+publish: tests
 	git subsplit init https://github.com/petrknap/php
 	git subsplit publish --heads=master --update "packages/Enum:git@github.com:petrknap/php-enum.git packages/Singleton:git@github.com:petrknap/php-singleton.git"
 	rm -rf .subsplit
