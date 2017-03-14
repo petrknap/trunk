@@ -2,7 +2,9 @@
 
 namespace PetrKnap\Php\ServiceManager\Exception;
 
-class ServiceNotFoundException extends ServiceLocatorException
+use Psr\Container\NotFoundExceptionInterface;
+
+class ServiceNotFoundException extends ServiceManagerException implements NotFoundExceptionInterface
 {
     // Service not found
 }

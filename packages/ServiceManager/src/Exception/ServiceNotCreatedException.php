@@ -2,7 +2,7 @@
 
 namespace PetrKnap\Php\ServiceManager\Exception;
 
-class ServiceNotCreatedException extends ServiceLocatorException
+class ServiceNotCreatedException extends ServiceManagerException
 {
     // Service not created
 }
