@@ -22,8 +22,14 @@
     },
     "require-dev": {
         "phpunit/phpunit": "^4.8",
-        "petrknap/php-enum": "dev-master",
-        "petrknap/php-singleton": "dev-master"
+        "petrknap/php-enum": "*",
+        "petrknap/php-singleton": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "PetrKnap\\Php\\Enum\\": "packages/Enum/src",
+            "PetrKnap\\Php\\Singleton\\": "packages/Singleton/src"
+        }
     },
     "autoload-dev": {
         "psr-4": {

@@ -47,6 +47,9 @@ class Synchronize
         $this->composer["require-dev"] = [
             "phpunit/phpunit" => $this->composer["require-dev"]["phpunit/phpunit"]
         ];
+        $this->composer["autoload"] = [
+            "psr-4" => []
+        ];
         $this->composer["autoload-dev"] = [
             "psr-4" => []
         ];
@@ -57,7 +60,8 @@ class Synchronize
     {
         $publish = "";
         foreach ($this->packages as $package) {
-            $this->composer["require-dev"][$this->getComposerName($package)] = "dev-master";
+            $this->composer["require-dev"][$this->getComposerName($package)] = "*";
+            $this->composer["autoload"]["psr-4"]["PetrKnap\\Php\\" . $package ."\\"] = "packages/" . $package . "/src";
             $this->composer["autoload-dev"]["psr-4"]["PetrKnap\\Php\\" . $package ."\\Test\\"] = "packages/" . $package . "/tests";
             $publish .= "packages/{$package}:git@github.com:{$this->getComposerName($package)}.git ";
         }
