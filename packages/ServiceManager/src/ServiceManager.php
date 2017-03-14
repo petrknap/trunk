@@ -10,6 +10,7 @@ use PetrKnap\Php\ServiceManager\Exception\ServiceNotFoundException;
 use PetrKnap\Php\ServiceManager\Exception\UnsupportedFactoryException;
 use PetrKnap\Php\Singleton\SingletonInterface;
 use PetrKnap\Php\Singleton\SingletonTrait;
+use Psr\Container\ContainerInterface;
 
 /**
  * Service manager
@@ -20,7 +21,7 @@ use PetrKnap\Php\Singleton\SingletonTrait;
  * @package  PetrKnap\Php\ServiceManager
  * @license  https://github.com/petrknap/php-servicemanager/blob/master/LICENSE MIT
  */
-class ServiceManager implements ServiceLocatorInterface, SingletonInterface
+class ServiceManager implements ContainerInterface, SingletonInterface
 {
     use SingletonTrait;
     use ConfigurationCheckerTrait;

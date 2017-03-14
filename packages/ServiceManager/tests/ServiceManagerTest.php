@@ -3,7 +3,7 @@
 namespace PetrKnap\Php\ServiceManager\Test;
 
 use PetrKnap\Php\ServiceManager\ConfigurationBuilder;
-use PetrKnap\Php\ServiceManager\Exception\ServiceLocatorException;
+use PetrKnap\Php\ServiceManager\Exception\ServiceManagerException;
 use PetrKnap\Php\ServiceManager\Exception\ServiceNotCreatedException;
 use PetrKnap\Php\ServiceManager\Exception\ServiceNotFoundException;
 use PetrKnap\Php\ServiceManager\ServiceManager;
@@ -21,7 +21,7 @@ class ServiceManagerTest extends \PHPUnit_Framework_TestCase
     {
         $instance = ServiceManager::getInstance();
 
-        $this->assertInstanceOf("PetrKnap\\Php\\ServiceManager\\ServiceLocatorInterface", $instance);
+        $this->assertInstanceOf("Psr\\Container\\ContainerInterface", $instance);
         $this->assertInstanceOf("PetrKnap\\Php\\ServiceManager\\ServiceManager", $instance);
     }
 
@@ -60,7 +60,7 @@ class ServiceManagerTest extends \PHPUnit_Framework_TestCase
      * @dataProvider dataGetWorks
      * @param string $serviceName
      * @param string $expectedClass
-     * @param ServiceLocatorException $expectedException
+     * @param ServiceManagerException $expectedException
      */
     public function testGetWorks($serviceName, $expectedClass, $expectedException = null)
     {

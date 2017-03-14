@@ -4,7 +4,7 @@ namespace PetrKnap\Php\ServiceManager\Test\ServiceManagerTest;
 
 use PetrKnap\Php\ServiceManager\ConfigurationBuilder;
 use PetrKnap\Php\ServiceManager\FactoryInterface;
-use PetrKnap\Php\ServiceManager\ServiceLocatorInterface;
+use Psr\Container\ContainerInterface;
 
 class DependentServiceFactory implements FactoryInterface
 {
@@ -17,7 +17,7 @@ class DependentServiceFactory implements FactoryInterface
         return $config->getConfig();
     }
 
-    public function createService(ServiceLocatorInterface $serviceLocator)
+    public function createService(ContainerInterface $serviceLocator)
     {
         /** @var IndependentService $independentService */
         $independentService = $serviceLocator->get("IndependentService");

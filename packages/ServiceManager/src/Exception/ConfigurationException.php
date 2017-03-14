@@ -2,7 +2,7 @@
 
 namespace PetrKnap\Php\ServiceManager\Exception;
 
-class ConfigurationException extends ServiceLocatorException
+class ConfigurationException extends ServiceManagerException
 {
     // Configuration exception
 }
