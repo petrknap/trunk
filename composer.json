@@ -23,17 +23,20 @@
     "require-dev": {
         "phpunit/phpunit": "^4.8",
         "petrknap/php-enum": "*",
+        "petrknap/php-servicemanager": "*",
         "petrknap/php-singleton": "*"
     },
     "autoload": {
         "psr-4": {
             "PetrKnap\\Php\\Enum\\": "packages/Enum/src",
+            "PetrKnap\\Php\\ServiceManager\\": "packages/ServiceManager/src",
             "PetrKnap\\Php\\Singleton\\": "packages/Singleton/src"
         }
     },
     "autoload-dev": {
         "psr-4": {
             "PetrKnap\\Php\\Enum\\Test\\": "packages/Enum/tests",
+            "PetrKnap\\Php\\ServiceManager\\Test\\": "packages/ServiceManager/tests",
             "PetrKnap\\Php\\Singleton\\Test\\": "packages/Singleton/tests"
         }
     }

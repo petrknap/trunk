@@ -1,38 +1,30 @@
 {
-  "name": "petrknap/php-servicemanager",
-  "description": "Service locator pattern for PHP",
-  "license": "MIT",
-  "authors": [
-    {
-      "name": "Petr Knap",
-      "email": "dev@petrknap.cz",
-      "homepage": "http://petrknap.cz",
-      "role": "Developer"
-    }
-  ],
-  "homepage": "https://github.com/petrknap/php-servicemanager",
-  "config": {
-    "preferred-install": "dist"
-  },
-  "require": {
-    "php": ">=5.4",
-    "petrknap/php-singleton": "0.1.*"
-  },
-  "require-dev": {
-    "phpunit/phpunit": "4.*"
-  },
-  "scripts": {
-    "test": [
-      "./vendor/bin/phpunit"
+    "description": "Service locator pattern for PHP",
+    "require": {
+        "php": ">=5.4",
+        "petrknap/php-singleton": "0.1.*"
+    },
+    "WARNING": "This file is updated automatically. All keys will be overwritten, except of 'description' and 'require'.",
+    "name": "petrknap/php-servicemanager",
+    "homepage": "https://petrknap.github.io/php/servicemanager.html",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Petr Knap",
+            "email": "dev@petrknap.cz"
+        }
     ],
-    "post-autoload-dump": [
-      "@test"
-    ]
-  },
-  "autoload": {
-    "psr-4": {
-      "PetrKnap\\Php\\ServiceManager\\": "src/ServiceManager",
-      "PetrKnap\\Php\\ServiceManager\\Test\\": "tests/ServiceManager"
+    "require-dev": {
+        "phpunit/phpunit": "^4.8"
+    },
+    "autoload": {
+        "psr-4": {
+            "PetrKnap\\Php\\ServiceManager\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "PetrKnap\\Php\\ServiceManager\\Test\\": "tests"
+        }
     }
-  }
 }
