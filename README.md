@@ -5,8 +5,8 @@ PHP profiler by [Petr Knap].
 * [What is profiling?](#what-is-profiling)
 * [Components](#components)
     * [Profile](#profile)
-    * [SimpleProfiler](#simpleprofiler)
         * [Usage](#usage)
+    * [SimpleProfiler](#simpleprofiler)
     * [AdvancedProfiler](#advancedprofiler)
 * [How to install](#how-to-install)
 
@@ -21,46 +21,92 @@ PHP profiler by [Petr Knap].
 
 ### Profile
 
-[`Profile`] is base data structure returned by profilers.
+[`Profile`] is base data structure returned by profilers and wrapper for chosen one.
+
+#### Usage
+
+If you wish to profile a block of code, simply encapsulate it between `Profile::start` and `Profile::finish` calls.
+
+```php
+<?php
+
+use PetrKnap\Php\Profiler\Profile;
+use PetrKnap\Php\Profiler\SimpleProfiler;
+
+SimpleProfiler::enable();
+Profile::setProfiler("PetrKnap\\Php\\Profiler\\SimpleProfiler");
+
+Profile::start();
+/* your code goes here */
+var_dump(Profile::finish());
+```
+
+If you wish, you can add labels to your profiles. The syntax is same as for `sprintf`.
+
+```php
+<?php
+
+use PetrKnap\Php\Profiler\Profile;
+
+Profile::start(/* sprintf( */ "static label" /* ) */);
+Profile::start(/* sprintf( */ "line %s", __LINE__ /* ) */);
+```
+
+If you wish to create more detailed profiles, start new profile inside another one.
+
+```php
+<?php
+
+use PetrKnap\Php\Profiler\Profile;
+
+Profile::start("Profile 1");
+    /* your code goes here */
+    Profile::start("Profile 1.1");
+        Profile::start("Profile 1.1.1");
+            /* your code goes here */
+        Profile::finish("Profile 1.1.1");
+        /* your code goes here */
+        Profile::start("Profile 1.1.2");
+            /* your code goes here */
+        Profile::finish("Profile 1.1.2");
+        /* your code goes here */
+    Profile::finish("Profile 1.1");
+Profile::finish("Profile 1");
+```
+
+Or (if you wish) you can call `start` and `finish` methods directly on requested profiler.
 
 
 ### SimpleProfiler
 
 [`SimpleProfiler`] is easy-to-use and quick static class for PHP code profiling. You can extend it and make your own specific profiler just for your use-case.
 
-#### Usage
-
-You can use profiler directly...
-
 ```php
-SimpleProfiler::enable();            // Enable profiler
-$img = Image::fromFile("./img.png"); // Do what you need to do before you start profiling
-SimpleProfiler::start();             // Start profiling where you wish to start profiling
-$img->rotate(180);                   // Do what you need to profile here
-$profile = SimpleProfiler::finish(); // Finish profiling where you wish to finish profiling
-unset($img);                         // Do what you need to do after you finish profiling
-var_dump($profile);                  // Process your profile here
-```
+<?php
 
-...or indirectly...
+use PetrKnap\Php\Profiler\SimpleProfiler;
 
-```php
-Profile::setProfiler("PetrKnap\\Php\\Profiler\\SimpleProfiler");
 SimpleProfiler::enable();
-
-$img = Image::fromFile("./img.png");
-Profile::start();
-$img->rotate(180);
-$profile = Profile::finish();
-unset($img);
-var_dump($profile);
+SimpleProfiler::start();
+/* your code goes here */
+var_dump(SimpleProfiler::finish());
 ```
 
 
 ### AdvancedProfiler
 
-[`AdvancedProfiler`] is advanced version of [`SimpleProfiler`] and is developed dynamically. If you want to see an example of usage, then visit [`AdvancedProfilerTest`].
+[`AdvancedProfiler`] is advanced version of [`SimpleProfiler`]. If you want to see an example of usage, then visit [`SimpleProfiler` section](#simpleprofiler).
 
+```php
+<?php
+
+use PetrKnap\Php\Profiler\AdvancedProfiler;
+
+AdvancedProfiler::enable();
+AdvancedProfiler::start();
+/* your code goes here */
+var_dump(AdvancedProfiler::finish());
+```
 
 ## How to install
 
@@ -83,6 +129,5 @@ Or manually clone this repository via `git clone https://github.com/petrknap/php
 [`Profile`]:https://github.com/petrknap/php-profiler/blob/master/src/Profiler/Profile.php
 [`SimpleProfiler`]:https://github.com/petrknap/php-profiler/blob/master/src/Profiler/SimpleProfiler.php
 [`AdvancedProfiler`]:https://github.com/petrknap/php-profiler/blob/master/src/Profiler/AdvancedProfiler.php
-[`AdvancedProfilerTest`]:https://github.com/petrknap/php-profiler/blob/master/tests/Profiler/AdvancedProfilerTest.php
 [one of released versions]:https://github.com/petrknap/php-profiler/releases
 [this repository as ZIP]:https://github.com/petrknap/php-profiler/archive/master.zip
