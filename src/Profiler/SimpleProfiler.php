@@ -1,8 +1,8 @@
 <?php
 
 namespace PetrKnap\Php\Profiler;
+
 use PetrKnap\Php\Profiler\Exception\EmptyStackException;
-use PetrKnap\Php\Profiler\Exception\ProfilerException;
 
 /**
  * Simple PHP class for profiling
@@ -11,7 +11,7 @@ use PetrKnap\Php\Profiler\Exception\ProfilerException;
  * @since    2015-12-13
  * @license  https://github.com/petrknap/php-profiler/blob/master/LICENSE MIT
  */
-class SimpleProfiler
+class SimpleProfiler implements ProfilerInterface
 {
     #region Meta keys
     const START_LABEL = "start_label"; // string
@@ -59,12 +59,7 @@ class SimpleProfiler
     }
 
     /**
-     * Start profiling
-     *
-     * @param string $labelOrFormat
-     * @param mixed $args [optional]
-     * @param mixed $_ [optional]
-     * @return bool true on success or false on failure
+     * @inheritdoc
      */
     public static function start($labelOrFormat = null, $args = null, $_ = null)
     {
@@ -97,13 +92,7 @@ class SimpleProfiler
     }
 
     /**
-     * Finish profiling and get result
-     *
-     * @param string $labelOrFormat
-     * @param mixed $args [optional]
-     * @param mixed $_ [optional]
-     * @return bool|Profile profile on success or false on failure
-     * @throws ProfilerException
+     * @inheritdoc
      */
     public static function finish($labelOrFormat = null, $args = null, $_ = null)
     {
