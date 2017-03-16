@@ -87,6 +87,7 @@ Or (if you wish) you can call `start` and `finish` methods directly on requested
 use PetrKnap\Php\Profiler\SimpleProfiler;
 
 SimpleProfiler::enable();
+
 SimpleProfiler::start();
 /* your code goes here */
 var_dump(SimpleProfiler::finish());
@@ -95,17 +96,22 @@ var_dump(SimpleProfiler::finish());
 
 ### AdvancedProfiler
 
-[`AdvancedProfiler`] is advanced version of [`SimpleProfiler`]. If you want to see an example of usage, then visit [`SimpleProfiler` section](#simpleprofiler).
+[`AdvancedProfiler`] is advanced version of [`SimpleProfiler`] with support for post processor.
 
 ```php
 <?php
 
 use PetrKnap\Php\Profiler\AdvancedProfiler;
+use PetrKnap\Php\Profiler\Profile;
 
+AdvancedProfiler::setPostProcessor(function(Profile $profile) {
+    var_dump($profile);
+});
 AdvancedProfiler::enable();
+
 AdvancedProfiler::start();
 /* your code goes here */
-var_dump(AdvancedProfiler::finish());
+AdvancedProfiler::finish();
 ```
 
 ## How to install
