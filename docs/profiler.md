@@ -1,3 +1,6 @@
+---
+layout: blueprint
+---
 # PHP profiler
 
 * [What is profiling?](#what-is-profiling)
@@ -113,25 +116,7 @@ AdvancedProfiler::finish();
 ```
 
 
-## How to install
-
-Run `composer require petrknap/php-profiler` or merge this JSON code with your project `composer.json` file manually and run `composer install`. Instead of `dev-master` you can use [one of released versions].
-
-```json
-{
-    "require": {
-        "petrknap/php-profiler": "dev-master"
-    }
-}
-```
-
-Or manually clone this repository via `git clone https://github.com/petrknap/php-profiler.git` or download [this repository as ZIP] and extract files into your project.
-
-
-
-[one of released versions]:https://github.com/petrknap/php-profiler/releases
-[this repository as ZIP]:https://github.com/petrknap/php-profiler/archive/master.zip
-
+{% include how-to-install.md %}
 
 
 
