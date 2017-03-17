@@ -23,47 +23,46 @@ Because **it is easier than not to used it**. Don't trust me? Let see at this co
 
 class MyDatabase
 {
-   public function __construct($dsn, $user, $password)
-   {/* ... */}
+   public function __construct($dsn, $user, $password) {/* ... */}
 }
 
 class MyWeb
 {
-   public function __construct(MyDatabase $database)
-   {/* ... */}
+   public function __construct(MyDatabase $database) {/* ... */}
 }
 
 class MyBlog
 {
-   public function __construct(MyWeb $web)
-   {/* ... */}
+   public function __construct(MyWeb $web) {/* ... */}
    
-   public function show($page)
-   {/* ... */}
+   public function show($page) {/* ... */}
 }
 
 class MyAdmin
 {
-   public function __construct(MyWeb $web)
-   {/* ... */}
+   public function __construct(MyWeb $web) {/* ... */}
    
-   public function show($page)
-   {/* ... */}
+   public function show($page) {/* ... */}
 }
 ```
+
 ```php
 <?php // index.php
 
 require_once("classes.php");
+
 $config = require("config.php");
 $database = new MyDatabase($config["dsn"], $config["username"], $config["password"]);
 $web = new MyWeb($database);
 $blog = new MyBlog($web);
 $blog->show("homepage");
 ```
+
 ```php
 <?php // admin.php
+
 require_once("classes.php");
+
 $config = require("config.php");
 $database = new MyDatabase($config["dsn"], $config["username"], $config["password"]);
 $web = new MyWeb($database);
@@ -76,63 +75,69 @@ And now the **same code with service locator**:
 ```php
 <?php // classes.php
 
+use PetrKnap\Php\ServiceManager\ServiceManager;
+use Psr\Container\ContainerInterface;
+
 class MyDatabase
 {
-   public function __construct($dsn, $user, $password)
-   {/* ... */}
+   public function __construct($dsn, $user, $password) {/* ... */}
 }
 
 class MyWeb
 {
-   public function __construct(MyDatabase $database)
-   {/* ... */}
+   public function __construct(MyDatabase $database) {/* ... */}
 }
 
 class MyBlog
 {
-   public function __construct(MyWeb $web)
-   {/* ... */}
+   public function __construct(MyWeb $web) {/* ... */}
    
-   public function show($page)
-   {/* ... */}
+   public function show($page) {/* ... */}
 }
 
 class MyAdmin
 {
-   public function __construct(MyWeb $web)
-   {/* ... */}
+   public function __construct(MyWeb $web) {/* ... */}
    
-   public function show($page)
-   {/* ... */}
+   public function show($page) {/* ... */}
 }
 
 ServiceManager::setConfig([
    "factories" => [
-      "MyDatabase" => function(ServiceLocatorInterface $serviceLocator) {
+      "MyDatabase" => function() {
          $config = require("config.php");
          return new MyDatabase($config["dsn"], $config["username"], $config["password"]);
       },
-      "MyWeb" => function(ServiceLocatorInterface $serviceLocator) {
-         return new MyWeb($serviceLocator->get("MyDatabase"))
+      "MyWeb" => function(ContainerInterface $container) {
+         return new MyWeb($container->get("MyDatabase"));
       },
-      "MyBlog" => function(ServiceLocatorInterface $serviceLocator) {
-         return new MyBlog($serviceLocator->get("MyWeb"));
+      "MyBlog" => function(ContainerInterface $container) {
+         return new MyBlog($container->get("MyWeb"));
       },
-      "MyAdmin" => function(ServiceLocatorInterface $serviceLocator) {
-         return new MyBlog($serviceLocator->get("MyWeb"));
+      "MyAdmin" => function(ContainerInterface $container) {
+         return new MyBlog($container->get("MyWeb"));
       }
    ]
 ]);
 ```
+
 ```php
 <?php // index.php
 
+use PetrKnap\Php\ServiceManager\ServiceManager;
+
 require_once("classes.php");
+
 ServiceManager::getInstance()->get("MyBlog")->show("homepage");
 ```
+
 ```php
 <?php // admin.php
+
+use PetrKnap\Php\ServiceManager\ServiceManager;
+
 require_once("classes.php");
+
 ServiceManager::getInstance()->get("MyAdmin")->show("dashboard");
 ```
 
@@ -144,8 +149,8 @@ ServiceManager::getInstance()->get("MyAdmin")->show("dashboard");
 <?php
 
 use PetrKnap\Php\ServiceManager\ConfigurationBuilder;
-use PetrKnap\Php\ServiceManager\ServiceLocatorInterface;
 use PetrKnap\Php\ServiceManager\ServiceManager;
+use Psr\Container\ContainerInterface;
 
 class MyCoreClass
 {
@@ -165,8 +170,8 @@ class MyClass
 $configBuilder = new ConfigurationBuilder();
 $configBuilder->addInvokable("MyCoreClass", "MyCoreClass");
 $configBuilder->setShared("MyCoreClass", true);
-$configBuilder->addFactory("MyClass", function(ServiceLocatorInterface $serviceLocator) {
-    return new MyClass($serviceLocator->get("MyCoreClass"));
+$configBuilder->addFactory("MyClass", function(ContainerInterface $container) {
+    return new MyClass($container->get("MyCoreClass"));
 });
 
 ServiceManager::setConfig($configBuilder);
