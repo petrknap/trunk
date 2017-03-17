@@ -20,10 +20,10 @@ interface FactoryInterface
     /**
      * Create an object
      *
-     * @param  ContainerInterface $serviceLocator
+     * @param  ContainerInterface $container
      * @throws ServiceNotCreatedException error while creating the service
      * @throws ServiceManagerException if any other error occurs
      * @return object
      */
-    public function createService(ContainerInterface $serviceLocator);
+    public function createService(ContainerInterface $container);
 }

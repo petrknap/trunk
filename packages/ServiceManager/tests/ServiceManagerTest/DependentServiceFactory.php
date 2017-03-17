@@ -17,10 +17,10 @@ class DependentServiceFactory implements FactoryInterface
         return $config->getConfig();
     }
 
-    public function createService(ContainerInterface $serviceLocator)
+    public function createService(ContainerInterface $container)
     {
         /** @var IndependentService $independentService */
-        $independentService = $serviceLocator->get("IndependentService");
+        $independentService = $container->get("IndependentService");
 
         return new DependentService($independentService);
     }
