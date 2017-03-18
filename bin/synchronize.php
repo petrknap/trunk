@@ -118,8 +118,8 @@ class Synchronize
         $readme = array_slice($readme, 3);
         $readme = implode(PHP_EOL, $readme);
         $readme = str_replace(
-            ["{% include how-to-install.md %}", "{{ page.title }}"],
-            [$this->read(__DIR__ . "/../docs/_includes/how-to-install.md"), strtolower($package)],
+            ["{% include how-to-install.md.twig %}", "{{ page.name | remove: \".md\" }}"],
+            [$this->read(__DIR__ . "/../docs/_includes/how-to-install.md.twig"), strtolower($package)],
             $readme
         );
 

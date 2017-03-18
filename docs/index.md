@@ -1,5 +1,5 @@
 ---
-layout: blueprint
+layout: blueprint.html
 ---
 # Available packages
 

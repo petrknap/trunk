@@ -1,5 +1,5 @@
 ---
-layout: blueprint
+layout: blueprint.html
 ---
 # Singleton pattern for PHP
 
@@ -125,7 +125,7 @@ if ($b->getName() == "Singleton A") {
 ```
 
 
-{% include how-to-install.md %}
+{% include how-to-install.md.twig %}
 
 
 

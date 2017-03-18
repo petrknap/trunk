@@ -1,5 +1,5 @@
 ---
-layout: blueprint
+layout: blueprint.html
 ---
 # Enumerated type for PHP
 
@@ -199,7 +199,7 @@ class MyEntity
 ```
 
 
-{% include how-to-install.md %}
+{% include how-to-install.md.twig %}
 
 
 
