@@ -86,7 +86,7 @@ class Profile implements JsonSerializable, ProfilerInterface
         if (!class_exists($profilerClassName)) {
             throw new MissingProfilerException("Class {$profilerClassName} not found");
         }
-        if (!is_subclass_of($profilerClassName, __NAMESPACE__ . "\\ProfilerInterface") || is_subclass_of($profilerClassName, __CLASS__)) {
+        if (!is_subclass_of($profilerClassName, ProfilerInterface::class) || is_subclass_of($profilerClassName, self::class)) {
             throw new UnsupportedProfilerException("Class {$profilerClassName} is not supported");
         }
         static::$profilerClassName = $profilerClassName;

@@ -1,5 +1,4 @@
-# TODO use 5.3-cli + openssl extension
-FROM php:5.4-cli
+FROM php:5.5-cli
 
 # Install packages
 RUN apt update && apt install -y \

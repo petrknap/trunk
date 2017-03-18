@@ -150,16 +150,16 @@ class MixedValues extends \PetrKnap\Php\Enum\Enum
 {
     protected function members()
     {
-        return array(
+        return [
             "null" => null,
             "boolean" => true,
             "integer" => 1,
             "float" => 1.0,
             "string" => "s",
-            "array" => array(),
+            "array" => [],
             "object" => new \stdClass(),
             "callable" => function() {}
-        );
+        ];
     }
 }
 ```

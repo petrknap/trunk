@@ -4,7 +4,7 @@
 $synchronize = new Synchronize();
 
 foreach(scandir(__DIR__ . "/../packages/") as $package) {
-    if (in_array($package, array(".", ".."))) {
+    if (in_array($package, [".", ".."])) {
         continue;
     }
     printf("Processing %s:\n", $package);
@@ -146,8 +146,8 @@ class Synchronize
         $composer["authors"] = $this->composer["authors"];
         $composer["require"] = array_merge($composer["require"], $this->composer["require"]);
         $composer["require-dev"] = $this->composer["require-dev"];
-        $composer["autoload"] = array("psr-4" => array("PetrKnap\\Php\\" . $package ."\\" => "src"));
-        $composer["autoload-dev"] = array("psr-4" => array("PetrKnap\\Php\\" . $package ."\\Test\\" => "tests"));
+        $composer["autoload"] = ["psr-4" => ["PetrKnap\\Php\\" . $package ."\\" => "src"]];
+        $composer["autoload-dev"] = ["psr-4" => ["PetrKnap\\Php\\" . $package ."\\Test\\" => "tests"]];
 
         $this->write($composerFile, json_encode($composer, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES) . PHP_EOL);
     }

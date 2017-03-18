@@ -60,7 +60,7 @@ class AdvancedProfilerTest extends \PHPUnit_Framework_TestCase
             function ($result) use (&$postProcessorCallsCounter) {
                 $postProcessorCallsCounter++;
 
-                $this->assertInstanceOf(get_class(new Profile()), $result);
+                $this->assertInstanceOf(Profile::class, $result);
 
                 $result->meta["post_processors_note"] = "note";
 

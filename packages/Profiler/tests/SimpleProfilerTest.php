@@ -20,7 +20,7 @@ class SimpleProfilerTest extends \PHPUnit_Framework_TestCase
     private function checkResult($result, $startLabel, $finishLabel)
     {
         /** @var Profile $result */
-        $this->assertInstanceOf(get_class(new Profile()), $result);
+        $this->assertInstanceOf(Profile::class, $result);
 
         $this->assertLessThanOrEqual($result->absoluteDuration, $result->duration);
 
@@ -30,7 +30,7 @@ class SimpleProfilerTest extends \PHPUnit_Framework_TestCase
 
     public function testEmptyStack()
     {
-        $this->setExpectedException(get_class(new EmptyStackException()));
+        $this->setExpectedException(EmptyStackException::class);
 
         SimpleProfiler::finish();
     }
@@ -41,7 +41,7 @@ class SimpleProfilerTest extends \PHPUnit_Framework_TestCase
 
         $this->assertTrue(SimpleProfiler::isEnabled());
         $this->assertTrue(SimpleProfiler::start());
-        $this->assertInstanceOf(get_class(new Profile()), SimpleProfiler::finish());
+        $this->assertInstanceOf(Profile::class, SimpleProfiler::finish());
     }
 
     public function testDisable()

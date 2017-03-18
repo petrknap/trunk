@@ -11,6 +11,7 @@ use PetrKnap\Php\ServiceManager\Test\ServiceManagerTest\DefectiveService;
 use PetrKnap\Php\ServiceManager\Test\ServiceManagerTest\DependentService;
 use PetrKnap\Php\ServiceManager\Test\ServiceManagerTest\DependentServiceFactory;
 use PetrKnap\Php\ServiceManager\Test\ServiceManagerTest\IndependentService;
+use Psr\Container\ContainerInterface;
 
 /**
  * @runTestsInSeparateProcesses
@@ -21,8 +22,8 @@ class ServiceManagerTest extends \PHPUnit_Framework_TestCase
     {
         $instance = ServiceManager::getInstance();
 
-        $this->assertInstanceOf("Psr\\Container\\ContainerInterface", $instance);
-        $this->assertInstanceOf("PetrKnap\\Php\\ServiceManager\\ServiceManager", $instance);
+        $this->assertInstanceOf(ContainerInterface::class, $instance);
+        $this->assertInstanceOf(ServiceManager::class, $instance);
     }
 
     /**
@@ -60,7 +61,7 @@ class ServiceManagerTest extends \PHPUnit_Framework_TestCase
      * @dataProvider dataGetWorks
      * @param string $serviceName
      * @param string $expectedClass
-     * @param ServiceManagerException $expectedException
+     * @param string $expectedException
      */
     public function testGetWorks($serviceName, $expectedClass, $expectedException = null)
     {
@@ -84,8 +85,8 @@ class ServiceManagerTest extends \PHPUnit_Framework_TestCase
         );
         ServiceManager::addConfig(DependentServiceFactory::getConfig());
 
-        if ($expectedException !== null) {
-            $this->setExpectedException(get_class($expectedException));
+        if ($expectedException) {
+            $this->setExpectedException($expectedException);
         }
 
         $service = ServiceManager::getInstance()->get($serviceName);
@@ -96,14 +97,14 @@ class ServiceManagerTest extends \PHPUnit_Framework_TestCase
     public function dataGetWorks()
     {
         return [
-            ["UnknownService", "", new ServiceNotFoundException()],
-            ["DefectiveService", "", new ServiceNotCreatedException()],
+            ["UnknownService", "", ServiceNotFoundException::class],
+            ["DefectiveService", "", ServiceNotCreatedException::class],
             ["StandardService", "stdClass"],
             ["IndependentService", IndependentService::getClass()],
             ["StandardServiceCreatedByFactory", "stdClass"],
             ["DependentService", DependentService::getClass()],
-            ["ServiceWithNonExistentFactory", "", new ServiceNotCreatedException()],
-            ["ServiceWithUnsupportedFactory", "", new ServiceNotCreatedException()],
+            ["ServiceWithNonExistentFactory", "", ServiceNotCreatedException::class],
+            ["ServiceWithUnsupportedFactory", "", ServiceNotCreatedException::class],
         ];
     }
 

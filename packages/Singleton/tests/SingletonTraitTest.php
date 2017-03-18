@@ -22,8 +22,8 @@ class SingletonTraitTest extends \PHPUnit_Framework_TestCase
     public function dataReturnsValidInstance()
     {
         return [
-            [ClassThatUsesSingletonTrait::getClassName()],
-            [ClassThatExtendsSingleton::getClassName()]
+            [ClassThatUsesSingletonTrait::class],
+            [ClassThatExtendsSingleton::class],
         ];
     }
 
@@ -48,8 +48,8 @@ class SingletonTraitTest extends \PHPUnit_Framework_TestCase
     public function dataReturnsOnlyOneInstance()
     {
         return [
-            [ClassThatUsesSingletonTrait::getClassName(), ClassThatUsesSingletonTrait::getInstance()],
-            [ClassThatExtendsSingleton::getClassName(), ClassThatExtendsSingleton::getInstance()]
+            [ClassThatUsesSingletonTrait::class, ClassThatUsesSingletonTrait::getInstance()],
+            [ClassThatExtendsSingleton::class, ClassThatExtendsSingleton::getInstance()]
         ];
     }
 

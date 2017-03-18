@@ -32,7 +32,7 @@ use PetrKnap\Php\Profiler\Profile;
 use PetrKnap\Php\Profiler\SimpleProfiler;
 
 SimpleProfiler::enable();
-Profile::setProfiler("PetrKnap\\Php\\Profiler\\SimpleProfiler");
+Profile::setProfiler(SimpleProfiler::class);
 
 Profile::start();
 /* your code goes here */

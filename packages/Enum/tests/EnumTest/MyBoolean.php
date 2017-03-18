@@ -15,10 +15,10 @@ class MyBoolean extends Enum
      */
     protected function members()
     {
-        return array(
+        return [
             "MY_TRUE" => 1,
-            "MY_FALSE" => 2
-        );
+            "MY_FALSE" => 2,
+        ];
     }
 
     /**

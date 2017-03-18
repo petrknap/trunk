@@ -20,9 +20,4 @@ class ClassThatUsesSingletonTrait implements SingletonInterface
     {
         $this->data = $data;
     }
-
-    public static function getClassName()
-    {
-        return get_called_class();
-    }
 }

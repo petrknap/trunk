@@ -101,7 +101,7 @@ class SimpleProfiler implements ProfilerInterface
             $memoryUsage = memory_get_usage(true);
 
             if (empty(static::$stack)) {
-                throw new EmptyStackException("The stack is empty. Call " . get_called_class() . "::start() first.");
+                throw new EmptyStackException("The stack is empty. Call " . static::class . "::start() first.");
             }
 
             if ($args === null) {

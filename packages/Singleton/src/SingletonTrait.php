@@ -26,7 +26,7 @@ trait SingletonTrait
      */
     public static function getInstance()
     {
-        $self = get_called_class();
+        $self = static::class;
         if (!isset(self::$instances[$self])) {
             self::$instances[$self] = new $self;
         }
@@ -38,7 +38,7 @@ trait SingletonTrait
      */
     protected static function hasInstance()
     {
-        $self = get_called_class();
+        $self = static::class;
         return isset(self::$instances[$self]);
     }
 }

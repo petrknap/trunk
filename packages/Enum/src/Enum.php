@@ -22,7 +22,7 @@ abstract class Enum implements EnumInterface
     /**
      * @var mixed[][]
      */
-    private static $members = array();
+    private static $members = [];
 
     /**
      * @var string
@@ -39,7 +39,7 @@ abstract class Enum implements EnumInterface
      */
     protected function __construct($memberName)
     {
-        $members = &self::$members[get_called_class()];
+        $members = &self::$members[static::class];
 
         if (!$members) {
             $members = $this->members();
@@ -60,12 +60,12 @@ abstract class Enum implements EnumInterface
      */
     public static function __callStatic($memberName, array $args)
     {
-        $className = get_called_class();
+        $className = static::class;
 
         $instances = &self::$instances[$className];
 
         if (!is_array($instances)) {
-            $instances = array();
+            $instances = [];
         }
 
         $instance = &$instances[$memberName];
@@ -111,7 +111,7 @@ abstract class Enum implements EnumInterface
      */
     public static function getMembers()
     {
-        $className = get_called_class();
+        $className = static::class;
 
         $members = &self::$members[$className];
 
@@ -128,7 +128,7 @@ abstract class Enum implements EnumInterface
      */
     private function exists($memberName)
     {
-        return array_key_exists($memberName, self::$members[get_called_class()]);
+        return array_key_exists($memberName, self::$members[static::class]);
     }
 
     /**
@@ -143,12 +143,12 @@ abstract class Enum implements EnumInterface
                 sprintf(
                     "%s does not exist in %s",
                     $memberName,
-                    get_called_class()
+                    static::class
                 )
             );
         }
 
-        return self::$members[get_called_class()][$memberName];
+        return self::$members[static::class][$memberName];
     }
 
     /**
@@ -160,13 +160,13 @@ abstract class Enum implements EnumInterface
     {
         foreach (self::getMembers() as $n => $v) {
             if ($value === $v) {
-                return self::__callStatic($n, array());
+                return self::__callStatic($n, []);
             }
         }
         throw new EnumNotFoundException(
             sprintf(
                 "Value not found in %s",
-                get_called_class()
+                static::class
             )
         );
     }
@@ -176,6 +176,6 @@ abstract class Enum implements EnumInterface
      */
     public function __toString()
     {
-        return sprintf("%s::%s", get_called_class(), $this->getName());
+        return sprintf("%s::%s", static::class, $this->getName());
     }
 }

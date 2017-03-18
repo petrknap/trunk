@@ -5,6 +5,10 @@ namespace PetrKnap\Php\Profiler\Test;
 use PetrKnap\Php\Profiler\Exception\MissingProfilerException;
 use PetrKnap\Php\Profiler\Exception\UnsupportedProfilerException;
 use PetrKnap\Php\Profiler\Profile;
+use /** @noinspection PhpUndefinedClassInspection */
+    PetrKnap\Php\Profiler\Test\ProfileTest\MissingProfiler;
+use PetrKnap\Php\Profiler\Test\ProfileTest\SupportedProfiler;
+use PetrKnap\Php\Profiler\Test\ProfileTest\UnsupportedProfiler;
 
 class ProfileTest extends \PHPUnit_Framework_TestCase
 {
@@ -40,27 +44,28 @@ class ProfileTest extends \PHPUnit_Framework_TestCase
     /**
      * @dataProvider dataCanSetProfiler
      * @param string $profilerClassName
-     * @param \Exception $expectedException
+     * @param string $expectedException
      */
-    public function testCanSetProfiler($profilerClassName, \Exception $expectedException = null)
+    public function testCanSetProfiler($profilerClassName, $expectedException = null)
     {
         if ($expectedException) {
-            $this->setExpectedException(get_class($expectedException));
+            $this->setExpectedException($expectedException);
         }
         Profile::setProfiler($profilerClassName);
 
         call_user_func([$profilerClassName, "enable"]);
 
         Profile::start();
-        $this->assertInstanceOf(get_class(new Profile()), Profile::finish());
+        $this->assertInstanceOf(Profile::class, Profile::finish());
     }
 
     public function dataCanSetProfiler()
     {
+        /** @noinspection PhpUndefinedClassInspection */
         return [
-            ["PetrKnap\\Php\\Profiler\\Test\\ProfileTest\\SupportedProfiler", null],
-            ["PetrKnap\\Php\\Profiler\\Test\\ProfileTest\\UnsupportedProfiler", new UnsupportedProfilerException()],
-            ["PetrKnap\\Php\\Profiler\\Test\\ProfileTest\\MissingProfiler", new MissingProfilerException()]
+            [SupportedProfiler::class, null],
+            [UnsupportedProfiler::class, UnsupportedProfilerException::class],
+            [MissingProfiler::class, MissingProfilerException::class],
         ];
     }
 }
