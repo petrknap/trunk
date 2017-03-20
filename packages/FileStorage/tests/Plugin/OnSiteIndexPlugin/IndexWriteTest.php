@@ -40,12 +40,10 @@ class IndexWriteTest extends OnSiteIndexPluginTestCase
     public function testWriteIndexDoesNotWorkWithInaccessibleIndexFile()
     {
         $tempDir = $this->getTemporaryDirectory();
-        $adapter = $this->getAdapter($tempDir);
-        $innerFileSystem = $this->getInnerFileSystem($adapter);
-        $plugin = $this->getPlugin($adapter);
-
+        $innerFileSystem = $this->getInnerFileSystem($this->getAdapter($tempDir));
         $innerFileSystem->write(self::INDEX_FILE, null);
-        chmod("{$tempDir}/" . self::INDEX_FILE, 0000);
+        $plugin = $this->getPlugin($this->getAdapter("/mnt/read-only/{$tempDir}"));
+
         $this->setExpectedException(IndexWriteException::class);
         $this->invokePrivateMethod($plugin, "writeIndex", [self::INDEX_FILE, []]);
     }

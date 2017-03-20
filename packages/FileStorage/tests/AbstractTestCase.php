@@ -95,5 +95,5 @@ abstract class AbstractTestCase extends \PHPUnit_Framework_TestCase
     }
 }
 
-AbstractTestCase::setTempDir(__DIR__ . "/../../temp");
+AbstractTestCase::setTempDir(__DIR__ . "/../temp");
 AbstractTestCase::setTempPrefix("test_");

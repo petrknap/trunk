@@ -21,7 +21,7 @@ class PDOMigrationTool extends SqlMigrationTool
      */
     protected function getPathToDirectoryWithMigrationFiles()
     {
-        return __DIR__ . "/../../../migrations";
+        return __DIR__ . "/../../migrations";
     }
 
     /**

@@ -1,6 +1,4 @@
-# php-filestorage
-
-File storage for PHP by [Petr Knap].
+# File storage for PHP
 
 * [About resolved issue](#about-resolved-issue)
     * [Advantages](#advantages)
@@ -43,6 +41,8 @@ If you wish to store 1 000 000 files in single directory, this file storage conv
 ### Standard usage
 
 ```php
+<?php
+
 use League\Flysystem\Adapter\Local as LocalAdapter;
 use PetrKnap\Php\FileStorage\FileSystem;
 use PetrKnap\Php\FileStorage\Plugin\SQLiteIndexPlugin;
@@ -61,7 +61,6 @@ foreach ($fileSystem->listContents() as $metadata) {
 ```
 
 
-
 ## How to install
 
 Run `composer require petrknap/php-filestorage` or merge this JSON code with your project `composer.json` file manually and run `composer install`. Instead of `dev-master` you can use [one of released versions].
@@ -78,8 +77,11 @@ Or manually clone this repository via `git clone https://github.com/petrknap/php
 
 
 
-[Petr Knap]:http://petrknap.cz/
-[Filesystem large number of files in a single directory - bugmenot77, voretaq7]:http://serverfault.com/q/43133
-[League\Flysystem]:https://github.com/thephpleague/flysystem
 [one of released versions]:https://github.com/petrknap/php-filestorage/releases
 [this repository as ZIP]:https://github.com/petrknap/php-filestorage/archive/master.zip
+
+
+
+
+[Filesystem large number of files in a single directory - bugmenot77, voretaq7]:http://serverfault.com/q/43133
+[League\Flysystem]:https://github.com/thephpleague/flysystem
