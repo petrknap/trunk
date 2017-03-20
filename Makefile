@@ -14,7 +14,7 @@ docker:
 	sudo docker build -t petrknap/php .
 
 docker-run:
-	sudo docker run -v $$(pwd):/app --rm petrknap/php bash -c "cd /app && ${ARGS}"
+	sudo docker run -v $$(pwd):/app -v $$(pwd):/mnt/read-only/app:ro --rm petrknap/php bash -c "cd /app && ${ARGS}"
 	make clean
 
 composer:
@@ -30,12 +30,12 @@ synchronization:
 	make docker-run ARGS="./bin/synchronize.php"
 
 tests: composer-install
-	make docker-run ARGS="vendor/bin/phpunit"
+	make docker-run ARGS="vendor/bin/phpunit ${ARGS}"
 
 tests-on-packages:
 	rsync -r --delete --exclude=composer.lock --exclude=vendor packages/ temp/packages/;
 	for package in temp/packages/*; do \
-		make docker-run ARGS="cd $${package} && composer update && vendor/bin/phpunit"; \
+		make docker-run ARGS="cd $${package} && composer update && vendor/bin/phpunit ${ARGS}"; \
 	done
 
 publish: tests
