@@ -6,10 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="author" content="Petr Knap">
     <title>petrknap/php{% if page.name != "index.md" %}-{{ page.name | remove: ".md" }}{% endif %}</title>
-    <link rel="stylesheet"
-          href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
-          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
-          crossorigin="anonymous">
+    {% include cdn/bootstrap.html %}
     <link rel="stylesheet"
           href="https://cdn.rawgit.com/richleland/pygments-css/a6298ad8ad0c7034be2ae4c11b2b3f0d2944aed1/github.css"
           integrity="sha384-QSTWW/b36jpC/E/IQq86QG0Qy3u1rQlhJ0K5CzEzvzIGJgYw+/YDv0kWzsN2mtx5"
@@ -42,9 +39,9 @@
         <div class="navbar-collapse collapse" id="navbar">
             <ul class="nav navbar-nav">
                 {% for package in site.pages %}
-                    {% if package.name contains ".md" and package.name != "index.md" %}
+                    {% if package.path contains "php/" and package.name contains ".md" and package.name != "index.md" %}
                         <li{% if page.url == package.url %} class="active"{% endif %}>
-                            <a href=".{{ package.url }}">{{ package.name | remove: ".md" }}</a>
+                            <a href="{{ package.url }}.html">{{ package.name | remove: ".md" }}</a>
                         </li>
                     {% endif %}
                 {% endfor %}
@@ -65,14 +62,12 @@
 
 <div class="padding hidden-xs"></div>
 
-<script type="application/javascript"
-        src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.min.js"
-        integrity="sha256-rsPUGdUPBXgalvIj4YKJrrUlmLXbOb6Cp7cdxn1qeUc="
-        crossorigin="anonymous"></script>
+{% include cdn/jQuery.html %}
 <script type="application/javascript"
         src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
         integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
         crossorigin="anonymous"></script>
-
+{% include cdn/cookieConsent2.html to="body" %}
+{% include google_analytics.html %}
 </body>
 </html>

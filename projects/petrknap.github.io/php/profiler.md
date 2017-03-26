@@ -1,5 +1,5 @@
 ---
-layout: blueprint.html
+layout: blueprint.php
 ---
 # PHP profiler
 
@@ -116,7 +116,7 @@ AdvancedProfiler::finish();
 ```
 
 
-{% include how-to-install.md.twig %}
+{% include php/how-to-install.md %}
 
 
 

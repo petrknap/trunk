@@ -1,5 +1,5 @@
 ---
-layout: blueprint.html
+layout: blueprint.php
 ---
 # File storage for PHP
 
@@ -64,7 +64,7 @@ foreach ($fileSystem->listContents() as $metadata) {
 ```
 
 
-{% include how-to-install.md.twig %}
+{% include php/how-to-install.md %}
 
 
 

@@ -1,5 +1,5 @@
 ---
-layout: blueprint.html
+layout: blueprint.php
 ---
 # Service manager for PHP
 
@@ -191,7 +191,7 @@ $myClass = $serviceManager->get("MyClass");
 ```
 
 
-{% include how-to-install.md.twig %}
+{% include php/how-to-install.md %}
 
 
 
