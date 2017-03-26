@@ -1,0 +1,23 @@
+---
+layout: null
+private: true
+---
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd"
+        xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+    {% for page in site.pages %}
+    {% unless page.private %}
+    {% unless page.url contains ".yml" %}
+    <url>
+        <loc>{{ page.url | prepend: site.url }}</loc>
+    </url>
+    {% endunless %}
+    {% endunless %}
+    {% endfor %}
+    {% for post in site.posts %}
+    <url>
+        <loc>{{ post.url | prepend: site.url }}</loc>
+    </url>
+    {% endfor %}
+</urlset>

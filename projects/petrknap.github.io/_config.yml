@@ -1,0 +1,62 @@
+# -------------------------------------------------------------------------------------------------
+# Jekyll configuration
+#
+
+gems: [jekyll-gist]
+markdown: kramdown
+
+kramdown:
+  syntax_highlighter: rouge
+
+
+
+# -------------------------------------------------------------------------------------------------
+# Server configuration
+#
+
+http:
+  headers:
+    Content-Security-Policy: >
+      default-src 'self' 'unsafe-inline'
+      https://petrknap.github.io https://gist.github.com https://assets-cdn.github.com
+      https://maxcdn.bootstrapcdn.com https://cdnjs.cloudflare.com https://www.google-analytics.com;
+      report-uri https://petrknap.report-uri.io/r/default/csp/enforce
+    Strict-Transport-Security: max-age=259200
+    X-Content-Type-Options: nosniff
+
+
+
+# -------------------------------------------------------------------------------------------------
+# Site configuration
+#
+
+url: https://petrknap.github.io
+
+author:
+  name: Petr Knap
+  web: http://petrknap.cz/
+  blog: https://petrknap.github.io/notes/
+  rss: https://petrknap.github.io/notes/feed/
+  linkedin: https://www.linkedin.com/in/pknap
+  github: https://github.com/petrknap
+  twitter: https://twitter.com/petrknap
+
+blog:
+  lang: en
+  title: Petr Knap's Notes
+  urls:
+    home: /notes/
+    issues: https://github.com/petrknap/petrknap.github.io/issues
+
+web:
+  menu:
+    -
+      title: english
+      url: https://petrknap.github.io/
+    -
+      title: česky
+      url: https://petrknap.cz/
+
+created_on: 2016
+google_analytics_code: UA-88031264-1
+permalink: /notes/:year/:month/:day/:title.html
