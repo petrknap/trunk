@@ -73,8 +73,8 @@ class Synchronize
         $this->write(
             __DIR__ . "/../Makefile",
             preg_replace(
-                '/git subsplit publish --heads=master --update "([^"]*)"/',
-                'git subsplit publish --heads=master --update "' . trim($publish) . '"',
+                '/git subsplit publish --heads=master --update "([^"]*)" #generated/',
+                'git subsplit publish --heads=master --update "' . trim($publish) . '" #generated',
                 $this->read(__DIR__ . "/../Makefile")
             )
         );

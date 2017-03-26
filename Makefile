@@ -40,5 +40,5 @@ tests-on-packages:
 
 publish: tests
 	git subsplit init https://github.com/petrknap/php
-	git subsplit publish --heads=master --update "packages/Enum:git@github.com:petrknap/php-enum.git packages/FileStorage:git@github.com:petrknap/php-filestorage.git packages/Profiler:git@github.com:petrknap/php-profiler.git packages/ServiceManager:git@github.com:petrknap/php-servicemanager.git packages/Singleton:git@github.com:petrknap/php-singleton.git"
+	git subsplit publish --heads=master --update "packages/Enum:git@github.com:petrknap/php-enum.git packages/FileStorage:git@github.com:petrknap/php-filestorage.git packages/Profiler:git@github.com:petrknap/php-profiler.git packages/ServiceManager:git@github.com:petrknap/php-servicemanager.git packages/Singleton:git@github.com:petrknap/php-singleton.git" #generated
 	rm -rf .subsplit
