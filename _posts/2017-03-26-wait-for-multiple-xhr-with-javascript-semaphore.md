@@ -32,8 +32,7 @@ My idea was very simple - just create copy of [semaphore from `pthread` library]
 This example **prints your IP address and your user-agent on the screen** in one nice sentence.
 If you need to wait for `N` request, simply create `new Semaphore(-N)`.
 
-> If you wish to run `N` methods parallel and you wish to run maximally `M` of them at once,
-> simply create `new Semaphore(+M)` and stacks them all by `wait` method.
+If you wish to run `N` methods parallel and you wish to run maximally `M` of them at once, simply create `new Semaphore(+M)` and stacks them all by `wait` method.
 
 
 
