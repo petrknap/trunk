@@ -94,7 +94,7 @@ class OnSiteIndexPlugin extends AbstractIndexPlugin
         }
 
         if ($return === false) {
-            throw new IndexWriteException("Could not read index file '{$pathToIndex}'");
+            throw new IndexWriteException("Could not write index file '{$pathToIndex}'");
         }
     }
 
