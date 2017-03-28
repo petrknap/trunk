@@ -12,6 +12,10 @@ add-package:
 	[ "$$context" != "" ] && [ "$$name" != "" ] && \
 	git subtree add --prefix=packages/$$context/$$name git://github.com/petrknap/`echo $$context | tr A-Z a-z`-`echo $$name | tr A-Z a-z`.git master
 
+synchronization:
+	sudo docker run -v $$(pwd):/app --rm php:7.0-cli bash -c "cd /app && ./bin/synchronize.php"
+	make clean
+
 docker:
 	mkdir temp/docker || true
 	cp php.dockerfile temp/docker/php.dockerfile
@@ -29,10 +33,6 @@ composer-install:
 
 composer-update:
 	make composer ARGS="update"
-
-synchronization:
-	sudo docker run -v $$(pwd):/app --rm php:7.0-cli bash -c "cd /app && ./bin/synchronize.php"
-	make clean
 
 tests: composer-install
 	make docker-run-php ARGS="vendor/php/bin/phpunit packages/Php -c php.phpunit.xml --testdox-text php.phpunit.log ${ARGS}"
