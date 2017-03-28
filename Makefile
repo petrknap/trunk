@@ -22,7 +22,7 @@ docker-run-php:
 	make clean
 
 composer:
-	make docker-run-php ARGS="composer ${ARGS}"
+	make docker-run-php ARGS="COMPOSER=php.composer.json COMPOSER_VENDOR_DIR=vendor/php composer ${ARGS}"
 
 composer-install:
 	make composer ARGS="install"
@@ -35,12 +35,12 @@ synchronization:
 	make clean
 
 tests: composer-install
-	make docker-run-php ARGS="vendor/bin/phpunit ${ARGS}"
+	make docker-run-php ARGS="vendor/php/bin/phpunit packages/Php -c php.phpunit.xml --testdox-text php.phpunit.log ${ARGS}"
 
 tests-on-packages:
 	rsync -r --delete --exclude=composer.lock --exclude=vendor packages/ temp/packages/;
 	for package in temp/packages/Php/*; do \
-		make docker-run ARGS="cd $${package} && composer update && vendor/bin/phpunit ${ARGS}"; \
+		make docker-run-php ARGS="cd $${package} && composer update && vendor/bin/phpunit ${ARGS}"; \
 	done
 
 publish: publish-web tests

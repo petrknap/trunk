@@ -1,6 +1,6 @@
 {
     "name": "petrknap/php",
-    "description": "Monolithic repository for petrknap/php-* packages",
+    "description": "Monolithic repository",
     "type": "project",
     "license": "MIT",
     "homepage": "https://petrknap.github.io/php/",

@@ -42,7 +42,7 @@ class PhpSynchronizer
 
     public function __construct()
     {
-        $this->composerFile = __DIR__ . "/../composer.json";
+        $this->composerFile = __DIR__ . "/../php.composer.json";
         $this->composer = json_decode($this->read($this->composerFile), true);
         $this->composer["require-dev"] = [
             "phpunit/phpunit" => $this->composer["require-dev"]["phpunit/phpunit"]
@@ -156,7 +156,7 @@ class PhpSynchronizer
     {
         $this->write(
             __DIR__ . "/../packages/Php/" . $package . "/phpunit.xml",
-            $this->read(__DIR__ . "/../phpunit.xml")
+            str_replace("vendor/php", "vendor", $this->read(__DIR__ . "/../php.phpunit.xml"))
         );
     }
 
