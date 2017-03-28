@@ -14,7 +14,7 @@
     "repositories": [
         {
             "type": "path",
-            "url": "./packages/*"
+            "url": "./packages/Php/*"
         }
     ],
     "require": {
@@ -30,20 +30,20 @@
     },
     "autoload": {
         "psr-4": {
-            "PetrKnap\\Php\\Enum\\": "packages/Enum/src",
-            "PetrKnap\\Php\\FileStorage\\": "packages/FileStorage/src",
-            "PetrKnap\\Php\\Profiler\\": "packages/Profiler/src",
-            "PetrKnap\\Php\\ServiceManager\\": "packages/ServiceManager/src",
-            "PetrKnap\\Php\\Singleton\\": "packages/Singleton/src"
+            "PetrKnap\\Php\\Enum\\": "packages/Php/Enum/src",
+            "PetrKnap\\Php\\FileStorage\\": "packages/Php/FileStorage/src",
+            "PetrKnap\\Php\\Profiler\\": "packages/Php/Profiler/src",
+            "PetrKnap\\Php\\ServiceManager\\": "packages/Php/ServiceManager/src",
+            "PetrKnap\\Php\\Singleton\\": "packages/Php/Singleton/src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "PetrKnap\\Php\\Enum\\Test\\": "packages/Enum/tests",
-            "PetrKnap\\Php\\FileStorage\\Test\\": "packages/FileStorage/tests",
-            "PetrKnap\\Php\\Profiler\\Test\\": "packages/Profiler/tests",
-            "PetrKnap\\Php\\ServiceManager\\Test\\": "packages/ServiceManager/tests",
-            "PetrKnap\\Php\\Singleton\\Test\\": "packages/Singleton/tests"
+            "PetrKnap\\Php\\Enum\\Test\\": "packages/Php/Enum/tests",
+            "PetrKnap\\Php\\FileStorage\\Test\\": "packages/Php/FileStorage/tests",
+            "PetrKnap\\Php\\Profiler\\Test\\": "packages/Php/Profiler/tests",
+            "PetrKnap\\Php\\ServiceManager\\Test\\": "packages/Php/ServiceManager/tests",
+            "PetrKnap\\Php\\Singleton\\Test\\": "packages/Php/Singleton/tests"
         }
     }
 }

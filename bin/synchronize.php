@@ -1,40 +1,40 @@
 #!/usr/bin/env php
 <?php
 
-$synchronize = new Synchronize();
+$phpSynchronizer = new PhpSynchronizer();
 
-foreach(scandir(__DIR__ . "/../packages/") as $package) {
+foreach(scandir(__DIR__ . "/../packages/Php/") as $package) {
     if (in_array($package, [".", ".."])) {
         continue;
     }
     printf("Processing %s:\n", $package);
 
     print("\t* Register package");
-    $synchronize->registerPackage($package);
+    $phpSynchronizer->registerPackage($package);
     print(" [done]\n");
 
     print("\t* Update git");
-    $synchronize->git($package);
+    $phpSynchronizer->git($package);
     print(" [done]\n");
 
     print("\t* Update LICENSE");
-    $synchronize->license($package);
+    $phpSynchronizer->license($package);
     print(" [done]\n");
 
     print("\t* Update README.md");
-    $synchronize->readme($package);
+    $phpSynchronizer->readme($package);
     print(" [done]\n");
 
     print("\t* Update composer.json");
-    $synchronize->composer($package);
+    $phpSynchronizer->composer($package);
     print(" [done]\n");
 
     print("\t* Update phpunit.xml");
-    $synchronize->phpunit($package);
+    $phpSynchronizer->phpunit($package);
     print(" [done]\n");
 }
 
-class Synchronize
+class PhpSynchronizer
 {
     private $composerFile;
     private $composer;
@@ -61,9 +61,9 @@ class Synchronize
         $publish = "";
         foreach ($this->packages as $package) {
             $this->composer["require-dev"][$this->getComposerName($package)] = "*";
-            $this->composer["autoload"]["psr-4"]["PetrKnap\\Php\\" . $package ."\\"] = "packages/" . $package . "/src";
-            $this->composer["autoload-dev"]["psr-4"]["PetrKnap\\Php\\" . $package ."\\Test\\"] = "packages/" . $package . "/tests";
-            $publish .= "packages/{$package}:git@github.com:{$this->getComposerName($package)}.git ";
+            $this->composer["autoload"]["psr-4"]["PetrKnap\\Php\\" . $package ."\\"] = "packages/Php/" . $package . "/src";
+            $this->composer["autoload-dev"]["psr-4"]["PetrKnap\\Php\\" . $package ."\\Test\\"] = "packages/Php/" . $package . "/tests";
+            $publish .= "packages/Php/{$package}:git@github.com:{$this->getComposerName($package)}.git ";
         }
 
         $this->write(
@@ -73,8 +73,8 @@ class Synchronize
         $this->write(
             __DIR__ . "/../Makefile",
             preg_replace(
-                '/git subsplit publish --heads=master --update "([^"]*)" #generated/',
-                'git subsplit publish --heads=master --update "' . trim($publish) . '" #generated',
+                '/git subsplit publish --heads=master --update "([^"]*)" #generated php/',
+                'git subsplit publish --heads=master --update "' . trim($publish) . '" #generated php',
                 $this->read(__DIR__ . "/../Makefile")
             )
         );
@@ -93,12 +93,12 @@ class Synchronize
     public function git($package)
     {
         $this->write(
-            __DIR__ . "/../packages/" . $package . "/.gitignore",
+            __DIR__ . "/../packages/Php/" . $package . "/.gitignore",
             $this->read(__DIR__ . "/../.gitignore")
         );
 
         $this->write(
-            __DIR__ . "/../packages/" . $package . "/.gitattributes",
+            __DIR__ . "/../packages/Php/" . $package . "/.gitattributes",
             $this->read(__DIR__ . "/../.gitattributes")
         );
     }
@@ -106,7 +106,7 @@ class Synchronize
     public function license($package)
     {
         $this->write(
-            __DIR__ . "/../packages/" . $package . "/LICENSE",
+            __DIR__ . "/../packages/Php/" . $package . "/LICENSE",
             $this->read(__DIR__ . "/../LICENSE")
         );
     }
@@ -124,14 +124,14 @@ class Synchronize
         );
 
         $this->write(
-            __DIR__ . "/../packages/" . $package . "/README.md",
+            __DIR__ . "/../packages/Php/" . $package . "/README.md",
             $readme
         );
     }
 
     public function composer($package)
     {
-        $composerFile = __DIR__ . "/../packages/" . $package . "/composer.json";
+        $composerFile = __DIR__ . "/../packages/Php/" . $package . "/composer.json";
         $composer = json_decode($this->read($composerFile), true);
 
         $composer = [
@@ -155,7 +155,7 @@ class Synchronize
     public function phpunit($package)
     {
         $this->write(
-            __DIR__ . "/../packages/" . $package . "/phpunit.xml",
+            __DIR__ . "/../packages/Php/" . $package . "/phpunit.xml",
             $this->read(__DIR__ . "/../phpunit.xml")
         );
     }

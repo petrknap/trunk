@@ -1,6 +1,6 @@
-# petrknap/php
+# petrknap/trunk
 
-Monolithic repository for all `petrknap/php-*` packages.
+Monolithic repository
 
 ## Tests
 
