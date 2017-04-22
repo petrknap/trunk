@@ -1,0 +1,10 @@
+{
+  "name": "MarkdownEditor",
+  "version": "1.0.0",
+  "main": "main.js",
+  "devDependencies": {
+    "electron": "^1.6.2",
+    "bootstrap": "^3.3.7",
+    "simplemde": "^1.11.2"
+  }
+}

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Markdown Editor</title>
+    <link rel="stylesheet" href="vendor/Bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="vendor/SimpleMDE/simplemde.min.css">
+    <style>
+        html, body, .row, .col {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+        .myRow {
+            margin: 3px;
+        }
+        .myLeftCol {
+            padding-left: 0;
+        }
+        .myRightCol {
+            padding-right: 0;
+        }
+    </style>
+</head>
+<body>
+<div class="myRow">
+    <div class="myLeftCol col-xs-3">
+        <div class="list-group" id="menu">
+        </div>
+        <div class="btn-group">
+        <a href="javascript:openFile()" class="btn btn-default">Open</a>
+        <a href="javascript:saveFile(false)" class="btn btn-primary">Save</a>
+        <a href="javascript:saveFile(true)" class="btn btn-primary">Save As</a>
+        </div>
+    </div>
+    <div class="myRightCol col-xs-9">
+        <form>
+            <label for="editor" class="sr-only">Editor</label>
+            <textarea name="editor" id="editor"></textarea>
+        </form>
+    </div>
+</div>
+<script src="vendor/SimpleMDE/simplemde.min.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
