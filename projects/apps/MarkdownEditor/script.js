@@ -8,7 +8,7 @@ const dialog = remote.dialog;
 window.editor = null;
 window.activeFile = null;
 window.savedContent = null;
-window.titlePrefix = "Markdown Editor - ";
+window.titlePrefix = document.title + " - ";
 
 (function () {
     document.title = window.titlePrefix + "New file";
