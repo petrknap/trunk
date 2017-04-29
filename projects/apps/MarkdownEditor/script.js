@@ -56,15 +56,25 @@ window.titlePrefix = document.title + " - ";
         ]
     });
 
-    var setOption = editor.codemirror.setOption;
+    var setOption = editor.codemirror.setOption, fullscreen = function (lazy) {
+        window.editor.codemirror.setOption('fullScreen', true);
+        document.getElementsByTagName("html")[0].style = "overflow: hidden;";
+        document.getElementsByClassName('editor-toolbar')[0].className = 'editor-toolbar fullscreen';
+        if (lazy) {
+            window.setTimeout(fullscreen, 0);
+            window.setTimeout(fullscreen, 1);
+            window.setTimeout(fullscreen, 10);
+            window.setTimeout(fullscreen, 100);
+        }
+    };
     window.editor.codemirror.setOption = function(option, value) {
         if ('fullScreen' === option && false === value) {
-            window.editor.codemirror.setOption('fullScreen', true);
+            fullscreen(true);
         } else {
             setOption.apply(this, arguments);
         }
     };
-    window.editor.codemirror.setOption('fullScreen', true);
+    fullscreen();
     window.savedContent = window.editor.value();
 
     loadFile();
