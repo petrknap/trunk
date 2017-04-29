@@ -6,18 +6,52 @@ const ipc = electron.ipcRenderer;
 const dialog = remote.dialog;
 
 window.editor = null;
-window.files = {};
 window.activeFile = null;
-window.savedContent = "";
+window.savedContent = null;
+window.titlePrefix = "Markdown Editor - ";
 
 (function () {
+    document.title = window.titlePrefix + "New file";
     window.editor = new SimpleMDE({
         element: document.getElementById('editor'),
         forceSync: true,
         spellChecker: false,
-        autofocus: true
+        autofocus: true,
+        autoDownloadFontAwesome: false,
+        toolbar: [
+            {
+                name: "open",
+                action: function () {
+                    return openFile();
+                },
+                className: "fa fa-file-text-o",
+                title: "Open file"
+            }, {
+                name: "save",
+                action: function () {
+                    return saveFile(false);
+                },
+                className: "fa fa-floppy-o ",
+                title: "Save file"
+            }, "|",
+            "undo", "redo", "|",
+            "bold", "italic", "heading", "|",
+            "code", "quote", "unordered-list", "ordered-list", "|",
+            "link", "image", "table", "|",
+            "preview", "side-by-side", "|",
+            "guide"
+        ]
     });
 
+    var setOption = editor.codemirror.setOption;
+    window.editor.codemirror.setOption = function(option, value) {
+        if ('fullScreen' === option && false === value) {
+            window.editor.codemirror.setOption('fullScreen', true);
+        } else {
+            setOption.apply(this, arguments);
+        }
+    };
+    window.editor.codemirror.setOption('fullScreen', true);
     window.savedContent = window.editor.value();
 })();
 
@@ -28,7 +62,7 @@ ipc.on('closingWindow', function() {
 });
 
 function beforeDestroy() {
-    if (window.savedContent === window.editor.value()) {
+    if (window.editor.value() === window.savedContent) {
         return true; // nothing to destroy
     }
 
@@ -55,17 +89,9 @@ function loadFile(file) {
             window.editor.value(data);
             window.savedContent = window.editor.value();
             window.activeFile = file;
-            updateMenu();
         });
+        document.title = window.titlePrefix + file;
     }
-}
-
-function updateMenu() {
-    var menu = '';
-    for (var file in window.files) {
-        menu = menu + '<a href="javascript:loadFile(\'' + file + '\')" class="list-group-item ' + (file === activeFile ? 'active' : '') + '">' + path.basename(file, '.md') + '</a>';
-    }
-    document.getElementById('menu').innerHTML = menu;
 }
 
 function openFile() {
@@ -80,9 +106,6 @@ function openFile() {
         if (fileNames === undefined) {
             return;
         }
-        for (var i = 0; i < fileNames.length; i++) {
-            window.files[fileNames[i]] = null;
-        }
         loadFile(fileNames[0]);
     });
 }
@@ -92,6 +115,7 @@ function saveFile(saveAs) {
         fileSystem.writeFile(file, content, 'utf-8', function (err) {
             if (!err) {
                 window.savedContent = content;
+                document.title = window.titlePrefix + file;
             }
         });
     };
