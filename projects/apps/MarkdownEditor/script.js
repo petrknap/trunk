@@ -11,7 +11,6 @@ window.savedContent = null;
 window.titlePrefix = document.title + " - ";
 
 (function () {
-    document.title = window.titlePrefix + "New file";
     window.editor = new SimpleMDE({
         element: document.getElementById('editor'),
         forceSync: true,
@@ -20,19 +19,33 @@ window.titlePrefix = document.title + " - ";
         autoDownloadFontAwesome: false,
         toolbar: [
             {
+                name: "new",
+                action: function () {
+                    return loadFile();
+                },
+                className: "fa fa-file-o",
+                title: "New file"
+            }, {
                 name: "open",
                 action: function () {
                     return openFile();
                 },
-                className: "fa fa-file-text-o",
+                className: "fa fa-folder-open-o",
                 title: "Open file"
             }, {
                 name: "save",
                 action: function () {
                     return saveFile(false);
                 },
-                className: "fa fa-floppy-o ",
+                className: "fa fa-floppy-o",
                 title: "Save file"
+            }, {
+                name: "save-as",
+                action: function () {
+                    return saveFile(true);
+                },
+                className: "fa fa-files-o",
+                title: "Save file as"
             }, "|",
             "undo", "redo", "|",
             "bold", "italic", "heading", "|",
@@ -53,6 +66,8 @@ window.titlePrefix = document.title + " - ";
     };
     window.editor.codemirror.setOption('fullScreen', true);
     window.savedContent = window.editor.value();
+
+    loadFile();
 })();
 
 ipc.on('closingWindow', function() {
@@ -85,12 +100,19 @@ function beforeDestroy() {
 
 function loadFile(file) {
     if (beforeDestroy()) {
-        fileSystem.readFile(file, 'utf-8', function (err, data) {
-            window.editor.value(data);
+        if (file) {
+            fileSystem.readFile(file, 'utf-8', function (err, data) {
+                window.editor.value(data);
+                window.savedContent = window.editor.value();
+                window.activeFile = file;
+                document.title = window.titlePrefix + file;
+            });
+        } else {
+            window.editor.value("");
             window.savedContent = window.editor.value();
             window.activeFile = file;
-        });
-        document.title = window.titlePrefix + file;
+            document.title = window.titlePrefix + "New file";
+        }
     }
 }
 
