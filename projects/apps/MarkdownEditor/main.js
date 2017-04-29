@@ -1,3 +1,4 @@
+const path = require('path');
 const electron = require('electron');
 const ipc = electron.ipcMain;
 const app = electron.app;
@@ -8,7 +9,8 @@ var mainWindow, forceQuit = false;
 app.on('ready', function() {
     mainWindow = new BrowserWindow({
         height: 600,
-        width: 800
+        width: 800,
+        icon: path.join(__dirname, 'assets/icons/png/128x128.png')
     });
 
     mainWindow.loadURL('file://' + __dirname + '/window.html');
