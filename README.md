@@ -2,6 +2,12 @@
 
 Monolithic repository
 
+
+## Apps
+
+Compiled applications can be downloaded at https://1drv.ms/f/s!AM62gYHBWCjkj-gL.
+
+
 ## Tests
 
 To run all tests against `HEAD` run `make tests`.
