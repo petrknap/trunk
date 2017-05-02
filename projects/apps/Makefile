@@ -21,3 +21,4 @@ mac:
 
 packages:
 	for D in $$(ls -d ./builds/*/); do (cd $$D && rm $$(pwd).zip || true && zip -r $$(pwd).zip .); done;
+	(cd ./builds/ && sha1sum *.zip > checksums.sha1 && md5sum *.zip > checksums.md5)
