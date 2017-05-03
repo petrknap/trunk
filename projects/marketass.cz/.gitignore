@@ -1,3 +1,4 @@
-/_site/
-/*.md
-!/lorem-ipsum.md
+/app/config/parameters.yml
+/vendor/
+!/vendor/.htaccess
+/web/bundles/
