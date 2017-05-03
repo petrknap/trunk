@@ -148,15 +148,15 @@ class PhpSynchronizer
         ] + $conflict;
 
         if (isset($composer["conflict"])) {
-            foreach ($composer["conflict"] as $package => $ignored) {
-                $composer["require-dev"][$package] = "*";
-                $this->composer["require-dev"][$package] = "*";
+            foreach ($composer["conflict"] as $conflict => $ignored) {
+                $composer["require-dev"][$conflict] = "*";
+                $this->composer["require-dev"][$conflict] = "*";
             }
         }
 
         $composer["WARNING"] = "This file is updated automatically. All keys will be overwritten, except of 'description', 'require' and 'conflict'.";
         $composer["name"] = $this->getComposerName($package);
-        $composer["homepage"] = $this->composer["homepage"] . strtolower($package) . ".html";
+        $composer["homepage"] = $this->composer["homepage"] . strtolower($this->context) . "-" . strtolower($package) . ".html";
         $composer["license"] = $this->composer["license"];
         $composer["authors"] = $this->composer["authors"];
         $composer["require"] = array_merge($composer["require"], $this->composer["require"]);

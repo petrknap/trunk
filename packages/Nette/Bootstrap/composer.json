@@ -17,8 +17,8 @@
         "nette/robot-loader": "*"
     },
     "WARNING": "This file is updated automatically. All keys will be overwritten, except of 'description', 'require' and 'conflict'.",
-    "name": "petrknap/nette-nette/robot-loader",
-    "homepage": "https://petrknap.github.io/nette/nette/robot-loader.html",
+    "name": "petrknap/nette-bootstrap",
+    "homepage": "https://petrknap.github.io/docs/nette-bootstrap.html",
     "license": "MIT",
     "authors": [
         {
@@ -28,12 +28,12 @@
     ],
     "autoload": {
         "psr-4": {
-            "PetrKnap\\Nette\\nette/robot-loader\\": "src"
+            "PetrKnap\\Nette\\Bootstrap\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "PetrKnap\\Nette\\nette/robot-loader\\Test\\": "tests"
+            "PetrKnap\\Nette\\Bootstrap\\Test\\": "tests"
         }
     }
 }

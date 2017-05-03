@@ -3,7 +3,7 @@
     "description": "Monolithic repository",
     "type": "project",
     "license": "MIT",
-    "homepage": "https://petrknap.github.io/nette/",
+    "homepage": "https://petrknap.github.io/docs/",
     "authors": [
         {
             "name": "Petr Knap",
