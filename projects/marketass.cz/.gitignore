@@ -1,4 +1,0 @@
-/app/config/parameters.yml
-/vendor/
-!/vendor/.htaccess
-/web/bundles/
