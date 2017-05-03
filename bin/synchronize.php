@@ -116,13 +116,13 @@ class PhpSynchronizer
 
     public function readme($package)
     {
-        $readme = $this->read(__DIR__ . "/../projects/petrknap.github.io/" . strtolower($this->context) . "/" . strtolower($package) . ".md");
+        $readme = $this->read(__DIR__ . "/../projects/petrknap.github.io/docs/" . strtolower($this->context) . "-" . strtolower($package) . ".md");
         $readme = explode(PHP_EOL, $readme);
         $readme = array_slice($readme, 3);
         $readme = implode(PHP_EOL, $readme);
         $readme = str_replace(
-            ["{% include php/how-to-install.md %}", "{{ page.name | remove: \".md\" }}"],
-            [$this->read(__DIR__ . "/../projects/petrknap.github.io/_includes/php/how-to-install.md"), strtolower($package)],
+            ["{% include docs/how-to-install.md %}", "{{ page.name | remove: \".md\" }}"],
+            [$this->read(__DIR__ . "/../projects/petrknap.github.io/_includes/docs/how-to-install.md"), strtolower($this->context) . "-" . strtolower($package)],
             $readme
         );
 

@@ -83,7 +83,23 @@ class NetteTestCase extends \PetrKnap\Nette\Bootstrap\PhpUnit\NetteTestCase
 
 ## How to install
 
-Run `composer require petrknap/nette-bootstrap` in your project directory. Or manually clone this repository via `git clone https://github.com/petrknap/nette-bootstrap.git`. Or download [this repository as ZIP] and extract files into your project.
+Run `composer require petrknap/nette-bootstrap` or merge this JSON code with your project `composer.json` file manually and run `composer install`. Instead of `dev-master` you can use [one of released versions].
+
+```json
+{
+    "require": {
+        "petrknap/nette-bootstrap": "dev-master"
+    }
+}
+```
+
+Or manually clone this repository via `git clone https://github.com/petrknap/nette-bootstrap.git` or download [this repository as ZIP] and extract files into your project.
+
+
+
+[one of released versions]:https://github.com/petrknap/nette-bootstrap/releases
+[this repository as ZIP]:https://github.com/petrknap/nette-bootstrap/archive/master.zip
+
 
 
 
