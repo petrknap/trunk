@@ -18,15 +18,21 @@ synchronization:
 
 docker:
 	mkdir temp/docker || true
-	cp php.dockerfile temp/docker/php.dockerfile
+	cp *.dockerfile temp/docker
 	sudo docker build -f temp/docker/php.dockerfile -t petrknap/php temp/docker
+	sudo docker build -f temp/docker/nette.dockerfile -t petrknap/nette temp/docker
 
 docker-run-php:
 	sudo docker run -v $$(pwd):/app -v $$(pwd):/mnt/read-only/app:ro --rm petrknap/php bash -c "cd /app && ${ARGS}"
 	make clean
 
+docker-run-nette:
+	sudo docker run -v $$(pwd):/app -v $$(pwd):/mnt/read-only/app:ro --rm petrknap/nette bash -c "cd /app && ${ARGS}"
+	make clean
+
 composer:
 	make docker-run-php ARGS="COMPOSER=php.composer.json COMPOSER_VENDOR_DIR=vendor/php composer ${ARGS}"
+	make docker-run-nette ARGS="COMPOSER=nette.composer.json COMPOSER_VENDOR_DIR=vendor/nette composer ${ARGS}"
 
 composer-install:
 	make composer ARGS="install"
@@ -36,16 +42,21 @@ composer-update:
 
 tests: composer-install
 	make docker-run-php ARGS="vendor/php/bin/phpunit packages/Php -c php.phpunit.xml --testdox-text php.phpunit.log ${ARGS}"
+	make docker-run-nette ARGS="vendor/nette/bin/phpunit packages/Nette -c nette.phpunit.xml --testdox-text nette.phpunit.log ${ARGS}"
 
 tests-on-packages:
 	rsync -r --delete --exclude=composer.lock --exclude=vendor packages/ temp/packages/;
 	for package in temp/packages/Php/*; do \
 		make docker-run-php ARGS="cd $${package} && composer update && vendor/bin/phpunit ${ARGS}"; \
 	done
+	for package in temp/packages/Nette/*; do \
+		make docker-run-nette ARGS="cd $${package} && composer update && vendor/bin/phpunit ${ARGS}"; \
+	done
 
 publish: publish-web tests
 	git subsplit init https://github.com/petrknap/php
 	git subsplit publish --heads=master --update "packages/Php/Enum:git@github.com:petrknap/php-enum.git packages/Php/FileStorage:git@github.com:petrknap/php-filestorage.git packages/Php/Profiler:git@github.com:petrknap/php-profiler.git packages/Php/ServiceManager:git@github.com:petrknap/php-servicemanager.git packages/Php/Singleton:git@github.com:petrknap/php-singleton.git" #generated php
+	git subsplit publish --heads=master --update "packages/Nette/Bootstrap:git@github.com:petrknap/nette-bootstrap.git" #generated nette
 	rm -rf .subsplit
 
 publish-web:

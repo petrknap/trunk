@@ -2,9 +2,9 @@
 
 namespace PetrKnap\Nette\Bootstrap\Test\BootstrapTest;
 
-use PetrKnap\Nette;
+use PetrKnap\Nette\Bootstrap\Bootstrap as B;
 
-class Bootstrap extends Nette\Bootstrap\Bootstrap
+class Bootstrap extends B
 {
     /**
      * @inheritdoc
@@ -47,5 +47,13 @@ class Bootstrap extends Nette\Bootstrap\Bootstrap
             __DIR__ . "/cfg/first.neon",
             __DIR__ . "/cfg/second.neon"
         );
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public static function getOptions()
+    {
+        return parent::getOptions();
     }
 }

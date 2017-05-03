@@ -1,3 +1,6 @@
+---
+layout: blueprint.nette
+---
 # Nette Bootstrap and Test-Case for PHPUnit
 
 ## Container

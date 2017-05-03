@@ -1,53 +1,39 @@
 {
-  "name": "petrknap/nette-bootstrap",
-  "description": "Nette Bootstrap and Test-Case for PHPUnit",
-  "license": "MIT",
-  "authors": [
-    {
-      "name": "Petr Knap",
-      "email": "dev@petrknap.cz"
-    }
-  ],
-  "homepage": "https://github.com/petrknap/nette-bootstrap",
-  "config": {
-    "platform": {
-      "php": "5.3.6",
-      "ext-dom": true
-    }
-  },
-  "require": {
-    "php": ">=5.3.6",
-    "nette/bootstrap": "^2.3",
-    "nette/di": "^2.3"
-  },
-  "conflict-note": "'conflict' combined with 'require-dev' to '*' is used as soft require",
-  "conflict": {
-    "phpunit/phpunit": "<4.8 || >=5",
-    "nette/application": "<2.3 || >=3",
-    "nette/robot-loader": "<2.3 || >=3"
-  },
-  "require-dev": {
-    "phpunit/phpunit": "*",
-    "nette/application": "*",
-    "nette/robot-loader": "*",
-    "tracy/tracy": "^2.3"
-  },
-  "scripts": {
-    "tests/": [
-      "sudo docker run -v $(pwd):/app --rm php:5.3-cli bash -c 'cd /app && php ./vendor/bin/phpunit'"
+    "description": "Nette Bootstrap and Test-Case for PHPUnit",
+    "require": {
+        "php": ">=5.4",
+        "nette/bootstrap": "^2.3",
+        "nette/di": "^2.3"
+    },
+    "conflict-note": "'conflict' combined with 'require-dev' to '*' is used as soft require",
+    "conflict": {
+        "phpunit/phpunit": "<4.8 || >=5",
+        "nette/application": "<2.3 || >=3",
+        "nette/robot-loader": "<2.3 || >=3"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "*",
+        "nette/application": "*",
+        "nette/robot-loader": "*"
+    },
+    "WARNING": "This file is updated automatically. All keys will be overwritten, except of 'description', 'require' and 'conflict'.",
+    "name": "petrknap/nette-nette/robot-loader",
+    "homepage": "https://petrknap.github.io/nette/nette/robot-loader.html",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Petr Knap",
+            "email": "dev@petrknap.cz"
+        }
     ],
-    "post-autoload-dump": [
-      "@tests/"
-    ]
-  },
-  "autoload": {
-    "psr-4": {
-      "PetrKnap\\Nette\\Bootstrap\\": "src/Bootstrap"
+    "autoload": {
+        "psr-4": {
+            "PetrKnap\\Nette\\nette/robot-loader\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "PetrKnap\\Nette\\nette/robot-loader\\Test\\": "tests"
+        }
     }
-  },
-  "autoload-dev": {
-    "psr-4": {
-      "PetrKnap\\Nette\\Bootstrap\\Test\\": "tests/Bootstrap"
-    }
-  }
 }
