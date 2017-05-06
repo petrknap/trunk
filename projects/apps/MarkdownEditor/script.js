@@ -56,7 +56,7 @@ window.titlePrefix = document.title + " - ";
         ]
     });
 
-    var setOption = editor.codemirror.setOption, fullscreen = function (lazy) {
+    var setOption = window.editor.codemirror.setOption, fullscreen = function (lazy) {
         window.editor.codemirror.setOption('fullScreen', true);
         document.getElementsByTagName("html")[0].style = "overflow: hidden;";
         document.getElementsByClassName('editor-toolbar')[0].className = 'editor-toolbar fullscreen';
