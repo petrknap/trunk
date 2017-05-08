@@ -5,13 +5,13 @@ const remote = electron.remote;
 const ipc = electron.ipcRenderer;
 const dialog = remote.dialog;
 
-window.editor = null;
-window.activeFile = null;
-window.savedContent = null;
-window.titlePrefix = document.title + " - ";
+var editor = null;
+var activeFile = null;
+var savedContent = null;
+var titlePrefix = document.title + " - ";
 
 (function () {
-    window.editor = new SimpleMDE({
+    editor = new SimpleMDE({
         element: document.getElementById('editor'),
         forceSync: true,
         spellChecker: false,
@@ -56,8 +56,8 @@ window.titlePrefix = document.title + " - ";
         ]
     });
 
-    var setOption = window.editor.codemirror.setOption, fullscreen = function (lazy) {
-        window.editor.codemirror.setOption('fullScreen', true);
+    var setOption = editor.codemirror.setOption, fullscreen = function (lazy) {
+        editor.codemirror.setOption('fullScreen', true);
         document.getElementsByTagName("html")[0].style = "overflow: hidden;";
         document.getElementsByClassName('editor-toolbar')[0].className = 'editor-toolbar fullscreen';
         if (lazy) {
@@ -67,7 +67,7 @@ window.titlePrefix = document.title + " - ";
             window.setTimeout(fullscreen, 100);
         }
     };
-    window.editor.codemirror.setOption = function(option, value) {
+    editor.codemirror.setOption = function(option, value) {
         if ('fullScreen' === option && false === value) {
             fullscreen(true);
         } else {
@@ -75,7 +75,7 @@ window.titlePrefix = document.title + " - ";
         }
     };
     fullscreen();
-    window.savedContent = window.editor.value();
+    savedContent = editor.value();
 
     loadFile();
 })();
@@ -87,7 +87,7 @@ ipc.on('closingWindow', function() {
 });
 
 function beforeDestroy() {
-    if (window.editor.value() === window.savedContent) {
+    if (editor.value() === savedContent) {
         return true; // nothing to destroy
     }
 
@@ -101,7 +101,7 @@ function beforeDestroy() {
 
     switch (choice) {
         case 1:
-            window.editor.value(window.savedContent);
+            editor.value(savedContent);
             return true;
         default:
             return false;
@@ -112,16 +112,16 @@ function loadFile(file) {
     if (beforeDestroy()) {
         if (file) {
             fileSystem.readFile(file, 'utf-8', function (err, data) {
-                window.editor.value(data);
-                window.savedContent = window.editor.value();
-                window.activeFile = file;
-                document.title = window.titlePrefix + file;
+                editor.value(data);
+                savedContent = editor.value();
+                activeFile = file;
+                document.title = titlePrefix + file;
             });
         } else {
-            window.editor.value("");
-            window.savedContent = window.editor.value();
-            window.activeFile = file;
-            document.title = window.titlePrefix + "New file";
+            editor.value("");
+            savedContent = editor.value();
+            activeFile = file;
+            document.title = titlePrefix + "New file";
         }
     }
 }
@@ -146,12 +146,12 @@ function saveFile(saveAs) {
     var save = function (file, content) {
         fileSystem.writeFile(file, content, 'utf-8', function (err) {
             if (!err) {
-                window.savedContent = content;
-                document.title = window.titlePrefix + file;
+                savedContent = content;
+                document.title = titlePrefix + file;
             }
         });
     };
-    if (saveAs || !window.activeFile) {
+    if (saveAs || !activeFile) {
         dialog.showSaveDialog({
             filters: [
                 {
@@ -160,9 +160,9 @@ function saveFile(saveAs) {
                 }
             ]
         }, function (fileName) {
-            save(fileName, window.editor.value());
+            save(fileName, editor.value());
         });
     } else {
-        save(window.activeFile, window.editor.value());
+        save(activeFile, editor.value());
     }
 }
