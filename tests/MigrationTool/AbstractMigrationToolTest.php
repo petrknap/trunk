@@ -135,10 +135,11 @@ class AbstractMigrationToolTest extends TestCase
 
         try {
             $tool->migrate();
-            $this->fail();
+            $this->assertNotNull($logger); // if there is a logger
         } catch (PHPUnit_Framework_Error_Warning $warning) {
+            $this->assertNull($logger); // if there is not a logger
             $this->assertStringMatchesFormat(
-                $this->getFormatForMessage(AbstractMigrationTool::MESSAGE__THERE_IS_NOTHING_TO_MIGRATE__PATH_PATTERN),
+                $this->getFormatForMessage(AbstractMigrationTool::MESSAGE__THERE_IS_NOTHING_MATCHING_PATTERN__PATH_PATTERN),
                 $warning->getMessage()
             );
         }
@@ -152,8 +153,15 @@ class AbstractMigrationToolTest extends TestCase
         );
         $this->assertLogEquals(array(
             "warning" => array(
-                AbstractMigrationTool::MESSAGE__THERE_IS_NOTHING_TO_MIGRATE__PATH_PATTERN,
+                AbstractMigrationTool::MESSAGE__THERE_IS_NOTHING_MATCHING_PATTERN__PATH_PATTERN,
             ),
+            "info" => array(
+                AbstractMigrationTool::MESSAGE__FOUND_MIGRATION_FILES__COUNT_PATH_PATTERN,
+                AbstractMigrationTool::MESSAGE__DONE,
+            ),
+            "notice" => array(
+                AbstractMigrationTool::MESSAGE__THERE_IS_NOTHING_TO_MIGRATE__PATH_PATTERN,
+            )
         ), $log);
     }
 
@@ -170,10 +178,11 @@ class AbstractMigrationToolTest extends TestCase
 
         try {
             $tool->migrate();
-            $this->fail();
+            $this->assertNotNull($logger); // if there is a logger
         } catch (PHPUnit_Framework_Error_Notice $notice) {
+            $this->assertNull($logger); // if there is not a logger
             $this->assertStringMatchesFormat(
-                $this->getFormatForMessage(AbstractMigrationTool::MESSAGE__THERE_IS_NOTHING_TO_MIGRATE__PATH_PATTERN),
+                $this->getFormatForMessage(AbstractMigrationTool::MESSAGE__THERE_IS_NOTHING_MATCHING_PATTERN__PATH_PATTERN),
                 $notice->getMessage()
             );
         }
@@ -188,6 +197,7 @@ class AbstractMigrationToolTest extends TestCase
         $this->assertLogEquals(array(
             "info" => array(
                 AbstractMigrationTool::MESSAGE__FOUND_MIGRATION_FILES__COUNT_PATH_PATTERN,
+                AbstractMigrationTool::MESSAGE__DONE,
             ),
             "notice" => array(
                 AbstractMigrationTool::MESSAGE__THERE_IS_NOTHING_TO_MIGRATE__PATH_PATTERN,
@@ -208,8 +218,9 @@ class AbstractMigrationToolTest extends TestCase
 
         try {
             $tool->migrate();
-            $this->fail();
+            $this->assertNotNull($logger); // if there is a logger
         } catch (PHPUnit_Framework_Error_Notice $notice) {
+            $this->assertNull($logger); // if there is not a logger
             $this->assertStringMatchesFormat(
                 $this->getFormatForMessage(AbstractMigrationTool::MESSAGE__FOUND_UNSUPPORTED_FILE__PATH),
                 $notice->getMessage()
@@ -226,6 +237,14 @@ class AbstractMigrationToolTest extends TestCase
         $this->assertLogEquals(array(
             "notice" => array(
                 AbstractMigrationTool::MESSAGE__FOUND_UNSUPPORTED_FILE__PATH,
+                AbstractMigrationTool::MESSAGE__THERE_IS_NOTHING_TO_MIGRATE__PATH_PATTERN,
+            ),
+            "warning" => array(
+                AbstractMigrationTool::MESSAGE__THERE_IS_NOTHING_MATCHING_PATTERN__PATH_PATTERN,
+            ),
+            "info" => array(
+                AbstractMigrationTool::MESSAGE__FOUND_MIGRATION_FILES__COUNT_PATH_PATTERN,
+                AbstractMigrationTool::MESSAGE__DONE,
             ),
         ), $log);
     }

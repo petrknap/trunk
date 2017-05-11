@@ -18,6 +18,7 @@ abstract class AbstractMigrationTool implements MigrationToolInterface, LoggerAw
     const MESSAGE__FOUND_UNSUPPORTED_FILE__PATH = "Found unsupported file {path}";
     const MESSAGE__FOUND_MIGRATION_FILES__COUNT_PATH_PATTERN = "Found {count} migration files in {path} matching {pattern}";
     const MESSAGE__MIGRATION_FILE_APPLIED__PATH = "Migration file {path} applied";
+    const MESSAGE__THERE_IS_NOTHING_MATCHING_PATTERN__PATH_PATTERN = "In {path} is nothing matching {pattern}";
     const MESSAGE__THERE_IS_NOTHING_TO_MIGRATE__PATH_PATTERN = "In {path} is nothing matching {pattern} to migrate";
     const MESSAGE__DETECTED_GAPE_BEFORE_MIGRATION__ID = "Detected gape before migration {id}";
     const MESSAGE__DONE = "Database is now up-to-date";
@@ -111,15 +112,15 @@ abstract class AbstractMigrationTool implements MigrationToolInterface, LoggerAw
                     self::MESSAGE__THERE_IS_NOTHING_TO_MIGRATE__PATH_PATTERN,
                     $context
                 );
+            } else {
+                user_error(
+                    $this->interpolate(
+                        self::MESSAGE__THERE_IS_NOTHING_TO_MIGRATE__PATH_PATTERN,
+                        $context
+                    ),
+                    E_USER_NOTICE
+                );
             }
-
-            user_error(
-                $this->interpolate(
-                    self::MESSAGE__THERE_IS_NOTHING_TO_MIGRATE__PATH_PATTERN,
-                    $context
-                ),
-                E_USER_NOTICE
-            );
         } else {
             foreach ($migrationFilesToMigrate as $migrationFile) {
                 $this->applyMigrationFile($migrationFile);
@@ -166,15 +167,15 @@ abstract class AbstractMigrationTool implements MigrationToolInterface, LoggerAw
                             self::MESSAGE__FOUND_UNSUPPORTED_FILE__PATH,
                             $context
                         );
+                    } else {
+                        user_error(
+                            $this->interpolate(
+                                self::MESSAGE__FOUND_UNSUPPORTED_FILE__PATH,
+                                $context
+                            ),
+                            E_USER_NOTICE
+                        );
                     }
-
-                    user_error(
-                        $this->interpolate(
-                            self::MESSAGE__FOUND_UNSUPPORTED_FILE__PATH,
-                            $context
-                        ),
-                        E_USER_NOTICE
-                    );
                 }
             }
         }
@@ -188,18 +189,18 @@ abstract class AbstractMigrationTool implements MigrationToolInterface, LoggerAw
 
             if ($this->getLogger()) {
                 $this->getLogger()->warning(
-                    self::MESSAGE__THERE_IS_NOTHING_TO_MIGRATE__PATH_PATTERN,
+                    self::MESSAGE__THERE_IS_NOTHING_MATCHING_PATTERN__PATH_PATTERN,
                     $context
                 );
+            } else {
+                user_error(
+                    $this->interpolate(
+                        self::MESSAGE__THERE_IS_NOTHING_MATCHING_PATTERN__PATH_PATTERN,
+                        $context
+                    ),
+                    E_USER_WARNING
+                );
             }
-
-            user_error(
-                $this->interpolate(
-                    self::MESSAGE__THERE_IS_NOTHING_TO_MIGRATE__PATH_PATTERN,
-                    $context
-                ),
-                E_USER_WARNING
-            );
         }
 
         if ($this->getLogger()) {

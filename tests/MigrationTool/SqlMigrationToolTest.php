@@ -307,11 +307,11 @@ class SqlMigrationToolTest extends TestCase
         return array(
             array(
                 __DIR__ . "/SqlMigrationToolTest/ApplyMigrationFileMethodWorks/single_query.sql",
-                1,
+                2,
             ),
             array(
                 __DIR__ . "/SqlMigrationToolTest/ApplyMigrationFileMethodWorks/multi_query.sql",
-                0,
+                1,
             ),
         );
     }
@@ -361,7 +361,7 @@ class SqlMigrationToolTest extends TestCase
                     $pathToMigrationFile,
                 )),
             ));
-            $this->fail();
+            $this->fail("Expected exception");
         } catch (MigrationFileException $exception) {
             $this->assertStringMatchesFormat(
                 $this->getFormatForMessage($expectedMessage),
@@ -437,7 +437,7 @@ class SqlMigrationToolTest extends TestCase
                     $pathToMigrationFile,
                 )),
             ));
-            $this->fail();
+            $this->fail("Expected exception");
         } catch (MigrationFileException $ignored) {
             /** @noinspection SqlDialectInspection, SqlNoDataSourceInspection */
             $this->assertEquals(
