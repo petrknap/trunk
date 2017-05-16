@@ -4,6 +4,7 @@ const electron = require('electron');
 const remote = electron.remote;
 const ipc = electron.ipcRenderer;
 const dialog = remote.dialog;
+const cliArguments = remote.process.argv;
 
 var editor = null;
 var activeFile = null;
@@ -77,7 +78,11 @@ var titlePrefix = document.title + " - ";
     fullscreen();
     savedContent = editor.value();
 
-    loadFile();
+    if (cliArguments.length > 1 && fileSystem.existsSync(cliArguments[1])) {
+        loadFile(cliArguments[1]);
+    } else {
+        loadFile();
+    }
 })();
 
 ipc.on('closingWindow', function() {
