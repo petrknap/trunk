@@ -85,6 +85,17 @@ var titlePrefix = document.title + " - ";
     }
 })();
 
+(function () {
+    document.ondragover = document.ondrop = function (ev) {
+        ev.preventDefault();
+    };
+
+    document.body.ondrop = function (ev) {
+        loadFile(ev.dataTransfer.files[0].path);
+        ev.preventDefault();
+    };
+})();
+
 ipc.on('closingWindow', function() {
     if (beforeDestroy()) {
         ipc.send('doClose');
