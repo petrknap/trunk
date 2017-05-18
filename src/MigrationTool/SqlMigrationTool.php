@@ -38,11 +38,12 @@ abstract class SqlMigrationTool extends AbstractMigrationTool
      */
     protected function createMigrationTable()
     {
-        $errmode = $this->getPhpDataObject()->getAttribute(\PDO::ATTR_ERRMODE);
-        $this->getPhpDataObject()->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
         try {
             /** @noinspection SqlNoDataSourceInspection,SqlDialectInspection */
-            $result = $this->getPhpDataObject()->query("SELECT null FROM {$this->getNameOfMigrationTable()} LIMIT 1")->fetchAll();
+            $result = $this->getPhpDataObject()->query("SELECT null FROM {$this->getNameOfMigrationTable()} LIMIT 1");
+            if ($result) {
+                $result->closeCursor();
+            }
         } catch (\PDOException $e) {
             if ($e->getCode() === '42S02') {
                $result = false;
@@ -50,7 +51,6 @@ abstract class SqlMigrationTool extends AbstractMigrationTool
                 throw $e;
             }
         }
-        $this->getPhpDataObject()->setAttribute(\PDO::ATTR_ERRMODE, $errmode);
 
         if (false === $result) {
             /** @noinspection SqlNoDataSourceInspection,SqlDialectInspection */
