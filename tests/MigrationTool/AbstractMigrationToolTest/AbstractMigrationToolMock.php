@@ -6,16 +6,23 @@ use PetrKnap\Php\MigrationTool\AbstractMigrationTool;
 
 class AbstractMigrationToolMock extends AbstractMigrationTool
 {
-    const MIGRATION_FILE_PATTERN = '/\.ext/i';
-
     /**
      * @var array
      */
     private $appliedMigrations;
 
-    public function __construct(array $appliedMigrations)
+    public function __construct(array $appliedMigrations, $pathToDirectoryWithMigrationFiles = null)
     {
+        parent::__construct($pathToDirectoryWithMigrationFiles, '/\.ext/i');
         $this->appliedMigrations = $appliedMigrations;
+    }
+
+    /**
+     * @return array
+     */
+    public function getAppliedMigrations()
+    {
+        return $this->appliedMigrations;
     }
 
     /**
@@ -32,13 +39,5 @@ class AbstractMigrationToolMock extends AbstractMigrationTool
     protected function applyMigrationFile($pathToMigrationFile)
     {
         $this->appliedMigrations[] = $this->getMigrationId($pathToMigrationFile);
-    }
-
-    /**
-     * @inheritdoc
-     */
-    protected function getPathToDirectoryWithMigrationFiles()
-    {
-        return __DIR__ . "/migrations";
     }
 }

@@ -6,141 +6,460 @@ use PetrKnap\Php\MigrationTool\Exception\DatabaseException;
 use PetrKnap\Php\MigrationTool\Exception\MigrationException;
 use PetrKnap\Php\MigrationTool\Exception\MigrationFileException;
 use PetrKnap\Php\MigrationTool\SqlMigrationTool;
-use PetrKnap\Php\MigrationTool\Test\SqlMigrationToolTest\SqlMigrationToolMock;
+use Psr\Log\LoggerInterface;
 
 class SqlMigrationToolTest extends TestCase
 {
-    const TABLE_NAME = "migrations";
+    const TABLE_NAME = 'migration_table';
 
     private function getPDO()
     {
-        return new \PDO("sqlite::memory:");
+        return new \PDO('sqlite::memory:');
     }
 
-    private function getTool(\PDO $pdo)
+    private function getTool(\PDO $pdo, $dir = null, $table = null)
     {
-        $tool = new SqlMigrationToolMock();
-        $tool->setPhpDataObject($pdo);
-        $tool->setNameOfMigrationTable(self::TABLE_NAME);
-
-        return $tool;
+        if (null === $table) {
+            $table = self::TABLE_NAME;
+        }
+        return new SqlMigrationTool($dir, $pdo, $table);
     }
 
-    public function testCreateMigrationTableWorks()
+    public function testItAcceptsOnlySqlFiles()
     {
-        $pdo = $this->getPDO();
-        $tool = $this->getTool($pdo);
-
-        $this->invokeMethod($tool, "createMigrationTable");
-
-        /** @noinspection SqlDialectInspection */
-        /** @noinspection SqlNoDataSourceInspection */
-        $statement = $pdo->prepare("SELECT name FROM sqlite_master WHERE name = :name");
-        $statement->execute(array("name" => self::TABLE_NAME));
-
-        $this->assertEquals(array("name" => self::TABLE_NAME), $statement->fetch(\PDO::FETCH_ASSOC));
+        $tool = $this->getTool($this->getPDO());
+        $this->assertEquals('/\.sql$/i', $this->getProperty($tool, 'filePattern'));
     }
 
-    public function testRegisterMigrationFileWorks()
+    public function testCreateMigrationTableMethodWorks(LoggerInterface $logger = null)
     {
         $pdo = $this->getPDO();
         $tool = $this->getTool($pdo);
 
-        $this->invokeMethod($tool, "createMigrationTable");
-        $this->invokeMethod($tool, "registerMigrationFile", array(
-            __DIR__ . "/SqlMigrationToolTest/migrations/2016-06-22.2 - Ignored migration.ext"
+        if ($logger) {
+            $tool->setLogger($logger);
+        }
+
+        $this->invokeMethods($tool, array(
+            array('createMigrationTable'), // create table
+            array('createMigrationTable'), // if not exists
         ));
 
-        /** @noinspection SqlDialectInspection */
-        /** @noinspection SqlNoDataSourceInspection */
-        $statement = $pdo->prepare(sprintf("SELECT COUNT(id) AS count FROM %s", self::TABLE_NAME));
+        /** @noinspection SqlDialectInspection, SqlNoDataSourceInspection */
+        $statement = $pdo->prepare('SELECT name FROM sqlite_master WHERE name = :name');
+        $statement->execute(array('name' => self::TABLE_NAME));
+
+        $this->assertEquals(array('name' => self::TABLE_NAME), $statement->fetch(\PDO::FETCH_ASSOC));
+    }
+
+    public function testCreateMigrationTableMethodLogs()
+    {
+        $log = array();
+        $this->testCreateMigrationTableMethodWorks($this->getLogger($log));
+
+        $this->assertLogEquals(array(
+            'debug' => array(
+                SqlMigrationTool::MESSAGE__CREATED_MIGRATION_TABLE__TABLE,
+            ),
+        ), $log);
+    }
+
+    public function testCreateMigrationTableMethodThrowsDatabaseExceptionIfCouldNotCreateTable(LoggerInterface $logger = null)
+    {
+        $pdo = $this->getPDO();
+        $tool = new SqlMigrationTool(null, $pdo, 'invalid name');
+
+        if ($logger) {
+            $tool->setLogger($logger);
+        }
+
+        try {
+            $this->invokeMethods($tool, array(
+                array('createMigrationTable'),
+            ));
+            $this->fail();
+        } catch (DatabaseException $exception) {
+            $this->assertStringMatchesFormat(
+                $this->getFormatForMessage(SqlMigrationTool::MESSAGE__COULD_NOT_CREATE_TABLE__TABLE),
+                $exception->getMessage()
+            );
+        }
+    }
+
+    public function testCreateMigrationTableMethodLogsDatabaseExceptionIfCouldNotCreateTable()
+    {
+        $log = array();
+        $this->testCreateMigrationTableMethodThrowsDatabaseExceptionIfCouldNotCreateTable($this->getLogger($log));
+
+        $this->assertLogEquals(array(
+            'critical' => array(
+                SqlMigrationTool::MESSAGE__COULD_NOT_CREATE_TABLE__TABLE,
+            ),
+        ), $log);
+    }
+
+    public function testRegisterMigrationFileMethodWorks(LoggerInterface $logger = null)
+    {
+        $pdo = $this->getPDO();
+        $tool = $this->getTool($pdo);
+
+        if ($logger) {
+            $tool->setLogger($logger);
+        }
+
+        $this->invokeMethods($tool, array(
+            array('createMigrationTable'),
+            array('registerMigrationFile', array(
+                __DIR__ . '/SqlMigrationToolTest/RegisterMigrationFileMethodWorks/2017-02-05.1 - First migration.sql',
+            )),
+        ));
+
+        /** @noinspection SqlDialectInspection, SqlNoDataSourceInspection */
+        $statement = $pdo->prepare(sprintf('SELECT COUNT(id) AS count FROM %s', self::TABLE_NAME));
         $statement->execute();
 
-        $this->assertEquals(array("count" => 1), $statement->fetch(\PDO::FETCH_ASSOC));
+        $this->assertEquals(array('count' => 1), $statement->fetch(\PDO::FETCH_ASSOC));
+    }
 
-        $this->setExpectedException(get_class(new DatabaseException()));
+    public function testRegisterMigrationFileMethodLogs()
+    {
+        $log = array();
+        $this->testRegisterMigrationFileMethodWorks($this->getLogger($log));
 
-        $this->invokeMethod($tool, "registerMigrationFile", array(
-            __DIR__ . "/SqlMigrationToolTest/migrations/2016-06-22.2 - Ignored migration.ext"
-        ));
+        $this->assertLogEquals(array(
+            'debug' => array(
+                SqlMigrationTool::MESSAGE__CREATED_MIGRATION_TABLE__TABLE,
+            ),
+        ), $log);
+    }
+
+    public function testRegisterMigrationFileMethodThrowsDatabaseExceptionIfCouldNotRegisterMigrationId(LoggerInterface $logger = null)
+    {
+        $pdo = $this->getPDO();
+        $tool = $this->getTool($pdo);
+
+        if ($logger) {
+            $tool->setLogger($logger);
+        }
+
+        try {
+            $this->invokeMethods($tool, array(
+                array('createMigrationTable'),
+                array('registerMigrationFile', array(
+                    '/2017-02-05.1.sql',
+                )),
+                array('registerMigrationFile', array(
+                    '/2017-02-05.1.sql',
+                )),
+            ));
+            $this->fail();
+        } catch (DatabaseException $exception) {
+            $this->assertStringMatchesFormat(
+                $this->getFormatForMessage(SqlMigrationTool::MESSAGE__COULD_NOT_REGISTER_MIGRATION__ID),
+                $exception->getMessage()
+            );
+        }
+    }
+
+    public function testRegisterMigrationFileMethodLogsDatabaseExceptionIfCouldNotRegisterMigrationId()
+    {
+        $log = array();
+        $this->testRegisterMigrationFileMethodThrowsDatabaseExceptionIfCouldNotRegisterMigrationId($this->getLogger($log));
+
+        $this->assertLogEquals(array(
+            'debug' => array(
+                SqlMigrationTool::MESSAGE__CREATED_MIGRATION_TABLE__TABLE,
+            ),
+            'critical' => array(
+                SqlMigrationTool::MESSAGE__COULD_NOT_REGISTER_MIGRATION__ID,
+            ),
+        ), $log);
     }
 
     /**
-     * @dataProvider dataIsMigrationAppliedWorks
-     * @param string $pathToMigrationFile
+     * @dataProvider dataIsMigrationAppliedMethodWorks
+     * @param string $migrationFile
      * @param bool $expectedResult
+     * @param LoggerInterface $logger
      */
-    public function testIsMigrationAppliedWorks($pathToMigrationFile, $expectedResult)
+    public function testIsMigrationAppliedMethodWorks($migrationFile, $expectedResult, LoggerInterface $logger = null)
     {
         $pdo = $this->getPDO();
         $tool = $this->getTool($pdo);
-        $tool->migrate();
+
+        if ($logger) {
+            $tool->setLogger($logger);
+        }
 
         $this->assertEquals(
             $expectedResult,
-            $this->invokeMethod($tool, "isMigrationApplied", array($pathToMigrationFile))
+            $this->invokeMethods($tool, array(
+                array('createMigrationTable'),
+                array('registerMigrationFile', array(
+                    '/2017-02-05.1.sql',
+                )),
+                array('isMigrationApplied', array($migrationFile)),
+            ))
         );
     }
 
-    public function dataIsMigrationAppliedWorks()
+    public function dataIsMigrationAppliedMethodWorks()
     {
         return array(
-            array(__DIR__ . "/SqlMigrationToolTest/migrations/2016-06-22.1 - First migration.sql", true),
-            array(__DIR__ . "/SqlMigrationToolTest/migrations/2016-06-22.2 - Ignored migration.ext", false),
-            array(__DIR__ . "/SqlMigrationToolTest/migrations/2016-06-22.3 - Second migration.sql", true)
+            array('/2017-02-05.1.sql', true),
+            array('/2017-02-05.2.sql', false),
         );
+    }
+
+    public function testIsMigrationAppliedMethodLogs()
+    {
+        $log = array();
+        $data = $this->dataIsMigrationAppliedMethodWorks();
+        $this->testIsMigrationAppliedMethodWorks(
+            $data[0][0],
+            $data[0][1],
+            $this->getLogger($log)
+        );
+
+        $this->assertLogEquals(array(
+            'debug' => array(
+                SqlMigrationTool::MESSAGE__CREATED_MIGRATION_TABLE__TABLE,
+            ),
+        ), $log);
+    }
+
+    public function testIsMigrationAppliedMethodThrowsDatabaseExceptionIfCouldNotReadFromTable(LoggerInterface $logger = null)
+    {
+        $pdo = $this->getPDO();
+        $tool = $this->getTool($pdo);
+
+        if ($logger) {
+            $tool->setLogger($logger);
+        }
+
+        try {
+            $this->invokeMethods($tool, array(
+                array('isMigrationApplied', array('/2017-02-05.1.sql')),
+            ));
+            $this->fail();
+        } catch (DatabaseException $exception) {
+            $this->assertStringMatchesFormat(
+                $this->getFormatForMessage(SqlMigrationTool::MESSAGE__COULD_NOT_READ_FROM_TABLE__TABLE),
+                $exception->getMessage()
+            );
+        }
+    }
+
+    public function testIsMigrationAppliedMethodLogsDatabaseExceptionIfCouldNotReadFromTable()
+    {
+        $log = array();
+        $this->testIsMigrationAppliedMethodThrowsDatabaseExceptionIfCouldNotReadFromTable(
+            $this->getLogger($log)
+        );
+
+        $this->assertLogEquals(array(
+            'critical' => array(
+                SqlMigrationTool::MESSAGE__COULD_NOT_READ_FROM_TABLE__TABLE,
+            ),
+        ), $log);
     }
 
     /**
-     * @dataProvider dataApplyMigrationFileWorks
+     * @dataProvider dataApplyMigrationFileMethodWorks
      * @param string $pathToMigrationFile
-     * @param \Exception $expectedException
+     * @param int $expectedCount
+     * @param LoggerInterface $logger
      */
-    public function testApplyMigrationFileWorks($pathToMigrationFile, $expectedException = null)
+    public function testApplyMigrationFileMethodWorks($pathToMigrationFile, $expectedCount, LoggerInterface $logger = null)
     {
         $pdo = $this->getPDO();
         $tool = $this->getTool($pdo);
 
-        $this->invokeMethod($tool, "createMigrationTable");
-        $this->invokeMethod($tool, "applyMigrationFile", array(
-            __DIR__ . "/SqlMigrationToolTest/SQLs/create_table.sql"
-        ));
-
-        if ($expectedException) {
-            $this->setExpectedException(get_class($expectedException));
+        if ($logger) {
+            $tool->setLogger($logger);
         }
 
-        $this->invokeMethod($tool, "applyMigrationFile", array($pathToMigrationFile));
+        $this->invokeMethods($tool, array(
+            array('createMigrationTable'),
+            array('applyMigrationFile', array(
+                __DIR__ . '/SqlMigrationToolTest/ApplyMigrationFileMethodWorks/create_table.sql',
+            )),
+        ));
+
+        $this->invokeMethods($tool, array(
+            array('applyMigrationFile', array(
+                $pathToMigrationFile,
+            )),
+        ));
+
+        /** @noinspection SqlNoDataSourceInspection, SqlDialectInspection */
+        $this->assertEquals(
+            array('count' => $expectedCount),
+            $pdo->query('SELECT COUNT(*) AS count FROM t')->fetch(\PDO::FETCH_ASSOC)
+        );
     }
 
-    public function dataApplyMigrationFileWorks()
+    public function dataApplyMigrationFileMethodWorks()
     {
         return array(
-            array(__DIR__ . "/SqlMigrationToolTest/SQLs/single_query.sql", null),
-            array(__DIR__ . "/SqlMigrationToolTest/SQLs/single_query_with_error.sql", new MigrationFileException()),
-            array(__DIR__ . "/SqlMigrationToolTest/SQLs/multi_query.sql", null),
-            array(__DIR__ . "/SqlMigrationToolTest/SQLs/multi_query_with_error.sql", new MigrationFileException())
-        );
-    }
-
-    public function testGetMigrationFilesAcceptsOnlySqlFiles()
-    {
-        $tool = $this->getTool($this->getPDO());
-
-        $this->assertEquals(
             array(
-                __DIR__ . "/SqlMigrationToolTest/migrations/2016-06-22.1 - First migration.sql",
-                __DIR__ . "/SqlMigrationToolTest/migrations/2016-06-22.3 - Second migration.sql"
+                __DIR__ . '/SqlMigrationToolTest/ApplyMigrationFileMethodWorks/single_query.sql',
+                2,
             ),
-            $this->invokeMethod($tool, "getMigrationFiles")
+            array(
+                __DIR__ . '/SqlMigrationToolTest/ApplyMigrationFileMethodWorks/multi_query.sql',
+                1,
+            ),
         );
     }
 
-    public function testMigrateStopsAtFirstException()
+    public function testApplyMigrationFileMethodLogs()
+    {
+        $log = array();
+        $data = $this->dataApplyMigrationFileMethodWorks();
+        $this->testApplyMigrationFileMethodWorks(
+            $data[0][0],
+            $data[0][1],
+            $this->getLogger($log)
+        );
+
+        $this->assertLogEquals(array(
+            'debug' => array(
+                SqlMigrationTool::MESSAGE__CREATED_MIGRATION_TABLE__TABLE,
+            ),
+        ), $log);
+    }
+
+    /**
+     * @dataProvider dataApplyMigrationFileMethodThrowsMigrationFileExceptionIfThereIsBrokenMigrationFile
+     * @param string $pathToMigrationFile
+     * @param string $expectedMessage
+     * @param LoggerInterface $logger
+     */
+    public function testApplyMigrationFileMethodThrowsMigrationFileExceptionIfThereIsBrokenMigrationFile($pathToMigrationFile, $expectedMessage, LoggerInterface $logger = null)
     {
         $pdo = $this->getPDO();
         $tool = $this->getTool($pdo);
-        $tool->setPathToDirectoryWithMigrationFiles(__DIR__ . "/SqlMigrationToolTest/SQLs");
+
+        if ($logger) {
+            $tool->setLogger($logger);
+        }
+
+        $this->invokeMethods($tool, array(
+            array('createMigrationTable'),
+            array('applyMigrationFile', array(
+                __DIR__ . '/SqlMigrationToolTest/ApplyMigrationFileMethodThrowsMigrationFileExceptionIfThereIsBrokenMigrationFile/create_table.sql',
+            )),
+        ));
+
+        try {
+            $this->invokeMethods($tool, array(
+                array('applyMigrationFile', array(
+                    $pathToMigrationFile,
+                )),
+            ));
+            $this->fail('Expected exception');
+        } catch (MigrationFileException $exception) {
+            $this->assertStringMatchesFormat(
+                $this->getFormatForMessage($expectedMessage),
+                $exception->getMessage()
+            );
+        }
+    }
+
+    public function dataApplyMigrationFileMethodThrowsMigrationFileExceptionIfThereIsBrokenMigrationFile()
+    {
+        return array(
+            array(
+                __DIR__ . '/SqlMigrationToolTest/ApplyMigrationFileMethodThrowsMigrationFileExceptionIfThereIsBrokenMigrationFile/single_query_with_error.sql',
+                SqlMigrationTool::MESSAGE__YOU_HAVE_AN_ERROR_IN_YOUR_SQL_SYNTAX__PATH,
+            ),
+            array(
+                __DIR__ . '/SqlMigrationToolTest/ApplyMigrationFileMethodThrowsMigrationFileExceptionIfThereIsBrokenMigrationFile/multi_query_with_error.sql',
+                SqlMigrationTool::MESSAGE__YOU_HAVE_AN_ERROR_IN_YOUR_SQL_SYNTAX__PATH,
+            ),
+            array(
+                __DIR__ . '/SqlMigrationToolTest/ApplyMigrationFileMethodThrowsMigrationFileExceptionIfThereIsBrokenMigrationFile/file_not_found.sql',
+                SqlMigrationTool::MESSAGE__COULD_NOT_READ_MIGRATION_FILE__PATH
+            ),
+        );
+    }
+
+    public function testApplyMigrationFileMethodLogsMigrationFileExceptionIfThereIsBrokenMigrationFile()
+    {
+        $log = array();
+        $data = $this->dataApplyMigrationFileMethodThrowsMigrationFileExceptionIfThereIsBrokenMigrationFile();
+        $this->testApplyMigrationFileMethodThrowsMigrationFileExceptionIfThereIsBrokenMigrationFile(
+            $data[0][0],
+            $data[0][1],
+            $this->getLogger($log)
+        );
+        $this->testApplyMigrationFileMethodThrowsMigrationFileExceptionIfThereIsBrokenMigrationFile(
+            $data[2][0],
+            $data[2][1],
+            $this->getLogger($log)
+        );
+
+        $this->assertLogEquals(array(
+            'debug' => array(
+                SqlMigrationTool::MESSAGE__CREATED_MIGRATION_TABLE__TABLE,
+                SqlMigrationTool::MESSAGE__CREATED_MIGRATION_TABLE__TABLE,
+            ),
+            'critical' => array(
+                SqlMigrationTool::MESSAGE__YOU_HAVE_AN_ERROR_IN_YOUR_SQL_SYNTAX__PATH,
+                SqlMigrationTool::MESSAGE__COULD_NOT_READ_MIGRATION_FILE__PATH,
+            ),
+        ), $log);
+    }
+
+    /**
+     * @dataProvider dataApplyMigrationFileMethodRollbacksTransactionIfThereIsBrokenMigrationFile
+     * @param string $pathToMigrationFile
+     */
+    public function testApplyMigrationFileMethodRollbacksTransactionIfThereIsBrokenMigrationFile($pathToMigrationFile)
+    {
+        $pdo = $this->getPDO();
+        $tool = $this->getTool($pdo);
+
+        $this->invokeMethods($tool, array(
+            array('createMigrationTable'),
+            array('applyMigrationFile', array(
+                __DIR__ . '/SqlMigrationToolTest/ApplyMigrationFileMethodRollbacksTransactionIfThereIsBrokenMigrationFile/create_table.sql',
+            )),
+        ));
+
+        try {
+            $this->invokeMethods($tool, array(
+                array('applyMigrationFile', array(
+                    $pathToMigrationFile,
+                )),
+            ));
+            $this->fail('Expected exception');
+        } catch (MigrationFileException $ignored) {
+            /** @noinspection SqlDialectInspection, SqlNoDataSourceInspection */
+            $this->assertEquals(
+                array('count' => 2),
+                $pdo->query('SELECT COUNT(*) AS count FROM t')->fetch(\PDO::FETCH_ASSOC)
+            );
+        }
+    }
+
+    public function dataApplyMigrationFileMethodRollbacksTransactionIfThereIsBrokenMigrationFile()
+    {
+        return array(
+            array(
+                __DIR__ . '/SqlMigrationToolTest/ApplyMigrationFileMethodRollbacksTransactionIfThereIsBrokenMigrationFile/single_query_with_error.sql',
+            ),
+            array(
+                __DIR__ . '/SqlMigrationToolTest/ApplyMigrationFileMethodRollbacksTransactionIfThereIsBrokenMigrationFile/multi_query_with_error.sql',
+            ),
+        );
+    }
+
+    public function testMigrationProcessStopsAtFirstException()
+    {
+        $pdo = $this->getPDO();
+        $tool = $this->getTool($pdo, __DIR__ . '/SqlMigrationToolTest/MigrationProcessStopsAtFirstException');
 
         try {
             $tool->migrate();
@@ -149,146 +468,16 @@ class SqlMigrationToolTest extends TestCase
             // Ignored exception
         }
 
-        /** @noinspection SqlNoDataSourceInspection,SqlDialectInspection */
-        $rows = $pdo->query("SELECT v FROM t");
+        /** @noinspection SqlDialectInspection, SqlNoDataSourceInspection */
+        $rows = $pdo->query('SELECT v FROM t');
         foreach ($rows as $row) {
-            $this->assertContains($row["v"], array(3, 4, 5, 6, 7, 8, 9));
+            $this->assertContains($row['v'], array(2, 3, 4, 5, 6));
         }
 
-        /** @noinspection SqlNoDataSourceInspection,SqlDialectInspection */
-        $rows = $pdo->query(sprintf("SELECT id FROM %s", self::TABLE_NAME));
+        /** @noinspection SqlDialectInspection, SqlNoDataSourceInspection */
+        $rows = $pdo->query(sprintf('SELECT id FROM %s', self::TABLE_NAME));
         foreach ($rows as $row) {
-            $this->assertContains($row["id"], array("create_table", "multi_query"));
+            $this->assertContains($row['id'], array('2017-02-05.1', '2017-02-05.2'));
         }
-    }
-
-    /**
-     * @dataProvider dataLoggingWorks
-     * @param array $invokes
-     * @param array $expectedLog
-     */
-    public function testLoggingWorks(array $invokes, array $expectedLog)
-    {
-        $log = array();
-        $tool = $this->getTool($this->getPDO());
-        $tool->setLogger($this->getLogger($log));
-
-        try {
-            foreach ($invokes as $invoke) {
-                $this->invokeMethod($tool, $invoke[0], $invoke[1]);
-            }
-        } catch (\Exception $ignored) {
-            // Ignored exception
-        }
-
-        $this->assertLogEquals($expectedLog, $log);
-    }
-
-    public function dataLoggingWorks()
-    {
-        return array(
-            // createMigrationTable
-            array(
-                array(
-                    array("setNameOfMigrationTable", array("invalid table name")),
-                    array("createMigrationTable", array()),
-                ),
-                array(
-                    "critical" => array(
-                        SqlMigrationTool::MESSAGE__COULD_NOT_CREATE_TABLE__TABLE,
-                    ),
-                ),
-            ),
-            array(
-                array(
-                    array("createMigrationTable", array()),
-                ),
-                array(
-                    "debug" => array(
-                        SqlMigrationTool::MESSAGE__CREATED_MIGRATION_TABLE__TABLE,
-                    ),
-                ),
-            ),
-            array(
-                array(
-                    array("createMigrationTable", array()),
-                    array("createMigrationTable", array()),
-                ),
-                array(
-                    "debug" => array(
-                        SqlMigrationTool::MESSAGE__CREATED_MIGRATION_TABLE__TABLE,
-                    ),
-                ),
-            ),
-            // registerMigrationFile
-            array(
-                array(
-                    array("registerMigrationFile", array(__DIR__ . "/SqlMigrationToolTest/SQLs/single_query.sql")),
-                ),
-                array(
-                    "critical" => array(
-                        SqlMigrationTool::MESSAGE__COULD_NOT_REGISTER_MIGRATION__ID
-                    ),
-                ),
-            ),
-            array(
-                array(
-                    array("createMigrationTable", array()),
-                    array("registerMigrationFile", array(__DIR__ . "/SqlMigrationToolTest/SQLs/single_query.sql")),
-                ),
-                array(
-                    "debug" => array(
-                        SqlMigrationTool::MESSAGE__CREATED_MIGRATION_TABLE__TABLE,
-                    ),
-                ),
-            ),
-            array(
-                array(
-                    array("createMigrationTable", array()),
-                    array("registerMigrationFile", array(__DIR__ . "/SqlMigrationToolTest/SQLs/single_query.sql")),
-                    array("registerMigrationFile", array(__DIR__ . "/SqlMigrationToolTest/SQLs/single_query.sql")),
-                ),
-                array(
-                    "debug" => array(
-                        SqlMigrationTool::MESSAGE__CREATED_MIGRATION_TABLE__TABLE,
-                    ),
-                    "critical" => array(
-                        SqlMigrationTool::MESSAGE__COULD_NOT_REGISTER_MIGRATION__ID,
-                    )
-                ),
-            ),
-            // isMigrationApplied
-            array(
-                array(
-                    array("isMigrationApplied", array(__DIR__ . "/SqlMigrationToolTest/SQLs/single_query.sql")),
-                ),
-                array(
-                    "critical" => array(
-                        SqlMigrationTool::MESSAGE__COULD_NOT_READ_FROM_TABLE__TABLE,
-                    ),
-                ),
-            ),
-            // applyMigrationFile
-            array(
-                array(
-                    array("applyMigrationFile", array(__DIR__ . "/SqlMigrationToolTest/SQLs/missing.sql")),
-                ),
-                array(
-                    "critical" => array(
-                        SqlMigrationTool::MESSAGE__COULD_NOT_READ_MIGRATION_FILE__PATH,
-                    ),
-                ),
-            ),
-            array(
-                array(
-                    array("applyMigrationFile", array(__DIR__ . "/SqlMigrationToolTest/SQLs/single_query_with_error.sql")),
-                ),
-                array(
-                    "critical" => array(
-                        SqlMigrationTool::MESSAGE__YOU_HAVE_AN_ERROR_IN_YOUR_SQL_SYNTAX__PATH,
-                    ),
-                ),
-            ),
-        );
     }
 }
