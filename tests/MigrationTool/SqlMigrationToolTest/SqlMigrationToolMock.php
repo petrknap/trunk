@@ -15,7 +15,7 @@ class SqlMigrationToolMock extends SqlMigrationTool
         $this->phpDataObject = $phpDataObject;
     }
 
-    protected function getPhpDataObject()
+    protected function getPDO()
     {
         return $this->phpDataObject;
     }

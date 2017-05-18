@@ -37,7 +37,7 @@ abstract class SqlMigrationTool extends AbstractMigrationTool
     protected function createMigrationTable()
     {
         /** @noinspection SqlNoDataSourceInspection,SqlDialectInspection */
-        $statement = $this->getPhpDataObject()->prepare("SELECT null FROM {$this->getMigrationTableName()} LIMIT 1");
+        $statement = $this->getPDO()->prepare("SELECT null FROM {$this->getMigrationTableName()} LIMIT 1");
 
         if ($statement) {
             try {
@@ -49,7 +49,7 @@ abstract class SqlMigrationTool extends AbstractMigrationTool
 
         if (false === $statement) {
             /** @noinspection SqlNoDataSourceInspection,SqlDialectInspection */
-            $result = $this->getPhpDataObject()->exec(
+            $result = $this->getPDO()->exec(
                 "CREATE TABLE IF NOT EXISTS {$this->getMigrationTableName()}" .
                 "(" .
                 "id VARCHAR(16) NOT NULL," .
@@ -77,7 +77,7 @@ abstract class SqlMigrationTool extends AbstractMigrationTool
                     ),
                     0,
                     new \Exception(
-                        implode(" ", $this->getPhpDataObject()->errorInfo())
+                        implode(" ", $this->getPDO()->errorInfo())
                     )
                 );
             }
@@ -100,7 +100,7 @@ abstract class SqlMigrationTool extends AbstractMigrationTool
     protected function registerMigrationFile($pathToMigrationFile)
     {
         /** @noinspection SqlNoDataSourceInspection,SqlDialectInspection */
-        $statement = $this->getPhpDataObject()->prepare("INSERT INTO {$this->getMigrationTableName()} (id) VALUES (:id)");
+        $statement = $this->getPDO()->prepare("INSERT INTO {$this->getMigrationTableName()} (id) VALUES (:id)");
         $migrationId = $this->getMigrationId($pathToMigrationFile);
         if (false === $statement || false === $statement->execute(array("id" => $migrationId))) {
             $context = array(
@@ -121,7 +121,7 @@ abstract class SqlMigrationTool extends AbstractMigrationTool
                 ),
                 0,
                 new \Exception(
-                    implode(" ", $this->getPhpDataObject()->errorInfo())
+                    implode(" ", $this->getPDO()->errorInfo())
                 )
             );
         }
@@ -133,7 +133,7 @@ abstract class SqlMigrationTool extends AbstractMigrationTool
     protected function isMigrationApplied($pathToMigrationFile)
     {
         /** @noinspection SqlNoDataSourceInspection,SqlDialectInspection */
-        $statement = $this->getPhpDataObject()->prepare("SELECT null FROM {$this->getMigrationTableName()} WHERE id = :id");
+        $statement = $this->getPDO()->prepare("SELECT null FROM {$this->getMigrationTableName()} WHERE id = :id");
         $migrationId = $this->getMigrationId($pathToMigrationFile);
         if (false === $statement || false === $statement->execute(array("id" => $migrationId))) {
             $context = array(
@@ -185,10 +185,10 @@ abstract class SqlMigrationTool extends AbstractMigrationTool
             );
         }
 
-        $this->getPhpDataObject()->beginTransaction();
+        $this->getPDO()->beginTransaction();
 
         try {
-            $statement = $this->getPhpDataObject()->prepare($migrationData);
+            $statement = $this->getPDO()->prepare($migrationData);
             $result = $statement->execute();
             while ($statement->nextRowset());
             $statement->closeCursor();
@@ -198,10 +198,10 @@ abstract class SqlMigrationTool extends AbstractMigrationTool
 
         if ($result === false || $result instanceof \Exception) {
             if (!$result/* instanceof \Exception */) {
-                $result = new DatabaseException(implode(" ", $this->getPhpDataObject()->errorInfo()));
+                $result = new DatabaseException(implode(" ", $this->getPDO()->errorInfo()));
             }
 
-            $this->getPhpDataObject()->rollBack();
+            $this->getPDO()->rollBack();
             $context = array(
                 "path" => $pathToMigrationFile,
             );
@@ -225,7 +225,7 @@ abstract class SqlMigrationTool extends AbstractMigrationTool
 
         $this->registerMigrationFile($pathToMigrationFile);
 
-        $this->getPhpDataObject()->commit();
+        $this->getPDO()->commit();
     }
 
     /**
@@ -239,7 +239,7 @@ abstract class SqlMigrationTool extends AbstractMigrationTool
     /**
      * @return \PDO
      */
-    abstract protected function getPhpDataObject();
+    abstract protected function getPDO();
 
     /**
      * @return string
