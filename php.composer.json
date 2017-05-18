@@ -1,6 +1,5 @@
 {
     "name": "petrknap/php",
-    "description": "Monolithic repository",
     "type": "project",
     "license": "MIT",
     "homepage": "https://petrknap.github.io/docs/",
@@ -25,6 +24,7 @@
         "phpunit/phpunit": "^4.8",
         "petrknap/php-enum": "*",
         "petrknap/php-filestorage": "*",
+        "petrknap/php-migrationtool": "*",
         "petrknap/php-profiler": "*",
         "petrknap/php-servicemanager": "*",
         "petrknap/php-singleton": "*"
@@ -33,6 +33,7 @@
         "psr-4": {
             "PetrKnap\\Php\\Enum\\": "packages/Php/Enum/src",
             "PetrKnap\\Php\\FileStorage\\": "packages/Php/FileStorage/src",
+            "PetrKnap\\Php\\MigrationTool\\": "packages/Php/MigrationTool/src",
             "PetrKnap\\Php\\Profiler\\": "packages/Php/Profiler/src",
             "PetrKnap\\Php\\ServiceManager\\": "packages/Php/ServiceManager/src",
             "PetrKnap\\Php\\Singleton\\": "packages/Php/Singleton/src"
@@ -42,6 +43,7 @@
         "psr-4": {
             "PetrKnap\\Php\\Enum\\Test\\": "packages/Php/Enum/tests",
             "PetrKnap\\Php\\FileStorage\\Test\\": "packages/Php/FileStorage/tests",
+            "PetrKnap\\Php\\MigrationTool\\Test\\": "packages/Php/MigrationTool/tests",
             "PetrKnap\\Php\\Profiler\\Test\\": "packages/Php/Profiler/tests",
             "PetrKnap\\Php\\ServiceManager\\Test\\": "packages/Php/ServiceManager/tests",
             "PetrKnap\\Php\\Singleton\\Test\\": "packages/Php/Singleton/tests"
