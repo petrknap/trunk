@@ -11,20 +11,10 @@ class AbstractMigrationToolMock extends AbstractMigrationTool
      */
     private $appliedMigrations;
 
-    /**
-     * @var string
-     */
-    private $pathToDirectoryWithMigrationFiles;
-
     public function __construct(array $appliedMigrations, $pathToDirectoryWithMigrationFiles = null)
     {
+        parent::__construct($pathToDirectoryWithMigrationFiles, '/\.ext/i');
         $this->appliedMigrations = $appliedMigrations;
-        $this->pathToDirectoryWithMigrationFiles = $pathToDirectoryWithMigrationFiles;
-    }
-
-    protected function getMigrationFilePattern()
-    {
-        return '/\.ext/i';
     }
 
     /**
@@ -49,13 +39,5 @@ class AbstractMigrationToolMock extends AbstractMigrationTool
     protected function applyMigrationFile($pathToMigrationFile)
     {
         $this->appliedMigrations[] = $this->getMigrationId($pathToMigrationFile);
-    }
-
-    /**
-     * @inheritdoc
-     */
-    protected function getPathToDirectoryWithMigrationFiles()
-    {
-        return $this->pathToDirectoryWithMigrationFiles;
     }
 }

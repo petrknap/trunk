@@ -15,18 +15,38 @@ use Psr\Log\LoggerInterface;
  */
 abstract class AbstractMigrationTool implements MigrationToolInterface, LoggerAwareInterface
 {
-    const MESSAGE__FOUND_UNSUPPORTED_FILE__PATH = "Found unsupported file {path}";
-    const MESSAGE__FOUND_MIGRATION_FILES__COUNT_PATH_PATTERN = "Found {count} migration files in {path} matching {pattern}";
-    const MESSAGE__MIGRATION_FILE_APPLIED__PATH = "Migration file {path} applied";
-    const MESSAGE__THERE_IS_NOTHING_MATCHING_PATTERN__PATH_PATTERN = "In {path} is nothing matching {pattern}";
-    const MESSAGE__THERE_IS_NOTHING_TO_MIGRATE__PATH_PATTERN = "In {path} is nothing matching {pattern} to migrate";
-    const MESSAGE__DETECTED_GAPE_BEFORE_MIGRATION__ID = "Detected gape before migration {id}";
-    const MESSAGE__DONE = "Database is now up-to-date";
+    const MESSAGE__FOUND_UNSUPPORTED_FILE__PATH = 'Found unsupported file {path}';
+    const MESSAGE__FOUND_MIGRATION_FILES__COUNT_PATH_PATTERN = 'Found {count} migration files in {path} matching {pattern}';
+    const MESSAGE__MIGRATION_FILE_APPLIED__PATH = 'Migration file {path} applied';
+    const MESSAGE__THERE_IS_NOTHING_MATCHING_PATTERN__PATH_PATTERN = 'In {path} is nothing matching {pattern}';
+    const MESSAGE__THERE_IS_NOTHING_TO_MIGRATE__PATH_PATTERN = 'In {path} is nothing matching {pattern} to migrate';
+    const MESSAGE__DETECTED_GAPE_BEFORE_MIGRATION__ID = 'Detected gape before migration {id}';
+    const MESSAGE__DONE = 'Database is now up-to-date';
+
+    /**
+     * @var string
+     */
+    private $directory;
+
+    /**
+     * @var string
+     */
+    private $filePattern;
 
     /**
      * @var LoggerInterface
      */
     private $logger;
+
+    /**
+     * @param string $directory
+     * @param string $filePattern
+     */
+    public function __construct($directory, $filePattern = '/^.*$/i')
+    {
+        $this->directory = $directory;
+        $this->filePattern = $filePattern;
+    }
 
     /**
      * Interpolates context values into the message placeholders for exceptions
@@ -75,11 +95,11 @@ abstract class AbstractMigrationTool implements MigrationToolInterface, LoggerAw
             if ($this->isMigrationApplied($migrationFile)) {
                 if (!empty($migrationFilesToMigrate)) {
                     $context = array(
-                        "id" => $this->getMigrationId($migrationFile)
+                        'id' => $this->getMigrationId($migrationFile)
                     );
 
-                    if ($this->getLogger()) {
-                        $this->getLogger()->critical(
+                    if ($this->logger) {
+                        $this->logger->critical(
                             self::MESSAGE__DETECTED_GAPE_BEFORE_MIGRATION__ID,
                             $context
                         );
@@ -103,12 +123,12 @@ abstract class AbstractMigrationTool implements MigrationToolInterface, LoggerAw
 
         if (empty($migrationFilesToMigrate)) {
             $context = array(
-                "path" => $this->getPathToDirectoryWithMigrationFiles(),
-                "pattern" => $this->getMigrationFilePattern(),
+                'path' => $this->directory,
+                'pattern' => $this->filePattern,
             );
 
-            if ($this->getLogger()) {
-                $this->getLogger()->notice(
+            if ($this->logger) {
+                $this->logger->notice(
                     self::MESSAGE__THERE_IS_NOTHING_TO_MIGRATE__PATH_PATTERN,
                     $context
                 );
@@ -125,19 +145,19 @@ abstract class AbstractMigrationTool implements MigrationToolInterface, LoggerAw
             foreach ($migrationFilesToMigrate as $migrationFile) {
                 $this->applyMigrationFile($migrationFile);
 
-                if ($this->getLogger()) {
-                    $this->getLogger()->info(
+                if ($this->logger) {
+                    $this->logger->info(
                         self::MESSAGE__MIGRATION_FILE_APPLIED__PATH,
                         array(
-                            "path" => $migrationFile,
+                            'path' => $migrationFile,
                         )
                     );
                 }
             }
         }
 
-        if ($this->getLogger()) {
-            $this->getLogger()->info(
+        if ($this->logger) {
+            $this->logger->info(
                 self::MESSAGE__DONE
             );
         }
@@ -150,20 +170,20 @@ abstract class AbstractMigrationTool implements MigrationToolInterface, LoggerAw
      */
     protected function getMigrationFiles()
     {
-        $directoryIterator = new \DirectoryIterator($this->getPathToDirectoryWithMigrationFiles());
+        $directoryIterator = new \DirectoryIterator($this->directory);
         $migrationFiles = array();
         foreach ($directoryIterator as $fileInfo) {
             /** @var \SplFileInfo $fileInfo */
             if ($fileInfo->isFile()) {
-                if (preg_match($this->getMigrationFilePattern(), $fileInfo->getRealPath())) {
+                if (preg_match($this->filePattern, $fileInfo->getRealPath())) {
                     $migrationFiles[] = $fileInfo->getRealPath();
                 } else {
                     $context = array(
-                        "path" => $fileInfo->getRealPath(),
+                        'path' => $fileInfo->getRealPath(),
                     );
 
-                    if ($this->getLogger()) {
-                        $this->getLogger()->notice(
+                    if ($this->logger) {
+                        $this->logger->notice(
                             self::MESSAGE__FOUND_UNSUPPORTED_FILE__PATH,
                             $context
                         );
@@ -183,12 +203,12 @@ abstract class AbstractMigrationTool implements MigrationToolInterface, LoggerAw
 
         if (empty($migrationFiles)) {
             $context = array(
-                "path" => $this->getPathToDirectoryWithMigrationFiles(),
-                "pattern" => $this->getMigrationFilePattern(),
+                'path' => $this->directory,
+                'pattern' => $this->filePattern,
             );
 
-            if ($this->getLogger()) {
-                $this->getLogger()->warning(
+            if ($this->logger) {
+                $this->logger->warning(
                     self::MESSAGE__THERE_IS_NOTHING_MATCHING_PATTERN__PATH_PATTERN,
                     $context
                 );
@@ -203,13 +223,13 @@ abstract class AbstractMigrationTool implements MigrationToolInterface, LoggerAw
             }
         }
 
-        if ($this->getLogger()) {
-            $this->getLogger()->info(
+        if ($this->logger) {
+            $this->logger->info(
                 self::MESSAGE__FOUND_MIGRATION_FILES__COUNT_PATH_PATTERN,
                 array(
-                    "count" => count($migrationFiles),
-                    "path" => $this->getPathToDirectoryWithMigrationFiles(),
-                    "pattern" => $this->getMigrationFilePattern(),
+                    'count' => count($migrationFiles),
+                    'path' => $this->directory,
+                    'pattern' => $this->filePattern,
                 )
             );
         }
@@ -224,16 +244,8 @@ abstract class AbstractMigrationTool implements MigrationToolInterface, LoggerAw
     protected function getMigrationId($pathToMigrationFile)
     {
         $fileInfo = new \SplFileInfo($pathToMigrationFile);
-        $basenameParts = explode(" ", $fileInfo->getBasename(".{$fileInfo->getExtension()}"));
+        $basenameParts = explode(' ', $fileInfo->getBasename('.' . $fileInfo->getExtension()));
         return $basenameParts[0];
-    }
-
-    /**
-     * @return string
-     */
-    protected function getMigrationFilePattern()
-    {
-        return '/^.*$/i';
     }
 
     /**
@@ -247,9 +259,4 @@ abstract class AbstractMigrationTool implements MigrationToolInterface, LoggerAw
      * @return void
      */
     abstract protected function applyMigrationFile($pathToMigrationFile);
-
-    /**
-     * @return string
-     */
-    abstract protected function getPathToDirectoryWithMigrationFiles();
 }

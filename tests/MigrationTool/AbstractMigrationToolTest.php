@@ -11,7 +11,6 @@ use Psr\Log\LoggerInterface;
 
 class AbstractMigrationToolTest extends TestCase
 {
-
     /**
      * @dataProvider dataMigrateMethodWorks
      * @param array $appliedMigrations
@@ -22,7 +21,7 @@ class AbstractMigrationToolTest extends TestCase
     {
         $tool = new AbstractMigrationToolMock(
             $appliedMigrations,
-            __DIR__ . "/AbstractMigrationToolTest/MigrateMethodWorks"
+            __DIR__ . '/AbstractMigrationToolTest/MigrateMethodWorks'
         );
 
         if ($logger) {
@@ -40,12 +39,12 @@ class AbstractMigrationToolTest extends TestCase
 
     public function dataMigrateMethodWorks()
     {
-        $expectedAppliedMigrations = array("2017-02-05.1", "2017-02-05.2", "2017-02-05.3");
+        $expectedAppliedMigrations = array('2017-02-05.1', '2017-02-05.2', '2017-02-05.3');
         return array(
             array(array(), $expectedAppliedMigrations),
-            array(array("2017-02-05.1"), $expectedAppliedMigrations),
-            array(array("2017-02-05.1", "2017-02-05.2"), $expectedAppliedMigrations),
-            array(array("2017-02-05.1", "2017-02-05.2", "2017-02-05.3"), $expectedAppliedMigrations),
+            array(array('2017-02-05.1'), $expectedAppliedMigrations),
+            array(array('2017-02-05.1', '2017-02-05.2'), $expectedAppliedMigrations),
+            array(array('2017-02-05.1', '2017-02-05.2', '2017-02-05.3'), $expectedAppliedMigrations),
         );
     }
 
@@ -59,7 +58,7 @@ class AbstractMigrationToolTest extends TestCase
             $this->getLogger($log)
         );
         $this->assertLogEquals(array(
-            "info" => array(
+            'info' => array(
                 AbstractMigrationTool::MESSAGE__FOUND_MIGRATION_FILES__COUNT_PATH_PATTERN,
                 AbstractMigrationTool::MESSAGE__MIGRATION_FILE_APPLIED__PATH,
                 AbstractMigrationTool::MESSAGE__MIGRATION_FILE_APPLIED__PATH,
@@ -78,7 +77,7 @@ class AbstractMigrationToolTest extends TestCase
     {
         $tool = new AbstractMigrationToolMock(
             $appliedMigrations,
-            __DIR__ . "/AbstractMigrationToolTest/ThrowsMismatchExceptionIfThereIsGapeInMigrations"
+            __DIR__ . '/AbstractMigrationToolTest/ThrowsMismatchExceptionIfThereIsGapeInMigrations'
         );
 
         if ($logger) {
@@ -98,10 +97,10 @@ class AbstractMigrationToolTest extends TestCase
     public function dataThrowsMismatchExceptionIfThereIsGapeInMigrations()
     {
         return array(
-            array(array("2017-02-05.2")),
-            array(array("2017-02-05.3")),
-            array(array("2017-02-05.1", "2017-02-05.3")),
-            array(array("2017-02-05.2", "2017-02-05.3")),
+            array(array('2017-02-05.2')),
+            array(array('2017-02-05.3')),
+            array(array('2017-02-05.1', '2017-02-05.3')),
+            array(array('2017-02-05.2', '2017-02-05.3')),
         );
     }
 
@@ -114,10 +113,10 @@ class AbstractMigrationToolTest extends TestCase
             $this->getLogger($log)
         );
         $this->assertLogEquals(array(
-            "info" => array(
+            'info' => array(
                 AbstractMigrationTool::MESSAGE__FOUND_MIGRATION_FILES__COUNT_PATH_PATTERN,
             ),
-            "critical" => array(
+            'critical' => array(
                 AbstractMigrationTool::MESSAGE__DETECTED_GAPE_BEFORE_MIGRATION__ID,
             ),
         ), $log);
@@ -125,7 +124,7 @@ class AbstractMigrationToolTest extends TestCase
 
     public function testThrowsWarningIfMigrationFolderIsEmpty(LoggerInterface $logger = null)
     {
-        $dir = __DIR__ . "/AbstractMigrationToolTest/ThrowsWarningIfMigrationFolderIsEmpty";
+        $dir = __DIR__ . '/AbstractMigrationToolTest/ThrowsWarningIfMigrationFolderIsEmpty';
         @mkdir($dir);
         $tool = new AbstractMigrationToolMock(array(), $dir);
 
@@ -152,14 +151,14 @@ class AbstractMigrationToolTest extends TestCase
             $this->getLogger($log)
         );
         $this->assertLogEquals(array(
-            "warning" => array(
+            'warning' => array(
                 AbstractMigrationTool::MESSAGE__THERE_IS_NOTHING_MATCHING_PATTERN__PATH_PATTERN,
             ),
-            "info" => array(
+            'info' => array(
                 AbstractMigrationTool::MESSAGE__FOUND_MIGRATION_FILES__COUNT_PATH_PATTERN,
                 AbstractMigrationTool::MESSAGE__DONE,
             ),
-            "notice" => array(
+            'notice' => array(
                 AbstractMigrationTool::MESSAGE__THERE_IS_NOTHING_TO_MIGRATE__PATH_PATTERN,
             )
         ), $log);
@@ -168,8 +167,8 @@ class AbstractMigrationToolTest extends TestCase
     public function testThrowsNoticeIfThereIsNothingToMigrate(LoggerInterface $logger = null)
     {
         $tool = new AbstractMigrationToolMock(
-            array("2017-02-05.1", "2017-02-05.2", "2017-02-05.3"),
-            __DIR__ . "/AbstractMigrationToolTest/ThrowsNoticeIfThereIsNothingToMigrate"
+            array('2017-02-05.1', '2017-02-05.2', '2017-02-05.3'),
+            __DIR__ . '/AbstractMigrationToolTest/ThrowsNoticeIfThereIsNothingToMigrate'
         );
 
         if ($logger) {
@@ -195,11 +194,11 @@ class AbstractMigrationToolTest extends TestCase
             $this->getLogger($log)
         );
         $this->assertLogEquals(array(
-            "info" => array(
+            'info' => array(
                 AbstractMigrationTool::MESSAGE__FOUND_MIGRATION_FILES__COUNT_PATH_PATTERN,
                 AbstractMigrationTool::MESSAGE__DONE,
             ),
-            "notice" => array(
+            'notice' => array(
                 AbstractMigrationTool::MESSAGE__THERE_IS_NOTHING_TO_MIGRATE__PATH_PATTERN,
             ),
         ), $log);
@@ -209,7 +208,7 @@ class AbstractMigrationToolTest extends TestCase
     {
         $tool = new AbstractMigrationToolMock(
             array(),
-            __DIR__ . "/AbstractMigrationToolTest/ThrowsNoticeIfThereIsUnsupportedFile"
+            __DIR__ . '/AbstractMigrationToolTest/ThrowsNoticeIfThereIsUnsupportedFile'
         );
 
         if ($logger) {
@@ -235,14 +234,14 @@ class AbstractMigrationToolTest extends TestCase
             $this->getLogger($log)
         );
         $this->assertLogEquals(array(
-            "notice" => array(
+            'notice' => array(
                 AbstractMigrationTool::MESSAGE__FOUND_UNSUPPORTED_FILE__PATH,
                 AbstractMigrationTool::MESSAGE__THERE_IS_NOTHING_TO_MIGRATE__PATH_PATTERN,
             ),
-            "warning" => array(
+            'warning' => array(
                 AbstractMigrationTool::MESSAGE__THERE_IS_NOTHING_MATCHING_PATTERN__PATH_PATTERN,
             ),
-            "info" => array(
+            'info' => array(
                 AbstractMigrationTool::MESSAGE__FOUND_MIGRATION_FILES__COUNT_PATH_PATTERN,
                 AbstractMigrationTool::MESSAGE__DONE,
             ),
@@ -253,16 +252,16 @@ class AbstractMigrationToolTest extends TestCase
     {
         $tool = new AbstractMigrationToolMock(
             array(),
-            __DIR__ . "/AbstractMigrationToolTest/GetMigrationFilesWorks"
+            __DIR__ . '/AbstractMigrationToolTest/GetMigrationFilesWorks'
         );
 
         $this->assertEquals(
             array(
-                __DIR__ . "/AbstractMigrationToolTest/GetMigrationFilesWorks/2016-06-22.1 - First migration.ext",
-                __DIR__ . "/AbstractMigrationToolTest/GetMigrationFilesWorks/2016-06-22.2 - Second migration.ext",
-                __DIR__ . "/AbstractMigrationToolTest/GetMigrationFilesWorks/2016-06-22.3 - Third migration.ext",
+                __DIR__ . '/AbstractMigrationToolTest/GetMigrationFilesWorks/2016-06-22.1 - First migration.ext',
+                __DIR__ . '/AbstractMigrationToolTest/GetMigrationFilesWorks/2016-06-22.2 - Second migration.ext',
+                __DIR__ . '/AbstractMigrationToolTest/GetMigrationFilesWorks/2016-06-22.3 - Third migration.ext',
             ),
-            @$this->invokeMethods($tool, array(array("getMigrationFiles"))) // @ because it throws notice if there is unsupported file
+            @$this->invokeMethods($tool, array(array('getMigrationFiles'))) // @ because it throws notice if there is unsupported file
         );
     }
 
@@ -277,17 +276,17 @@ class AbstractMigrationToolTest extends TestCase
 
         $this->assertEquals(
             $expectedMigrationId,
-            $this->invokeMethods($tool, array(array("getMigrationId", array($pathToMigrationFile))))
+            $this->invokeMethods($tool, array(array('getMigrationId', array($pathToMigrationFile))))
         );
     }
 
     public function dataGetMigrationIdMethodWorks()
     {
         return array(
-            array("/migration_file.ext", "migration_file"),
-            array("/migration file.ext", "migration"),
-            array("/migration_file", "migration_file"),
-            array("/migration file", "migration")
+            array('/migration_file.ext', 'migration_file'),
+            array('/migration file.ext', 'migration'),
+            array('/migration_file', 'migration_file'),
+            array('/migration file', 'migration')
         );
     }
 }

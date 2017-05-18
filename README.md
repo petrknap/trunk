@@ -1,6 +1,6 @@
 # php-migrationtool
 
-Migration tool for PHP by [Petr Knap].
+Migration tool for PHP
 
 * [What is Migration?](#what-is-migration)
 * [Usage of php-migrationtool](#usage-of-php-migrationtool)
@@ -37,7 +37,11 @@ Migration tools also contain lists of applied migrations and guarantee that ever
 All migration tools implement `MigrationToolInterface` with method `migrate()`.
 
 ```php
-$tool = new MigrationTool();
+<?php
+
+/**
+ * @var $tool PetrKnap\Php\MigrationTool\MigrationToolInterface
+ */
 $tool->migrate();
 ```
 
@@ -46,26 +50,15 @@ $tool->migrate();
 **WARNING:** The SQL migration tool processes only files with extension `sql`.
 
 ```php
-class SqlMigrationTool extends PetrKnap\Php\MigrationTool\SqlMigrationTool
-{
-    protected function getPhpDataObject()
-    {
-        return new PDO("sqlite::memory:");
-    }
+<?php
 
-    protected function getNameOfMigrationTable()
-    {
-        return "migrations";
-    }
-
-    protected function getPathToDirectoryWithMigrationFiles()
-    {
-        return __DIR__ . "/migrations";
-    }
-}
+$tool = new PetrKnap\Php\MigrationTool\SqlMigrationTool(
+    __DIR__ . '/migrations',
+    new PDO('mysql:host=127.0.0.1;dbname=project', $_ENV['DB_USER'], $_ENV['DB_PASS'])
+);
 ```
 
-SQL migration tool **supports native SQL files** as migration file. You can simply copy and paste output from [orm:schema-tool:update --dump-sql], [phpMyAdmin], [Adminer] or whatever with SQL output to SQL file.
+SQL migration tool **supports native SQL files** as migration file. You can simply copy and paste output from [orm:schema-tool:update --dump-sql], [phpMyAdmin], [Adminer] or whatever with SQL output.
 
 
 ## How to install
@@ -84,7 +77,6 @@ Or manually clone this repository via `git clone https://github.com/petrknap/php
 
 
 
-[Petr Knap]:http://petrknap.cz/
 [Data migration - Wikipedia, The Free Encyclopedia]:https://en.wikipedia.org/w/index.php?title=Data_migration&oldid=716195543
 [orm:schema-tool:update --dump-sql]:http://doctrine-orm.readthedocs.io/projects/doctrine-orm/en/latest/reference/tools.html#database-schema-generation
 [phpMyAdmin]:https://www.phpmyadmin.net/
