@@ -9,12 +9,14 @@
     "conflict": {
         "phpunit/phpunit": "<4.8 || >=5",
         "nette/application": "<2.3 || >=3",
-        "nette/robot-loader": "<2.3 || >=3"
+        "nette/robot-loader": "<2.3 || >=3",
+        "tracy/tracy": "<2.3 || >=3"
     },
     "require-dev": {
         "phpunit/phpunit": "*",
         "nette/application": "*",
-        "nette/robot-loader": "*"
+        "nette/robot-loader": "*",
+        "tracy/tracy": "*"
     },
     "WARNING": "This file is updated automatically. All keys will be overwritten, except of 'description', 'require' and 'conflict'.",
     "name": "petrknap/nette-bootstrap",
@@ -29,7 +31,8 @@
     "autoload": {
         "psr-4": {
             "PetrKnap\\Nette\\Bootstrap\\": "src"
-        }
+        },
+        "files": []
     },
     "autoload-dev": {
         "psr-4": {

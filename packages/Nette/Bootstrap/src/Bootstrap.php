@@ -70,7 +70,9 @@ abstract class Bootstrap
 
         if (class_exists("Tracy\\Debugger")) {
             $configurator->setDebugMode($me->getDebugMode());
-            $configurator->enableDebugger($me->getLogDir());
+            if (!self::getOption(self::OPTION_IS_TEST_RUN)) {
+                $configurator->enableDebugger($me->getLogDir());
+            }
         }
         $configurator->setTempDirectory($me->getTempDir());
 

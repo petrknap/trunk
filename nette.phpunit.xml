@@ -1,4 +1,4 @@
-<phpunit bootstrap="./vendor/nette/autoload.php">
+<phpunit bootstrap="./vendor/nette/autoload.php" stderr="true">
     <testsuites>
         <testsuite>
             <directory suffix="Test.php">.</directory>

@@ -1,6 +1,5 @@
 {
     "name": "petrknap/nette",
-    "description": "Monolithic repository",
     "type": "project",
     "license": "MIT",
     "homepage": "https://petrknap.github.io/docs/",
@@ -25,6 +24,7 @@
         "phpunit/phpunit": "*",
         "nette/application": "*",
         "nette/robot-loader": "*",
+        "tracy/tracy": "*",
         "petrknap/nette-bootstrap": "*"
     },
     "autoload": {
