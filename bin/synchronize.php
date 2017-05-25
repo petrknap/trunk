@@ -1,7 +1,7 @@
 #!/usr/bin/env php
 <?php
 
-foreach (["Php", "Nette"] as $context) {
+foreach (["Php", "Nette", "Symfony"] as $context) {
     $phpSynchronizer = new PhpSynchronizer($context);
     foreach (scandir(__DIR__ . "/../packages/" . $context) as $package) {
         if (in_array($package, [".", ".."])) {
@@ -47,9 +47,13 @@ class PhpSynchronizer
         $this->context = $context;
         $this->composerFile = __DIR__ . "/../" . strtolower($this->context) . ".composer.json";
         $this->composer = json_decode($this->read($this->composerFile), true);
-        $this->composer["require-dev"] = [
-            "phpunit/phpunit" => $this->composer["require-dev"]["phpunit/phpunit"]
-        ];
+        $oldRequireDev = $this->composer["require-dev"];
+        $this->composer["require-dev"] = [];
+        foreach ($oldRequireDev as $package => $version) {
+            if (in_array($package, ["phpunit/phpunit", "symfony/phpunit-bridge"])) {
+                $this->composer["require-dev"][$package] = $version;
+            }
+        }
         $this->composer["autoload"] = [
             "psr-4" => []
         ];
@@ -134,7 +138,9 @@ class PhpSynchronizer
 
     public function composer($package)
     {
-        $composerFile = __DIR__ . "/../packages/" . $this->context . "/" . $package . "/composer.json";
+        $oldWorkingDirectory = getcwd();
+        chdir(__DIR__ . "/../packages/" . $this->context . "/" . $package);
+        $composerFile = "./composer.json";
         $composer = json_decode($this->read($composerFile), true);
 
         $conflict = [];
@@ -161,10 +167,14 @@ class PhpSynchronizer
         $composer["authors"] = $this->composer["authors"];
         $composer["require"] = array_merge($composer["require"], $this->composer["require"]);
         $composer["require-dev"] = $this->composer["require-dev"] + (array)$composer["require-dev"];
-        $composer["autoload"] = ["psr-4" => ["PetrKnap\\" . $this->context . "\\" . $package ."\\" => "src"]];
+        $composer["autoload"] = [
+                "psr-4" => ["PetrKnap\\" . $this->context . "\\" . $package ."\\" => "src"],
+                "files" => glob("src/[^A-Z]*.php")
+        ];
         $composer["autoload-dev"] = ["psr-4" => ["PetrKnap\\" . $this->context . "\\" . $package ."\\Test\\" => "tests"]];
 
         $this->write($composerFile, json_encode($composer, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES) . PHP_EOL);
+        chdir($oldWorkingDirectory);
     }
 
     public function phpunit($package)
