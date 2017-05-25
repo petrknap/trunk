@@ -1,0 +1,13 @@
+{% extends "@MarkdownWeb/web_menu.base.html.twig" %}
+
+{% block list %}
+    <ul class="nav nav-pills pull-right">
+        {% block list_content %}{{ parent() }}{% endblock %}
+    </ul>
+{% endblock %}
+
+{% block item %}
+    <li{% if item.url == page.url or (item.url|length > 1 and item.url|last == "/" and page.url starts with item.url) %} class="active"{% endif %}>
+        {% block item_content %}{{ parent() }}{% endblock %}
+    </li>
+{% endblock %}

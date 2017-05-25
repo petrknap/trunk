@@ -1,0 +1,6 @@
+framework:
+  secret: tests only
+
+markdown_web:
+  site:
+    pagination_step: 2

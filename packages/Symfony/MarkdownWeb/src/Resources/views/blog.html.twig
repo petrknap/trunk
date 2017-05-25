@@ -1,0 +1,12 @@
+{% extends "@MarkdownWeb/blog.base.html.twig" %}
+
+{% block page %}
+    <div class="row">
+        {% block categories %}
+            <div class="col-md-3">{{ parent() }}</div>
+        {% endblock %}
+        {% block posts %}
+            <div class="col-md-9">{{ parent() }}</div>
+        {% endblock %}
+    </div>
+{% endblock %}

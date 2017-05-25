@@ -1,0 +1,17 @@
+{% extends "@MarkdownWeb/web.base.html.twig" %}
+
+{% block menu %}
+    <div class="masthead">
+        {% block menu_content %}{{ parent() }}{% endblock %}
+        <div class="h1">{{ site.title }}</div>
+    </div>
+{% endblock %}
+
+{% block page %}
+    <div>
+        {% block page_content %}
+            <h1 class="h2">{{ page.title }}</h1>
+            {{ parent() }}
+        {% endblock %}
+    </div>
+{% endblock %}

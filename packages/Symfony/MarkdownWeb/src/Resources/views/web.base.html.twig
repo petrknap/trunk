@@ -1,0 +1,14 @@
+{% extends "@MarkdownWeb/default.html.twig" %}
+
+{% block body_content %}
+    {% block menu %}
+        {% block menu_content %}
+            {{ render_index("@MarkdownWeb/web_menu.html.twig", {"menu": "web"}) }}
+        {% endblock %}
+    {% endblock %}
+    {% block page %}
+        {% block page_content %}
+            {{ content|raw }}
+        {% endblock %}
+    {% endblock %}
+{% endblock %}

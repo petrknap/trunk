@@ -1,0 +1,15 @@
+{% block list %}
+    <ul>
+        {% block list_content %}
+            {% for item in pages %}
+                {% block item %}
+                    <li>
+                        {% block item_content %}
+                            {{ item.title }}
+                        {% endblock %}
+                    </li>
+                {% endblock %}
+            {% endfor %}
+        {% endblock %}
+    </ul>
+{% endblock %}
