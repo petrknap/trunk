@@ -21,6 +21,9 @@ class MarkdownWebExtension extends Extension
         );
         $loader->load('config.yml');
 
+        $crawlerDefinition = $container->getDefinition(BUNDLE_ALIAS . '.config');
+        $crawlerDefinition->setArguments([$config]);
+
         $crawlerDefinition = $container->getDefinition(BUNDLE_ALIAS . '.crawler');
         $crawlerDefinition->setArguments([
             $config['directory'],

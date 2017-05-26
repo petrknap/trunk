@@ -11,9 +11,4 @@ class MarkdownWebBundle extends Bundle
     {
         return new MarkdownWebExtension();
     }
-
-    public function getAlias()
-    {
-        return BUNDLE_ALIAS;
-    }
 }

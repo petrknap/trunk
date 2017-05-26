@@ -25,6 +25,7 @@ class Page
     public function __construct(array $parameters, $content)
     {
         $this->parameters = $parameters;
+        $this->content = $content;
 
         // Make easy access to properties from twig
         foreach ($this->parameters as $name => $value) {

@@ -7,7 +7,7 @@ use const PetrKnap\Symfony\MarkdownWeb\BUNDLE_NAME;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 
-class MarkdownWebConfiguration implements ConfigurationInterface
+class MarkdownWebConfiguration extends \ArrayObject implements ConfigurationInterface
 {
     public function getConfigTreeBuilder()
     {
@@ -22,6 +22,7 @@ class MarkdownWebConfiguration implements ConfigurationInterface
             ->defaultValue(false)
             ->end()
             ->arrayNode('site')
+            ->addDefaultsIfNotSet()
             ->children()
             ->scalarNode('title')
             ->defaultValue(BUNDLE_NAME)

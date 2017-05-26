@@ -10,7 +10,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Component\Routing\RouteCollectionBuilder;
 
-class MarkdownWebKernel extends Kernel
+class MarkdownWebKernel extends Kernel // TODO create MicroKernel
 {
     use MicroKernelTrait;
 
@@ -25,7 +25,7 @@ class MarkdownWebKernel extends Kernel
 
     public function getRootDir()
     {
-        return __DIR__ . "/..";
+        return __DIR__ . "/../app";
     }
 
     protected function configureRoutes(RouteCollectionBuilder $routes)

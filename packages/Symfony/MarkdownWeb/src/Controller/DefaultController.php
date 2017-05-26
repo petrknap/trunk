@@ -6,7 +6,6 @@ use PetrKnap\Symfony\MarkdownWeb\Service\Crawler;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
-use Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -23,8 +22,8 @@ class DefaultController extends Controller
      */
     public function defaultAction(Request $request, $url)
     {
-        $page = $request->get("page");
-        if (1 == $page) {
+        $pageNumber = $request->get("page");
+        if (1 == $pageNumber) {
             return $this->redirectToRoute(
                 $request->get('_route'),
                 [
@@ -32,21 +31,26 @@ class DefaultController extends Controller
                 ]
             );
         }
-        $page = null === $page ? 1 : $page;
+        $pageNumber = null === $pageNumber ? 1 : $pageNumber;
         $url = "/" . $url;
 
-        if ($this->getParameter(BUNDLE_ALIAS . ".cached")) { // TODO test it
+        $config = $this->get(BUNDLE_ALIAS . '.config');
+        if ($config['cached']) { // TODO test it
             $cache = new FilesystemAdapter(BUNDLE_ALIAS . ".default_controller");
-            $cached = $cache->getItem(base64_encode(sprintf("%s?page=%s", $url, $page)));
+            $cached = $cache->getItem(str_replace(
+                ['+', '/', '='],
+                ['_', '-', ''],
+                base64_encode(sprintf("%s?page=%s", $url, $pageNumber))
+            ));
 
             if (!$cached->isHit()) {
-                $cached->set($this->createResponse($url, $page));
+                $cached->set($this->createResponse($url, $pageNumber));
                 $cache->save($cached);
             }
 
             return $cached->get();
         } else { // TODO test it
-            return $this->createResponse($url, $page);
+            return $this->createResponse($url, $pageNumber);
         }
     }
 
@@ -60,17 +64,12 @@ class DefaultController extends Controller
             throw new NotFoundHttpException();
         }
 
-        try {
-            $site = $this->getParameter(BUNDLE_ALIAS . ".site");
-        } catch (InvalidArgumentException $ignored) {
-            $site = [];
-        }
-
-        return $page->getResponse(function ($view, $parameters) use ($url, $pageNumber, $site) {
+        return $page->getResponse(function ($view, $parameters) use ($url, $pageNumber) {
+            $config = $this->get(BUNDLE_ALIAS . ".config");
             return $this->renderView($view, [
                     "url" => $url,
                     "page_number" => $pageNumber,
-                    "site" => $site
+                    "site" => $config["site"]
                 ] + $parameters);
         });
     }

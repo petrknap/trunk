@@ -1,4 +1,6 @@
 services:
+  markdown_web.config:
+    class: PetrKnap\Symfony\MarkdownWeb\DependencyInjection\MarkdownWebConfiguration
   markdown_web.twig:
     class: PetrKnap\Symfony\MarkdownWeb\MarkdownWebTwigExtension
     autowire: true
