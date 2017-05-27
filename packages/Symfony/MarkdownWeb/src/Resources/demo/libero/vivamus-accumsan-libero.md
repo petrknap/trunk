@@ -1,9 +1,8 @@
 ---
-layout: blog_post.html
+layout: article.html
 title: Vivamus accumsan libero
 description: Vivamus accumsan libero a lorem fringilla, eu blandit est molestie.
 date: 2017-05-23
-category: molestie
 tags:
  - lorem ipsum
  - lacus

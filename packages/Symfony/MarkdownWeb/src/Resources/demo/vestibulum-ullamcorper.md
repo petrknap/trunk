@@ -2,7 +2,7 @@
 layout: web.html
 title: Vestibulum ullamcorper
 description: Vestibulum ullamcorper et ex ut maximus. In nisl tortor, posuere non dui a, rhoncus blandit dui.
-menu: web
+in_menu: true
 priority: 2
 ---
 

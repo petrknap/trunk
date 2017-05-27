@@ -1,9 +1,8 @@
 ---
-layout: blog_post.html
+layout: article.html
 title: Ante molestie porttitor
 description: Quisque non mauris volutpat ante molestie porttitor ut a tellus.
 date: 2017-05-22
-category: tellus
 tags:
  - lorem ipsum
  - quis

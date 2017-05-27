@@ -2,7 +2,7 @@
 layout: web.html
 title: Lorem ipsum
 description: Lorem ipsum dolor sit amet, consectetur adipiscing elit
-menu: web
+in_menu: true
 priority: 1
 ---
 

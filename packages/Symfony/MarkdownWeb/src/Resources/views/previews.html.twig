@@ -1,0 +1,20 @@
+{% extends "@MarkdownWeb/list.html.twig" %}
+
+{% block list %}
+    <div class="row">
+        {% block list_content %}{{ parent() }}{% endblock %}
+    </div>
+{% endblock %}
+
+{% block item %}
+    <div class="col-md-6">
+        {% block item_content %}
+            <h2 class="h3">
+                <a href="{{ item.url }}">{{ item.title }}</a>
+            </h2>
+            <p>
+                {{ item.content|striptags|slice(0,250) }}{% if item.content|striptags|length > 250 %}&hellip;{% endif %}
+            </p>
+        {% endblock %}
+    </div>
+{% endblock %}

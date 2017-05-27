@@ -1,8 +1,7 @@
 ---
-layout: blog.html
+layout: articles.html
 title: Libero
 description: Fringilla, eu blandit est molestie.
-menu: [web, blog]
-category: ~
+in_menu: true
 priority: 3
 ---

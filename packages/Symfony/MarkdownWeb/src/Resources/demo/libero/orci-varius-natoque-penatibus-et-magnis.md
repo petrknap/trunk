@@ -1,9 +1,8 @@
 ---
-layout: blog_post.html
+layout: article.html
 title: Orci varius natoque penatibus et magnis
 description: Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.
 date: 2017-05-24
-category: tellus
 tags:
  - lorem ipsum
  - varius

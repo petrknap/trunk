@@ -1,0 +1,7 @@
+{% extends "@MarkdownWeb/web.html.twig" %}
+
+
+{% block page_content %}
+    {{ parent() }}
+    {{ render_index("@MarkdownWeb/previews.html.twig", {"layout": "article.html"}, "date:desc") }}
+{% endblock %}
