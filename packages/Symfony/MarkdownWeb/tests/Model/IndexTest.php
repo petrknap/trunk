@@ -88,6 +88,12 @@ class IndexTest extends SymfonyTestCase
                 ],
             ],
             [
+                ['!tags' => 'lacus'], null, 'url:asc', [
+                    '/libero/ante-molestie-porttitor.html' => Page::fromFile(self::ROOT_DIRECTORY, self::ROOT_DIRECTORY . '/libero/ante-molestie-porttitor.md'),
+                    '/libero/vivamus-accumsan-libero.html' => Page::fromFile(self::ROOT_DIRECTORY, self::ROOT_DIRECTORY . '/libero/vivamus-accumsan-libero.md'),
+                ],
+            ],
+            [
                 ['tags' => 'lacus', 'layout' => 'blog_post.html'], null, 'url:asc', [
                     '/libero/ante-molestie-porttitor.html' => Page::fromFile(self::ROOT_DIRECTORY, self::ROOT_DIRECTORY . '/libero/ante-molestie-porttitor.md'),
                     '/libero/vivamus-accumsan-libero.html' => Page::fromFile(self::ROOT_DIRECTORY, self::ROOT_DIRECTORY . '/libero/vivamus-accumsan-libero.md'),

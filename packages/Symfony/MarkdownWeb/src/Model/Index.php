@@ -52,8 +52,13 @@ class Index
                 if (!is_array($values)) {
                     $values = [$values];
                 }
+                $unexpected = false;
+                if ('!' === $key[0]) {
+                    $unexpected = true;
+                    $key = substr($key, 1);
+                }
                 foreach ($values as $value) {
-                    if (!in_array($value, (array)@$page->getParameters()[$key])) {
+                    if ($unexpected === in_array($value, (array)@$page->getParameters()[$key])) {
                         continue 3;
                     }
                 }
