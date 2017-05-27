@@ -80,6 +80,14 @@ class Page
     }
 
     /**
+     * @return string
+     */
+    public function getContent()
+    {
+        return $this->content;
+    }
+
+    /**
      * @param callable $twigRenderer
      * @return Response
      */
