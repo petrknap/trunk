@@ -21,13 +21,8 @@ class MarkdownWebConfiguration extends \ArrayObject implements ConfigurationInte
             ->booleanNode('cached')
             ->defaultValue(false)
             ->end()
-            ->arrayNode('site')
-            ->addDefaultsIfNotSet()
-            ->children()
-            ->scalarNode('title')
-            ->defaultValue(BUNDLE_NAME)
-            ->end()
-            ->end()
+            ->variableNode('site')
+            ->defaultValue([])
             ->end();
 
         return $treeBuilder;
