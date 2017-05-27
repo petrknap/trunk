@@ -10,27 +10,19 @@ class Index
     private $pages;
 
     /**
-     * @var int
-     */
-    private $paginationStep;
-
-    /**
      * @param Page[] $pages
-     * @param int $paginationStep
      */
-    public function __construct(array $pages, $paginationStep)
+    public function __construct(array $pages)
     {
         $this->pages = $pages;
-        $this->paginationStep = $paginationStep;
     }
 
     /**
      * @param string $rootDirectory
      * @param array $files
-     * @param int $paginationStep
      * @return $this
      */
-    public static function fromFiles($rootDirectory, array $files, $paginationStep)
+    public static function fromFiles($rootDirectory, array $files)
     {
         $pages = [];
         foreach ($files as $file) {
@@ -38,10 +30,10 @@ class Index
             $pages[$page->getParameters()["url"]] = $page;
         }
 
-        return new static($pages, $paginationStep);
+        return new static($pages);
     }
 
-    public function getPages(array $filters, $sortBy = null, $pageNumber = null)
+    public function getPages(array $filters, $sortBy = null, $pageNumber = null, $paginationStep = null)
     {
         $pages = [];
         foreach ($this->pages as $page) {
@@ -89,8 +81,8 @@ class Index
         if ($pageNumber) {
             $pages = array_slice(
                 $pages,
-                ($pageNumber - 1) * $this->paginationStep,
-                $this->paginationStep
+                ($pageNumber - 1) * $paginationStep,
+                $paginationStep
             );
         }
 

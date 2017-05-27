@@ -27,9 +27,6 @@ class MarkdownWebConfiguration extends \ArrayObject implements ConfigurationInte
             ->scalarNode('title')
             ->defaultValue(BUNDLE_NAME)
             ->end()
-            ->scalarNode('pagination_step')
-            ->defaultValue(15)
-            ->end()
             ->end()
             ->end();
 

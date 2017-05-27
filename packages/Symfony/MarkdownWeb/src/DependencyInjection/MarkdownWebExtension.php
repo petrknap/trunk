@@ -27,7 +27,6 @@ class MarkdownWebExtension extends Extension
         $crawlerDefinition = $container->getDefinition(BUNDLE_ALIAS . '.crawler');
         $crawlerDefinition->setArguments([
             $config['directory'],
-            $config['site']['pagination_step'],
         ]);
 
         $twigExtensionDefinition = $container->getDefinition(BUNDLE_ALIAS . '.twig');

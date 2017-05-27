@@ -1,7 +1,7 @@
 {% extends "@MarkdownWeb/web.html.twig" %}
 
-
 {% block page_content %}
     {{ parent() }}
-    {{ render_index("@MarkdownWeb/previews.html.twig", {"layout": "article.html"}, "date:desc") }}
+    {{ render_index("@MarkdownWeb/previews.html.twig", {"layout": "article.html"}, "date:desc", 2) }}
+    {{ render_pagination("@MarkdownWeb/pagination.html.twig", {"layout": "article.html"}, 2) }}
 {% endblock %}

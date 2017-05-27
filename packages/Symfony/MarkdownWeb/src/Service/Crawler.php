@@ -13,15 +13,9 @@ class Crawler
      */
     private $directory;
 
-    /**
-     * @var int
-     */
-    private $paginationStep;
-
-    public function __construct($directory, $paginationStep)
+    public function __construct($directory)
     {
         $this->directory = $directory;
-        $this->paginationStep = $paginationStep;
     }
 
     /**
@@ -62,8 +56,7 @@ class Crawler
             /** @noinspection PhpParamsInspection */
             $index = Index::fromFiles(
                 $this->directory,
-                $this->getFiles($this->directory),
-                $this->paginationStep
+                $this->getFiles($this->directory)
             );
         }
 

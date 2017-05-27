@@ -3,7 +3,6 @@
 namespace PetrKnap\Symfony\MarkdownWeb;
 
 use PetrKnap\Symfony\MarkdownWeb\Service\Crawler;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Twig_Extension;
 
 class MarkdownWebTwigExtension extends Twig_Extension
@@ -38,11 +37,26 @@ class MarkdownWebTwigExtension extends Twig_Extension
     {
         return [
             new \Twig_SimpleFunction(
-                "render_index",
-                function(array $context, $template, array $filters, $sortBy = null) {
+                "render_index", // TODO rename to render_pages
+                function(array $context, $template, array $filters, $sortBy = null, $paginationStep = null) {
                     return $this->twig->render($template, array_merge_recursive($context, [
                         "site" => $this->site,
-                        "pages" => null === $sortBy ? $this->crawler->getIndex()->getPages($filters) : $this->crawler->getIndex()->getPages($filters, $sortBy)
+                        "pages" => $this->crawler->getIndex()->getPages($filters, $sortBy, $context['page_number'], $paginationStep)
+                    ]));
+                },
+                [
+                    "is_safe" => ["html"],
+                    "needs_context" => true
+                ]
+            ),
+            new \Twig_SimpleFunction(
+                "render_pagination",
+                function(array $context, $template, array $filters, $paginationStep) {
+                    return $this->twig->render($template, array_merge_recursive($context, [
+                        "site" => $this->site,
+                        "steps" => ceil(
+                            count($this->crawler->getIndex()->getPages($filters)) / $paginationStep
+                        )
                     ]));
                 },
                 [
