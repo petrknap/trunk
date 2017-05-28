@@ -1,6 +1,6 @@
 {
   "name": "MarkdownEditor",
-  "version": "1.1.5",
+  "version": "1.1.6",
   "main": "main.js",
   "devDependencies": {
     "electron": "^1.6.2",

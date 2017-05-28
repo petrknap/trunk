@@ -163,7 +163,8 @@ function saveFile(saveAs) {
         fileSystem.writeFile(file, content, 'utf-8', function (err) {
             if (!err) {
                 savedContent = content;
-                document.title = titlePrefix + file;
+                activeFile = file;
+                document.title = titlePrefix + activeFile;
             }
         });
     };
