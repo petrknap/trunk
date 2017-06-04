@@ -5,8 +5,14 @@ docker-run:
 	sudo docker run -v $$(pwd)/../..:/var/www/html --rm marketass.cz bash -c "cd /var/www/html/projects/marketass.cz && ${ARGS}"
 	make clean
 
-docker-web: clean
+web-server: clean
 	sudo docker run -v $$(pwd)/../..:/var/www/html --rm marketass.cz
+
+web-console: clean
+	make docker-run ARGS="php bin/console ${ARGS}"
+
+web-cache:
+	make web-console ARGS="markdown-web:build-cache ${ARGS}"
 
 clean:
 	(cd ../../ && make clean)

@@ -1,0 +1,16 @@
+{% extends "@MarkdownWeb/list.html.twig" %}
+
+{% block list %}
+    <div class="list-group">
+        {% block list_content %}{{ parent() }}{% endblock %}
+    </div>
+{% endblock %}
+
+{% block item %}
+    {% block item_content %}
+        <a href="{{ item.url }}"
+           class="list-group-item{% if url == item.url %} active{% endif %}">
+            {{ item.title }}
+        </a>
+    {% endblock %}
+{% endblock %}

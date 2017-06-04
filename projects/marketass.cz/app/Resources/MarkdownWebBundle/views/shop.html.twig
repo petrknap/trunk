@@ -1,0 +1,14 @@
+{% extends "@MarkdownWeb/layout.html.twig" %}
+
+{% block menu %}
+    {{ render_index("@MarkdownWeb/menu.html.twig", {"layout": "shop.html", "!url": "/shop/"}, "title:asc") }}
+{% endblock %}
+
+{% block content %}
+    <h1>{{ page.title }}</h1>
+    {{ content|raw }}
+    {{ render_index("@MarkdownWeb/shop.previews.html.twig", {"layout": "shop.item.html", "category": page.category}, "title:asc", 18) }}
+    <div class="text-center">
+        {{ render_pagination("@MarkdownWeb/pagination.html.twig", {"layout": "shop.item.html", "category": page.category}, 18) }}
+    </div>
+{% endblock %}

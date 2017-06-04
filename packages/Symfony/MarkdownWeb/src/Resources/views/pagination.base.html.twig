@@ -1,0 +1,8 @@
+{# Core template #}
+<ul class="pagination">
+    {% for step in 1..steps %}
+        <li{% if step == page_number %} class="active"{% endif %}>
+            <a href="{{ url }}?page={{ step }}">{{ step }}</a>
+        </li>
+    {% endfor %}
+</ul>

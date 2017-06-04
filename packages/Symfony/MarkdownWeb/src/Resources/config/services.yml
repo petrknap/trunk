@@ -1,0 +1,10 @@
+services:
+  markdown_web.config:
+    class: PetrKnap\Symfony\MarkdownWeb\DependencyInjection\MarkdownWebConfiguration
+  markdown_web.twig:
+    class: PetrKnap\Symfony\MarkdownWeb\MarkdownWebTwigExtension
+    autowire: true
+    tags:
+      - name: twig.extension
+  markdown_web.crawler:
+    class: PetrKnap\Symfony\MarkdownWeb\Service\Crawler

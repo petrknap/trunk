@@ -1,0 +1,36 @@
+body {
+    padding-top: 70px;
+    overflow-x: hidden;
+}
+
+footer {
+    text-align: right;
+}
+
+body > .container {
+    overflow-x: hidden;
+}
+
+.off-canvas {
+    position: relative;
+    -webkit-transition: all .25s ease-out;
+    -o-transition: all .25s ease-out;
+    transition: all .25s ease-out;
+    right: 0;
+}
+
+.off-canvas.active {
+    right: 50%;
+}
+
+.off-canvas #menu {
+    position: absolute;
+    top: 0;
+    margin-right: 5px;
+    width: 50%;
+    right: -50%;
+}
+
+.shop-preview {
+    height: 250px;
+}

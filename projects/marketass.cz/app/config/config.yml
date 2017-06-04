@@ -45,3 +45,9 @@ swiftmailer:
     username: '%mailer_user%'
     password: '%mailer_password%'
     spool: { type: memory }
+
+markdown_web:
+  directory: "%kernel.root_dir%/../web/"
+  site:
+    title: Celostní fyzioterapie
+    author: Bc. Markéta Schillerová
