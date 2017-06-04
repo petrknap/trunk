@@ -124,6 +124,11 @@ function beforeDestroy() {
     }
 }
 
+function updateBase(href)
+{
+    document.getElementsByTagName('base')[0].href = href;
+}
+
 function loadFile(file) {
     if (beforeDestroy()) {
         if (file) {
@@ -132,12 +137,14 @@ function loadFile(file) {
                 savedContent = editor.value();
                 activeFile = file;
                 document.title = titlePrefix + file;
+                updateBase('file://' + path.dirname(file) + '/');
             });
         } else {
             editor.value("");
             savedContent = editor.value();
-            activeFile = file;
+            activeFile = null;
             document.title = titlePrefix + "New file";
+            updateBase('file://');
         }
     }
 }
@@ -163,8 +170,7 @@ function saveFile(saveAs) {
         fileSystem.writeFile(file, content, 'utf-8', function (err) {
             if (!err) {
                 savedContent = content;
-                activeFile = file;
-                document.title = titlePrefix + activeFile;
+                loadFile(file);
             }
         });
     };
