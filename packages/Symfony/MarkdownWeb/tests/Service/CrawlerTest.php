@@ -5,9 +5,9 @@ namespace PetrKnap\Symfony\MarkdownWeb\Test\Service;
 use const PetrKnap\Symfony\MarkdownWeb\CRAWLER_SERVICE;
 use PetrKnap\Symfony\MarkdownWeb\Model\Index;
 use PetrKnap\Symfony\MarkdownWeb\Service\Crawler;
-use PetrKnap\Symfony\MarkdownWeb\Test\SymfonyTestCase;
+use PetrKnap\Symfony\MarkdownWeb\Test\TestCase;
 
-class CrawlerTest extends SymfonyTestCase
+class CrawlerTest extends TestCase
 {
     private function getPageDir()
     {
@@ -32,11 +32,9 @@ class CrawlerTest extends SymfonyTestCase
         $this->assertEquals([
             "{$this->getPageDir()}/sitemap.md",
             "{$this->getPageDir()}/libero/orci-varius-natoque-penatibus-et-magnis.md",
-            "{$this->getPageDir()}/libero/tellus.md",
             "{$this->getPageDir()}/libero/vivamus-accumsan-libero.md",
             "{$this->getPageDir()}/libero/ante-molestie-porttitor.md",
             "{$this->getPageDir()}/libero/index.md",
-            "{$this->getPageDir()}/libero/molestie.md",
             "{$this->getPageDir()}/vestibulum-ullamcorper.md",
             "{$this->getPageDir()}/index.md",
         ], $this->invoke([$this->getCrawler(), "getFiles"], [$this->getPageDir()]));

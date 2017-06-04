@@ -4,10 +4,10 @@ namespace PetrKnap\Symfony\MarkdownWeb\Test\Model;
 
 use PetrKnap\Symfony\MarkdownWeb\Model\Index;
 use PetrKnap\Symfony\MarkdownWeb\Model\Page;
-use PetrKnap\Symfony\MarkdownWeb\Test\SymfonyTestCase;
+use PetrKnap\Symfony\MarkdownWeb\Test\TestCase;
 use const PetrKnap\Symfony\MarkdownWeb\CRAWLER_SERVICE;
 
-class IndexTest extends SymfonyTestCase
+class IndexTest extends TestCase
 {
     const ROOT_DIRECTORY = __DIR__ . '/../../src/Resources/demo';
     const PAGINATION_STEP = 2;
@@ -40,12 +40,13 @@ class IndexTest extends SymfonyTestCase
      * @dataProvider dataReturnsPages
      * @param array $filters
      * @param int|null $pageNumber
+     * @param int|null $paginationStep
      * @param $sortBy $orderBy
      * @param mixed $expected
      */
-    public function testReturnsPages($filters, $pageNumber, $sortBy, $expected)
+    public function testReturnsPages($filters, $pageNumber, $paginationStep, $sortBy, $expected)
     {
-        $pages = $this->getIndex()->getPages($filters, $sortBy, $pageNumber);
+        $pages = $this->getIndex()->getPages($filters, $sortBy, $pageNumber, $paginationStep);
 
         $this->assertEquals($expected, $pages);
         $this->assertEquals(array_keys($expected), array_keys($pages));
@@ -56,72 +57,61 @@ class IndexTest extends SymfonyTestCase
     {
         return [
             [
-                [], null, 'url:asc', [
+                [], null, null, 'url:asc', [
                     '/' => Page::fromFile(self::ROOT_DIRECTORY, self::ROOT_DIRECTORY . '/index.md'),
                     '/libero/' => Page::fromFile(self::ROOT_DIRECTORY, self::ROOT_DIRECTORY . '/libero/index.md'),
                     '/libero/ante-molestie-porttitor.html' => Page::fromFile(self::ROOT_DIRECTORY, self::ROOT_DIRECTORY . '/libero/ante-molestie-porttitor.md'),
-                    '/libero/molestie.html' => Page::fromFile(self::ROOT_DIRECTORY, self::ROOT_DIRECTORY . '/libero/molestie.md'),
                     '/libero/orci-varius-natoque-penatibus-et-magnis.html' => Page::fromFile(self::ROOT_DIRECTORY, self::ROOT_DIRECTORY . '/libero/orci-varius-natoque-penatibus-et-magnis.md'),
-                    '/libero/tellus.html' => Page::fromFile(self::ROOT_DIRECTORY, self::ROOT_DIRECTORY . '/libero/tellus.md'),
                     '/libero/vivamus-accumsan-libero.html' => Page::fromFile(self::ROOT_DIRECTORY, self::ROOT_DIRECTORY . '/libero/vivamus-accumsan-libero.md'),
                     '/sitemap.xml' => Page::fromFile(self::ROOT_DIRECTORY, self::ROOT_DIRECTORY . '/sitemap.md'),
                     '/vestibulum-ullamcorper.html' => Page::fromFile(self::ROOT_DIRECTORY, self::ROOT_DIRECTORY . '/vestibulum-ullamcorper.md'),
                 ],
             ],
             [
-                [], null, 'url:desc', [
+                [], null, null, 'url:desc', [
                     '/vestibulum-ullamcorper.html' => Page::fromFile(self::ROOT_DIRECTORY, self::ROOT_DIRECTORY . '/vestibulum-ullamcorper.md'),
                     '/sitemap.xml' => Page::fromFile(self::ROOT_DIRECTORY, self::ROOT_DIRECTORY . '/sitemap.md'),
                     '/libero/vivamus-accumsan-libero.html' => Page::fromFile(self::ROOT_DIRECTORY, self::ROOT_DIRECTORY . '/libero/vivamus-accumsan-libero.md'),
-                    '/libero/tellus.html' => Page::fromFile(self::ROOT_DIRECTORY, self::ROOT_DIRECTORY . '/libero/tellus.md'),
                     '/libero/orci-varius-natoque-penatibus-et-magnis.html' => Page::fromFile(self::ROOT_DIRECTORY, self::ROOT_DIRECTORY . '/libero/orci-varius-natoque-penatibus-et-magnis.md'),
-                    '/libero/molestie.html' => Page::fromFile(self::ROOT_DIRECTORY, self::ROOT_DIRECTORY . '/libero/molestie.md'),
                     '/libero/ante-molestie-porttitor.html' => Page::fromFile(self::ROOT_DIRECTORY, self::ROOT_DIRECTORY . '/libero/ante-molestie-porttitor.md'),
                     '/libero/' => Page::fromFile(self::ROOT_DIRECTORY, self::ROOT_DIRECTORY . '/libero/index.md'),
                     '/' => Page::fromFile(self::ROOT_DIRECTORY, self::ROOT_DIRECTORY . '/index.md'),
                 ],
             ],
             [
-                ['tags' => 'lacus'], null, 'url:asc', [
+                ['layout' => 'article.html', 'tags' => 'lacus'], null, null, 'url:asc', [
                     '/libero/ante-molestie-porttitor.html' => Page::fromFile(self::ROOT_DIRECTORY, self::ROOT_DIRECTORY . '/libero/ante-molestie-porttitor.md'),
                     '/libero/vivamus-accumsan-libero.html' => Page::fromFile(self::ROOT_DIRECTORY, self::ROOT_DIRECTORY . '/libero/vivamus-accumsan-libero.md'),
                 ],
             ],
             [
-                ['!tags' => 'lacus'], null, 'url:asc', [
-                    '/libero/ante-molestie-porttitor.html' => Page::fromFile(self::ROOT_DIRECTORY, self::ROOT_DIRECTORY . '/libero/ante-molestie-porttitor.md'),
-                    '/libero/vivamus-accumsan-libero.html' => Page::fromFile(self::ROOT_DIRECTORY, self::ROOT_DIRECTORY . '/libero/vivamus-accumsan-libero.md'),
+                ['layout' => 'article.html', '!tags' => 'lacus'], null, null, 'url:asc', [
+                    '/libero/orci-varius-natoque-penatibus-et-magnis.html' => Page::fromFile(self::ROOT_DIRECTORY, self::ROOT_DIRECTORY . '/libero/orci-varius-natoque-penatibus-et-magnis.md'),
                 ],
             ],
             [
-                ['tags' => 'lacus', 'layout' => 'blog_post.html'], null, 'url:asc', [
-                    '/libero/ante-molestie-porttitor.html' => Page::fromFile(self::ROOT_DIRECTORY, self::ROOT_DIRECTORY . '/libero/ante-molestie-porttitor.md'),
-                    '/libero/vivamus-accumsan-libero.html' => Page::fromFile(self::ROOT_DIRECTORY, self::ROOT_DIRECTORY . '/libero/vivamus-accumsan-libero.md'),
+                ['tags' => 'lacus', 'layout' => 'web.html'], null, null, 'url:asc', [
                 ],
             ],
             [
-                ['tags' => 'lacus', 'layout' => 'blog_posts.html'], null, 'url:asc', [
-                ],
-            ],
-            [
-                ['tags' => ['lacus', 'quis']], null, 'url:asc', [
+                ['tags' => ['lacus', 'quis']], null, null, 'url:asc', [
                     '/libero/ante-molestie-porttitor.html' => Page::fromFile(self::ROOT_DIRECTORY, self::ROOT_DIRECTORY . '/libero/ante-molestie-porttitor.md'),
                 ],
             ],
             [
-                ['layout' => 'web.html'], null, 'url:asc', [
+                ['layout' => 'web.html'], null, null, 'url:asc', [
                     '/' => Page::fromFile(self::ROOT_DIRECTORY, self::ROOT_DIRECTORY . '/index.md'),
                     '/vestibulum-ullamcorper.html' => Page::fromFile(self::ROOT_DIRECTORY, self::ROOT_DIRECTORY . '/vestibulum-ullamcorper.md'),
                 ],
             ],
             [
-                ['layout' => 'blog_post.html'], 1, 'date:desc', [
+                ['layout' => 'article.html'], 1, 2, 'date:desc', [
                     '/libero/orci-varius-natoque-penatibus-et-magnis.html' => Page::fromFile(self::ROOT_DIRECTORY, self::ROOT_DIRECTORY . '/libero/orci-varius-natoque-penatibus-et-magnis.md'),
                     '/libero/vivamus-accumsan-libero.html' => Page::fromFile(self::ROOT_DIRECTORY, self::ROOT_DIRECTORY . '/libero/vivamus-accumsan-libero.md'),
             ],
             ],
             [
-                ['layout' => 'blog_post.html'], 2, 'date:desc', [
+                ['layout' => 'article.html'], 2, 2, 'date:desc', [
                     '/libero/ante-molestie-porttitor.html' => Page::fromFile(self::ROOT_DIRECTORY, self::ROOT_DIRECTORY . '/libero/ante-molestie-porttitor.md'),
                 ],
             ],

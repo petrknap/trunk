@@ -4,10 +4,9 @@ namespace PetrKnap\Symfony\MarkdownWeb\Test\Model;
 
 use Mni\FrontYAML\Parser;
 use PetrKnap\Symfony\MarkdownWeb\Model\Page;
-use PetrKnap\Symfony\MarkdownWeb\Test\SymfonyTestCase;
-use Symfony\Component\HttpFoundation\Response;
+use PetrKnap\Symfony\MarkdownWeb\Test\TestCase;
 
-class PageTest extends SymfonyTestCase
+class PageTest extends TestCase
 {
     /**
      * @dataProvider dataCanProcessFile
