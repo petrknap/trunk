@@ -22,7 +22,7 @@ class MarkdownWebConfiguration extends \ArrayObject implements ConfigurationInte
             ->defaultValue(false)
             ->end()
             ->variableNode('site')
-            ->defaultValue([])
+            ->defaultValue(['title' => 'Markdown Web Bundle for Symfony'])
             ->end();
 
         return $treeBuilder;
