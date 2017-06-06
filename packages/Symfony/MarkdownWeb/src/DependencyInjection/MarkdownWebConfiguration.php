@@ -2,10 +2,9 @@
 
 namespace PetrKnap\Symfony\MarkdownWeb\DependencyInjection;
 
-use const PetrKnap\Symfony\MarkdownWeb\BUNDLE_ALIAS;
-use const PetrKnap\Symfony\MarkdownWeb\BUNDLE_NAME;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
+use const PetrKnap\Symfony\MarkdownWeb\BUNDLE_ALIAS;
 
 class MarkdownWebConfiguration extends \ArrayObject implements ConfigurationInterface
 {

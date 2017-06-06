@@ -38,7 +38,7 @@ class MarkdownWebTwigExtension extends Twig_Extension
         return [
             new \Twig_SimpleFunction(
                 "render_index", // TODO rename to render_pages
-                function(array $context, $template, array $filters, $sortBy = null, $paginationStep = null) {
+                function (array $context, $template, array $filters, $sortBy = null, $paginationStep = null) {
                     return $this->twig->render($template, array_merge_recursive($context, [
                         "site" => $this->site,
                         "pages" => $this->crawler->getIndex()->getPages($filters, $sortBy, $context['page_number'], $paginationStep)
@@ -51,7 +51,7 @@ class MarkdownWebTwigExtension extends Twig_Extension
             ),
             new \Twig_SimpleFunction(
                 "render_pagination",
-                function(array $context, $template, array $filters, $paginationStep) {
+                function (array $context, $template, array $filters, $paginationStep) {
                     return $this->twig->render($template, array_merge_recursive($context, [
                         "site" => $this->site,
                         "steps" => ceil(

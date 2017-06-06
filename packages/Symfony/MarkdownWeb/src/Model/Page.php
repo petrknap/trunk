@@ -3,8 +3,8 @@
 namespace PetrKnap\Symfony\MarkdownWeb\Model;
 
 use Mni\FrontYAML\Parser;
-use const PetrKnap\Symfony\MarkdownWeb\BUNDLE_NAME;
 use Symfony\Component\HttpFoundation\Response;
+use const PetrKnap\Symfony\MarkdownWeb\BUNDLE_NAME;
 
 class Page
 {
@@ -53,7 +53,7 @@ class Page
 
         $layout = @$parameters['layout'];
         if (isset($layout)) {
-            $extension = substr($layout, strrpos($layout,'.') + 1);
+            $extension = substr($layout, strrpos($layout, '.') + 1);
         }
 
         if (!isset($extension)) {

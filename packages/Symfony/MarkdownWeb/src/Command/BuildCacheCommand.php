@@ -2,8 +2,6 @@
 
 namespace PetrKnap\Symfony\MarkdownWeb\Command;
 
-use const PetrKnap\Symfony\MarkdownWeb\BUNDLE_ALIAS;
-use const PetrKnap\Symfony\MarkdownWeb\BUNDLE_CONSOLE;
 use PetrKnap\Symfony\MarkdownWeb\Service\Crawler;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\ArrayInput;
@@ -13,6 +11,8 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\HttpKernel\Client;
 use Symfony\Component\HttpKernel\KernelInterface;
+use const PetrKnap\Symfony\MarkdownWeb\BUNDLE_ALIAS;
+use const PetrKnap\Symfony\MarkdownWeb\BUNDLE_CONSOLE;
 
 class BuildCacheCommand extends ContainerAwareCommand
 {

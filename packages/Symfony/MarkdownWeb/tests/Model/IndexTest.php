@@ -108,7 +108,7 @@ class IndexTest extends TestCase
                 ['layout' => 'article.html'], 1, 2, 'date:desc', [
                     '/libero/orci-varius-natoque-penatibus-et-magnis.html' => Page::fromFile(self::ROOT_DIRECTORY, self::ROOT_DIRECTORY . '/libero/orci-varius-natoque-penatibus-et-magnis.md'),
                     '/libero/vivamus-accumsan-libero.html' => Page::fromFile(self::ROOT_DIRECTORY, self::ROOT_DIRECTORY . '/libero/vivamus-accumsan-libero.md'),
-            ],
+                ],
             ],
             [
                 ['layout' => 'article.html'], 2, 2, 'date:desc', [

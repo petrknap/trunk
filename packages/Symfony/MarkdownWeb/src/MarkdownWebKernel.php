@@ -30,7 +30,7 @@ class MarkdownWebKernel extends Kernel // TODO create MicroKernel
 
     protected function configureRoutes(RouteCollectionBuilder $routes)
     {
-        $routes->import(__DIR__.'/Controller', '/', 'annotation');
+        $routes->import(__DIR__ . '/Controller', '/', 'annotation');
     }
 
     protected function configureContainer(ContainerBuilder $c, LoaderInterface $loader)
