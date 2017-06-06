@@ -1,6 +1,0 @@
-*
-!/cache/
-!/logs/
-!/sessions/
-!/.htaccess
-!/.gitignore

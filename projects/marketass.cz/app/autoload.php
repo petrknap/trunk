@@ -1,11 +1,11 @@
 <?php
 
-use Doctrine\Common\Annotations\AnnotationRegistry;
-use Composer\Autoload\ClassLoader;
+/** @var Composer\Autoload\ClassLoader $loader */
+$loader = require __DIR__ . '/../vendor/netpromotion/symfony-up/src/autoload.php';
 
-/** @var ClassLoader $loader */
-$loader = require __DIR__.'/../vendor/autoload.php';
-
-AnnotationRegistry::registerLoader([$loader, 'loadClass']);
+$loader->addClassMap([
+    AppKernel::class => __DIR__ . '/AppKernel.php',
+    AppTestCase::class => __DIR__ . '/../tests/AppTestCase.php',
+]);
 
 return $loader;
