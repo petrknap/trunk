@@ -36,9 +36,10 @@ class Page
     /**
      * @param string $rootDirectory
      * @param string $pathToFile
+     * @param callable $urlModifier
      * @return $this|null
      */
-    public static function fromFile($rootDirectory, $pathToFile)
+    public static function fromFile($rootDirectory, $pathToFile, callable $urlModifier)
     {
         $file = new \SplFileInfo($pathToFile);
 
@@ -66,7 +67,7 @@ class Page
             $file->getRealPath()
         );
 
-        $parameters = array_merge($parameters, ["url" => $url]);
+        $parameters = array_merge($parameters, ["url" => call_user_func($urlModifier, $url)]);
 
         return new static($parameters, $content);
     }

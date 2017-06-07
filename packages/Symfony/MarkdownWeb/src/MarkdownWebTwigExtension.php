@@ -2,6 +2,7 @@
 
 namespace PetrKnap\Symfony\MarkdownWeb;
 
+use PetrKnap\Symfony\MarkdownWeb\Controller\DefaultController;
 use PetrKnap\Symfony\MarkdownWeb\Service\Crawler;
 use Twig_Extension;
 
@@ -22,10 +23,16 @@ class MarkdownWebTwigExtension extends Twig_Extension
      */
     private $site;
 
-    public function __construct(\Twig_Environment $twig, Crawler $crawler)
+    /**
+     * @var DefaultController
+     */
+    private $controller;
+
+    public function __construct(\Twig_Environment $twig, Crawler $crawler, DefaultController $controller)
     {
         $this->twig = $twig;
         $this->crawler = $crawler;
+        $this->controller = $controller;
     }
 
     public function setSite(array $site)
@@ -41,7 +48,7 @@ class MarkdownWebTwigExtension extends Twig_Extension
                 function (array $context, $template, array $filters, $sortBy = null, $paginationStep = null) {
                     return $this->twig->render($template, array_merge_recursive($context, [
                         "site" => $this->site,
-                        "pages" => $this->crawler->getIndex()->getPages($filters, $sortBy, $context['page_number'], $paginationStep)
+                        "pages" => $this->crawler->getIndex([$this->controller, "urlModifier"])->getPages($filters, $sortBy, $context['page_number'], $paginationStep)
                     ]));
                 },
                 [
@@ -55,7 +62,7 @@ class MarkdownWebTwigExtension extends Twig_Extension
                     return $this->twig->render($template, array_merge_recursive($context, [
                         "site" => $this->site,
                         "steps" => ceil(
-                            count($this->crawler->getIndex()->getPages($filters)) / $paginationStep
+                            count($this->crawler->getIndex([$this->controller, "urlModifier"])->getPages($filters)) / $paginationStep
                         )
                     ]));
                 },

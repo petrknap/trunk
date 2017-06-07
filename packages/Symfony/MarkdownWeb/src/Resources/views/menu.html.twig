@@ -7,7 +7,7 @@
 {% endblock %}
 
 {% block item %}
-    <li{% if item.url == page.url or (item.url|length > 1 and item.url|last == "/" and page.url starts with item.url) %} class="active"{% endif %}>
+    <li{% if item.url == page.url or (item.url|length > base_uri|length and item.url|last == "/" and page.url starts with item.url) %} class="active"{% endif %}>
         {% block item_content %}
             <a href="{{ item.url }}">{{ item.title }}</a>
         {% endblock %}

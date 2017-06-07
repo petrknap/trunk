@@ -15,6 +15,11 @@ use const PetrKnap\Symfony\MarkdownWeb\CRAWLER_SERVICE;
 class DefaultController extends Controller
 {
     /**
+     * @var string|null
+     */
+    private $route;
+
+    /**
      * @Route("/{url}", defaults={"url" = ""}, requirements={"url"=".*"})
      * @param Request $request
      * @param string $url
@@ -22,17 +27,18 @@ class DefaultController extends Controller
      */
     public function defaultAction(Request $request, $url)
     {
+        $this->route = $request->get('_route');
         $pageNumber = $request->get("page");
         if (1 == $pageNumber) {
             return $this->redirectToRoute(
-                $request->get('_route'),
+                $this->route,
                 [
                     "url" => $url
                 ]
             );
         }
         $pageNumber = null === $pageNumber ? 1 : $pageNumber;
-        $url = "/" . $url;
+        $url = $this->urlModifier("/" . $url);
 
         $config = $this->get(BUNDLE_ALIAS . '.config');
         if ($config['cached']) { // TODO test it
@@ -58,19 +64,32 @@ class DefaultController extends Controller
     {
         /** @var Crawler $crawler */
         $crawler = $this->container->get(CRAWLER_SERVICE);
-        $page = $crawler->getIndex()->getPage($url);
+        $page = $crawler->getIndex([$this, "urlModifier"])->getPage($url);
 
         if (!$page) {
-            throw new NotFoundHttpException();
+            throw new NotFoundHttpException("Page with url '{$url}' not found");
         }
 
         return $page->getResponse(function ($view, $parameters) use ($url, $pageNumber) {
             $config = $this->get(BUNDLE_ALIAS . ".config");
+
+            /** @noinspection PhpInternalEntityUsedInspection */
             return $this->renderView($view, [
                     "url" => $url,
                     "page_number" => $pageNumber,
-                    "site" => $config["site"]
+                    "site" => $config["site"],
+                    "base_uri" => $this->urlModifier("/"),
                 ] + $parameters);
         });
+    }
+
+    public function urlModifier($url)
+    {
+        return $this->generateUrl(
+            $this->route,
+            [
+                "url" => substr($url, 1)
+            ]
+        );
     }
 }

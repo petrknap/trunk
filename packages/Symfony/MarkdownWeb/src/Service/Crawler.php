@@ -46,9 +46,10 @@ class Crawler
     }
 
     /**
+     * @param callable $urlModifier
      * @return Index
      */
-    public function getIndex()
+    public function getIndex(callable $urlModifier)
     {
         static $index;
 
@@ -56,7 +57,8 @@ class Crawler
             /** @noinspection PhpParamsInspection */
             $index = Index::fromFiles(
                 $this->directory,
-                $this->getFiles($this->directory)
+                $this->getFiles($this->directory),
+                $urlModifier
             );
         }
 

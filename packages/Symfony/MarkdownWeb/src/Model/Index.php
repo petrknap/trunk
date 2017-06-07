@@ -20,13 +20,14 @@ class Index
     /**
      * @param string $rootDirectory
      * @param array $files
+     * @param callable $urlModifier
      * @return $this
      */
-    public static function fromFiles($rootDirectory, array $files)
+    public static function fromFiles($rootDirectory, array $files, callable $urlModifier)
     {
         $pages = [];
         foreach ($files as $file) {
-            $page = Page::fromFile($rootDirectory, $file);
+            $page = Page::fromFile($rootDirectory, $file, $urlModifier);
             $pages[$page->getParameters()["url"]] = $page;
         }
 
