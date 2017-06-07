@@ -4,7 +4,7 @@ imports:
 framework:
   secret: %secret%
   session:
-    save_path: '%kernel.project_dir%/var/sessions'
+    save_path: '%kernel.project_dir%/var/sessions/%kernel.environment%'
   http_method_override: true
   trusted_hosts: %trusted_hosts%
   assets:
