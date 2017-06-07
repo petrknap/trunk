@@ -28,4 +28,24 @@ class AppKernel extends UpKernel
 
         return $bundles;
     }
+
+    public function getProjectDir()
+    {
+        return __DIR__ . '/..';
+    }
+
+    public function getRootDir()
+    {
+        return $this->getProjectDir() . '/app';
+    }
+
+    public function getCacheDir()
+    {
+        return $this->getProjectDir() . '/var/cache/' . $this->getEnvironment();
+    }
+
+    public function getLogDir()
+    {
+        return $this->getProjectDir() . '/var/logs';
+    }
 }

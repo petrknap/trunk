@@ -6,6 +6,8 @@ docker-run:
 	make clean
 
 web-server: clean
+	make web-console ARGS="cache:clear --env dev"
+	make web-console ARGS="cache:clear --env prod"
 	sudo docker run -v $$(pwd)/../..:/var/www/html --rm marketass.cz
 
 web-console: clean
@@ -16,9 +18,7 @@ web-cache:
 
 clean:
 	(cd ../../ && make clean)
-	sudo chmod 0777 ./app/cache -R
-	sudo chmod 0777 ./app/logs -R
-	sudo chmod 0777 ./app/sessions -R
+	sudo chmod 0777 ./var -R | true
 
 composer:
 	make docker-run ARGS="composer ${ARGS}"

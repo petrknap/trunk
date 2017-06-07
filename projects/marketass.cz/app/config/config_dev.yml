@@ -3,7 +3,7 @@ imports:
 
 framework:
   profiler:
-    only_exceptions: false # this allows toolbar on every page
+    enabled: true
 
 web_profiler:
   toolbar: true

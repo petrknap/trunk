@@ -1,7 +1,10 @@
 <?php
 
 use Netpromotion\SymfonyUp\SymfonyUp;
+use Symfony\Component\HttpFoundation\Request;
 
 require_once __DIR__ . '/../app/autoload.php';
 
-SymfonyUp::createFromKernelClass(AppKernel::class)->runWeb('dev', true);
+Request::enableHttpMethodParameterOverride(); // remove this line if kernel.http_method_override = false
+
+SymfonyUp::createFromKernelClass(AppKernel::class)->runWeb();

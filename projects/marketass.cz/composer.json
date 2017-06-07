@@ -8,14 +8,14 @@
         }
     ],
     "require": {
-        "netpromotion/symfony-up": "*",
+        "netpromotion/symfony-up": "^1.0",
         "petrknap/symfony-markdownweb": "*",
-        "symfony/asset": "^3.3",
-        "symfony/templating": "^3.3",
+        "symfony/asset": "^3.1",
+        "symfony/templating": "^3.1",
         "symfony/monolog-bundle": "^3.1"
     },
     "require-dev": {
-        "symfony/debug-bundle": "^3.3",
-        "symfony/web-profiler-bundle": "^3.3"
+        "symfony/debug-bundle": "^3.1",
+        "symfony/web-profiler-bundle": "^3.1"
     }
 }

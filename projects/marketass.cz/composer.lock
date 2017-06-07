@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "bab95b55b9076b886e4c1ea9603d1815",
+    "content-hash": "5c49090b501d1cfbc935dcc11eca53a7",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -561,16 +561,16 @@
         },
         {
             "name": "netpromotion/symfony-up",
-            "version": "dev-master",
+            "version": "v1.0.0-rc3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/netpromotion/symfony-up.git",
-                "reference": "6ed470bcc4bf327696aaff0c4d0792f0cb591284"
+                "reference": "786bce17268ba8e21cfa2675b647ed69ef4818f3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/netpromotion/symfony-up/zipball/6ed470bcc4bf327696aaff0c4d0792f0cb591284",
-                "reference": "6ed470bcc4bf327696aaff0c4d0792f0cb591284",
+                "url": "https://api.github.com/repos/netpromotion/symfony-up/zipball/786bce17268ba8e21cfa2675b647ed69ef4818f3",
+                "reference": "786bce17268ba8e21cfa2675b647ed69ef4818f3",
                 "shasum": ""
             },
             "require": {
@@ -616,9 +616,9 @@
                     "email": "halaxa@netpromotion.cz"
                 }
             ],
-            "description": "Package for rapid simplification of Symfony applications and their development",
+            "description": "Up your Symfony App with Symfony Up!",
             "homepage": "https://github.com/netpromotion/symfony-up",
-            "time": "2017-06-06 20:46:58"
+            "time": "2017-06-07T15:07:43+00:00"
         },
         {
             "name": "petrknap/symfony-markdownweb",
@@ -626,12 +626,12 @@
             "dist": {
                 "type": "path",
                 "url": "../../packages/Symfony/MarkdownWeb",
-                "reference": "466e42d1c007e359d5e38677ad781614df424813",
+                "reference": "6e5b5982a7832c7ecab4f2d2b0477c87fb7314b3",
                 "shasum": null
             },
             "require": {
                 "mnapoli/front-yaml": "^1.5",
-                "netpromotion/symfony-up": "dev-master",
+                "netpromotion/symfony-up": "^1.0",
                 "php": ">=5.6",
                 "sensio/framework-extra-bundle": "^3.0",
                 "symfony/cache": "^3.2",

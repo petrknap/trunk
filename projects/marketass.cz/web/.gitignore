@@ -1,1 +1,7 @@
-*.md
+*
+!/.gitignore
+!/.htaccess
+!/app.php
+!/app_dev.php
+!/script.js
+!/style.css
