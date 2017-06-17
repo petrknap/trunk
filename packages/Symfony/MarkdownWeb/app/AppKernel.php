@@ -1,25 +1,28 @@
 <?php
 
-namespace PetrKnap\Symfony\MarkdownWeb\Test;
-
+use Netpromotion\SymfonyUp\AppKernelTrait;
 use Netpromotion\SymfonyUp\UpKernel;
 use PetrKnap\Symfony\MarkdownWeb\MarkdownWebBundle;
+use Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle;
 use Symfony\Bundle\FrameworkBundle\FrameworkBundle;
 use Symfony\Bundle\TwigBundle\TwigBundle;
 
-class TestKernel extends UpKernel
+class AppKernel extends UpKernel
 {
+    use AppKernelTrait;
+
     public function registerBundles()
     {
         return [
             new FrameworkBundle(),
             new TwigBundle(),
+            new SensioFrameworkExtraBundle(),
             new MarkdownWebBundle(),
         ];
     }
 
-    public function getRootDir()
+    public function getProjectDir()
     {
-        return __DIR__ . '/../app';
+        return __DIR__ . '/..';
     }
 }

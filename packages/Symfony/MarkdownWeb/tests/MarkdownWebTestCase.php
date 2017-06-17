@@ -2,15 +2,10 @@
 
 namespace PetrKnap\Symfony\MarkdownWeb\Test;
 
-use Netpromotion\SymfonyUp\UpTestCase;
+require_once __DIR__ . '/../app/autoload.php';
 
-class TestCase extends UpTestCase
+class MarkdownWebTestCase extends \AppTestCase
 {
-    protected static function getKernelClass()
-    {
-        return TestKernel::class;
-    }
-
     protected function invoke(array $callable, array $arguments = [])
     {
         $object = $callable[0];

@@ -4,10 +4,10 @@ namespace PetrKnap\Symfony\MarkdownWeb\Test\Service;
 
 use PetrKnap\Symfony\MarkdownWeb\Model\Index;
 use PetrKnap\Symfony\MarkdownWeb\Service\Crawler;
-use PetrKnap\Symfony\MarkdownWeb\Test\TestCase;
+use PetrKnap\Symfony\MarkdownWeb\Test\MarkdownWebTestCase;
 use const PetrKnap\Symfony\MarkdownWeb\CRAWLER_SERVICE;
 
-class CrawlerTest extends TestCase
+class CrawlerTest extends MarkdownWebTestCase
 {
     private function getPageDir()
     {

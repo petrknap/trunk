@@ -4,10 +4,10 @@ namespace PetrKnap\Symfony\MarkdownWeb\Test\Model;
 
 use PetrKnap\Symfony\MarkdownWeb\Model\Index;
 use PetrKnap\Symfony\MarkdownWeb\Model\Page;
-use PetrKnap\Symfony\MarkdownWeb\Test\TestCase;
+use PetrKnap\Symfony\MarkdownWeb\Test\MarkdownWebTestCase;
 use const PetrKnap\Symfony\MarkdownWeb\CRAWLER_SERVICE;
 
-class IndexTest extends TestCase
+class IndexTest extends MarkdownWebTestCase
 {
     const ROOT_DIRECTORY = __DIR__ . '/../../src/Resources/demo';
 
