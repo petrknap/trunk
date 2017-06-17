@@ -2,6 +2,9 @@
 
 namespace PetrKnap\Symfony\MarkdownWeb\Controller;
 
+use const PetrKnap\Symfony\MarkdownWeb\CONFIG;
+use const PetrKnap\Symfony\MarkdownWeb\CONTROLLER;
+use const PetrKnap\Symfony\MarkdownWeb\CRAWLER_SERVICE;
 use PetrKnap\Symfony\MarkdownWeb\Service\Crawler;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -9,8 +12,6 @@ use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use const PetrKnap\Symfony\MarkdownWeb\BUNDLE_ALIAS;
-use const PetrKnap\Symfony\MarkdownWeb\CRAWLER_SERVICE;
 
 class DefaultController extends Controller
 {
@@ -40,9 +41,9 @@ class DefaultController extends Controller
         $pageNumber = null === $pageNumber ? 1 : $pageNumber;
         $url = $this->urlModifier("/" . $url);
 
-        $config = $this->get(BUNDLE_ALIAS . '.config');
+        $config = $this->get(CONFIG);
         if ($config['cached']) { // TODO test it
-            $cache = new FilesystemAdapter(BUNDLE_ALIAS . ".default_controller");
+            $cache = new FilesystemAdapter(CONTROLLER);
             $cached = $cache->getItem(str_replace(
                 ['+', '/', '='],
                 ['_', '-', ''],
@@ -63,7 +64,7 @@ class DefaultController extends Controller
     private function createResponse($url, $pageNumber)
     {
         /** @var Crawler $crawler */
-        $crawler = $this->container->get(CRAWLER_SERVICE);
+        $crawler = $this->get(CRAWLER_SERVICE);
         $page = $crawler->getIndex([$this, "urlModifier"])->getPage($url);
 
         if (!$page) {
@@ -71,7 +72,7 @@ class DefaultController extends Controller
         }
 
         return $page->getResponse(function ($view, $parameters) use ($url, $pageNumber) {
-            $config = $this->get(BUNDLE_ALIAS . ".config");
+            $config = $this->get(CONFIG);
 
             /** @noinspection PhpInternalEntityUsedInspection */
             return $this->renderView($view, [

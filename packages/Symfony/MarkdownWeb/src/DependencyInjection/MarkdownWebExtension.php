@@ -2,11 +2,13 @@
 
 namespace PetrKnap\Symfony\MarkdownWeb\DependencyInjection;
 
+use const PetrKnap\Symfony\MarkdownWeb\CONFIG;
+use const PetrKnap\Symfony\MarkdownWeb\CRAWLER_SERVICE;
+use const PetrKnap\Symfony\MarkdownWeb\TWIG_EXTENSION;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
-use const PetrKnap\Symfony\MarkdownWeb\BUNDLE_ALIAS;
 
 class MarkdownWebExtension extends Extension
 {
@@ -21,19 +23,15 @@ class MarkdownWebExtension extends Extension
         );
         $loader->load('config.yml');
 
-        $crawlerDefinition = $container->getDefinition(BUNDLE_ALIAS . '.config');
+        $crawlerDefinition = $container->getDefinition(CONFIG);
         $crawlerDefinition->setArguments([$config]);
 
-        $crawlerDefinition = $container->getDefinition(BUNDLE_ALIAS . '.crawler');
+        $crawlerDefinition = $container->getDefinition(CRAWLER_SERVICE);
         $crawlerDefinition->setArguments([
             $config['directory'],
         ]);
 
-        $twigExtensionDefinition = $container->getDefinition(BUNDLE_ALIAS . '.twig');
+        $twigExtensionDefinition = $container->getDefinition(TWIG_EXTENSION);
         $twigExtensionDefinition->addMethodCall('setSite', [$config['site']]);
-
-        $this->addClassesToCompile([
-            // TODO
-        ]);
     }
 }
