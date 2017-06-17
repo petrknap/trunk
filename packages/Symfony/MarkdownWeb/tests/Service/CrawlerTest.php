@@ -42,6 +42,8 @@ class CrawlerTest extends TestCase
 
     public function testBuildsIndex()
     {
-        $this->assertInstanceOf(Index::class, $this->getCrawler()->getIndex());
+        $this->assertInstanceOf(Index::class, $this->getCrawler()->getIndex(function ($url) {
+            return $url;
+        }));
     }
 }

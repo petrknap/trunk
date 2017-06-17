@@ -67,7 +67,10 @@ class Page
             $file->getRealPath()
         );
 
-        $parameters = array_merge($parameters, ["url" => call_user_func($urlModifier, $url)]);
+        $parameters = array_merge($parameters, [
+            "url" => call_user_func($urlModifier, $url),
+            "extension" => $extension,
+        ]);
 
         return new static($parameters, $content);
     }
@@ -109,7 +112,16 @@ class Page
             Response::HTTP_OK
         );
 
-        // TODO mime type $response->headers->add();
+        switch ($parameters["extension"]) {
+            case "xml":
+                $contentType = "application/xml";
+                break;
+            default:
+                $contentType = "text/html";
+                break;
+        }
+
+        $response->headers->add(["Content-Type" => $contentType]);
 
         return $response;
     }

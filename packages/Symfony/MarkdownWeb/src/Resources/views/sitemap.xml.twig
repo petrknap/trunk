@@ -1,1 +1,27 @@
-<TODO/>
+{% extends "@MarkdownWeb/list.html.twig" %}
+
+{% block list %}
+{% spaceless %}
+{% if pages is defined %}
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+    {% block list_content %}{{ parent() }}{% endblock %}
+</urlset>
+{% else %}
+
+    {% block renderer %}
+        {{ render_index("@MarkdownWeb/sitemap.xml.twig", {"!url": page.url}, "url:asc") }}
+    {% endblock %}
+{% endif %}
+{% endspaceless %}
+{% endblock %}
+
+{% block item %}
+<url>
+    {% block item_content %}
+        <loc>{{ absolute_url(item.url) }}</loc>
+    {% endblock %}
+</url>
+{% endblock %}
