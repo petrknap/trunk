@@ -2,22 +2,22 @@ imports:
   - resource: parameters.yml
 
 framework:
-  secret: %secret%
+  secret: '%secret%'
   session:
     save_path: '%kernel.project_dir%/var/sessions/%kernel.environment%'
   http_method_override: true
-  trusted_hosts: %trusted_hosts%
+  trusted_hosts: '%trusted_hosts%'
   assets:
-    version: %assets.version%
-    version_format: %%s?version=%%s
+    version: '%assets.version%'
+    version_format: '%%s?version=%%s'
   php_errors:
     log: true
   templating:
     engines: ['twig']
 
 twig:
-  debug: %kernel.debug%
-  strict_variables: %kernel.debug%
+  debug: '%kernel.debug%'
+  strict_variables: '%kernel.debug%'
 
 markdown_web:
   directory: '%kernel.project_dir%/web/'

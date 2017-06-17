@@ -561,16 +561,16 @@
         },
         {
             "name": "netpromotion/symfony-up",
-            "version": "v1.0.0-rc3",
+            "version": "v1.0.0-rc7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/netpromotion/symfony-up.git",
-                "reference": "786bce17268ba8e21cfa2675b647ed69ef4818f3"
+                "reference": "857d9a24809b06d4f757e8e753289c627d8c1cb0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/netpromotion/symfony-up/zipball/786bce17268ba8e21cfa2675b647ed69ef4818f3",
-                "reference": "786bce17268ba8e21cfa2675b647ed69ef4818f3",
+                "url": "https://api.github.com/repos/netpromotion/symfony-up/zipball/857d9a24809b06d4f757e8e753289c627d8c1cb0",
+                "reference": "857d9a24809b06d4f757e8e753289c627d8c1cb0",
                 "shasum": ""
             },
             "require": {
@@ -616,9 +616,9 @@
                     "email": "halaxa@netpromotion.cz"
                 }
             ],
-            "description": "Up your Symfony App with Symfony Up!",
-            "homepage": "https://github.com/netpromotion/symfony-up",
-            "time": "2017-06-07T15:07:43+00:00"
+            "description": "Up your Symfony App!",
+            "homepage": "https://netpromotion.github.io/symfony-up/",
+            "time": "2017-06-14T13:08:29+00:00"
         },
         {
             "name": "petrknap/symfony-markdownweb",

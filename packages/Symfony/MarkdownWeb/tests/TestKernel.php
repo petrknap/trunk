@@ -2,12 +2,12 @@
 
 namespace PetrKnap\Symfony\MarkdownWeb\Test;
 
-use Netpromotion\SymfonyUp\AppKernel;
+use Netpromotion\SymfonyUp\UpKernel;
 use PetrKnap\Symfony\MarkdownWeb\MarkdownWebBundle;
 use Symfony\Bundle\FrameworkBundle\FrameworkBundle;
 use Symfony\Bundle\TwigBundle\TwigBundle;
 
-class TestKernel extends AppKernel
+class TestKernel extends UpKernel
 {
     public function registerBundles()
     {

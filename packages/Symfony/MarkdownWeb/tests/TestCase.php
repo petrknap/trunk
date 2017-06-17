@@ -2,9 +2,9 @@
 
 namespace PetrKnap\Symfony\MarkdownWeb\Test;
 
-use Netpromotion\SymfonyUp\AppTestCase;
+use Netpromotion\SymfonyUp\UpTestCase;
 
-class TestCase extends AppTestCase
+class TestCase extends UpTestCase
 {
     protected static function getKernelClass()
     {

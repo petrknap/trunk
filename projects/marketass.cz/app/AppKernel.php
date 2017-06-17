@@ -1,5 +1,6 @@
 <?php
 
+use Netpromotion\SymfonyUp\AppKernelTrait;
 use Netpromotion\SymfonyUp\UpKernel;
 use PetrKnap\Symfony\MarkdownWeb\MarkdownWebBundle;
 use Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle;
@@ -11,6 +12,8 @@ use Symfony\Bundle\WebProfilerBundle\WebProfilerBundle;
 
 class AppKernel extends UpKernel
 {
+    use AppKernelTrait;
+
     public function registerBundles()
     {
         $bundles = [
@@ -32,20 +35,5 @@ class AppKernel extends UpKernel
     public function getProjectDir()
     {
         return __DIR__ . '/..';
-    }
-
-    public function getRootDir()
-    {
-        return $this->getProjectDir() . '/app';
-    }
-
-    public function getCacheDir()
-    {
-        return $this->getProjectDir() . '/var/cache/' . $this->getEnvironment();
-    }
-
-    public function getLogDir()
-    {
-        return $this->getProjectDir() . '/var/logs';
     }
 }
