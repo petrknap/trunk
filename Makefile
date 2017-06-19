@@ -72,7 +72,7 @@ tests-on-packages:
 		make docker-run-symfony ARGS="cd $${package} && composer update && vendor/bin/phpunit ${ARGS}"; \
 	done
 
-publish: publish-web tests
+publish: tests publish-web
 	git subsplit init https://github.com/petrknap/trunk
 	git subsplit publish --heads=master --update "packages/Php/Enum:git@github.com:petrknap/php-enum.git packages/Php/FileStorage:git@github.com:petrknap/php-filestorage.git packages/Php/MigrationTool:git@github.com:petrknap/php-migrationtool.git packages/Php/Profiler:git@github.com:petrknap/php-profiler.git packages/Php/ServiceManager:git@github.com:petrknap/php-servicemanager.git packages/Php/Singleton:git@github.com:petrknap/php-singleton.git" #generated php
 	git subsplit publish --heads=master --update "packages/Nette/Bootstrap:git@github.com:petrknap/nette-bootstrap.git" #generated nette
