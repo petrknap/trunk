@@ -51,15 +51,10 @@ And now the **same code with Enum** instead of Constants:
 ```php
 <?php
 
-class MyBoolean extends \PetrKnap\Php\Enum\Enum
+class MyBoolean extends \PetrKnap\Php\Enum\ConstEnum
 {
-    protected function members()
-    {
-        return [
-            "MY_TRUE" => 1,
-            "MY_FALSE" => 2
-        ];
-    }
+    const MY_TRUE = 1;
+    const MY_FALSE = 2;
 }
 
 function isTrue(MyBoolean $myBoolean)
@@ -87,20 +82,15 @@ isTrue(false);                 // uncaught type error - OK
 ```php
 <?php
 
-class DayOfWeek extends \PetrKnap\Php\Enum\Enum
+class DayOfWeek extends \PetrKnap\Php\Enum\ConstEnum
 {
-    protected function members()
-    {
-        return [
-            "SUNDAY" => 0,
-            "MONDAY" => 1,
-            "TUESDAY" => 2,
-            "WEDNESDAY" => 3,
-            "THURSDAY" => 4,
-            "FRIDAY" => 5,
-            "SATURDAY" => 6
-        ];
-    }
+    const SUNDAY = 0;
+    const MONDAY = 1;
+    const TUESDAY = 2;
+    const WEDNESDAY = 3;
+    const THURSDAY = 4;
+    const FRIDAY = 5;
+    const SATURDAY = 6;
 }
 ```
 
