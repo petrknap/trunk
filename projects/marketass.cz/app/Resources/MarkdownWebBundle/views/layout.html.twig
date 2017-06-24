@@ -1,6 +1,8 @@
 {% extends "@MarkdownWeb/layout.base.html.twig" %}
 
 {% block meta %}
+    <base href="{{ base_uri | replace({'/app_dev.php': ''}) }}">
+
     {% if page.tags is defined %}
         <meta name="keywords" content="{{ page.tags | join(', ') }}">
     {% endif %}
