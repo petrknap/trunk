@@ -87,7 +87,7 @@ isTrue(false);                 // uncaught type error - OK
 class DayOfWeek extends \PetrKnap\Php\Enum\Enum
 {
     use \PetrKnap\Php\Enum\ConstantsAsMembers;
-    
+
     const SUNDAY = 0;
     const MONDAY = 1;
     const TUESDAY = 2;
