@@ -181,7 +181,11 @@ class PhpSynchronizer
     {
         $this->write(
             __DIR__ . "/../packages/" . $this->context ."/" . $package . "/phpunit.xml",
-            str_replace("vendor/" . strtolower($this->context), "vendor", $this->read(__DIR__ . "/../" . strtolower($this->context) . ".phpunit.xml"))
+            str_replace(
+                ["vendor/" . strtolower($this->context), "packages/" . $this->context . "/*/tests"],
+                ["vendor", "tests"],
+                $this->read(__DIR__ . "/../" . strtolower($this->context) . ".phpunit.xml")
+            )
         );
     }
 

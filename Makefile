@@ -52,13 +52,13 @@ tests: composer-install
 	make tests-symfony ARGS="${ARGS}"
 
 tests-php:
-	make docker-run-php ARGS="vendor/php/bin/phpunit packages/Php -c php.phpunit.xml --testdox-text php.phpunit.log ${ARGS}"
+	make docker-run-php ARGS="vendor/php/bin/phpunit -c php.phpunit.xml --testdox-text php.phpunit.log ${ARGS}"
 
 tests-nette:
-	make docker-run-nette ARGS="vendor/nette/bin/phpunit packages/Nette -c nette.phpunit.xml --testdox-text nette.phpunit.log ${ARGS}"
+	make docker-run-nette ARGS="vendor/nette/bin/phpunit -c nette.phpunit.xml --testdox-text nette.phpunit.log ${ARGS}"
 
 tests-symfony:
-	make docker-run-symfony ARGS="vendor/symfony/bin/phpunit packages/Symfony -c symfony.phpunit.xml --testdox-text symfony.phpunit.log ${ARGS}"
+	make docker-run-symfony ARGS="vendor/symfony/bin/phpunit -c symfony.phpunit.xml --testdox-text symfony.phpunit.log ${ARGS}"
 
 tests-on-packages:
 	rsync -r --delete --exclude=composer.lock --exclude=vendor packages/ temp/packages/;
