@@ -3,6 +3,7 @@
 !/.htaccess
 !/app.php
 !/app_dev.php
+!/robots.txt
 !/script.js
 !/sitemap.md
 !/style.css
