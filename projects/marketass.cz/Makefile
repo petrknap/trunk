@@ -14,7 +14,7 @@ web-console: clean
 	make docker-run ARGS="php bin/console ${ARGS}"
 
 web-cache:
-	make web-console ARGS="markdown-web:build-cache ${ARGS}"
+	make web-console ARGS="markdown-web:build-cache ${ARGS} --env prod"
 
 clean:
 	(cd ../../ && make clean)

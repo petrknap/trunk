@@ -3,36 +3,32 @@
 namespace PetrKnap\Symfony\MarkdownWeb\Controller;
 
 use const PetrKnap\Symfony\MarkdownWeb\CONFIG;
-use const PetrKnap\Symfony\MarkdownWeb\CONTROLLER;
+use const PetrKnap\Symfony\MarkdownWeb\CONTROLLER_CACHE;
 use const PetrKnap\Symfony\MarkdownWeb\CRAWLER_SERVICE;
 use PetrKnap\Symfony\MarkdownWeb\Service\Crawler;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\Cache\Adapter\FilesystemAdapter;
+use Symfony\Component\Cache\Adapter\AdapterInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class DefaultController extends Controller
 {
-    /**
-     * @var string|null
-     */
-    private $route;
+    const ROUTE = "markdown_web";
 
     /**
-     * @Route("/{url}", defaults={"url" = ""}, requirements={"url"=".*"})
+     * @Route("/{url}", defaults={"url" = ""}, requirements={"url"=".*"}, name="markdown_web")
      * @param Request $request
      * @param string $url
      * @return Response
      */
     public function defaultAction(Request $request, $url)
     {
-        $this->route = $request->get('_route');
         $pageNumber = $request->get("page");
         if (1 == $pageNumber) {
             return $this->redirectToRoute(
-                $this->route,
+                static::ROUTE,
                 [
                     "url" => $url
                 ]
@@ -42,8 +38,9 @@ class DefaultController extends Controller
         $url = $this->urlModifier("/" . $url);
 
         $config = $this->get(CONFIG);
-        if ($config['cached']) { // TODO test it
-            $cache = new FilesystemAdapter(CONTROLLER);
+        if ($config['cache']['enabled']) { // TODO test it
+            /** @var AdapterInterface $cache */
+            $cache = $this->get(CONTROLLER_CACHE);
             $cached = $cache->getItem(str_replace(
                 ['+', '/', '='],
                 ['_', '-', ''],
@@ -87,7 +84,7 @@ class DefaultController extends Controller
     public function urlModifier($url)
     {
         return $this->generateUrl(
-            $this->route,
+            static::ROUTE,
             [
                 "url" => substr($url, 1)
             ]

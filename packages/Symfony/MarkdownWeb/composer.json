@@ -7,7 +7,8 @@
         "symfony/cache": "^3.2",
         "symfony/twig-bundle": "^3.2",
         "sensio/framework-extra-bundle": "^3.0",
-        "mnapoli/front-yaml": "^1.5"
+        "mnapoli/front-yaml": "^1.5",
+        "symfony/console": "^3.3"
     },
     "WARNING": "This file is updated automatically. All keys will be overwritten, except of 'description', 'require' and 'conflict'.",
     "name": "petrknap/symfony-markdownweb",

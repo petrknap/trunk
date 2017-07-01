@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "5c49090b501d1cfbc935dcc11eca53a7",
+    "content-hash": "babc676c491d94f033b30cfa9a5e65df",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -483,16 +483,16 @@
         },
         {
             "name": "monolog/monolog",
-            "version": "1.22.1",
+            "version": "1.23.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Seldaek/monolog.git",
-                "reference": "1e044bc4b34e91743943479f1be7a1d5eb93add0"
+                "reference": "fd8c787753b3a2ad11bc60c063cff1358a32a3b4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/1e044bc4b34e91743943479f1be7a1d5eb93add0",
-                "reference": "1e044bc4b34e91743943479f1be7a1d5eb93add0",
+                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/fd8c787753b3a2ad11bc60c063cff1358a32a3b4",
+                "reference": "fd8c787753b3a2ad11bc60c063cff1358a32a3b4",
                 "shasum": ""
             },
             "require": {
@@ -513,7 +513,7 @@
                 "phpunit/phpunit-mock-objects": "2.3.0",
                 "ruflin/elastica": ">=0.90 <3.0",
                 "sentry/sentry": "^0.13",
-                "swiftmailer/swiftmailer": "~5.3"
+                "swiftmailer/swiftmailer": "^5.3|^6.0"
             },
             "suggest": {
                 "aws/aws-sdk-php": "Allow sending log messages to AWS services like DynamoDB",
@@ -557,20 +557,20 @@
                 "logging",
                 "psr-3"
             ],
-            "time": "2017-03-13T07:08:03+00:00"
+            "time": "2017-06-19T01:22:40+00:00"
         },
         {
             "name": "netpromotion/symfony-up",
-            "version": "v1.0.0-rc7",
+            "version": "v1.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/netpromotion/symfony-up.git",
-                "reference": "857d9a24809b06d4f757e8e753289c627d8c1cb0"
+                "reference": "ad05dda7f043d4d5d88b514d5ab6f94b8190304a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/netpromotion/symfony-up/zipball/857d9a24809b06d4f757e8e753289c627d8c1cb0",
-                "reference": "857d9a24809b06d4f757e8e753289c627d8c1cb0",
+                "url": "https://api.github.com/repos/netpromotion/symfony-up/zipball/ad05dda7f043d4d5d88b514d5ab6f94b8190304a",
+                "reference": "ad05dda7f043d4d5d88b514d5ab6f94b8190304a",
                 "shasum": ""
             },
             "require": {
@@ -590,8 +590,11 @@
                 "doctrine/common": "*",
                 "phpunit/phpunit": "^4.8",
                 "sensio/framework-extra-bundle": "^3.0",
-                "symfony/browser-kit": "^3.2",
                 "symfony/phpunit-bridge": "^3.2"
+            },
+            "suggest": {
+                "doctrine/common": "Registers an autoloading for annotations",
+                "symfony/asset": "Manages URL generation and versioning of web assets (uncomment `framework.assets` part of `app/config/config.yml`)"
             },
             "bin": [
                 "bin/symfony-up"
@@ -618,7 +621,7 @@
             ],
             "description": "Up your Symfony App!",
             "homepage": "https://netpromotion.github.io/symfony-up/",
-            "time": "2017-06-14T13:08:29+00:00"
+            "time": "2017-06-30T07:07:22+00:00"
         },
         {
             "name": "petrknap/symfony-markdownweb",
@@ -626,7 +629,7 @@
             "dist": {
                 "type": "path",
                 "url": "../../packages/Symfony/MarkdownWeb",
-                "reference": "6e5b5982a7832c7ecab4f2d2b0477c87fb7314b3",
+                "reference": "433745c7fbfce748de6cc0ec2f06973489323120",
                 "shasum": null
             },
             "require": {
@@ -635,6 +638,7 @@
                 "php": ">=5.6",
                 "sensio/framework-extra-bundle": "^3.0",
                 "symfony/cache": "^3.2",
+                "symfony/console": "^3.3",
                 "symfony/framework-bundle": "^3.2",
                 "symfony/twig-bundle": "^3.2"
             },
@@ -1907,16 +1911,16 @@
         },
         {
             "name": "symfony/polyfill-mbstring",
-            "version": "v1.3.0",
+            "version": "v1.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-mbstring.git",
-                "reference": "e79d363049d1c2128f133a2667e4f4190904f7f4"
+                "reference": "f29dca382a6485c3cbe6379f0c61230167681937"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-mbstring/zipball/e79d363049d1c2128f133a2667e4f4190904f7f4",
-                "reference": "e79d363049d1c2128f133a2667e4f4190904f7f4",
+                "url": "https://api.github.com/repos/symfony/polyfill-mbstring/zipball/f29dca382a6485c3cbe6379f0c61230167681937",
+                "reference": "f29dca382a6485c3cbe6379f0c61230167681937",
                 "shasum": ""
             },
             "require": {
@@ -1928,7 +1932,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.3-dev"
+                    "dev-master": "1.4-dev"
                 }
             },
             "autoload": {
@@ -1962,7 +1966,7 @@
                 "portable",
                 "shim"
             ],
-            "time": "2016-11-14T01:06:16+00:00"
+            "time": "2017-06-09T14:24:12+00:00"
         },
         {
             "name": "symfony/routing",
@@ -2358,20 +2362,21 @@
         },
         {
             "name": "twig/twig",
-            "version": "v1.34.2",
+            "version": "v2.4.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/twigphp/Twig.git",
-                "reference": "55e4beb721a044db9e31ae0470024fc205b6a008"
+                "reference": "eab7c3288ae6603d7d6f92b531626af2b162d1f2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twigphp/Twig/zipball/55e4beb721a044db9e31ae0470024fc205b6a008",
-                "reference": "55e4beb721a044db9e31ae0470024fc205b6a008",
+                "url": "https://api.github.com/repos/twigphp/Twig/zipball/eab7c3288ae6603d7d6f92b531626af2b162d1f2",
+                "reference": "eab7c3288ae6603d7d6f92b531626af2b162d1f2",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.3.3"
+                "php": "^7.0",
+                "symfony/polyfill-mbstring": "~1.0"
             },
             "require-dev": {
                 "psr/container": "^1.0",
@@ -2381,7 +2386,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.34-dev"
+                    "dev-master": "2.4-dev"
                 }
             },
             "autoload": {
@@ -2419,7 +2424,7 @@
             "keywords": [
                 "templating"
             ],
-            "time": "2017-06-06T03:56:50+00:00"
+            "time": "2017-06-07T18:47:58+00:00"
         }
     ],
     "packages-dev": [
@@ -2534,16 +2539,16 @@
         },
         {
             "name": "symfony/polyfill-php70",
-            "version": "v1.3.0",
+            "version": "v1.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-php70.git",
-                "reference": "13ce343935f0f91ca89605a2f6ca6f5c2f3faac2"
+                "reference": "032fd647d5c11a9ceab8ee8747e13b5448e93874"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-php70/zipball/13ce343935f0f91ca89605a2f6ca6f5c2f3faac2",
-                "reference": "13ce343935f0f91ca89605a2f6ca6f5c2f3faac2",
+                "url": "https://api.github.com/repos/symfony/polyfill-php70/zipball/032fd647d5c11a9ceab8ee8747e13b5448e93874",
+                "reference": "032fd647d5c11a9ceab8ee8747e13b5448e93874",
                 "shasum": ""
             },
             "require": {
@@ -2553,7 +2558,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.3-dev"
+                    "dev-master": "1.4-dev"
                 }
             },
             "autoload": {
@@ -2589,7 +2594,7 @@
                 "portable",
                 "shim"
             ],
-            "time": "2016-11-14T01:06:16+00:00"
+            "time": "2017-06-09T14:24:12+00:00"
         },
         {
             "name": "symfony/var-dumper",
@@ -2731,6 +2736,8 @@
     "stability-flags": [],
     "prefer-stable": true,
     "prefer-lowest": false,
-    "platform": [],
+    "platform": {
+        "php": "^7.1"
+    },
     "platform-dev": []
 }

@@ -1,10 +1,4 @@
 $(function () {
-    var year = (new Date()).getFullYear(), $year = $("footer .year");
-    //noinspection EqualityComparisonWithCoercionJS
-    if (year != $year.html()) {
-        $year.append(" - " + year);
-    }
-
     $("#toggle-menu").click(function () {
         $("#menu, #content").parent().toggleClass("active");
     });

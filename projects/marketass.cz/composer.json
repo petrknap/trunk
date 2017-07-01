@@ -8,6 +8,7 @@
         }
     ],
     "require": {
+        "php": "^7.1",
         "netpromotion/symfony-up": "^1.0",
         "petrknap/symfony-markdownweb": "*",
         "symfony/asset": "^3.1",

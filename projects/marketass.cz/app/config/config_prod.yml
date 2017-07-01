@@ -15,4 +15,6 @@ monolog:
       type: console
 
 markdown_web:
-  cached: true
+  cache:
+    enabled: true
+    max_age: 604800 # 1 week
