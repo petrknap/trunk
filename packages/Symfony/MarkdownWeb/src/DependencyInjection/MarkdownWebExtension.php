@@ -2,16 +2,16 @@
 
 namespace PetrKnap\Symfony\MarkdownWeb\DependencyInjection;
 
+use PetrKnap\Symfony\MarkdownWeb\MarkdownWebTwigExtension;
+use PetrKnap\Symfony\MarkdownWeb\Service\Crawler;
+use Symfony\Component\Cache\Adapter\FilesystemAdapter;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Definition;
+use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 use const PetrKnap\Symfony\MarkdownWeb\CONFIG;
 use const PetrKnap\Symfony\MarkdownWeb\CONTROLLER_CACHE;
 use const PetrKnap\Symfony\MarkdownWeb\CRAWLER_SERVICE;
 use const PetrKnap\Symfony\MarkdownWeb\TWIG_EXTENSION;
-use Symfony\Component\Cache\Adapter\FilesystemAdapter;
-use Symfony\Component\Config\FileLocator;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\Definition;
-use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
-use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
 class MarkdownWebExtension extends Extension
 {
@@ -20,30 +20,26 @@ class MarkdownWebExtension extends Extension
         $configuration = new MarkdownWebConfiguration();
         $config = $this->processConfiguration($configuration, $configs);
 
-        $loader = new YamlFileLoader(
-            $container,
-            new FileLocator(__DIR__ . '/../Resources/config')
-        );
-        $loader->load('config.yml');
+        $container->setDefinition(CONFIG, new Definition(MarkdownWebConfiguration::class))
+            ->setArguments([
+                $config,
+            ]);
 
-        $crawlerDefinition = $container->getDefinition(CONFIG);
-        $crawlerDefinition->setArguments([$config]);
+        $container->setDefinition(CRAWLER_SERVICE, new Definition(Crawler::class))
+            ->setArguments([
+                $config['directory'],
+            ]);
 
-        $crawlerDefinition = $container->getDefinition(CRAWLER_SERVICE);
-        $crawlerDefinition->setArguments([
-            $config['directory'],
-        ]);
+        $container->setDefinition(TWIG_EXTENSION, new Definition(MarkdownWebTwigExtension::class))
+            ->setAutowired(true)
+            ->addMethodCall('setSite', [$config['site']])
+            ->addTag('twig.extension');
 
-        $twigExtensionDefinition = $container->getDefinition(TWIG_EXTENSION);
-        $twigExtensionDefinition->addMethodCall('setSite', [$config['site']]);
-
-        $container->setDefinition(CONTROLLER_CACHE, new Definition(
-            FilesystemAdapter::class,
-            [
+        $container->setDefinition(CONTROLLER_CACHE, new Definition(FilesystemAdapter::class))
+            ->setArguments([
                 CONTROLLER_CACHE,
                 $config['cache']['max_age'],
                 $container->getParameter('kernel.cache_dir')
-            ]
-        ));
+            ]);
     }
 }
