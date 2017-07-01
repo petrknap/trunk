@@ -18,6 +18,7 @@ class MarkdownWebConfiguration extends \ArrayObject implements ConfigurationInte
             ->defaultValue(__DIR__ . '/../Resources/demo')
             ->end()
             ->arrayNode('cache')
+            ->addDefaultsIfNotSet()
             ->children()
             ->booleanNode('enabled')
             ->defaultValue(false)

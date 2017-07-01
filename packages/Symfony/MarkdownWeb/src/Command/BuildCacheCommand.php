@@ -40,7 +40,7 @@ class BuildCacheCommand extends ContainerAwareCommand
             var_export($kernel->isDebug(), true)
         ));
 
-        if (!$config['cached']) {
+        if (!$config['cache']['enabled']) {
             $io->warning(sprintf(
                 'Page caching is disabled in configuration.'
             ));

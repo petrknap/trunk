@@ -44,7 +44,7 @@ class BuildCacheCommandTest extends MarkdownWebTestCase
         $output = new BufferedOutput();
         $command->setContainer($this->getContainer());
         $config = $this->getContainer()->get(CONFIG);
-        $config['cached'] = $cached;
+        $config['cache']['enabled'] = $cached;
 
         $this->invoke([$command, 'execute'], [$input, $output]);
         $this->assertContains($expectedMessage, $output->fetch());
