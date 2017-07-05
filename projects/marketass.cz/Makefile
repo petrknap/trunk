@@ -25,3 +25,6 @@ composer:
 
 composer-install:
 	make composer ARGS="install"
+
+deployment:
+	make docker-run ARGS="./vendor/bin/deploy"
