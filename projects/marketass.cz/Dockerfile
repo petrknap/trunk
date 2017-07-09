@@ -19,7 +19,7 @@ RUN cd /tmp && \
 RUN a2enmod rewrite
 RUN a2enmod headers
 RUN echo "<VirtualHost *:80>" > "/etc/apache2/sites-available/000-default.conf" && \
-    echo "DocumentRoot /var/www/html/projects/marketass.cz/web" >> "/etc/apache2/sites-available/000-default.conf" && \
+    echo "DocumentRoot /var/www/html/projects/marketass.cz/www" >> "/etc/apache2/sites-available/000-default.conf" && \
     echo "</VirtualHost>" >> "/etc/apache2/sites-available/000-default.conf"
 
 # Setup php

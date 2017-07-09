@@ -20,7 +20,7 @@ twig:
   strict_variables: '%kernel.debug%'
 
 markdown_web:
-  directory: '%kernel.project_dir%/web/'
+  directory: '%kernel.project_dir%/www/'
   site:
     title: Celostní fyzioterapie
     author: Bc. Markéta Schillerová

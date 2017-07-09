@@ -2,8 +2,8 @@
   "test": true,
    "ignore": [
     "!/vendor/",
-    "!/web/*",
-    "/web/app_dev.php"
+    "!/www/*",
+    "/www/app_dev.php"
   ],
   "purge": [
     "/var/cache"

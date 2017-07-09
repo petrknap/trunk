@@ -4,7 +4,7 @@ DirectoryIndex app.php
 # Options FollowSymlinks
 
 <IfModule mod_negotiation.c>
-    Options -MultiViews
+    # Options -MultiViews # causes internal server error on WEDOS
 </IfModule>
 
 <IfModule mod_rewrite.c>
