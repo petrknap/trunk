@@ -67,7 +67,10 @@ class Index
             uasort($pages, function (Page $a, Page $b) use ($sortBy) {
                 $aValue = @$a->{$sortBy[0]};
                 $bValue = @$b->{$sortBy[0]};
-                if ($aValue == $bValue) {
+
+                if (is_string($aValue) && is_string($bValue)) {
+                    $return = strcoll($aValue, $bValue);
+                } elseif ($aValue == $bValue) {
                     $return = 0;
                 } elseif ($aValue > $bValue) {
                     $return = 1;
