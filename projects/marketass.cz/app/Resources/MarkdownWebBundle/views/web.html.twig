@@ -5,6 +5,12 @@
 {% endblock %}
 
 {% block content %}
-    <h1{% if page.jumbotron is defined %} class="hidden"{% endif %}>{{ page.title }}</h1>
+    {% if page.jumbotron is defined %}
+        <h1 class="hidden">{{ page.title }}</h1>
+    {% else %}
+        <div class="well">
+            <h1>{{ page.title }}</h1>
+        </div>
+    {% endif %}
     {{ content|raw }}
 {% endblock %}

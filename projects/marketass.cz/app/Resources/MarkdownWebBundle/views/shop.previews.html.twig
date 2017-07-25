@@ -19,7 +19,7 @@
                     <span class="glyphicon glyphicon-shopping-cart"></span>
                     Koupit
                 </a>
-                <span class="shop-price pull-right label label-primary">500&nbsp;Kč</span>
+                <span class="shop-price pull-right label label-primary">{{ item.price|number_format(2, ',', ' ') }}&nbsp;Kč</span>
                 <img src="{{ item.url[:-4] }}png" class="img-thumbnail img-responsive">
             </div>
             <p>{{ item.description }}</p>

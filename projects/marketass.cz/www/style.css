@@ -31,6 +31,11 @@ body > .container {
     right: -50%;
 }
 
+#content > section > p {
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+}
+
 .shop-preview {
     height: 250px;
 }

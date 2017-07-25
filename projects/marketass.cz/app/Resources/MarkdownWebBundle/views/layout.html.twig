@@ -44,10 +44,8 @@
             </div>
             <div id="navbar" class="collapse navbar-collapse navbar-right">
                 <ul class="nav navbar-nav">
-                    {# TODO remove this line
-                    <li{% if not(url starts with base_uri ~ "shop/") %} class="active"{% endif %}><a href="{{ base_uri }}">web</a></li>
-                    <li{% if url starts with base_uri ~ "shop/" %} class="active"{% endif %}><a href="{{ base_uri }}shop/">e-shop</a></li>
-                      TODO remove this line #}
+                    <li{% if not(url starts with base_uri ~ "produkty/") %} class="active"{% endif %}><a href="{{ base_uri }}">fyzioterapie</a></li>
+                    <li{% if url starts with base_uri ~ "produkty/" %} class="active"{% endif %}><a href="{{ base_uri }}produkty/">produkty</a></li>
                 </ul>
             </div>
         </div>
@@ -71,9 +69,11 @@
                     </button>
                 </p>
                 {% if page.jumbotron is defined %}
-                    <section class="jumbotron">
+                    <section class="well jumbotron">
                         <h1>{{ page.jumbotron.title }}</h1>
-                        <p>{{ page.jumbotron.more }}</p>
+                        {% if page.jumbotron.more is defined %}
+                            <p>{{ page.jumbotron.more }}</p>
+                        {% endif %}
                     </section>
                 {% endif %}
                 <section>
