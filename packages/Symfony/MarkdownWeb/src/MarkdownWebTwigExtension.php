@@ -61,9 +61,9 @@ class MarkdownWebTwigExtension extends Twig_Extension
                 function (array $context, $template, array $filters, $paginationStep) {
                     return $this->twig->render($template, array_merge_recursive($context, [
                         "site" => $this->site,
-                        "steps" => ceil(
+                        "count_of_pages" => max(1, ceil(
                             count($this->crawler->getIndex([$this->controller, "urlModifier"])->getPages($filters)) / $paginationStep
-                        )
+                        ))
                     ]));
                 },
                 [
