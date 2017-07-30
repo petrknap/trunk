@@ -1,14 +1,9 @@
 <?php
 
-namespace PetrKnap\Symfony\ShoppingBasket\Model;
+namespace PetrKnap\Symfony\Order\Model;
 
-class Item extends \ArrayObject
+class Item extends Providable
 {
-    public function getId()
-    {
-        return $this->offsetGet('id');
-    }
-
     public function getAmount()
     {
         return $this->offsetGet('amount');

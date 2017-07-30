@@ -1,8 +1,8 @@
 <?php
 
-namespace PetrKnap\Symfony\ShoppingBasket\Model;
+namespace PetrKnap\Symfony\Order\Model;
 
-class Customer extends \ArrayObject
+class Customer extends Providable
 {
     /**
      * @return string|null

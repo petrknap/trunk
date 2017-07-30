@@ -1,8 +1,10 @@
 <?php
 
-namespace PetrKnap\Symfony\ShoppingBasket\Model;
+namespace PetrKnap\Symfony\Order\Model;
 
-class Order
+use JsonSerializable;
+
+class Order implements JsonSerializable
 {
     /**
      * @var Customer
@@ -15,15 +17,11 @@ class Order
     private $items;
 
     /**
-     * @param Customer|null $customer
+     * @param Customer $customer
      * @param Item[] $items
      */
-    public function __construct(Customer $customer = null, array $items = [])
+    public function __construct(Customer $customer, array $items)
     {
-        if (null === $customer) {
-            $customer = new Customer();
-        }
-
         $this->customer = $customer;
         $this->items = $items;
     }
@@ -55,5 +53,13 @@ class Order
         }
 
         return $this->items[$id];
+    }
+
+    function jsonSerialize()
+    {
+        return [
+            'customer' => $this->getCustomer()->getArrayCopy(),
+            'items' => array_map(function (Item $item) { return $item->getArrayCopy(); }, array_values($this->items)),
+        ];
     }
 }
