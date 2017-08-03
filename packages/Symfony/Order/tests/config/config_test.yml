@@ -1,0 +1,10 @@
+framework:
+  secret: testPurposeOnly
+
+services:
+  test_providers:
+    class: PetrKnap\Symfony\Order\Service\TestProviders
+
+order:
+  item_provider: '@test_providers'
+  customer_provider: '@test_providers'

@@ -1,0 +1,33 @@
+{
+    "description": "Shopping Basket Bundle for Symfony",
+    "require": {
+        "php": ">=5.6",
+        "netpromotion/symfony-up": "^1.0",
+        "symfony/framework-bundle": "^3.2"
+    },
+    "WARNING": "This file is updated automatically. All keys will be overwritten, except of 'description', 'require' and 'conflict'.",
+    "name": "petrknap/symfony-order",
+    "homepage": "https://petrknap.github.io/docs/symfony-order.html",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Petr Knap",
+            "email": "dev@petrknap.cz"
+        }
+    ],
+    "require-dev": {
+        "phpunit/phpunit": "^4.8",
+        "symfony/phpunit-bridge": "^3.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "PetrKnap\\Symfony\\Order\\": "src"
+        },
+        "files": []
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "PetrKnap\\Symfony\\Order\\Test\\": "tests"
+        }
+    }
+}
