@@ -91,4 +91,16 @@ class OrderServiceTest extends OrderTestCase
             ],
         ];
     }
+
+    public function testRemovesItemsWithNonPositiveAmountBeforeSave()
+    {
+        /** @var Cookie $cookie */
+        $cookie = $this->getService()->save(new Order(new Customer([]), [
+            new Item(['id' => 1, 'amount' => 1]),
+            new Item(['id' => 2, 'amount' => 0]),
+            new Item(['id' => 3, 'amount' => -1]),
+        ]))->headers->getCookies()[0];
+
+        $this->assertEquals([null, [1 => 1]], json_decode($cookie->getValue(), true));
+    }
 }
