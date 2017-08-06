@@ -1,10 +1,12 @@
 framework:
   secret: testPurposeOnly
+  session:
+    storage_id: session.storage.mock_file
 
 services:
-  test_providers:
-    class: PetrKnap\Symfony\Order\Service\TestProviders
+  PetrKnap\Symfony\Order\Test\Service\SessionOrderProviderTest\DummySessionOrderProvider:
+    arguments:
+      - "@session"
 
 order:
-  item_provider: '@test_providers'
-  customer_provider: '@test_providers'
+  provider: PetrKnap\Symfony\Order\Test\Service\SessionOrderProviderTest\DummySessionOrderProvider

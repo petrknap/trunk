@@ -2,8 +2,16 @@
 
 namespace PetrKnap\Symfony\Order\Model;
 
-class Item extends Providable
+class Item extends \ArrayObject
 {
+    /**
+     * @return mixed
+     */
+    public function getId()
+    {
+        return $this->offsetGet('id');
+    }
+
     public function getAmount()
     {
         return $this->offsetGet('amount');

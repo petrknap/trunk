@@ -2,7 +2,8 @@
 
 namespace PetrKnap\Symfony\Order\Controller;
 
-use PetrKnap\Symfony\Order\Service\OrderService;
+use PetrKnap\Symfony\Order\DependencyInjection\OrderConfiguration;
+use PetrKnap\Symfony\Order\Service\OrderProvider;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -11,45 +12,49 @@ use Symfony\Component\HttpFoundation\Request;
 class ApiController extends Controller
 {
     /**
-     * @return OrderService|object|null
+     * @return OrderProvider|object|null
      */
-    private function getOrder()
+    private function getOrderProvider()
     {
-        return $this->get(OrderService::class);
+        $config = $this->get(OrderConfiguration::class);
+
+        return $this->get($config['provider']);
     }
 
     /**
      * @Route("/", name="order_api_get")
      * @Method("GET")
      */
-    public function getAction(Request $request)
+    public function getAction()
     {
-        return $this->json($this->getOrder()->load($request));
+        return $this->json($this->getOrderProvider()->provide());
     }
 
     /**
      * @Route("/add", name="order_api_add")
      * @Method("POST")
+     * @param Request $request
      */
     public function addAction(Request $request)
     {
-        $order = $this->getOrder()->load($request);
+        $order = $this->getOrderProvider()->provide();
         $item = $order->getItem($request->request->getAlnum('id'));
         $item->setAmount($item->getAmount() + $request->request->getInt('amount'));
 
-        return $this->getOrder()->save($order);
+        $this->getOrderProvider()->persist($order);
     }
 
     /**
      * @Route("/remove", name="order_api_remove")
      * @Method("DELETE")
+     * @param Request $request
      */
     public function removeAction(Request $request)
     {
-        $order = $this->getOrder()->load($request);
+        $order = $this->getOrderProvider()->provide();
         $item = $order->getItem($request->request->getAlnum('id'));
         $item->setAmount(0);
 
-        return $this->getOrder()->save($order);
+        $this->getOrderProvider()->persist($order);
     }
 }

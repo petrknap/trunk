@@ -2,7 +2,6 @@
 
 namespace PetrKnap\Symfony\Order\DependencyInjection;
 
-use PetrKnap\Symfony\Order\Service\OrderService;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
@@ -17,14 +16,6 @@ class OrderExtension extends Extension
         $container->setDefinition(OrderConfiguration::class, new Definition(OrderConfiguration::class))
             ->setArguments([
                 $config,
-            ]);
-
-        $container->setDefinition(OrderService::class, new Definition(OrderService::class))
-            ->setArguments([
-                $config['cookie']['name'],
-                $config['cookie']['expire_after'],
-                $config['item_provider'],
-                $config['customer_provider'],
             ]);
     }
 }
