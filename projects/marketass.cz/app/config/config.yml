@@ -24,3 +24,6 @@ markdown_web:
   site:
     title: Celostní fyzioterapie
     author: Bc. Markéta Schillerová
+
+order:
+  provider: ~

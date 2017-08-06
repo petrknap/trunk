@@ -3,6 +3,7 @@
 use Netpromotion\SymfonyUp\AppKernelTrait;
 use Netpromotion\SymfonyUp\UpKernel;
 use PetrKnap\Symfony\MarkdownWeb\MarkdownWebBundle;
+use PetrKnap\Symfony\Order\OrderBundle;
 use Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle;
 use Symfony\Bundle\DebugBundle\DebugBundle;
 use Symfony\Bundle\FrameworkBundle\FrameworkBundle;
@@ -21,6 +22,7 @@ class AppKernel extends UpKernel
             new MonologBundle(),
             new SensioFrameworkExtraBundle(),
             new TwigBundle(),
+            new OrderBundle(),
             new MarkdownWebBundle(),
         ];
 

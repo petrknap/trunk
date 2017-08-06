@@ -1,3 +1,8 @@
-app:
+order:
+    resource: '@OrderBundle/Controller/'
+    type: annotation
+    prefix: /order
+
+markdown_web:
     resource: '@MarkdownWebBundle/Controller/'
     type: annotation
