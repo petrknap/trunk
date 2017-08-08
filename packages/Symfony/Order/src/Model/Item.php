@@ -14,7 +14,7 @@ class Item extends \ArrayObject
 
     public function getAmount()
     {
-        return $this->offsetGet('amount');
+        return (int) @$this->offsetGet('amount');
     }
 
     public function setAmount($amount)
