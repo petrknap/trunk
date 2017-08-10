@@ -1,5 +1,6 @@
 <?php
 
+use AppBundle\AppBundle;
 use Netpromotion\SymfonyUp\AppKernelTrait;
 use Netpromotion\SymfonyUp\UpKernel;
 use PetrKnap\Symfony\MarkdownWeb\MarkdownWebBundle;
@@ -24,6 +25,7 @@ class AppKernel extends UpKernel
             new TwigBundle(),
             new OrderBundle(),
             new MarkdownWebBundle(),
+            new AppBundle(),
         ];
 
         if ('dev' === $this->getEnvironment()) {

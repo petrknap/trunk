@@ -25,6 +25,7 @@ composer:
 
 composer-install:
 	make composer ARGS="install"
+	make web-console ARGS="assets:install www --symlink --relative"
 
 deployment:
 	make docker-run ARGS="./vendor/bin/deploy"
