@@ -41,7 +41,7 @@ class ApiController extends Controller
     public function addAction(Request $request)
     {
         $order = $this->getOrderProvider()->provide();
-        $item = $order->getItem($request->request->getAlnum('id'));
+        $item = $order->getItem($request->request->get('id'));
         $item->setAmount($item->getAmount() + $request->request->getInt('amount'));
 
         $this->getOrderProvider()->persist($order);
