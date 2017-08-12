@@ -8,6 +8,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class ApiController extends Controller
 {
@@ -24,6 +25,7 @@ class ApiController extends Controller
     /**
      * @Route("/", name="order_api_get")
      * @Method("GET")
+     * @return Response
      */
     public function getAction()
     {
@@ -34,6 +36,7 @@ class ApiController extends Controller
      * @Route("/add", name="order_api_add")
      * @Method("POST")
      * @param Request $request
+     * @return Response
      */
     public function addAction(Request $request)
     {
@@ -42,12 +45,15 @@ class ApiController extends Controller
         $item->setAmount($item->getAmount() + $request->request->getInt('amount'));
 
         $this->getOrderProvider()->persist($order);
+
+        return $this->redirectToRoute('order_api_get');
     }
 
     /**
      * @Route("/remove", name="order_api_remove")
      * @Method("DELETE")
      * @param Request $request
+     * @return Response
      */
     public function removeAction(Request $request)
     {
@@ -56,5 +62,7 @@ class ApiController extends Controller
         $item->setAmount(0);
 
         $this->getOrderProvider()->persist($order);
+
+        return $this->redirectToRoute('order_api_get');
     }
 }
