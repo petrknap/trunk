@@ -28,7 +28,9 @@ abstract class SessionOrderProvider implements OrderProvider
 
         if ($this->session->has(__CLASS__)) {
             foreach ($this->session->get(__CLASS__) as $id => $amount) {
-                $order->getItem($id)->setAmount($amount);
+                $item = $this->loadItem($id);
+                $item->setAmount($amount);
+                $order->setItem($item);
             }
         }
 
