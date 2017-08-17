@@ -31,6 +31,12 @@ body > .container {
     right: -50%;
 }
 
+.js__modal_loading {
+    text-align: center;
+    font-size: 10em;
+    margin: 25px;
+}
+
 #content > section > p {
     padding-left: 0.5em;
     padding-right: 0.5em;
