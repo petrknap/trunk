@@ -1,6 +1,9 @@
 imports:
   - resource: config.yml
 
+parameters:
+  order_provider.url_prefix: ~
+
 monolog:
   handlers:
     main:

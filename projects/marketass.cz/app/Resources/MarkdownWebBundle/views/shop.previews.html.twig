@@ -15,12 +15,20 @@
                 </a>
             </h2>
             <div>
-                <a href="javascript:toCart('{{ item.url }}')" class="btn btn-xs btn-primary pull-left">
-                    <span class="glyphicon glyphicon-shopping-cart"></span>
-                    Do košíku
-                </a>
-                <span class="shop-price pull-right label label-primary">{{ item.price|number_format(2, ',', ' ') }}&nbsp;Kč</span>
+                <span class="shop-price pull-right label label-primary">{{ item.price|number_format(0, ',', ' ') }}&nbsp;Kč</span>
                 <img src="{{ item.url[:-4] }}png" class="img-thumbnail img-responsive">
+                <div class="clearfix">
+                    <label class="input-group input-group-sm pull-right" style="max-width: 125px">
+                        <span class="input-group-btn">
+                            <button class="btn btn-primary js__add_to_order" type="button" data-url="{{ item.url }}">
+                                <span class="glyphicon glyphicon-shopping-cart"></span>
+                                <span class="sr-only">Do košíku</span>
+                            </button>
+                        </span>
+                        <input type="number" class="form-control text-right" value="1">
+                        <span class="input-group-addon">ks</span>
+                    </label>
+                </div>
             </div>
             <p>{{ item.description }}</p>
         {% endblock %}

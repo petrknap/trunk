@@ -1,0 +1,29 @@
+{% extends '@App/Order/summary.html.twig' %}
+
+{% block content %}{# HTML e-mail #}
+<body>
+    <h1>Objednávka číslo {# TODO #}</h1>
+    {# TODO poděkování #}
+
+    <h2>Objednané zboží</h2>
+    {{ parent() }}
+
+    <h2>Fakturační údaje</h2>
+    <table class="table">
+        <tr>
+            <th>Jméno:</th>
+            <td>{{ order.customer.name }}</td>
+        </tr>
+        <tr>
+            <th>Adresa:</th>
+            <td>{{ order.customer.address|nl2br }}</td>
+        </tr>
+    </table>
+
+    <h2>Platební údaje</h2>
+    {# TODO #}
+
+    <hr>
+    {# TODO info, kde vyzvenout, jak zrušit, atd. #}
+</body>
+{% endblock %}

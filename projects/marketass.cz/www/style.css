@@ -39,3 +39,7 @@ body > .container {
 .shop-preview {
     height: 250px;
 }
+
+.shop-preview img {
+    min-height: 50px;
+}

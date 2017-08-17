@@ -1,6 +1,38 @@
 {% extends "@MarkdownWeb/layout.html.twig" %}
 
+{% block styles %}
+    {{ parent() }}
+    <style>
+        .js__order_customer {
+            display: block;
+        }
+        .js__modal_loading {
+            text-align: center;
+            font-size: 10em;
+            margin: 25px;
+        }
+    </style>
+{% endblock %}
+
+{% block brand %}
+    <span class="hidden-xs">{{ parent() }}</span>
+    <span class="hidden-sm hidden-md hidden-lg">
+        <a href="javascript://void" class="js__order navbar-brand">
+            <span class="glyphicon glyphicon-shopping-cart"></span>
+            <span class="js__order_amount">&ndash;</span>&nbsp;ks za <span class="js__order_price">&ndash;</span>&nbsp;Kč
+        </a>
+    </span>
+{% endblock %}
+
 {% block menu %}
+    <div class="hidden-xs">
+        <a href="javascript://void" class="btn btn-lg btn-success btn-block js__order">
+            <span class="glyphicon glyphicon-shopping-cart pull-left" style="font-size: 2.25em;"></span>
+            <small class="js__order_customer">&ndash;</small>
+            <span class="js__order_amount">&ndash;</span>&nbsp;ks za <span class="js__order_price">&ndash;</span>&nbsp;Kč
+        </a>
+        <hr style="visibility: hidden">
+    </div>
     {{ render_index("@MarkdownWeb/menu.html.twig", {"layout": "shop.html"}, "title:asc") }}
 {% endblock %}
 
@@ -13,4 +45,13 @@
     <div class="text-center">
         {{ render_pagination("@MarkdownWeb/pagination.html.twig", {"layout": "shop.item.html", "category": page.category}, 18) }}
     </div>
+{% endblock %}
+
+{% block scripts %}
+    {{ parent() }}
+    <script>
+        $(function () {
+            OrderAPI.init();
+        });
+    </script>
 {% endblock %}

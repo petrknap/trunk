@@ -1,6 +1,9 @@
 imports:
   - resource: config.yml
 
+parameters:
+  order_provider.url_prefix: /app_dev.php
+
 framework:
   profiler:
     enabled: true
@@ -8,6 +11,9 @@ framework:
 web_profiler:
   toolbar: true
   intercept_redirects: false
+
+swiftmailer:
+  disable_delivery: true
 
 monolog:
   handlers:

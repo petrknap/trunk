@@ -19,11 +19,27 @@ twig:
   debug: '%kernel.debug%'
   strict_variables: '%kernel.debug%'
 
+swiftmailer:
+  transport: '%mailer_transport%'
+  host: '%mailer_host%'
+  port: '%mailer_port%'
+  encryption: '%mailer_encryption%'
+  username: '%mailer_username%'
+  password: '%mailer_password%'
+
 markdown_web:
   directory: '%kernel.project_dir%/www/'
   site:
     title: Celostní fyzioterapie
     author: Bc. Markéta Schillerová
 
+services:
+  AppBundle\Service\OrderProvider:
+    arguments:
+      - '@session'
+      - '@request_stack'
+      - '@markdown_web.crawler'
+      - '%order_provider.url_prefix%'
+
 order:
-  provider: ~
+  provider: AppBundle\Service\OrderProvider
