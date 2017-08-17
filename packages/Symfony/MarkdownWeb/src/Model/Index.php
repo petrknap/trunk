@@ -45,15 +45,34 @@ class Index
                 if (!is_array($values)) {
                     $values = [$values];
                 }
+
                 $unexpected = false;
                 if ('!' === $key[0]) {
                     $unexpected = true;
                     $key = substr($key, 1);
                 }
+
+                $or = false;
+                if ('|' === $key[0]) {
+                    $or = true;
+                    $key = substr($key, 1);
+                } elseif ('&' === $key[0]) {
+                    $or = false;
+                    $key = substr($key, 1);
+                }
+
+                $matches = false;
                 foreach ($values as $value) {
                     if ($unexpected === in_array($value, (array)@$page->getParameters()[$key])) {
-                        continue 3;
+                        if (!$or) {
+                            continue 3;
+                        }
+                    } else {
+                        $matches = true;
                     }
+                }
+                if (!$matches) {
+                    continue 2;
                 }
             }
             $pages[$page->getParameters()["url"]] = $page;

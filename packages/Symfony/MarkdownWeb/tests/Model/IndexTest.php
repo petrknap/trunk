@@ -112,6 +112,18 @@ class IndexTest extends MarkdownWebTestCase
                     '/libero/ante-molestie-porttitor.html' => Page::fromFile(self::ROOT_DIRECTORY, self::ROOT_DIRECTORY . '/libero/ante-molestie-porttitor.md', $urlModifier),
                 ],
             ],
+            'and condition on tags' => [
+                ['&tags' => ['lacus', 'quis']], null, null, 'url:asc', [
+                    '/libero/ante-molestie-porttitor.html' => Page::fromFile(self::ROOT_DIRECTORY, self::ROOT_DIRECTORY . '/libero/ante-molestie-porttitor.md', $urlModifier),
+                ],
+            ],
+            'or condition on tags' => [
+                ['|tags' => ['lacus', 'quis']], null, null, 'url:asc', [
+                    '/libero/ante-molestie-porttitor.html' => Page::fromFile(self::ROOT_DIRECTORY, self::ROOT_DIRECTORY . '/libero/ante-molestie-porttitor.md', $urlModifier),
+                    '/libero/orci-varius-natoque-penatibus-et-magnis.html' => Page::fromFile(self::ROOT_DIRECTORY, self::ROOT_DIRECTORY . '/libero/orci-varius-natoque-penatibus-et-magnis.md', $urlModifier),
+                    '/libero/vivamus-accumsan-libero.html' => Page::fromFile(self::ROOT_DIRECTORY, self::ROOT_DIRECTORY . '/libero/vivamus-accumsan-libero.md', $urlModifier),
+                ],
+            ],
             [
                 ['layout' => 'web.html'], null, null, 'url:asc', [
                     '/' => Page::fromFile(self::ROOT_DIRECTORY, self::ROOT_DIRECTORY . '/index.md', $urlModifier),
