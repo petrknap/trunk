@@ -20,12 +20,13 @@ twig:
   strict_variables: '%kernel.debug%'
 
 swiftmailer:
-  transport: '%mailer_transport%'
-  host: '%mailer_host%'
-  port: '%mailer_port%'
-  encryption: '%mailer_encryption%'
-  username: '%mailer_username%'
-  password: '%mailer_password%'
+  transport: '%swiftmailer.transport%'
+  host: '%swiftmailer.host%'
+  port: '%swiftmailer.port%'
+  encryption: '%swiftmailer.encryption%'
+  username: '%swiftmailer.username%'
+  password: '%swiftmailer.password%'
+  disable_delivery: '%swiftmailer.disable_delivery%'
 
 markdown_web:
   directory: '%kernel.project_dir%/www/'
