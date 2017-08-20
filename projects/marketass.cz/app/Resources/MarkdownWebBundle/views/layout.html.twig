@@ -20,14 +20,8 @@
     {{ parent() }}
 
     {% block styles %}
-        <link rel="stylesheet"
-              href="{{ asset("bundles/app/bootstrap/css/bootstrap.min.css") }}"
-              integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
-              crossorigin="anonymous">
-        <link rel="stylesheet"
-              href="{{ asset("bundles/app/bootstrap/css/bootstrap-theme.min.css") }}"
-              integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp"
-              crossorigin="anonymous">
+        <link rel="stylesheet" href="{{ asset("bundles/app/bootstrap/css/bootstrap.min.css") }}">
+        <link rel="stylesheet" href="{{ asset("bundles/app/bootstrap/css/bootstrap-theme.min.css") }}">
         <link rel="stylesheet" href="{{ asset("style.css") }}">
     {% endblock %}
 {% endblock %}
@@ -98,14 +92,8 @@
     </div>
 
     {% block scripts %}
-        <script type="application/javascript"
-                src="{{ asset("bundles/app/jquery.min.js") }} "
-                integrity="sha256-rsPUGdUPBXgalvIj4YKJrrUlmLXbOb6Cp7cdxn1qeUc="
-                crossorigin="anonymous"></script>
-        <script type="application/javascript"
-                src="{{ asset("bundles/app/bootstrap/js/bootstrap.min.js") }}"
-                integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
-                crossorigin="anonymous"></script>
+        <script type="application/javascript" src="{{ asset("bundles/app/jquery.min.js") }}"></script>
+        <script type="application/javascript" src="{{ asset("bundles/app/bootstrap/js/bootstrap.min.js") }}"></script>
         <script type="application/javascript">
             var OrderAPI = {
                 url: {
