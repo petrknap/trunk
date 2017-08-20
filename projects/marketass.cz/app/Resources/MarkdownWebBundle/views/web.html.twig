@@ -1,7 +1,7 @@
 {% extends "@MarkdownWeb/layout.html.twig" %}
 
 {% block menu %}
-    {{ render_index("@MarkdownWeb/menu.html.twig", {"layout": "web.html"}, "priority:asc") }}
+    {{ render_index("@MarkdownWeb/menu.html.twig", {"|layout": ["web.html", "web.gallery.html"], "!priority": 0}, "priority:asc") }}
 {% endblock %}
 
 {% block content %}

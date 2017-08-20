@@ -1,0 +1,8 @@
+{% extends "@MarkdownWeb/web.html.twig" %}
+{% block content %}
+    {{ parent() }}
+    {{ render_index("@MarkdownWeb/web.gallery.previews.html.twig", {"layout": "web.gallery.item.html", "gallery": page.gallery}, "url:desc", 12) }}
+    <div class="text-center">
+        {{ render_pagination("@MarkdownWeb/pagination.html.twig", {"layout": "web.gallery.item.html", "gallery": page.gallery}, 12) }}
+    </div>
+{% endblock %}

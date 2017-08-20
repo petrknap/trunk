@@ -1,0 +1,17 @@
+{% extends "@MarkdownWeb/list.html.twig" %}
+
+{% block list %}
+    <div class="gallery-previews row">
+        {% block list_content %}{{ parent() }}{% endblock %}
+    </div>
+{% endblock %}
+
+{% block item %}
+    <div class="gallery-preview col-xs-12 col-sm-6 col-md-4">
+        {% block item_content %}
+            <a href="{{ item.url }}">
+                <img src="{{ item.url[:-4] }}jpg" alt="{{ item.title }}" class="img-thumbnail img-responsive">
+            </a>
+        {% endblock %}
+    </div>
+{% endblock %}

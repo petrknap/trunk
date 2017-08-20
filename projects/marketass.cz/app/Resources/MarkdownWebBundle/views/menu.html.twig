@@ -9,7 +9,7 @@
 {% block item %}
     {% block item_content %}
         <a href="{{ item.url }}"
-           class="list-group-item{% if url == item.url %} active{% endif %}">
+           class="list-group-item{% if url == item.url or (item.gallery is defined and url starts with item.url) %} active{% endif %}">
             {{ item.title }}
         </a>
     {% endblock %}
