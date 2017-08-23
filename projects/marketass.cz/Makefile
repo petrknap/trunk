@@ -19,7 +19,8 @@ web-cache:
 clean:
 	(cd ../../ && make clean)
 	sudo chmod u+r+w-x+X,g+r-w-x+X,o+r-w-x+X ./ -R
-	sudo chmod u+r+w-x+X,g+r+w-x+X,o+r+w-x+X ./var -R
+	sudo chmod u+x ./bin -R
+	sudo chmod g+w,o+w ./var -R
 	rm -rf ./var/cache
 
 composer:
