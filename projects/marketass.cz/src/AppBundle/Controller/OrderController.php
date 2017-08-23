@@ -92,14 +92,22 @@ class OrderController extends Controller
         ]);
 
         $subject = explode("\n", trim(strip_tags($body)))[0];
+        $selfEmail = $this->container->getParameter('order_email');
+        $customerEmail = $order->getCustomer()->offsetGet('email');
 
         $message = (new \Swift_Message($subject))
-            ->setFrom($this->container->getParameter('order_email'))
-            ->addTo($this->container->getParameter('order_email'))
-            ->addTo($order->getCustomer()->offsetGet('email'))
+            ->setFrom($selfEmail)
+            ->addTo($selfEmail)
+            ->addTo($customerEmail)
             ->setBody($body, 'text/html');
 
-        $this->getMailer()->send($message);
+        if (2 != $this->getMailer()->send($message)) {
+            throw new \RuntimeException(sprintf(
+                "Can not send e-mail to '%s' and '%s'",
+                $selfEmail,
+                $customerEmail
+            ));
+        }
 
         foreach ($order->getItems() as $item) {
             $item->setAmount(0);
