@@ -125,4 +125,18 @@ class Page
 
         return $response;
     }
+
+    /**
+     * @param string $name
+     * @param array $args ignored
+     * @return mixed
+     */
+    public function __call($name, array $args)
+    {
+        throw new \RuntimeException(sprintf(
+            'Accessing unknown method \'%s\' of page \'%s\'',
+            $name,
+            $this->parameters['url']
+        ));
+    }
 }

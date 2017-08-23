@@ -41,4 +41,11 @@ class PageTest extends MarkdownWebTestCase
             [$rootDirectory, "not found", null]
         ];
     }
+
+    public function testThrowsWhenUnknownMethodIsInvoked()
+    {
+        $this->setExpectedException(\RuntimeException::class);
+
+        (new Page([], ""))->unknownMethod();
+    }
 }
