@@ -18,7 +18,9 @@ web-cache:
 
 clean:
 	(cd ../../ && make clean)
-	sudo chmod 0777 ./var -R | true
+	sudo chmod u+r+w-x+X,g+r-w-x+X,o+r-w-x+X ./ -R
+	sudo chmod u+r+w-x+X,g+r+w-x+X,o+r+w-x+X ./var -R
+	rm -rf ./var/cache
 
 composer:
 	make docker-run ARGS="composer ${ARGS}"
