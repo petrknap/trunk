@@ -11,6 +11,10 @@ body > .container {
     overflow-x: hidden;
 }
 
+.well-header {
+    /* TODO background-image: url('header.jpg'); */
+}
+
 .off-canvas {
     position: relative;
     -webkit-transition: all .25s ease-out;
