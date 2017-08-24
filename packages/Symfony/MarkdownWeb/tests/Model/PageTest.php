@@ -3,6 +3,7 @@
 namespace PetrKnap\Symfony\MarkdownWeb\Test\Model;
 
 use Mni\FrontYAML\Parser;
+use PetrKnap\Symfony\MarkdownWeb\Exception\RuntimeException;
 use PetrKnap\Symfony\MarkdownWeb\Model\Page;
 use PetrKnap\Symfony\MarkdownWeb\Test\MarkdownWebTestCase;
 
@@ -44,8 +45,9 @@ class PageTest extends MarkdownWebTestCase
 
     public function testThrowsWhenUnknownMethodIsInvoked()
     {
-        $this->setExpectedException(\RuntimeException::class);
+        $this->setExpectedException(RuntimeException::class);
 
+        /** @noinspection PhpUndefinedMethodInspection */
         (new Page([], ""))->unknownMethod();
     }
 }
