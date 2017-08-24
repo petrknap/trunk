@@ -1,0 +1,10 @@
+{% extends '@App/Order/base.html.twig' %}
+
+{% block content %}{# HTML e-mail #}
+<body>
+    <h1>Objednávka číslo {{ variable_symbol }}</h1>
+    {# TODO poděkování #}
+
+    {{ parent() }}
+</body>
+{% endblock %}

@@ -1,0 +1,19 @@
+{% extends '@App/Order/base.html.twig' %}
+
+{% block payment_ %}{% endblock %}
+
+{% block content %}
+    {{ parent() }}
+
+    <a href="javascript://void" class="btn btn-primary">
+        <span class="glyphicon glyphicon-shopping-cart"></span>
+        &nbsp;
+        Potvrdit a odeslat objednávku
+    </a>
+
+    <a href="javascript://void" class="btn btn-default">
+        <span class="glyphicon glyphicon-backward"></span>
+        &nbsp;
+        Změnit objednávku
+    </a>
+{% endblock %}

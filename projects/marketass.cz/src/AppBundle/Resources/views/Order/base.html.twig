@@ -1,0 +1,124 @@
+{% block content %}
+    {% set totalPrice = shipping_price %}
+    {% block items %}
+        <table class="table table-bordered table-responsive table-striped">
+            <tr>
+                <th></th>
+                <th class="text-center" style="width: 100px">cena za kus</th>
+                <th class="text-center" style="width: 100px">kusů</th>
+                <th class="text-center" style="width: 100px">celkem</th>
+            </tr>
+            {% for item in order.items %}
+                <tr>
+                    <td><strong>{{ item.title }}</strong><br />{{ item.description }}</td>
+                    <td class="text-right" style="vertical-align: middle">{{ item.price|number_format(0, ',', ' ') }}&nbsp;Kč</td>
+                    <td class="text-right" style="vertical-align: middle">{% block item_amount %}{{ item.amount }}{% endblock %}</td>
+                    <td class="text-right" style="vertical-align: middle">{{ (item.price * item.amount)|number_format(0, ',', ' ') }}&nbsp;Kč</td>
+                </tr>
+                {% set totalPrice = totalPrice + (item.price * item.amount) %}
+            {% endfor %}
+            <tr>
+                <td><strong>Doprava</strong></td>
+                <td class="text-right" style="vertical-align: middle">{{ shipping_price|number_format(0, ',', ' ') }}&nbsp;Kč</td>
+                <td class="text-right" style="vertical-align: middle">1</td>
+                <td class="text-right" style="vertical-align: middle">{{ shipping_price|number_format(0, ',', ' ') }}&nbsp;Kč</td>
+            </tr>
+            <tr>
+                <td colspan="3" style="visibility: hidden"></td>
+                <td class="text-right" style="vertical-align: middle"><strong>{{ totalPrice|number_format(0, ',', ' ') }}&nbsp;Kč</strong></td>
+            </tr>
+        </table>
+    {% endblock %}
+
+    {% block shipping %}
+        <h2 class="h4">Doručovací údaje</h2>
+        <table class="table">
+            <tr>
+                <th style="width: 100px" class="text-right">Jméno:</th>
+                <td>
+                    {% block shipping_name %}
+                        {{ order.customer.name }}
+                    {% endblock %}
+                </td>
+            </tr>
+            <tr>
+                <th style="width: 100px" class="text-right">E-mail:</th>
+                <td>
+                    {% block shipping_email %}
+                        {{ order.customer.email }}
+                    {% endblock %}
+                </td>
+            </tr>
+            <tr>
+                <th style="width: 100px" class="text-right">Adresa:</th>
+                <td>
+                    {% block shipping_address %}
+                        {{ order.customer.address|nl2br }}
+                    {% endblock %}
+                </td>
+            </tr>
+            <tr>
+                <th style="width: 100px" class="text-right">Doprava:</th>
+                <td>
+                    {% block shipping_method %}
+                        {{ order.customer.shipping_method }}
+                    {% endblock %}
+                </td>
+            </tr>
+        </table>
+    {% endblock %}
+
+    {% block billing %}
+        <h2 class="h4">Fakturační údaje</h2>
+        <table class="table">
+            <tr>
+                <th style="width: 100px" class="text-right">Jméno:</th>
+                <td>
+                    {% block billing_name %}
+                        {% if order.customer.billing_name %}
+                            {{ order.customer.billing_name }}
+                        {% else %}
+                            {{ order.customer.name }}
+                        {% endif %}
+                    {% endblock %}
+                </td>
+            </tr>
+            <tr>
+                <th style="width: 100px" class="text-right">Adresa:</th>
+                <td>
+                    {% block billing_address %}
+                        {% if order.customer.billing_address %}
+                            {{ order.customer.billing_address|nl2br }}
+                        {% else %}
+                            {{ order.customer.address|nl2br }}
+                        {% endif %}
+                    {% endblock %}
+                </td>
+            </tr>
+        </table>
+    {% endblock %}
+
+    {% block payment %}
+        <h2 class="h4">Platební údaje</h2>
+        <table class="table">
+            <tr>
+                <th style="width: 100px" class="text-right">K úhdradě:</th>
+                <td>{{ totalPrice|number_format(0, ',', ' ') }}&nbsp;Kč</td>
+            </tr>
+            <tr>
+                <th style="width: 100px" class="text-right">Číslo účtu:</th>
+                <td>{#{{ bank_account }}#}</td>
+            </tr>
+            <tr>
+                <th style="width: 100px" class="text-right">Variabilní symbol:</th>
+                <td>{#{{ variable_symbol }}#}</td>
+            </tr>
+        </table>
+    {% endblock %}
+
+    <hr>
+
+    <a href="{{ absolute_url(asset('/produkty/obchodni_podminky.pdf')) }}" class="btn btn-link pull-right">
+        Odesláním objednávky souhlasím s obchodními podmínkami.
+    </a>
+{% endblock %}

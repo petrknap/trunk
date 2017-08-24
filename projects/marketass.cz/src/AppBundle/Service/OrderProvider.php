@@ -60,7 +60,9 @@ class OrderProvider extends SessionOrderProvider
             'name' => (string) @$customer['name'],
             'email' => (string) @$customer['email'],
             'address' => (string) @$customer['address'],
-            'accepts' => (bool) @$customer['accepts'],
+            'shipping_method' => (string) @$customer['shipping_method'],
+            'billing_name' => (string) @$customer['billing_name'],
+            'billing_address' => (string) @$customer['billing_address'],
         ]);
     }
 
@@ -75,9 +77,19 @@ class OrderProvider extends SessionOrderProvider
             'name' => $request->get('name', null),
             'email' => $request->get('email', null),
             'address' => $request->get('address', null),
-            'accepts' => $request->get('accepts', false),
+            'shipping_method' => $request->get('shipping_method', null),
+            'billing_name' => $request->get('billing_name', null),
+            'billing_address' => $request->get('billing_address', null),
         ]), new \DateTime('+1 year')));
 
         return $response;
+    }
+
+    /**
+     * @return string 10 chars long string
+     */
+    public function createVariableSymbol()
+    {
+        return substr(floor(microtime(true) * 10), -10);
     }
 }

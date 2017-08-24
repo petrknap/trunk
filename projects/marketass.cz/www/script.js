@@ -35,49 +35,49 @@ var showModal = function (xhr, onSuccess, onFail) {
     });
 };
 
-OrderAPI.step_1 = function () {
+OrderAPI.edit = function () {
     console.log(arguments);
     showModal(
-        $.get(OrderAPI.url.step_1),
+        $.get(OrderAPI.url.edit),
         function (data, $title, $content) {
             $title.html('Objednávka');
             $content.html(data);
-            $content.find("a.btn-primary").on("click", OrderAPI.step_2);
+            $content.find("a.btn-primary").on("click", OrderAPI.confirm);
         },
         null
     );
 };
 
-OrderAPI.step_2 = function () {
+OrderAPI.confirm = function () {
     showModal(
-        $.post(OrderAPI.url.step_2, $(this).closest("form").serialize()),
+        $.post(OrderAPI.url.confirm, $(this).closest("form").serialize()),
         function (data, $title, $content) {
             $title.html('Objednávka');
             $content.html(data);
-            $content.find("a.btn-default").on("click", OrderAPI.step_1);
-            $content.find("a.btn-primary").on("click", OrderAPI.step_3);
+            $content.find("a.btn-default").on("click", OrderAPI.edit);
+            $content.find("a.btn-primary").on("click", OrderAPI.send);
             OrderAPI.get().done(OrderAPI.render_order);
         },
-        OrderAPI.step_1
+        OrderAPI.edit
     );
 };
 
-OrderAPI.step_3 = function () {
+OrderAPI.send = function () {
     showModal(
-        $.get(OrderAPI.url.step_3),
+        $.get(OrderAPI.url.send),
         function (data, $title, $content) {
             $title.html('Objednávka');
             $content.html(data);
             OrderAPI.get().done(OrderAPI.render_order);
         },
-        OrderAPI.step_1
+        OrderAPI.edit
     );
 };
 
 OrderAPI.init = function () {
     OrderAPI.get().done(OrderAPI.render_order);
 
-    $(".js__order").on("click", OrderAPI.step_1);
+    $(".js__order").on("click", OrderAPI.edit);
 
     $(".js__add_to_order").on("click", function () {
         var $amount = $(this).parent().parent().find('input[type=number]');

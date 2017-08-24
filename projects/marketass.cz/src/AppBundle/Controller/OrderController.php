@@ -34,28 +34,40 @@ class OrderController extends Controller
     }
 
     /**
-     * @Route("/order/step_1.html", name="order_step_1")
+     * @return int
+     */
+    private function getShippingPrice()
+    {
+        $shippingMethod = $this->getProvider()->provide()->getCustomer()->offsetGet('shipping_method');
+        $shippingMethod = explode(' ', $shippingMethod);
+        array_pop($shippingMethod);
+        return substr(array_pop($shippingMethod), 1);
+    }
+
+    /**
+     * @Route("/order/edit.html", name="order_edit")
      * @return Response
      */
-    public function step1Action()
+    public function editAction()
     {
-        return $this->render('@App/Order/step_1.html.twig', [
+        return $this->render('@App/Order/edit.html.twig', [
+            'shipping_price' => $this->getShippingPrice(),
             'order' => $this->getProvider()->provide(),
         ]);
     }
 
     /**
-     * @Route("/order/step_2.html", name="order_step_2")
+     * @Route("/order/confirm.html", name="order_confirm")
      * @param Request $request
      * @return Response
      */
-    public function step2Action(Request $request)
+    public function confirmAction(Request $request)
     {
         if ($request->isMethod(Request::METHOD_POST)) {
             $request = $request->request;
-            $response = $this->redirectToRoute('order_step_2');
+            $response = $this->redirectToRoute('order_confirm');
 
-            foreach (['name', 'email', 'address', 'accepts'] as $required) {
+            foreach (['name', 'email', 'address', 'shipping_method'] as $required) {
                 if (!$request->get($required)) {
                     $response = new Response(sprintf(
                         "Missing required parameter '%s'",
@@ -73,22 +85,25 @@ class OrderController extends Controller
 
             return $this->getProvider()->updateCustomer($response);
         } else {
-            return $this->render('@App/Order/step_2.html.twig', [
+            return $this->render('@App/Order/confirm.html.twig', [
+                'shipping_price' => $this->getShippingPrice(),
                 'order' => $this->getProvider()->provide(),
             ]);
         }
     }
 
     /**
-     * @Route("/order/step_3.html", name="order_step_3")
+     * @Route("/order/send.html", name="order_send")
      * @return Response
      */
-    public function step3Action()
+    public function sendAction()
     {
         $order = $this->getProvider()->provide();
-        $body = $this->renderView('@App/Order/step_3.html.twig', [
+        $body = $this->renderView('@App/Order/send.html.twig', [
+            'shipping_price' => $this->getShippingPrice(),
             'order' => $order,
-            'order_number' => 1,
+            'variable_symbol' => $this->getProvider()->createVariableSymbol(),
+            'bank_account' => $this->container->getParameter('order_bank_account')
         ]);
 
         $subject = explode("\n", trim(strip_tags($body)))[0];
@@ -99,7 +114,11 @@ class OrderController extends Controller
             ->setFrom($selfEmail)
             ->addTo($selfEmail)
             ->addTo($customerEmail)
-            ->setBody($body, 'text/html');
+            ->setBody($body, 'text/html')
+            ->attach(
+                \Swift_Attachment::fromPath(__DIR__ . '/../../../www/produkty/obchodni_podminky.pdf')
+                    ->setFilename('obchodni_podminky.pdf')
+            );
 
         if (2 != $this->getMailer()->send($message)) {
             throw new \RuntimeException(sprintf(
@@ -114,15 +133,15 @@ class OrderController extends Controller
         }
         $this->getProvider()->persist($order);
 
-        return $this->redirectToRoute('order_step_4');
+        return $this->redirectToRoute('order_sent');
     }
 
     /**
-     * @Route("/order/step_4.html", name="order_step_4")
+     * @Route("/order/sent.html", name="order_sent")
      * @return Response
      */
-    public function step4Action()
+    public function sentAction()
     {
-        return $this->render('@App/Order/step_4.html.twig');
+        return $this->render('@App/Order/sent.html.twig');
     }
 }

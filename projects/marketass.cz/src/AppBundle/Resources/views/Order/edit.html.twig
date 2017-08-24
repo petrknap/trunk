@@ -1,0 +1,46 @@
+{% extends '@App/Order/base.html.twig' %}
+
+{% block item_amount %}
+    <input type="number" class="form-control text-right col-xs-12" name="items[{{ item.id }}]" value="{{ item.amount }}">
+{% endblock %}
+
+{% block shipping_name %}
+    <input type="text" class="form-control col-xs-12" name="name" value="{{ order.customer.name }}">
+{% endblock %}
+
+{% block shipping_email %}
+    <input type="email" class="form-control col-xs-12" name="email" value="{{ order.customer.email }}">
+{% endblock %}
+
+{% block shipping_address %}
+    <textarea class="form-control" name="address" rows="3">{{ order.customer.address }}</textarea>
+{% endblock %}
+
+{% block billing_name %}
+    <input type="text" class="form-control col-xs-12" name="billing_name" value="{{ order.customer.billing_name }}" placeholder="Ponechte prázdné, shoduje-li se s doručovacím jménem">
+{% endblock %}
+
+{% block billing_address %}
+    <textarea class="form-control" name="billing_address" rows="3" placeholder="Ponechte prázdné, shoduje-li se s doručovací adresou">{{ order.customer.billing_address }}</textarea>
+{% endblock %}
+
+{% block shipping_method %}
+    {% for method in ['Osobní odběr Na Jízdárně 18 (0 Kč)', 'Česká pošta (1 Kč)', 'PPL (2 Kč)'] %}
+        <div class="radio">
+            <label><input type="radio" name="shipping_method" value="{{ method }}"{% if method == order.customer.shipping_method %} checked="checked"{% endif %}>{{ method }}</label>
+        </div>
+    {% endfor %}
+{% endblock %}
+
+{% block payment %}{% endblock %}
+
+{% block content %}
+    <form class="form-horizontal">
+        {{ parent() }}
+        <a href="javascript://void" class="btn btn-primary">
+            <span class="glyphicon glyphicon-shopping-cart"></span>
+            &nbsp;
+            Pokračovat k potvrzení objednávky
+        </a>
+    </form>
+{% endblock %}
