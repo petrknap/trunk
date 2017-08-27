@@ -116,8 +116,8 @@ class OrderController extends Controller
             ->addTo($customerEmail)
             ->setBody($body, 'text/html')
             ->attach(
-                \Swift_Attachment::fromPath(__DIR__ . '/../../../www/produkty/obchodni_podminky.pdf')
-                    ->setFilename('obchodni_podminky.pdf')
+                \Swift_Attachment::fromPath(__DIR__ . '/../../../www/produkty/obchodni_podminky.docx')
+                    ->setFilename('obchodni_podminky.docx')
             );
 
         if (2 != $this->getMailer()->send($message)) {
