@@ -1,7 +1,7 @@
 {% extends "@MarkdownWeb/list.html.twig" %}
 
 {% block list %}
-    <div class="row">
+    <div class="shop-previews">
         {% block list_content %}{{ parent() }}{% endblock %}
     </div>
 {% endblock %}
@@ -15,20 +15,7 @@
                 </a>
             </h2>
             <div>
-                <span class="shop-price pull-right label label-primary">{{ item.price|number_format(0, ',', ' ') }}&nbsp;Kč</span>
-                <img src="{{ item.url[:-4] }}png" class="img-thumbnail img-responsive">
-                <div class="clearfix">
-                    <label class="input-group input-group-sm pull-right" style="max-width: 125px">
-                        <span class="input-group-btn">
-                            <button class="btn btn-primary js__add_to_order" type="button" data-url="{{ item.url }}">
-                                <span class="glyphicon glyphicon-shopping-cart"></span>
-                                <span class="sr-only">Do košíku</span>
-                            </button>
-                        </span>
-                        <input type="number" class="form-control text-right" value="1">
-                        <span class="input-group-addon">ks</span>
-                    </label>
-                </div>
+                {% include "@MarkdownWeb/shop.cart_price_image.html.twig" with {item: item} %}
             </div>
             <p>{{ item.description }}</p>
         {% endblock %}

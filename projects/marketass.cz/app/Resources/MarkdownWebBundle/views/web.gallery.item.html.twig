@@ -17,7 +17,7 @@
             {{ backToGallery }}
             <div class="row">
                 <div class="col-xs-12">
-                    <img src="{{ page.url[:-4] }}jpg" alt="{{ page.title }}" class="img-thumbnail img-responsive">
+                    <img src="{{ page.url[:-4]|replace({(base_uri): '/'}) }}jpg" alt="{{ page.title }}" class="img-thumbnail img-responsive">
                 </div>
             </div>
             {{ backToGallery }}

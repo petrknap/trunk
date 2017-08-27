@@ -12,7 +12,8 @@ body > .container {
 }
 
 .well-header {
-    /* TODO background-image: url('header.jpg'); */
+    background-image: url('header.jpg');
+    background-size: 100%;
 }
 
 .off-canvas {
@@ -46,10 +47,28 @@ body > .container {
     padding-right: 0.5em;
 }
 
-.shop-preview {
-    height: 250px;
+.shop-previews, .gallery-previews {
+    display: flex;
+    flex-wrap: wrap;
 }
 
-.shop-preview img {
-    min-height: 50px;
+.shop-preview, .gallery-preview {
+    margin-top: 5px;
+}
+
+.shop-image {
+    width: 100%;
+}
+
+.shop-price {
+    position: relative;
+    top: 15px;
+    z-index: 1;
+}
+
+.shop-basket-input {
+    max-width: 125px;
+    position: relative;
+    bottom: 30px;
+    z-index: 1;
 }

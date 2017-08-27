@@ -1,0 +1,17 @@
+{% extends "@MarkdownWeb/shop.html.twig" %}
+
+{% block content %}
+    <div class="well well-header">
+        <h1>{{ page.title }}</h1>
+    </div>
+
+    <div class="row">
+        <div class="col-md-8">
+            <p class="lead">{{ page.description }}</p>
+            {{ content|raw }}
+        </div>
+        <div class="col-md-4">
+            {% include "@MarkdownWeb/shop.cart_price_image.html.twig" with {item: page} %}
+        </div>
+    </div>
+{% endblock %}
