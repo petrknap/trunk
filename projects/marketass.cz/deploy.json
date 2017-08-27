@@ -3,7 +3,8 @@
    "ignore": [
     "!/vendor/",
     "!/www/*",
-    "/www/app_dev.php"
+    "/www/app_dev.php",
+    "/www/.debris"
   ],
   "purge": [
     "/var/cache"
