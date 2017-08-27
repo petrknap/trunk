@@ -3,7 +3,6 @@
 namespace PetrKnap\Symfony\MarkdownWeb\Model;
 
 use Mni\FrontYAML\Parser;
-use PetrKnap\Symfony\MarkdownWeb\Exception\RuntimeException;
 use Symfony\Component\HttpFoundation\Response;
 use const PetrKnap\Symfony\MarkdownWeb\BUNDLE_NAME;
 
@@ -134,7 +133,7 @@ class Page
      */
     public function __call($name, array $args)
     {
-        throw new RuntimeException(sprintf(
+        throw new \RuntimeException(sprintf(
             'Accessing unknown method \'%s\' of page \'%s\'',
             $name,
             $this->parameters['url']
