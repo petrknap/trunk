@@ -28,7 +28,7 @@
         </a>
         <hr style="visibility: hidden">
     </div>
-    {{ render_index("@MarkdownWeb/menu.html.twig", {"layout": "shop.html"}, "title:asc") }}
+    {{ render_index("@MarkdownWeb/menu.html.twig", {"|layout": ["shop.html", "shop.menu_item.html"]}, "priority:asc") }}
 {% endblock %}
 
 {% block content %}
