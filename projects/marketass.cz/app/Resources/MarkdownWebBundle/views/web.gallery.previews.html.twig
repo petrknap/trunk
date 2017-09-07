@@ -10,7 +10,7 @@
     <div class="gallery-preview col-xs-12 col-sm-6 col-md-4">
         {% block item_content %}
             <a href="{{ item.url }}">
-                <img src="{{ item.url[:-4]|replace({(base_uri): '/'}) }}jpg" alt="{{ item.title }}" class="img-thumbnail img-responsive">
+                <img src="/image.php?size=gallery_preview&path={{ item.url[:-4]|replace({(base_uri): '/'}) }}jpg" alt="{{ item.title }}" class="img-thumbnail img-responsive">
             </a>
         {% endblock %}
     </div>

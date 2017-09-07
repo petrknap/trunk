@@ -1,6 +1,6 @@
 <div class="clearfix">
 <span class="shop-price pull-right label label-primary">{{ item.price|number_format(0, ',', ' ') }}&nbsp;Kč</span>
-<img src="{{ item.url[:-4]|replace({(base_uri): '/'}) }}jpg" class="shop-image img-thumbnail img-responsive">
+<img src="/image.php?size=shop_preview&path={{ item.url[:-4]|replace({(base_uri): '/'}) }}jpg" class="shop-image img-thumbnail img-responsive">
     <label class="shop-basket-input input-group input-group-sm pull-right">
         <span class="input-group-btn">
             <button class="btn btn-primary js__add_to_order" type="button" data-url="{{ item.url }}">
