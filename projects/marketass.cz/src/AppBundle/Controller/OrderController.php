@@ -65,7 +65,7 @@ class OrderController extends Controller
     {
         if ($request->isMethod(Request::METHOD_POST)) {
             $request = $request->request;
-            $response = $this->redirectToRoute('order_confirm');
+            $response = $this->redirectToRoute('order_confirm', ['t' => microtime(true)]);
 
             foreach (['name', 'email', 'address', 'shipping_method'] as $required) {
                 if (!$request->get($required)) {
@@ -133,7 +133,7 @@ class OrderController extends Controller
         }
         $this->getProvider()->persist($order);
 
-        return $this->redirectToRoute('order_sent');
+        return $this->redirectToRoute('order_sent', ['t' => microtime(true)]);
     }
 
     /**

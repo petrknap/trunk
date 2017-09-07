@@ -37,7 +37,7 @@ var showModal = function (xhr, onSuccess, onFail) {
 
 OrderAPI.edit = function () {
     showModal(
-        $.get(OrderAPI.url.edit),
+        $.get(OrderAPI.modify_url(OrderAPI.url.edit)),
         function (data, $title, $content) {
             $title.html('Objednávka');
             $content.html(data);
@@ -49,7 +49,7 @@ OrderAPI.edit = function () {
 
 OrderAPI.confirm = function () {
     showModal(
-        $.post(OrderAPI.url.confirm, $(this).closest("form").serialize()),
+        $.post(OrderAPI.modify_url(OrderAPI.url.confirm), $(this).closest("form").serialize()),
         function (data, $title, $content) {
             $title.html('Objednávka');
             $content.html(data);
@@ -63,7 +63,7 @@ OrderAPI.confirm = function () {
 
 OrderAPI.send = function () {
     showModal(
-        $.get(OrderAPI.url.send),
+        $.get(OrderAPI.modify_url(OrderAPI.url.send)),
         function (data, $title, $content) {
             $title.html('Objednávka');
             $content.html(data);

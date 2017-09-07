@@ -46,7 +46,7 @@ class ApiController extends Controller
 
         $this->getOrderProvider()->persist($order);
 
-        return $this->redirectToRoute('order_api_get');
+        return $this->redirectToRoute('order_api_get', ['t' => microtime(true)]);
     }
 
     /**
@@ -63,6 +63,6 @@ class ApiController extends Controller
 
         $this->getOrderProvider()->persist($order);
 
-        return $this->redirectToRoute('order_api_get');
+        return $this->redirectToRoute('order_api_get', ['t' => microtime(true)]);
     }
 }
