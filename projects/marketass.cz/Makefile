@@ -21,7 +21,8 @@ clean:
 	sudo chmod u+r+w-x+X,g+r-w-x+X,o+r-w-x+X ./ -R
 	sudo chmod u+x ./bin -R
 	sudo chmod g+w,o+w ./var -R
-	rm -rf ./var/cache
+	rm -rf ./var/cache || true
+	rm -rf ./www/.debris || true
 
 composer:
 	make docker-run ARGS="composer ${ARGS}"
