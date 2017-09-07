@@ -36,7 +36,6 @@ var showModal = function (xhr, onSuccess, onFail) {
 };
 
 OrderAPI.edit = function () {
-    console.log(arguments);
     showModal(
         $.get(OrderAPI.url.edit),
         function (data, $title, $content) {
