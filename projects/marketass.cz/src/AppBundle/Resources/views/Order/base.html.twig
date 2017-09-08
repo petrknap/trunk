@@ -1,5 +1,9 @@
 {% block content %}
     {% set totalPrice = shipping_price %}
+    {% for item in order.items %}
+        {% set totalPrice = totalPrice + (item.price * item.amount) %}
+    {% endfor %}
+
     {% block items %}
         <table class="table table-bordered table-responsive table-striped">
             <tr>
@@ -15,7 +19,6 @@
                     <td class="text-right" style="vertical-align: middle">{% block item_amount %}{{ item.amount }}{% endblock %}</td>
                     <td class="text-right" style="vertical-align: middle">{{ (item.price * item.amount)|number_format(0, ',', ' ') }}&nbsp;Kč</td>
                 </tr>
-                {% set totalPrice = totalPrice + (item.price * item.amount) %}
             {% endfor %}
             <tr>
                 <td><strong>Doprava</strong></td>
