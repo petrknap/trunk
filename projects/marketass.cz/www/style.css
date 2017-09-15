@@ -12,8 +12,8 @@ body > .container {
 }
 
 .well-header {
-    background-image: url('header.jpg');
-    background-size: 100%;
+    background-image: url('/image/well_header/header.jpg.png');
+    background-position: center center;
 }
 
 .off-canvas {
@@ -54,6 +54,27 @@ body > .container {
 
 .shop-preview, .gallery-preview {
     margin-top: 5px;
+}
+
+.shop-preview {
+    position: relative;
+    bottom: 20px;
+}
+
+.shop-preview h2.h4 {
+    display: table;
+    min-height: 60px;
+}
+.shop-preview h2.h4 a {
+    display: table-cell;
+    vertical-align: bottom;
+    position: relative;
+    top: 20px;
+}
+
+.shop-preview p {
+    position: relative;
+    bottom: 25px;
 }
 
 .shop-image {
