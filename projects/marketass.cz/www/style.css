@@ -13,7 +13,8 @@ body > .container {
 
 .well-header {
     background-image: url('/image/well_header/header.jpg.png');
-    background-position: center center;
+    background-position: left center;
+    border-color: #376757;
 }
 
 .off-canvas {
