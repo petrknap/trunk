@@ -11,9 +11,15 @@ body > .container {
     overflow-x: hidden;
 }
 
-.well-header {
+.well-header-outer {
     background-image: url('/image/well_header/header.jpg.png');
     background-position: left center;
+    background-color: #449d44;;
+    border-radius: 6px;
+}
+
+.well-header {
+    background-color: rgba(255, 255, 255, 0.2);
     border-color: #376757;
 }
 

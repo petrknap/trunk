@@ -72,12 +72,14 @@
                     </button>
                 </p>
                 {% if page.jumbotron is defined %}
-                    <section class="well well-header jumbotron">
-                        <h1>{{ page.jumbotron.title|raw }}</h1>
-                        {% if page.jumbotron.more is defined %}
-                            <p>{{ page.jumbotron.more|raw }}</p>
-                        {% endif %}
-                    </section>
+                    <div class="well-header-outer">
+                        <section class="well well-header jumbotron">
+                            <h1>{{ page.jumbotron.title|raw }}</h1>
+                            {% if page.jumbotron.more is defined %}
+                                <p>{{ page.jumbotron.more|raw }}</p>
+                            {% endif %}
+                        </section>
+                    </div>
                 {% endif %}
                 <section>
                     {% block content %}{% endblock %}
