@@ -116,7 +116,7 @@ class OrderController extends Controller
             ->addTo($customerEmail)
             ->setBody($body, 'text/html')
             ->attach(
-                \Swift_Attachment::fromPath(__DIR__ . '/../../../www/produkty/obchodni_podminky.docx')
+                \Swift_Attachment::fromPath(__DIR__ . '/../../../www/e-shop/obchodni_podminky.docx')
                     ->setFilename('obchodni_podminky.docx')
             );
 
