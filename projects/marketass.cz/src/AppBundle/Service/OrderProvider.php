@@ -102,6 +102,8 @@ class OrderProvider extends SessionOrderProvider
             throw new IOException('open failed', 0, null, $this->permanentJsonFile);
         }
 
+        $index = 0;
+        $offset = 0;
         $throw = null;
         try {
             if (false === flock($fp, LOCK_EX)) {
@@ -117,6 +119,7 @@ class OrderProvider extends SessionOrderProvider
                 throw new IOException('decode failed', 0, null, $this->permanentJsonFile);
             }
 
+            $offset = &$data['number_offset'];
             $index = &$data['last_number'][date('Y')];
             $index++;
 
@@ -139,10 +142,10 @@ class OrderProvider extends SessionOrderProvider
             throw new IOException('close failed', 0, $throw, $this->permanentJsonFile);
         }
 
-        if (!isset($index)) {
-            throw new IOException('unknown index', 0, $throw, $this->permanentJsonFile);
+        if ($throw) {
+            throw $throw;
         }
 
-        return substr(date('Y') * 1000 + $index, -5);
+        return substr(date('Y') * 1000 + ($index + $offset) % 1000, -5);
     }
 }
