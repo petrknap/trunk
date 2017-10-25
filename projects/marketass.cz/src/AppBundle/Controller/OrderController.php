@@ -102,7 +102,7 @@ class OrderController extends Controller
         $body = $this->renderView('@App/Order/send.html.twig', [
             'shipping_price' => $this->getShippingPrice(),
             'order' => $order,
-            'variable_symbol' => $this->getProvider()->createVariableSymbol(),
+            'order_number' => $this->getProvider()->createOrderNumber(),
             'bank_account' => $this->container->getParameter('order_bank_account')
         ]);
 

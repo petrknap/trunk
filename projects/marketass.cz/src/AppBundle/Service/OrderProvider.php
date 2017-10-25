@@ -5,6 +5,7 @@ namespace AppBundle\Service;
 use PetrKnap\Symfony\MarkdownWeb\Model\Index;
 use PetrKnap\Symfony\MarkdownWeb\Service\Crawler;
 use PetrKnap\Symfony\Order\Service\SessionOrderProvider;
+use Symfony\Component\Filesystem\Exception\IOException;
 use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
@@ -22,7 +23,12 @@ class OrderProvider extends SessionOrderProvider
      */
     private $index;
 
-    public function __construct(SessionInterface $session, RequestStack $requestStack, Crawler $crawler, $urlPrefix)
+    /**
+     * @var string
+     */
+    private $permanentJsonFile;
+
+    public function __construct(SessionInterface $session, RequestStack $requestStack, Crawler $crawler, $urlPrefix, $permanentJsonFile)
     {
         parent::__construct($session);
 
@@ -30,6 +36,7 @@ class OrderProvider extends SessionOrderProvider
         $this->index = $crawler->getIndex(function ($url) use ($urlPrefix) {
             return $urlPrefix . $url;
         });
+        $this->permanentJsonFile = $permanentJsonFile;
     }
 
     /**
@@ -86,10 +93,56 @@ class OrderProvider extends SessionOrderProvider
     }
 
     /**
-     * @return string 10 chars long string
+     * @return string max 10 chars long string
      */
-    public function createVariableSymbol()
+    public function createOrderNumber()
     {
-        return substr(floor(microtime(true) * 10), -10);
+        $fp = fopen($this->permanentJsonFile, 'r+');
+        if (false === $fp) {
+            throw new IOException('open failed', 0, null, $this->permanentJsonFile);
+        }
+
+        $throw = null;
+        try {
+            if (false === flock($fp, LOCK_EX)) {
+                throw new IOException('lock failed', 0, null, $this->permanentJsonFile);
+            }
+
+            $data = '';
+            while (true !== feof($fp)) {
+                $data .= fread($fp, 8192);
+            }
+            $data = json_decode($data, true);
+            if (null === $data) {
+                throw new IOException('decode failed', 0, null, $this->permanentJsonFile);
+            }
+
+            $index = &$data['last_number'][date('Y')];
+            $index++;
+
+            if (false === ftruncate($fp, 0)) {
+                throw new IOException('truncate failed', 0, null, $this->permanentJsonFile);
+            }
+
+            if (false === fwrite($fp, json_encode($data))) {
+                throw new IOException('write failed', 0, null, $this->permanentJsonFile);
+            }
+
+            if (false === flock($fp, LOCK_UN)) {
+                throw new IOException('unlock failed', 0, null, $this->permanentJsonFile);
+            }
+        } catch (IOException $exception) {
+            $throw = $exception;
+        }
+
+        if (false === fclose($fp)) {
+            throw new IOException('close failed', 0, $throw, $this->permanentJsonFile);
+        }
+
+        if (!isset($index)) {
+            throw new IOException('unknown index', 0, $throw, $this->permanentJsonFile);
+        }
+
+        return substr(date('Y') * 1000 + $index, -5);
     }
 }

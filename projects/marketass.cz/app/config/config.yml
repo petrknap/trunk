@@ -41,6 +41,7 @@ services:
       - '@request_stack'
       - '@markdown_web.crawler'
       - '%order_provider.url_prefix%'
+      - '%kernel.project_dir%/var/orders/%kernel.environment%.json'
 
 order:
   provider: AppBundle\Service\OrderProvider
