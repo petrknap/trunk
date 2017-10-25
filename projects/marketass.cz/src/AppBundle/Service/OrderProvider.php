@@ -127,6 +127,10 @@ class OrderProvider extends SessionOrderProvider
                 throw new IOException('truncate failed', 0, null, $this->permanentJsonFile);
             }
 
+            if (false === rewind($fp)) {
+                throw new IOException('rewind failed', 0, null, $this->permanentJsonFile);
+            }
+
             if (false === fwrite($fp, json_encode($data))) {
                 throw new IOException('write failed', 0, null, $this->permanentJsonFile);
             }
