@@ -6,7 +6,8 @@
         "netpromotion/symfony-up": "^1.0"
     },
     "require-dev": {
-        "netpromotion/deployer": "^1.0"
+        "netpromotion/deployer": "^1.0",
+        "phpunit/phpunit": "^6.4"
     },
     "autoload": {
         "psr-4": {

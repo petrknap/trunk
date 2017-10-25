@@ -1,5 +1,6 @@
 imports:
   - resource: parameters.yml
+  - resource: services.yml
 
 framework:
   # secret is commonly used to add more entropy to security related operations

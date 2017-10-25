@@ -1,5 +1,6 @@
 <?php
 
+use AppBundle\AppBundle;
 use Netpromotion\SymfonyUp\AppKernelTrait;
 use Netpromotion\SymfonyUp\UpKernel;
 use Symfony\Bundle\FrameworkBundle\FrameworkBundle;
@@ -12,7 +13,7 @@ class AppKernel extends UpKernel
     {
         return [
             new FrameworkBundle(),
-            // TODO add more bundles here
+            new AppBundle(),
         ];
     }
 

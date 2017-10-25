@@ -1,3 +1,5 @@
+.PHONY: *
+
 docker-build:
 	sudo docker build -t petrknap.cz .
 
@@ -29,3 +31,6 @@ composer-install:
 
 deployment:
 	make docker-run ARGS="./vendor/bin/deploy"
+
+tests:
+	make docker-run ARGS="./vendor/bin/phpunit"
