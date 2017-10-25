@@ -1,0 +1,11 @@
+{
+  "test": true,
+  "ignore": [
+    "!/vendor/",
+    "!/www/*",
+    "/www/app_dev.php"
+  ],
+  "purge": [
+    "/var/cache"
+  ]
+}

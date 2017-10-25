@@ -1,0 +1,16 @@
+{
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "require": {
+        "php": "^7.1",
+        "netpromotion/symfony-up": "^1.0"
+    },
+    "require-dev": {
+        "netpromotion/deployer": "^1.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "AppBundle\\": "src/AppBundle"
+        }
+    }
+}
