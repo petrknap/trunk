@@ -1,3 +1,4 @@
 /vendor/
 /deploy.local.json
 /deploy.log
+/app/config/parameters.yml
