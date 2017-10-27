@@ -1,7 +1,0 @@
-imports:
-  - resource: config.yml
-
-framework:
-  # profiler.enabled enables profiler for 'dev' environment
-  profiler:
-    enabled: true

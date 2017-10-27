@@ -1,11 +1,16 @@
 <?php
 
-use Netpromotion\SymfonyUp\UpTestCase;
+namespace App\Test;
 
-class AppTestCase extends UpTestCase
+use PetrKnap\Php\ServiceManager\ServiceManager;
+use PHPUnit\Framework\TestCase;
+
+class AppTestCase extends TestCase
 {
-    protected static function getKernelClass()
+    protected function get($id)
     {
-        return AppKernel::class;
+        return ServiceManager::getInstance()->get($id);
     }
 }
+
+require_once __DIR__ . '/mocks.php';

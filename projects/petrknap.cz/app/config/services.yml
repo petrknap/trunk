@@ -1,3 +1,0 @@
-services:
-  AppBundle\Service\RemoteContentAccessor:
-    autowire: true
