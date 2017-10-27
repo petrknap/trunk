@@ -6,7 +6,6 @@ use App\RemoteContent\RemoteContentCache;
 use App\RemoteContent\RemoteContentCacheFactory;
 use PetrKnap\Php\ServiceManager\ConfigurationBuilder;
 use PetrKnap\Php\ServiceManager\ServiceManager;
-use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 
 $cb = new ConfigurationBuilder();
 
