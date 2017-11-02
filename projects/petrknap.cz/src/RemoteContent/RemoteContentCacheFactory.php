@@ -13,10 +13,12 @@ class RemoteContentCacheFactory implements FactoryInterface
      */
     public function createService(ContainerInterface $container)
     {
+        $config = $container->get(CONFIG);
+
         return new FilesystemAdapter(
-            CACHE_REMOTE_CONTENT_NAMESPACE,
-            CACHE_REMOTE_CONTENT_LIFETIME,
-            CACHE_DIR
+            $config[CONFIG_CACHE_REMOTE_CONTENT_NAMESPACE],
+            $config[CONFIG_CACHE_REMOTE_CONTENT_LIFETIME],
+            $config[CONFIG_CACHE_DIR]
         );
     }
 }

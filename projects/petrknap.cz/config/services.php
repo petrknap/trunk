@@ -9,6 +9,9 @@ use PetrKnap\Php\ServiceManager\ServiceManager;
 
 $cb = new ConfigurationBuilder();
 
+$cb->addService(CONFIG, ${CONFIG});
+$cb->setShared(CONFIG, true);
+
 $cb->addFactory(RemoteContentAccessor::class, RemoteContentAccessorFactory::class);
 $cb->setShared(RemoteContentAccessor::class, true);
 
