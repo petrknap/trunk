@@ -1,6 +1,6 @@
 <?php
 
-namespace Test\AppBundle\Service;
+namespace App\Test\RemoteContent;
 
 use App\RemoteContent\RemoteContentCache;
 use App\Test\AppTestCase;
