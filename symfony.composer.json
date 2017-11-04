@@ -23,16 +23,19 @@
     "require-dev": {
         "phpunit/phpunit": "^4.8",
         "symfony/phpunit-bridge": "^3.2",
-        "petrknap/symfony-markdownweb": "*"
+        "petrknap/symfony-markdownweb": "*",
+        "petrknap/symfony-order": "*"
     },
     "autoload": {
         "psr-4": {
-            "PetrKnap\\Symfony\\MarkdownWeb\\": "packages/Symfony/MarkdownWeb/src"
+            "PetrKnap\\Symfony\\MarkdownWeb\\": "packages/Symfony/MarkdownWeb/src",
+            "PetrKnap\\Symfony\\Order\\": "packages/Symfony/Order/src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "PetrKnap\\Symfony\\MarkdownWeb\\Test\\": "packages/Symfony/MarkdownWeb/tests"
+            "PetrKnap\\Symfony\\MarkdownWeb\\Test\\": "packages/Symfony/MarkdownWeb/tests",
+            "PetrKnap\\Symfony\\Order\\Test\\": "packages/Symfony/Order/tests"
         }
     }
 }
