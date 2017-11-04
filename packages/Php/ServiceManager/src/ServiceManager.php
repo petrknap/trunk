@@ -68,7 +68,7 @@ class ServiceManager implements ContainerInterface, SingletonInterface
         foreach ($config as $type => $services) {
             if (is_array($services)) {
                 foreach ($services as $name => $value) {
-                    if (isset(self::$config[$type][$value])) {
+                    if (isset(self::$config[$type][$name])) {
                         trigger_error("Current {$name} will be overridden by new one.", E_USER_WARNING);
                     }
                 }
