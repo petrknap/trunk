@@ -83,7 +83,7 @@ class ServiceManagerTest extends \PHPUnit_Framework_TestCase
                 ]
             ]
         );
-        ServiceManager::addConfig(DependentServiceFactory::getConfig());
+        @ServiceManager::addConfig(DependentServiceFactory::getConfig());
 
         if ($expectedException) {
             $this->setExpectedException($expectedException);
