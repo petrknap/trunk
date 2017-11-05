@@ -10,9 +10,6 @@ docker-run:
 web-server: clean
 	sudo docker run -v $$(pwd)/../..:/var/www/html --rm petrknap.cz
 
-web-console: clean
-	make docker-run ARGS="php bin/console ${ARGS}"
-
 clean:
 	(cd ../../ && make clean)
 	sudo chmod u+r+w-x+X,g+r-w-x+X,o+r-w-x+X ./ -R
@@ -24,7 +21,6 @@ composer:
 
 composer-install:
 	make composer ARGS="install"
-	make web-console ARGS="assets:install www --symlink --relative"
 
 deployment:
 	make docker-run ARGS="./vendor/bin/deploy"
