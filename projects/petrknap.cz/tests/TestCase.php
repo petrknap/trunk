@@ -5,9 +5,9 @@ namespace PetrKnapCz\Test;
 use PetrKnap\Php\MigrationTool\SqlMigrationTool;
 use PetrKnap\Php\ServiceManager\ConfigurationBuilder;
 use PetrKnap\Php\ServiceManager\ServiceManager;
-use PHPUnit\Framework\TestCase as PHPUnitTestCase;
+use PHPUnit\Framework\TestCase as PHPUnit_TestCase;
 
-class TestCase extends PHPUnitTestCase
+abstract class TestCase extends PHPUnit_TestCase
 {
     protected function get($id)
     {
