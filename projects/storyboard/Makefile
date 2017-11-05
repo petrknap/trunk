@@ -7,6 +7,9 @@ docker-run:
 	sudo docker run -v $$(pwd):/usr/src/myapp --rm storyboard bash -c "cd /usr/src/myapp && ${ARGS}"
 	make clean
 
+clean:
+	(cd ../../ && make clean)
+
 composer:
 	make docker-run ARGS="composer ${ARGS}"
 
