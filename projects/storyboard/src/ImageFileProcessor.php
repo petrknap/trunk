@@ -33,7 +33,7 @@ class ImageFileProcessor
     private function resizeImage($pathToFile)
     {
         $image = ImageWorkshop::initFromPath($pathToFile);
-        $image->resizeByLargestSideInPixel(720);
+        $image->resizeByLargestSideInPixel(720, true);
 
         return $image;
     }
