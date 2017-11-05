@@ -1,0 +1,8 @@
+<div class="row">
+    <? if ($rightContent): ?>
+        <div class="col-sm-6"><?= $leftContent ?></div>
+        <div class="col-sm-6"><?= $rightContent ?></div>
+    <? else: ?>
+        <div class="col-sm-12"><?= $leftContent ?></div>
+    <? endif ?>
+</div>
