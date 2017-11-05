@@ -5,7 +5,7 @@ namespace Storyboard;
 interface FileProcessor
 {
     /**
-     * Processes file and return HTML output
+     * Processes file and returns HTML output
      *
      * @param string $pathToFile
      * @return string
