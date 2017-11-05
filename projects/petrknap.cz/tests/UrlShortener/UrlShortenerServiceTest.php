@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Test\UrlShortener;
+namespace PetrKnapCz\Test\UrlShortener;
 
-use App\Test\AppTestCase;
-use App\UrlShortener\Exception\Exception;
-use App\UrlShortener\Exception\RecordNotFoundException;
-use App\UrlShortener\UrlShortenerRecord;
-use App\UrlShortener\UrlShortenerService;
+use PetrKnapCz\Test\TestCase;
+use PetrKnapCz\UrlShortener\Exception\Exception;
+use PetrKnapCz\UrlShortener\Exception\RecordNotFoundException;
+use PetrKnapCz\UrlShortener\UrlShortenerRecord;
+use PetrKnapCz\UrlShortener\UrlShortenerService;
 
-class UrlShortenerServiceTest extends AppTestCase
+class UrlShortenerServiceTest extends TestCase
 {
     public function setUp()
     {

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\UrlShortener\Exception;
+namespace PetrKnapCz\UrlShortener\Exception;
 
 class RecordNotFoundException extends Exception
 {

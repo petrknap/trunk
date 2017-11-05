@@ -1,6 +1,6 @@
 <?php
 
-namespace App\UrlShortener\Exception;
+namespace PetrKnapCz\UrlShortener\Exception;
 
 abstract class Exception extends \Exception
 {

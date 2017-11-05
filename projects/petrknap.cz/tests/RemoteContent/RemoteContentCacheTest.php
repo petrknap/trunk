@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Test\RemoteContent;
+namespace PetrKnapCz\Test\RemoteContent;
 
-use App\RemoteContent\RemoteContentCache;
-use App\Test\AppTestCase;
+use PetrKnapCz\RemoteContent\RemoteContentCache;
+use PetrKnapCz\Test\TestCase;
 
-class RemoteContentCacheTest extends AppTestCase
+class RemoteContentCacheTest extends TestCase
 {
     public function testIsRegistered()
     {

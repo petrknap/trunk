@@ -1,6 +1,6 @@
 <?php
 
-namespace App\UrlShortener;
+namespace PetrKnapCz\UrlShortener;
 
 use PetrKnap\Php\ServiceManager\FactoryInterface;
 use Psr\Container\ContainerInterface;

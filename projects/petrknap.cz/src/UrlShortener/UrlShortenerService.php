@@ -1,8 +1,8 @@
 <?php
 
-namespace App\UrlShortener;
+namespace PetrKnapCz\UrlShortener;
 
-use App\UrlShortener\Exception\RecordNotFoundException;
+use PetrKnapCz\UrlShortener\Exception\RecordNotFoundException;
 
 class UrlShortenerService
 {

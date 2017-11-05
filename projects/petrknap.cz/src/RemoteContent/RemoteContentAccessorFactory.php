@@ -1,6 +1,6 @@
 <?php
 
-namespace App\RemoteContent;
+namespace PetrKnapCz\RemoteContent;
 
 use PetrKnap\Php\ServiceManager\FactoryInterface;
 use Psr\Container\ContainerInterface;

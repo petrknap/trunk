@@ -1,11 +1,11 @@
 <?php
 
-use App\RemoteContent\RemoteContentAccessor;
-use App\RemoteContent\RemoteContentAccessorFactory;
-use App\RemoteContent\RemoteContentCache;
-use App\RemoteContent\RemoteContentCacheFactory;
-use App\UrlShortener\UrlShortenerService;
-use App\UrlShortener\UrlShortenerServiceFactory;
+use PetrKnapCz\RemoteContent\RemoteContentAccessor;
+use PetrKnapCz\RemoteContent\RemoteContentAccessorFactory;
+use PetrKnapCz\RemoteContent\RemoteContentCache;
+use PetrKnapCz\RemoteContent\RemoteContentCacheFactory;
+use PetrKnapCz\UrlShortener\UrlShortenerService;
+use PetrKnapCz\UrlShortener\UrlShortenerServiceFactory;
 use PetrKnap\Php\MigrationTool\SqlMigrationTool;
 use PetrKnap\Php\ServiceManager\ConfigurationBuilder;
 use PetrKnap\Php\ServiceManager\ServiceManager;

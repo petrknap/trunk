@@ -1,6 +1,6 @@
 <?php
 
-use App\RemoteContent\RemoteContentAccessor;
+use PetrKnapCz\RemoteContent\RemoteContentAccessor;
 use PetrKnap\Php\ServiceManager\ServiceManager;
 
 require_once __DIR__ . '/../vendor/autoload.php';

@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Test;
+namespace PetrKnapCz\Test;
 
 use PetrKnap\Php\MigrationTool\SqlMigrationTool;
 use PetrKnap\Php\ServiceManager\ConfigurationBuilder;
 use PetrKnap\Php\ServiceManager\ServiceManager;
-use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\TestCase as PHPUnitTestCase;
 
-class AppTestCase extends TestCase
+class TestCase extends PHPUnitTestCase
 {
     protected function get($id)
     {

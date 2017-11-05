@@ -17,12 +17,12 @@
             "config/config.php"
         ],
         "psr-4": {
-            "App\\": "src"
+            "PetrKnapCz\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "App\\Test\\": "tests"
+            "PetrKnapCz\\Test\\": "tests"
         }
     }
 }

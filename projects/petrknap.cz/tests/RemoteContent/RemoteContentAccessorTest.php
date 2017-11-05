@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Test\RemoteContent;
+namespace PetrKnapCz\Test\RemoteContent;
 
-use App\RemoteContent\RemoteContentAccessor;
-use App\Test\AppTestCase;
+use PetrKnapCz\RemoteContent\RemoteContentAccessor;
+use PetrKnapCz\Test\TestCase;
 use Psr\Cache\CacheItemInterface;
 use Psr\Cache\CacheItemPoolInterface;
 use Symfony\Component\HttpFoundation\Response;
 
-class RemoteContentAccessorTest extends AppTestCase
+class RemoteContentAccessorTest extends TestCase
 {
     /**
      * @return CacheItemPoolInterface
