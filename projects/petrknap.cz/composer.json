@@ -6,7 +6,9 @@
         "symfony/cache": "^3.3",
         "symfony/http-foundation": "^3.3",
         "petrknap/php-servicemanager": "^1.0",
-        "petrknap/php-migrationtool": "^2.0"
+        "petrknap/php-migrationtool": "^2.0",
+        "theiconic/php-ga-measurement-protocol": "^2.7",
+        "ramsey/uuid": "^3.7"
     },
     "require-dev": {
         "netpromotion/deployer": "^1.0",
