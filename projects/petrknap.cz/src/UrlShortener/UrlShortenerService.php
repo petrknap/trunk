@@ -41,12 +41,18 @@ SELECT id, keyword, url, is_redirect FROM url_shortener__records WHERE keyword =
 
     public function getResponse(string $keyword): Response
     {
-        $record = $this->getRecord($keyword);
+        try {
+            $record = $this->getRecord($keyword);
 
-        if ($record->isRedirect()) {
-            return new RedirectResponse($record->getUrl());
-        } else {
-            return $this->remoteContentAccessor->getResponse($record->getUrl());
+            if ($record->isRedirect()) {
+                return new RedirectResponse($record->getUrl());
+            } else {
+                return $this->remoteContentAccessor->getResponse($record->getUrl());
+            }
+        } catch (RecordNotFoundException $e) {
+            return new Response($e->getMessage(), Response::HTTP_NOT_FOUND, [
+                'Content-Type' => 'text/plain; charset=utf-8'
+            ]);
         }
     }
 }
