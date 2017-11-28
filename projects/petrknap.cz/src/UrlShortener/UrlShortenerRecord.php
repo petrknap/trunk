@@ -12,22 +12,22 @@ class UrlShortenerRecord
     /**
      * @var string
      */
-    private $short;
+    private $keyword;
 
     /**
      * @var string
      */
-    private $long;
+    private $url;
     /**
      * @var bool
      */
     private $redirect;
 
-    public function __construct(int $id, string $short, string $long, bool $isRedirect)
+    public function __construct(int $id, string $keyword, string $url, bool $isRedirect)
     {
         $this->id = $id;
-        $this->short = $short;
-        $this->long = $long;
+        $this->keyword = $keyword;
+        $this->url = $url;
         $this->redirect = $isRedirect;
     }
 }

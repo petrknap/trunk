@@ -16,10 +16,10 @@ class UrlShortenerServiceTest extends TestCase
 
         /** @var \PDOStatement $statement */
         $statement = $this->get(\PDO::class)->prepare("-- noinspection SqlDialectInspection
-INSERT INTO url_shortener__records (id, short, long, is_redirect) VALUES (?, ?, ?, ?)");
+INSERT INTO url_shortener__records (id, keyword, url, is_redirect) VALUES (?, ?, ?, ?)");
 
-        $statement->execute([1, 'short', 'long', false]);
-        $statement->execute([2, 'redirect_short', 'redirect_long', true]);
+        $statement->execute([1, 'keyword', 'url', false]);
+        $statement->execute([2, 'redirect_keyword', 'redirect_keyword', true]);
     }
 
     public function testIsRegistered()
@@ -47,11 +47,11 @@ INSERT INTO url_shortener__records (id, short, long, is_redirect) VALUES (?, ?, 
     {
         return [
             [
-                new UrlShortenerRecord(1, 'short', 'long', false),
+                new UrlShortenerRecord(1, 'keyword', 'url', false),
                 'short'
             ],
             [
-                new UrlShortenerRecord(2, 'redirect_short', 'redirect_long', true),
+                new UrlShortenerRecord(2, 'redirect_keyword', 'redirect_url', true),
                 'redirect_short'
             ],
         ];

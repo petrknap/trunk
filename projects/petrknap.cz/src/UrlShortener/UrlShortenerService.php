@@ -16,15 +16,15 @@ class UrlShortenerService
         $this->database = $database;
     }
 
-    public function getRecord(string $short): UrlShortenerRecord
+    public function getRecord(string $keyword): UrlShortenerRecord
     {
         $statement = $this->database->prepare('-- noinspection SqlDialectInspection
-SELECT id, short, long, is_redirect FROM url_shortener__records WHERE short = ?');
-        $statement->execute([$short]);
+SELECT id, keyword, url, is_redirect FROM url_shortener__records WHERE keyword = ?');
+        $statement->execute([$keyword]);
         $data = $statement->fetch(\PDO::FETCH_NUM);
 
         if (false === $data) {
-            throw new RecordNotFoundException("Record for short '{$short}' not found");
+            throw new RecordNotFoundException("Record for keyword '{$keyword}' not found");
         } else {
             return new UrlShortenerRecord(...$data);
         }
