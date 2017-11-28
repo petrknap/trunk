@@ -1,9 +1,8 @@
 <?php
 
-namespace PetrKnapCz\Test\RemoteContent;
+namespace PetrKnapCz\RemoteContent;
 
-use PetrKnapCz\RemoteContent\RemoteContentCache;
-use PetrKnapCz\Test\TestCase;
+use PetrKnapCz\TestCase;
 
 class RemoteContentCacheTest extends TestCase
 {

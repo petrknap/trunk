@@ -1,9 +1,8 @@
 <?php
 
-namespace PetrKnapCz\Test\RemoteContent;
+namespace PetrKnapCz\RemoteContent;
 
-use PetrKnapCz\RemoteContent\RemoteContentAccessor;
-use PetrKnapCz\Test\TestCase;
+use PetrKnapCz\TestCase;
 use Psr\Cache\CacheItemInterface;
 use Psr\Cache\CacheItemPoolInterface;
 use Symfony\Component\HttpFoundation\Response;
@@ -57,54 +56,64 @@ class RemoteContentAccessorTest extends TestCase
         return [
             [
                 'https://httpbin.org/robots.txt',
-                Response::create(
-                    "User-agent: *\nDisallow: /deny\n",
+                new RemoteContent(
+                    'https://httpbin.org/robots.txt',
                     Response::HTTP_OK,
                     [
                         'Content-Type' => 'text/plain'
-                    ]
+                    ],
+                    "User-agent: *\nDisallow: /deny\n"
                 ),
             ],
             [
                 'https://httpbin.org/redirect-to?url=https%3A%2F%2Fhttpbin.org%2Frobots.txt',
-                Response::create(
-                    "User-agent: *\nDisallow: /deny\n",
+                new RemoteContent(
+                    'https://httpbin.org/redirect-to?url=https%3A%2F%2Fhttpbin.org%2Frobots.txt',
                     Response::HTTP_OK,
                     [
                         'Content-Type' => 'text/plain'
-                    ]
+                    ],
+                    "User-agent: *\nDisallow: /deny\n"
                 ),
             ],
             [
                 'https://httpbin.org/status/403',
-                Response::create(
-                    null,
+                new RemoteContent(
+                    'https://httpbin.org/status/403',
                     Response::HTTP_FORBIDDEN,
                     [
                         'Content-Type' => 'text/html; charset=utf-8'
-                    ]
+                    ],
+                    null
                 ),
             ],
             [
                 'https://httpbin.org/status/404',
-                Response::create(
-                    null,
+                new RemoteContent(
+                    'https://httpbin.org/status/404',
                     Response::HTTP_NOT_FOUND,
                     [
                         'Content-Type' => 'text/html; charset=utf-8'
-                    ]
+                    ],
+                    null
                 ),
             ],
             [
                 'https://httpbin.org/status/500',
-                Response::create(
-                    null,
+                new RemoteContent(
+                    'https://httpbin.org/status/500',
                     Response::HTTP_INTERNAL_SERVER_ERROR,
                     [
                         'Content-Type' => 'text/html; charset=utf-8'
-                    ]
+                    ],
+                    null
                 ),
             ],
         ];
+    }
+
+    public function testGetResponse_TODO()
+    {
+        $this->markTestIncomplete();
     }
 }

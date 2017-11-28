@@ -1,12 +1,9 @@
 <?php
 
-namespace PetrKnapCz\Test\UrlShortener;
+namespace PetrKnapCz\UrlShortener;
 
-use PetrKnapCz\Test\TestCase;
-use PetrKnapCz\UrlShortener\Exception\Exception;
+use PetrKnapCz\TestCase;
 use PetrKnapCz\UrlShortener\Exception\RecordNotFoundException;
-use PetrKnapCz\UrlShortener\UrlShortenerRecord;
-use PetrKnapCz\UrlShortener\UrlShortenerService;
 
 class UrlShortenerServiceTest extends TestCase
 {
@@ -19,7 +16,7 @@ class UrlShortenerServiceTest extends TestCase
 INSERT INTO url_shortener__records (id, keyword, url, is_redirect) VALUES (?, ?, ?, ?)");
 
         $statement->execute([1, 'keyword', 'url', false]);
-        $statement->execute([2, 'redirect_keyword', 'redirect_keyword', true]);
+        $statement->execute([2, 'redirect_keyword', 'redirect_url', true]);
     }
 
     public function testIsRegistered()
@@ -32,10 +29,10 @@ INSERT INTO url_shortener__records (id, keyword, url, is_redirect) VALUES (?, ?,
 
     /**
      * @dataProvider dataGetRecord_returnsRecordWhenRecordExists
-     * @param UrlShortenerRecord $expected
+     * @param Record $expected
      * @param string $short
      */
-    public function testGetRecord_returnsRecordWhenRecordExists(UrlShortenerRecord $expected, $short)
+    public function testGetRecord_returnsRecordWhenRecordExists(Record $expected, $short)
     {
         $this->assertEquals(
             $expected,
@@ -47,12 +44,12 @@ INSERT INTO url_shortener__records (id, keyword, url, is_redirect) VALUES (?, ?,
     {
         return [
             [
-                new UrlShortenerRecord(1, 'keyword', 'url', false),
-                'short'
+                new Record(1, 'keyword', 'url', false),
+                'keyword'
             ],
             [
-                new UrlShortenerRecord(2, 'redirect_keyword', 'redirect_url', true),
-                'redirect_short'
+                new Record(2, 'redirect_keyword', 'redirect_url', true),
+                'redirect_keyword'
             ],
         ];
     }

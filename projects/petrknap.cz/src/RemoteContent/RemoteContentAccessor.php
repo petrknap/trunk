@@ -17,48 +17,55 @@ class RemoteContentAccessor
         $this->cache = $cache;
     }
 
-    /**
-     * @param string $uri
-     * @return Response
-     */
-    public function getRemoteContent($uri)
+    public function getRemoteContent(string $url): RemoteContent
     {
-        $cached = $this->cache->getItem(urlencode($uri));
+        $handler = curl_init();
 
-        if (!$cached->isHit()) {
-            $handler = curl_init();
+        curl_setopt($handler, CURLOPT_URL, $url);
+        curl_setopt($handler, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($handler, CURLOPT_FOLLOWLOCATION, true);
+        curl_setopt($handler, CURLOPT_HEADER, true);
 
-            curl_setopt($handler, CURLOPT_URL, $uri);
-            curl_setopt($handler, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($handler, CURLOPT_FOLLOWLOCATION, true);
-            curl_setopt($handler, CURLOPT_HEADER, true);
+        $response = curl_exec($handler);
+        $status = curl_getinfo($handler, CURLINFO_HTTP_CODE);
+        $headerSize = curl_getinfo($handler, CURLINFO_HEADER_SIZE);
 
-            $response = curl_exec($handler);
-            $status = curl_getinfo($handler, CURLINFO_HTTP_CODE);
-            $headerSize = curl_getinfo($handler, CURLINFO_HEADER_SIZE);
+        $headers = explode("\n", substr($response, 0, $headerSize));
+        $content = substr($response, $headerSize);
 
-            $headers = explode("\n", substr($response, 0, $headerSize));
-            $content = substr($response, $headerSize);
-
-            $tmp = [];
-            foreach ($headers as $header) {
-                $header = explode(':', $header, 2);
-                if (2 === count($header)) {
-                    $headerKey = trim($header[0]);
-                    $headerValue = trim($header[1]);
-                    switch ($headerKey) {
-                        case 'Content-Type':
-                            $tmp[$headerKey] = $headerValue;
-                    }
+        $tmp = [];
+        foreach ($headers as $header) {
+            $header = explode(':', $header, 2);
+            if (2 === count($header)) {
+                $headerKey = trim($header[0]);
+                $headerValue = trim($header[1]);
+                switch ($headerKey) {
+                    case 'Content-Type':
+                        $tmp[$headerKey] = $headerValue;
                 }
             }
-            $headers = $tmp;
+        }
+        $headers = $tmp;
 
-            curl_close($handler);
+        curl_close($handler);
 
-            $cached->set(new Response($content, $status, $headers));
+        return new RemoteContent($url, $status, $headers, $content ?: null);
+    }
 
-            if (200 <= $status && 300 > $status) {
+    public function getResponse(string $url): Response
+    {
+        $cached = $this->cache->getItem(urlencode($url));
+
+        if (!$cached->isHit()) {
+            $remoteContent = $this->getRemoteContent($url);
+
+            $cached->set(new Response(
+                $remoteContent->getContent(),
+                $remoteContent->getStatus(),
+                $remoteContent->getHeaders()
+            ));
+
+            if (200 <= $remoteContent->getStatus() && 300 > $remoteContent->getStatus()) {
                 $this->cache->save($cached);
             }
         }

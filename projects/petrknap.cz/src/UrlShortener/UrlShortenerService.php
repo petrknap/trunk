@@ -25,7 +25,7 @@ class UrlShortenerService
         $this->remoteContentAccessor = $remoteContentAccessor;
     }
 
-    public function getRecord(string $keyword): UrlShortenerRecord
+    public function getRecord(string $keyword): Record
     {
         $statement = $this->database->prepare('-- noinspection SqlDialectInspection
 SELECT id, keyword, url, is_redirect FROM url_shortener__records WHERE keyword = ?');
@@ -35,7 +35,7 @@ SELECT id, keyword, url, is_redirect FROM url_shortener__records WHERE keyword =
         if (false === $data) {
             throw new RecordNotFoundException("Record for keyword '{$keyword}' not found");
         } else {
-            return new UrlShortenerRecord(...$data);
+            return new Record(...$data);
         }
     }
 
@@ -46,7 +46,7 @@ SELECT id, keyword, url, is_redirect FROM url_shortener__records WHERE keyword =
         if ($record->isRedirect()) {
             return new RedirectResponse($record->getUrl());
         } else {
-            return $this->remoteContentAccessor->getRemoteContent($record->getUrl());
+            return $this->remoteContentAccessor->getResponse($record->getUrl());
         }
     }
 }
