@@ -2,7 +2,7 @@
 
 namespace PetrKnapCz\UrlShortener;
 
-class Record
+class UrlShortenerRecord
 {
     /**
      * @var int

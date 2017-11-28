@@ -29,10 +29,10 @@ INSERT INTO url_shortener__records (id, keyword, url, is_redirect) VALUES (?, ?,
 
     /**
      * @dataProvider dataGetRecord_returnsRecordWhenRecordExists
-     * @param Record $expected
+     * @param UrlShortenerRecord $expected
      * @param string $short
      */
-    public function testGetRecord_returnsRecordWhenRecordExists(Record $expected, $short)
+    public function testGetRecord_returnsRecordWhenRecordExists(UrlShortenerRecord $expected, $short)
     {
         $this->assertEquals(
             $expected,
@@ -44,11 +44,11 @@ INSERT INTO url_shortener__records (id, keyword, url, is_redirect) VALUES (?, ?,
     {
         return [
             [
-                new Record(1, 'keyword', 'url', false),
+                new UrlShortenerRecord(1, 'keyword', 'url', false),
                 'keyword'
             ],
             [
-                new Record(2, 'redirect_keyword', 'redirect_url', true),
+                new UrlShortenerRecord(2, 'redirect_keyword', 'redirect_url', true),
                 'redirect_keyword'
             ],
         ];
