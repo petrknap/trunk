@@ -18,6 +18,7 @@ class UrlShortenerRecord
      * @var string
      */
     private $url;
+
     /**
      * @var bool
      */
@@ -29,5 +30,15 @@ class UrlShortenerRecord
         $this->keyword = $keyword;
         $this->url = $url;
         $this->redirect = $isRedirect;
+    }
+
+    public function getUrl(): string
+    {
+        return $this->url;
+    }
+
+    public function isRedirect(): bool
+    {
+        return $this->redirect;
     }
 }
