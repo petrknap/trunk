@@ -55,6 +55,7 @@ $cb->addFactory(Analytics::class, function (ContainerInterface $container) {
     }
 
     $analytics = (new Analytics(true))
+        ->setAsyncRequest(true)
         ->setProtocolVersion('1') // https://developers.google.com/analytics/devguides/collection/protocol/v1/parameters
         ->setTrackingId($config[CONFIG_GA_TRACKING_ID])
         ->setDataSource('web')
