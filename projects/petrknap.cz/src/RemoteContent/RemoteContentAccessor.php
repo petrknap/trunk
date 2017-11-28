@@ -43,11 +43,13 @@ class RemoteContentAccessor
             $tmp = [];
             foreach ($headers as $header) {
                 $header = explode(':', $header, 2);
-                $headerKey = trim($header[0]);
-                $headerValue = trim($header[1]);
-                switch ($headerKey) {
-                    case 'Content-Type':
-                        $tmp[$headerKey] = $headerValue;
+                if (2 === count($header)) {
+                    $headerKey = trim($header[0]);
+                    $headerValue = trim($header[1]);
+                    switch ($headerKey) {
+                        case 'Content-Type':
+                            $tmp[$headerKey] = $headerValue;
+                    }
                 }
             }
             $headers = $tmp;
