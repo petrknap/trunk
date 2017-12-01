@@ -46,6 +46,11 @@ composer-install:
 composer-update:
 	make composer ARGS="update"
 
+static-analysis:
+	bin/phpstan analyse packages/Php/*/src --autoload-file=vendor/php/autoload.php ${ARGS}
+	bin/phpstan analyse packages/Nette/*/src --autoload-file=vendor/nette/autoload.php ${ARGS}
+	bin/phpstan analyse packages/Symfony/*/src --autoload-file=vendor/symfony/autoload.php ${ARGS}
+
 tests: composer-install
 	make tests-php ARGS="${ARGS}"
 	make tests-nette ARGS="${ARGS}"
@@ -72,7 +77,7 @@ tests-on-packages:
 		make docker-run-symfony ARGS="cd $${package} && composer update && vendor/bin/phpunit ${ARGS}"; \
 	done
 
-publish: tests publish-web
+publish: static-analysis tests publish-web
 	git subsplit init https://github.com/petrknap/trunk
 	git subsplit publish --heads=master --update "packages/Php/Enum:git@github.com:petrknap/php-enum.git packages/Php/FileStorage:git@github.com:petrknap/php-filestorage.git packages/Php/MigrationTool:git@github.com:petrknap/php-migrationtool.git packages/Php/Profiler:git@github.com:petrknap/php-profiler.git packages/Php/ServiceManager:git@github.com:petrknap/php-servicemanager.git packages/Php/Singleton:git@github.com:petrknap/php-singleton.git" #generated php
 	git subsplit publish --heads=master --update "packages/Nette/Bootstrap:git@github.com:petrknap/nette-bootstrap.git" #generated nette
