@@ -20,7 +20,7 @@ class Crawler
 
     /**
      * @param $directory
-     * @return \string[]
+     * @return string[]
      */
     private function getFiles($directory)
     {
