@@ -1,6 +1,6 @@
 <?php
 
-namespace PetrKnap\Php\FileStorage\Test;
+namespace PetrKnap\Php\SplitFilesystem\Test;
 
 abstract class AbstractTestCase extends \PHPUnit_Framework_TestCase
 {

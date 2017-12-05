@@ -1,20 +1,20 @@
 <?php
 
-namespace PetrKnap\Php\FileStorage\Test;
+namespace PetrKnap\Php\SplitFilesystem\Test;
 
 use League\Flysystem\Adapter\Local;
-use PetrKnap\Php\FileStorage\FileSystem;
+use PetrKnap\Php\SplitFilesystem\SplitFilesystem;
 use PetrKnap\Php\Profiler\SimpleProfiler;
 
 class PerformanceTest extends AbstractTestCase
 {
     /**
-     * @dataProvider performanceIsNotIntrusiveDataProvider
-     * @param FileSystem $fileSystem
+     * @dataProvider dataPerformanceIsNotIntrusive
+     * @param SplitFilesystem $fileSystem
      * @param int $from
      * @param int $to
      */
-    public function testPerformanceIsNotIntrusive(FileSystem $fileSystem, $from, $to)
+    public function testPerformanceIsNotIntrusive(SplitFilesystem $fileSystem, $from, $to)
     {
         $profilerWasEnabled = SimpleProfiler::start();
         if (!$profilerWasEnabled) {
@@ -52,7 +52,11 @@ class PerformanceTest extends AbstractTestCase
         #region Iterate all files
         SimpleProfiler::start();
         /** @noinspection PhpUnusedLocalVariableInspection */
-        foreach ($fileSystem->listContents() as $unused) ;
+        /** @noinspection LoopWhichDoesNotLoopInspection */
+        /** @noinspection PhpStatementHasEmptyBodyInspection */
+        foreach ($fileSystem->listContents() as $unused) {
+            // noop
+        }
         $profile = SimpleProfiler::finish();
         $this->assertLessThanOrEqual(5 * $to, $profile->absoluteDuration);
         #endregion
@@ -63,12 +67,12 @@ class PerformanceTest extends AbstractTestCase
         SimpleProfiler::finish();
     }
 
-    public function performanceIsNotIntrusiveDataProvider()
+    public function dataPerformanceIsNotIntrusive()
     {
         $iMax = 2048;
         $step = 512;
         $output = [];
-        $fileSystem = new FileSystem(new Local($this->getTemporaryDirectory()));
+        $fileSystem = new SplitFilesystem(new Local(static::getTemporaryDirectory()));
         for ($i = 0; $i < $iMax; $i += $step) {
             $output[] = [$fileSystem, $i, $i + $step];
         }

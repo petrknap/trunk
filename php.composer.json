@@ -23,30 +23,30 @@
     "require-dev": {
         "phpunit/phpunit": "^4.8",
         "petrknap/php-enum": "*",
-        "petrknap/php-filestorage": "*",
         "petrknap/php-migrationtool": "*",
         "petrknap/php-profiler": "*",
         "petrknap/php-servicemanager": "*",
-        "petrknap/php-singleton": "*"
+        "petrknap/php-singleton": "*",
+        "petrknap/php-splitfilesystem": "*"
     },
     "autoload": {
         "psr-4": {
             "PetrKnap\\Php\\Enum\\": "packages/Php/Enum/src",
-            "PetrKnap\\Php\\FileStorage\\": "packages/Php/FileStorage/src",
             "PetrKnap\\Php\\MigrationTool\\": "packages/Php/MigrationTool/src",
             "PetrKnap\\Php\\Profiler\\": "packages/Php/Profiler/src",
             "PetrKnap\\Php\\ServiceManager\\": "packages/Php/ServiceManager/src",
-            "PetrKnap\\Php\\Singleton\\": "packages/Php/Singleton/src"
+            "PetrKnap\\Php\\Singleton\\": "packages/Php/Singleton/src",
+            "PetrKnap\\Php\\SplitFilesystem\\": "packages/Php/SplitFilesystem/src"
         }
     },
     "autoload-dev": {
         "psr-4": {
             "PetrKnap\\Php\\Enum\\Test\\": "packages/Php/Enum/tests",
-            "PetrKnap\\Php\\FileStorage\\Test\\": "packages/Php/FileStorage/tests",
             "PetrKnap\\Php\\MigrationTool\\Test\\": "packages/Php/MigrationTool/tests",
             "PetrKnap\\Php\\Profiler\\Test\\": "packages/Php/Profiler/tests",
             "PetrKnap\\Php\\ServiceManager\\Test\\": "packages/Php/ServiceManager/tests",
-            "PetrKnap\\Php\\Singleton\\Test\\": "packages/Php/Singleton/tests"
+            "PetrKnap\\Php\\Singleton\\Test\\": "packages/Php/Singleton/tests",
+            "PetrKnap\\Php\\SplitFilesystem\\Test\\": "packages/Php/SplitFilesystem/tests"
         }
     }
 }
