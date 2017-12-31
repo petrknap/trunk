@@ -27,7 +27,26 @@
     <div class="container">
     <h2>a</h2>
     <div class="row">
-            <div class="col-sm-12"><ul>
+            <div class="col-md-6 col-sm-12"><ul>
+<li><em><strong>Robert</strong> comes to school</em></li>
+<li><strong>Robert</strong>: Good afternoon, teacher, how are you today?</li>
+<li><strong>Teacher</strong>: Good afternoon, Robert. I am doing well. And you?</li>
+<li><strong>Robert</strong>: I’m great, thank you. This is my best friend Jane. She  wants to apply to come to this university. She would like to ask you a few questions. Would you mind taking the time and telling her what process she would have to do, please?</li>
+</ul>
+</div>
+        <div class="col-md-6 col-sm-12"><ul>
+<li><em><strong>Jane</strong> comes to school</em></li>
+<li><strong>Teacher</strong>: Hello, Jane! It’s a nice to meet you. I am very busy today, as I am going to class now for the next 3 hours. Can you come to my office for 9am tomorrow morning?</li>
+<li><strong>Jane</strong>: Yes, that will be no problem. Thank you for making time for me and speaking to me today.</li>
+<li><strong>Teacher</strong>: Hopefully we will be seeing you at this university soon. See you tomorrow at 9.</li>
+</ul>
+</div>
+    </div>
+</div>
+<div class="container">
+    <h2>b</h2>
+    <div class="row">
+            <div class="col-md-12 col-sm-12"><ul>
 <li><em><strong>Robert</strong> comes to school</em></li>
 <li><strong>Robert</strong>: Good afternoon, teacher, how are you today?</li>
 <li><strong>Teacher</strong>: Good afternoon, Robert. I am doing well. And you?</li>
@@ -35,8 +54,18 @@
 </ul>
 </div>
     </div>
-<div class="row">
-            <div class="col-sm-12"><ul>
+</div>
+<div class="container">
+    <h2>c</h2>
+    <div class="row">
+            <div class="col-md-6 col-sm-12"><ul>
+<li><em><strong>Robert</strong> comes to school</em></li>
+<li><strong>Robert</strong>: Good afternoon, teacher, how are you today?</li>
+<li><strong>Teacher</strong>: Good afternoon, Robert. I am doing well. And you?</li>
+<li><strong>Robert</strong>: I’m great, thank you. This is my best friend Jane. She  wants to apply to come to this university. She would like to ask you a few questions. Would you mind taking the time and telling her what process she would have to do, please?</li>
+</ul>
+</div>
+        <div class="col-md-6 col-sm-12"><ul>
 <li><em><strong>Jane</strong> comes to school</em></li>
 <li><strong>Teacher</strong>: Hello, Jane! It’s a nice to meet you. I am very busy today, as I am going to class now for the next 3 hours. Can you come to my office for 9am tomorrow morning?</li>
 <li><strong>Jane</strong>: Yes, that will be no problem. Thank you for making time for me and speaking to me today.</li>
@@ -45,7 +74,10 @@
 </div>
     </div>
 <div class="row">
-            <div class="col-sm-12"></div>
+            <div class="col-md-12 col-sm-12"><ul>
+<li><em><strong>Jane</strong> goes home</em></li>
+</ul>
+</div>
     </div>
 </div>
 </div>

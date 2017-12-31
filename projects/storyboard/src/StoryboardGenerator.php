@@ -37,6 +37,9 @@ class StoryboardGenerator
             ->directories()
             ->in($this->sourceDir)
             ->depth(0)
+            ->sort(function (\SplFileInfo $a, \SplFileInfo $b) {
+                return strcmp($a->getBasename(), $b->getBasename());
+            })
             ->getIterator();
         $body = '';
         foreach ($dirs as $dir) {
@@ -56,22 +59,24 @@ class StoryboardGenerator
             })
             ->getIterator();
         $section = "";
-        $nonLogFiles = [];
-        $index = 1;
+        $content = [];
+        $logFileProcessor = new LogFileProcessor();
         foreach ($files as $file) {
             switch ($file->getExtension()) {
                 case 'log':
-                    $section .= $this->generateRow($file->getRealPath(), $nonLogFiles, $index % 2);
-                    $nonLogFiles = [];
+                    $content[] = $logFileProcessor->processFile($file->getRealPath());
                     break;
                 case 'jpg':
                 case 'png':
-                    $nonLogFiles[] = $file->getRealPath();
+                    // TODO
                     break;
             }
-            $index++;
         }
-        $section .= $this->generateRow(null, $nonLogFiles, $index % 2);
+        for ($i = 0; $i < count($content); $i = $i + 2) {
+            $leftContent = $content[$i];
+            $rightContent = isset($content[$i+1]) ? $content[$i+1] : null;
+            $section .= $this->generateRow($leftContent, $rightContent);
+        }
 
         $title = basename($subDir);
         $content = $section;
@@ -84,30 +89,8 @@ class StoryboardGenerator
         return $content;
     }
 
-    private function generateRow($logFile, $nonLogFiles, $logLeft)
+    private function generateRow($leftContent, $rightContent)
     {
-        if ($logFile) {
-            $logContent = (new LogFileProcessor())->processFile($logFile);
-        } else {
-            $logContent = null;
-        }
-
-        $nonLogContent = ''; // TODO
-
-        if (!$logContent) {
-            $leftContent = $nonLogContent;
-            $rightContent = null;
-        } elseif (!$nonLogContent) {
-            $leftContent = $logContent;
-            $rightContent = null;
-        } elseif ($logLeft) {
-            $leftContent = $logContent;
-            $rightContent = $nonLogContent;
-        } else {
-            $leftContent = $nonLogContent;
-            $rightContent = $logContent;
-        }
-
         ob_start();
         include __DIR__ . '/templates/row.phtml';
         $content = ob_get_contents();
