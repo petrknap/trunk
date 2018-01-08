@@ -1,6 +1,6 @@
 <?php
 
-namespace PetrKnapCz {
+namespace PetrKnapCz\Test {
 
     use PetrKnap\Php\MigrationTool\SqlMigrationTool;
     use PetrKnap\Php\ServiceManager\ConfigurationBuilder;

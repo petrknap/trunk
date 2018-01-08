@@ -1,9 +1,11 @@
 <?php
 
-namespace PetrKnapCz\UrlShortener;
+namespace PetrKnapCz\Test\UrlShortener;
 
-use PetrKnapCz\TestCase;
+use PetrKnapCz\Test\TestCase;
 use PetrKnapCz\UrlShortener\Exception\RecordNotFoundException;
+use PetrKnapCz\UrlShortener\UrlShortenerRecord;
+use PetrKnapCz\UrlShortener\UrlShortenerService;
 
 class UrlShortenerServiceTest extends TestCase
 {

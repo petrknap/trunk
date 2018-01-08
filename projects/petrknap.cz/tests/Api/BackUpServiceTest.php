@@ -3,7 +3,7 @@
 namespace PetrKnapCz\Test\Api;
 
 use PetrKnapCz\Api\BackUpService;
-use PetrKnapCz\TestCase;
+use PetrKnapCz\Test\TestCase;
 
 class BackUpServiceTest extends TestCase
 {
