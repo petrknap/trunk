@@ -1,5 +1,7 @@
 <?php
 
+use PetrKnapCz\Api\BackUpService;
+use PetrKnapCz\Api\BackUpServiceFactory;
 use PetrKnapCz\RemoteContent\RemoteContentAccessor;
 use PetrKnapCz\RemoteContent\RemoteContentAccessorFactory;
 use PetrKnapCz\RemoteContent\RemoteContentCache;
@@ -80,5 +82,6 @@ $cb->setShared(Analytics::class, false);
 $cb->addFactory(RemoteContentAccessor::class, RemoteContentAccessorFactory::class);
 $cb->addFactory(RemoteContentCache::class, RemoteContentCacheFactory::class);
 $cb->addFactory(UrlShortenerService::class, UrlShortenerServiceFactory::class);
+$cb->addFactory(BackUpService::class, BackUpServiceFactory::class);
 
 ServiceManager::setConfig($cb->getConfig());
