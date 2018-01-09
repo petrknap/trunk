@@ -19,7 +19,9 @@ ${CONFIG} = [
     CONFIG_CACHE_REMOTE_CONTENT_LIFETIME => 7 * 24 * 3600,
     CONFIG_GA_TRACKING_ID => 'UA-88031264-1',
     CONFIG_BACK_UP_DIR => __DIR__ . '/../backup',
-    CONFIG_BACKED_UP_FILES => [],
+    CONFIG_BACKED_UP_FILES => [
+        __DIR__ . '/config.local.php', // Don't forget to override this in config.local.php
+    ],
 ];
 
 require_once __DIR__ . '/config.local.php';

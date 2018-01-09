@@ -45,7 +45,11 @@ class BackUpService
     public function backUp()
     {
         foreach ($this->getChangedFiles() as $changedFile) {
-            copy($changedFile, $this->getBackUpPath($changedFile));
+            $backedUpFile = $this->getBackUpPath($changedFile);
+            if (file_exists($backedUpFile)) {
+                copy($backedUpFile, $backedUpFile . '.prev');
+            }
+            copy($changedFile, $backedUpFile);
         }
     }
 }
