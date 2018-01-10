@@ -1,0 +1,5 @@
+parameters:
+  backup.files: []
+  database.dsn: ~
+  database.username: ~
+  database.password: ~

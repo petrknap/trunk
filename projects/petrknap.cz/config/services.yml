@@ -1,0 +1,39 @@
+services:
+  Symfony\Component\HttpFoundation\Request:
+    factory: Symfony\Component\HttpFoundation\Request::createFromGlobals
+  TheIconic\Tracking\GoogleAnalytics\Analytics:
+    factory: PetrKnapCz\Api\GoogleAnalyticsFactory::create
+    arguments:
+      - '@Symfony\Component\HttpFoundation\Request'
+      - '%google_analytics.tracking_id%'
+  PDO:
+    class: PDO
+    arguments:
+      - '%database.dsn%'
+      - '%database.username%'
+      - '%database.password%'
+  PetrKnap\Php\MigrationTool\SqlMigrationTool:
+    class: PetrKnap\Php\MigrationTool\SqlMigrationTool
+    arguments:
+      - '%database.migrations_dir%'
+      - '@PDO'
+  PetrKnapCz\Api\BackUpService:
+    class: PetrKnapCz\Api\BackUpService
+    arguments:
+      - '%backup.dir%'
+      - '%backup.files%'
+  PetrKnapCz\RemoteContent\RemoteContentCache:
+    class: Symfony\Component\Cache\Adapter\FilesystemAdapter
+    arguments:
+      - '%cache.remote_content.namespace%'
+      - '%cache.remote_content.lifetime%'
+      - '%cache.dir%'
+  PetrKnapCz\RemoteContent\RemoteContentAccessor:
+    class: PetrKnapCz\RemoteContent\RemoteContentAccessor
+    arguments:
+      - '@PetrKnapCz\RemoteContent\RemoteContentCache'
+  PetrKnapCz\UrlShortener\UrlShortenerService:
+    class: PetrKnapCz\UrlShortener\UrlShortenerService
+    arguments:
+      - '@PDO'
+      - '@PetrKnapCz\RemoteContent\RemoteContentAccessor'

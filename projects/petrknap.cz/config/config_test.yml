@@ -1,0 +1,8 @@
+imports:
+  - resource: config.yml
+
+parameters:
+  backup.files: []
+  database.dsn: 'sqlite::memory:'
+  database.username: ~
+  database.password: ~

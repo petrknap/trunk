@@ -9,7 +9,7 @@ use PetrKnapCz\UrlShortener\UrlShortenerService;
 
 class UrlShortenerServiceTest extends TestCase
 {
-    public function setUp()
+    protected function setUp()
     {
         parent::setUp();
 

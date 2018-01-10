@@ -3,46 +3,23 @@
 namespace PetrKnapCz\Test {
 
     use PetrKnap\Php\MigrationTool\SqlMigrationTool;
-    use PetrKnap\Php\ServiceManager\ConfigurationBuilder;
-    use PetrKnap\Php\ServiceManager\ServiceManager;
+    use const PetrKnapCz\CONTAINER_TEST_FLAG;
     use PHPUnit\Framework\TestCase as PHPUnit_TestCase;
+
+    \PetrKnapCz\container([CONTAINER_TEST_FLAG => true]);
 
     abstract class TestCase extends PHPUnit_TestCase
     {
+        protected function setUp()
+        {
+            parent::setUp();
+
+            @$this->get(SqlMigrationTool::class)->migrate();
+        }
+
         protected function get($id)
         {
-            return ServiceManager::getInstance()->get($id);
-        }
-
-        /**
-         * @var \PDO|null
-         */
-        private static $pdo = null;
-
-        /**
-         * @var bool
-         */
-        private static $initializedServiceManager = false;
-
-        public static function setUpBeforeClass()
-        {
-            if (!self::$initializedServiceManager) {
-                $config = new ConfigurationBuilder();
-                $config->addFactory(\PDO::class, function () {
-                    return self::$pdo;
-                });
-                $config->setShared(\PDO::class, false);
-
-                @ServiceManager::addConfig($config);
-
-                self::$initializedServiceManager = true;
-            }
-        }
-
-        public function setUp()
-        {
-            self::$pdo = new \PDO('sqlite::memory:');
-            $this->get(SqlMigrationTool::class)->migrate();
+            return \PetrKnapCz\container()->get($id);
         }
     }
 }
