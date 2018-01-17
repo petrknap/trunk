@@ -1,11 +1,10 @@
 <?php
 
-use PetrKnapCz\RemoteContent\RemoteContentAccessor;
-use PetrKnap\Php\ServiceManager\ServiceManager;
+namespace PetrKnapCz;
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
-PetrKnapCz\container()
+container()
     ->get(RemoteContentAccessor::class)
     ->getResponse('https://petrknap.github.io/index_cz.html')
     ->send();

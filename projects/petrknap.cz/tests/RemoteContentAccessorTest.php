@@ -1,10 +1,9 @@
 <?php
 
-namespace PetrKnapCz\Test\RemoteContent;
+namespace PetrKnapCz\Test;
 
-use PetrKnapCz\RemoteContent\RemoteContent;
-use PetrKnapCz\RemoteContent\RemoteContentAccessor;
-use PetrKnapCz\Test\TestCase;
+use PetrKnapCz\RemoteContent;
+use PetrKnapCz\RemoteContentAccessor;
 use Psr\Cache\CacheItemInterface;
 use Psr\Cache\CacheItemPoolInterface;
 use Symfony\Component\HttpFoundation\Response;

@@ -1,6 +1,6 @@
 <?php
 
-namespace PetrKnapCz\RemoteContent;
+namespace PetrKnapCz;
 
 use Psr\Cache\CacheItemPoolInterface;
 use Symfony\Component\HttpFoundation\Response;

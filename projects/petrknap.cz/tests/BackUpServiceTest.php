@@ -1,9 +1,8 @@
 <?php
 
-namespace PetrKnapCz\Test\Api;
+namespace PetrKnapCz\Test;
 
-use PetrKnapCz\Api\BackUpService;
-use PetrKnapCz\Test\TestCase;
+use PetrKnapCz\BackUpService;
 
 class BackUpServiceTest extends TestCase
 {
@@ -28,7 +27,7 @@ class BackUpServiceTest extends TestCase
     public function dataReturnsCorrectBackUpPath()
     {
         return [
-            [__FILE__, '~/_var_www_html_projects_petrknap.cz_tests_Api_BackUpServiceTest.php'],
+            [__FILE__, '~/_var_www_html_projects_petrknap.cz_tests_BackUpServiceTest.php'],
         ];
     }
 
@@ -53,7 +52,7 @@ class BackUpServiceTest extends TestCase
 
     public function testBackUpWorks()
     {
-        $varBackupDir = __DIR__ . '/../../var/BackUpServiceTest_testBackUpWorks';
+        $varBackupDir = __DIR__ . '/../var/BackUpServiceTest_testBackUpWorks';
         exec(sprintf(
             'rsync --delete --recursive %s %s',
             escapeshellarg(__DIR__ . '/BackUpServiceTest/backup/'),
@@ -95,7 +94,7 @@ class BackUpServiceTest extends TestCase
                 'd' => $backUpService->getBackUpPath(__DIR__ . '/BackUpServiceTest/changed.txt')
             ],
             [
-                's' => __DIR__ . '/BackUpServiceTest/backup/_var_www_html_projects_petrknap.cz_tests_Api_BackUpServiceTest_changed.txt',
+                's' => __DIR__ . '/BackUpServiceTest/backup/_var_www_html_projects_petrknap.cz_tests_BackUpServiceTest_changed.txt',
                 'd' => $backUpService->getBackUpPath(__DIR__ . '/BackUpServiceTest/changed.txt') . '.prev'
             ],
             [
@@ -103,7 +102,7 @@ class BackUpServiceTest extends TestCase
                 'd' => $backUpService->getBackUpPath(__DIR__ . '/BackUpServiceTest/directory/changed.txt')
             ],
             [
-                's' => __DIR__ . '/BackUpServiceTest/backup/_var_www_html_projects_petrknap.cz_tests_Api_BackUpServiceTest_directory_changed.txt',
+                's' => __DIR__ . '/BackUpServiceTest/backup/_var_www_html_projects_petrknap.cz_tests_BackUpServiceTest_directory_changed.txt',
                 'd' => $backUpService->getBackUpPath(__DIR__ . '/BackUpServiceTest/directory/changed.txt') . '.prev'
             ],
             #endregion

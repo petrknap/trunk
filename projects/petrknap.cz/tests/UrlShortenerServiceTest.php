@@ -1,11 +1,10 @@
 <?php
 
-namespace PetrKnapCz\Test\UrlShortener;
+namespace PetrKnapCz\Test;
 
-use PetrKnapCz\Test\TestCase;
-use PetrKnapCz\UrlShortener\Exception\RecordNotFoundException;
-use PetrKnapCz\UrlShortener\UrlShortenerRecord;
-use PetrKnapCz\UrlShortener\UrlShortenerService;
+use PetrKnapCz\Exception\UrlShortenerRecordNotFoundException;
+use PetrKnapCz\UrlShortenerRecord;
+use PetrKnapCz\UrlShortenerService;
 
 class UrlShortenerServiceTest extends TestCase
 {
@@ -58,7 +57,7 @@ INSERT INTO url_shortener__records (id, keyword, url, is_redirect) VALUES (?, ?,
 
     public function testGetRecord_throwsExceptionWhenRecordDoesNotExist()
     {
-        $this->expectException(RecordNotFoundException::class);
+        $this->expectException(UrlShortenerRecordNotFoundException::class);
 
         $this->get(UrlShortenerService::class)->getRecord('not_found');
     }

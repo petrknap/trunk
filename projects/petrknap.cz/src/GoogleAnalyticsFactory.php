@@ -1,6 +1,6 @@
 <?php
 
-namespace PetrKnapCz\Api;
+namespace PetrKnapCz;
 
 use Ramsey\Uuid\Uuid;
 use Symfony\Component\HttpFoundation\Cookie;

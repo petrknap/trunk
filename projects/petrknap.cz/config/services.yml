@@ -17,23 +17,23 @@ services:
     arguments:
       - '%database.migrations_dir%'
       - '@PDO'
-  PetrKnapCz\Api\BackUpService:
-    class: PetrKnapCz\Api\BackUpService
+  PetrKnapCz\BackUpService:
+    class: PetrKnapCz\BackUpService
     arguments:
       - '%backup.dir%'
       - '%backup.files%'
-  PetrKnapCz\RemoteContent\RemoteContentCache:
+  PetrKnapCz\RemoteContentCache:
     class: Symfony\Component\Cache\Adapter\FilesystemAdapter
     arguments:
       - '%cache.remote_content.namespace%'
       - '%cache.remote_content.lifetime%'
       - '%cache.dir%'
-  PetrKnapCz\RemoteContent\RemoteContentAccessor:
-    class: PetrKnapCz\RemoteContent\RemoteContentAccessor
+  PetrKnapCz\RemoteContentAccessor:
+    class: PetrKnapCz\RemoteContentAccessor
     arguments:
-      - '@PetrKnapCz\RemoteContent\RemoteContentCache'
-  PetrKnapCz\UrlShortener\UrlShortenerService:
-    class: PetrKnapCz\UrlShortener\UrlShortenerService
+      - '@PetrKnapCz\RemoteContentCache'
+  PetrKnapCz\UrlShortenerService:
+    class: PetrKnapCz\UrlShortenerService
     arguments:
       - '@PDO'
-      - '@PetrKnapCz\RemoteContent\RemoteContentAccessor'
+      - '@PetrKnapCz\RemoteContentAccessor'

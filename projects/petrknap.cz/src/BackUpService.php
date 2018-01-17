@@ -1,6 +1,6 @@
 <?php
 
-namespace PetrKnapCz\Api;
+namespace PetrKnapCz;
 
 class BackUpService
 {

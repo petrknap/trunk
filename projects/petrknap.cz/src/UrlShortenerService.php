@@ -1,9 +1,8 @@
 <?php
 
-namespace PetrKnapCz\UrlShortener;
+namespace PetrKnapCz;
 
-use PetrKnapCz\RemoteContent\RemoteContentAccessor;
-use PetrKnapCz\UrlShortener\Exception\RecordNotFoundException;
+use PetrKnapCz\Exception\UrlShortenerRecordNotFoundException;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -33,7 +32,7 @@ SELECT id, keyword, url, is_redirect FROM url_shortener__records WHERE keyword =
         $data = $statement->fetch(\PDO::FETCH_NUM);
 
         if (false === $data) {
-            throw new RecordNotFoundException("Record for keyword '{$keyword}' not found");
+            throw new UrlShortenerRecordNotFoundException("Record for keyword '{$keyword}' not found");
         } else {
             return new UrlShortenerRecord(...$data);
         }
@@ -49,7 +48,7 @@ SELECT id, keyword, url, is_redirect FROM url_shortener__records WHERE keyword =
             } else {
                 return $this->remoteContentAccessor->getResponse($record->getUrl());
             }
-        } catch (RecordNotFoundException $e) {
+        } catch (UrlShortenerRecordNotFoundException $e) {
             return new Response($e->getMessage(), Response::HTTP_NOT_FOUND, [
                 'Content-Type' => 'text/plain; charset=utf-8'
             ]);

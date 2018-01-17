@@ -1,6 +1,6 @@
 <?php
 
-namespace PetrKnapCz\UrlShortener;
+namespace PetrKnapCz;
 
 class UrlShortenerRecord
 {

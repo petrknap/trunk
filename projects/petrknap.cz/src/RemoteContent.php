@@ -1,6 +1,6 @@
 <?php
 
-namespace PetrKnapCz\RemoteContent;
+namespace PetrKnapCz;
 
 class RemoteContent
 {
