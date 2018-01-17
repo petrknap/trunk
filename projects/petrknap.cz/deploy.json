@@ -1,8 +1,7 @@
 {
   "test": true,
   "ignore": [
-    "!/vendor/",
-    "/www/app_dev.php"
+    "!/vendor/"
   ],
   "purge": [
     "/var/cache"
