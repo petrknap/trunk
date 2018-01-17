@@ -6,6 +6,14 @@ services:
     arguments:
       - '@Symfony\Component\HttpFoundation\Request'
       - '%google_analytics.tracking_id%'
+  Swift_Mailer:
+    factory: PetrKnapCz\SwiftMailerFactory::create
+    arguments:
+      - '%smtp.host%'
+      - '%smtp.port%'
+      - '%smtp.username%'
+      - '%smtp.password%'
+      - '%smtp.encryption%'
   PDO:
     class: PDO
     arguments:

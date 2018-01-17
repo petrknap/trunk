@@ -11,7 +11,8 @@
         "petrknap/php-singleton": "^1.0",
         "petrknap/php-migrationtool": "^2.0",
         "theiconic/php-ga-measurement-protocol": "^2.7",
-        "ramsey/uuid": "^3.7"
+        "ramsey/uuid": "^3.7",
+        "swiftmailer/swiftmailer": "^6.0"
     },
     "require-dev": {
         "netpromotion/deployer": "^1.0",

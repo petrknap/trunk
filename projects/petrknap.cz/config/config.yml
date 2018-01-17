@@ -2,6 +2,9 @@ imports:
   - resource: parameters.yml
 
 parameters:
+  email.main_address: kontakt@petrknap.cz
+  email.no_reply_address: no-reply@petrknap.cz
+
   database.migrations_dir: '%project_dir%/migrations'
   cache.dir: '%project_dir%/var/cache'
   cache.remote_content.namespace: 'remote_content'

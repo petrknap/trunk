@@ -1,5 +1,13 @@
 parameters:
-  backup.files: []
+  access_token: ~
+
   database.dsn: ~
   database.username: ~
   database.password: ~
+  smtp.host: ~
+  smtp.port: ~
+  smtp.username: ~
+  smtp.password: ~
+  smtp.encryption: ~
+
+  backup.files: []
