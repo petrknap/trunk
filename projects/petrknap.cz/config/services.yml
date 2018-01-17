@@ -2,7 +2,7 @@ services:
   Symfony\Component\HttpFoundation\Request:
     factory: Symfony\Component\HttpFoundation\Request::createFromGlobals
   TheIconic\Tracking\GoogleAnalytics\Analytics:
-    factory: PetrKnapCz\Api\GoogleAnalyticsFactory::create
+    factory: PetrKnapCz\GoogleAnalyticsFactory::create
     arguments:
       - '@Symfony\Component\HttpFoundation\Request'
       - '%google_analytics.tracking_id%'
