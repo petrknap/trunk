@@ -13,7 +13,8 @@ web-server: clean
 clean:
 	(cd ../../ && make clean)
 	sudo chmod u+r+w-x+X,g+r-w-x+X,o+r-w-x+X ./ -R
-	sudo chmod g+w,o+w ./backup -R
+	sudo chmod g+w,o+w ./.backup -R
+	sudo chmod g+w,o+w ./.keepass -R
 	sudo chmod g+w,o+w ./var -R
 	rm -rf ./var/cache || true
 

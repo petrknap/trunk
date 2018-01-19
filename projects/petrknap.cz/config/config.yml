@@ -10,4 +10,4 @@ parameters:
   cache.remote_content.namespace: 'remote_content'
   cache.remote_content.lifetime: 7 * 24 * 3600
   google_analytics.tracking_id: 'UA-88031264-1'
-  backup.dir: '%project_dir%/backup'
+  backup.dir: '%project_dir%/.backup'
