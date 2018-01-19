@@ -12,3 +12,5 @@ authorize(container()->get(Request::class));
 
 container()->get(SqlMigrationTool::class)
     ->migrate();
+
+done();

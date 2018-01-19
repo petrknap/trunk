@@ -27,3 +27,5 @@ if (!empty($changedFiles)) {
 
     container()->get(Swift_Mailer::class)->send($message);
 }
+
+done();

@@ -39,3 +39,10 @@ function authorize(Request $request) {
         die;
     }
 }
+
+function done()
+{
+    (new Response('ok', Response::HTTP_OK, [
+        'Content-Type' => 'text/plain; charset=utf-8'
+    ]))->send();
+}
