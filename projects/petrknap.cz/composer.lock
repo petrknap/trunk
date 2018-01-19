@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "b6fec14c26cde9157cdd1415a8bbcc89",
+    "content-hash": "4e21b6fdaebabf3671e92b440d4764d3",
     "packages": [
         {
             "name": "doctrine/lexer",
@@ -1324,6 +1324,44 @@
             ],
             "description": "Send data to Google Analytics from the server using PHP. This library fully implements GA measurement protocol.",
             "time": "2017-06-30T02:41:52+00:00"
+        },
+        {
+            "name": "vrana/adminer",
+            "version": "v4.4.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/vrana/adminer.git",
+                "reference": "187dd56b1c3e2cafe7f6f91c25f45bde7363f260"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/vrana/adminer/zipball/187dd56b1c3e2cafe7f6f91c25f45bde7363f260",
+                "reference": "187dd56b1c3e2cafe7f6f91c25f45bde7363f260",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "plugins/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0",
+                "GPL-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "Jakub Vrána",
+                    "homepage": "https://www.vrana.cz/"
+                }
+            ],
+            "description": "Database management in a single PHP file.",
+            "homepage": "https://www.adminer.org/",
+            "keywords": [
+                "database"
+            ],
+            "time": "2018-01-17T11:41:38+00:00"
         }
     ],
     "packages-dev": [
