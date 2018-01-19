@@ -7,7 +7,6 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\Exception\RuntimeException;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
-use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -35,16 +34,7 @@ function container(array $parameters = []) {
 }
 
 function authorize(Request $request) {
-    $token = $request->get('token');
-    if ($token) {
-        $response = (new Response());
-        $response->headers->setCookie(new Cookie('access_token', $token, new \DateTime("+1 day")));
-        $response->sendHeaders();
-    } else {
-        $token = $request->cookies->get('access_token');
-    }
-
-    if (container()->getParameter('access_token') != $token) {
+    if (container()->getParameter('access_token') != $request->get('token')) {
         (new Response(null, Response::HTTP_FORBIDDEN))->send();
         die;
     }
