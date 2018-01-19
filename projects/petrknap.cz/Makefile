@@ -24,8 +24,8 @@ composer:
 composer-install:
 	make composer ARGS="install"
 
-deployment:
+deployment: composer-install
 	make docker-run ARGS="./vendor/bin/deploy"
 
-tests:
+tests: composer-install
 	make docker-run ARGS="./vendor/bin/phpunit ${ARGS}"
