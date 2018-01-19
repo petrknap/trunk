@@ -1,7 +1,18 @@
 {
   "test": true,
   "ignore": [
-    "!/vendor/"
+    "!/vendor/",
+    "/tests/",
+    "/vendor/bin/",
+    "/vendor/*/*/tests/",
+    "/vendor/netpromotion/deployer/",
+    "/vendor/dg/ftp-deployment/",
+    "/vendor/phpunit/",
+    "/composer.json",
+    "/composer.lock",
+    "/Dockerfile",
+    "/Makefile",
+    "/phpunit.xml"
   ],
   "purge": [
     "/var/cache"
