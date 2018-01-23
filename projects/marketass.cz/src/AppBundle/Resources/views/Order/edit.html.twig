@@ -26,7 +26,7 @@
 
 {% block shipping_method %}
     {% set mark_first = order.customer.shipping_method|length == 0 %}
-    {% for method in ['Osobní odběr Na Jízdárně 18 (0 Kč)', 'Česká pošta s připojištěním (140 Kč)'] %}
+    {% for method in ['Osobní odběr (0 Kč)', 'Česká pošta s připojištěním (140 Kč)'] %}
         <div class="radio">
             <label><input type="radio" name="shipping_method" value="{{ method }}"{% if mark_first or method == order.customer.shipping_method %} checked="checked"{% endif %}>{{ method }}</label>
         </div>
