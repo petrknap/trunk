@@ -1,7 +1,7 @@
 #!/usr/bin/env php
 <?php
 
-foreach (["Php", "Nette", "Symfony"] as $context) {
+foreach (["Php", "Symfony"] as $context) {
     $phpSynchronizer = new PhpSynchronizer($context);
     foreach (scandir(__DIR__ . "/../packages/" . $context) as $package) {
         if (in_array($package, [".", ".."])) {
