@@ -1,7 +1,0 @@
-<phpunit bootstrap="./vendor/nette/autoload.php" stderr="true">
-    <testsuites>
-        <testsuite>
-            <directory suffix="Test.php">packages/Nette/*/tests</directory>
-        </testsuite>
-    </testsuites>
-</phpunit>

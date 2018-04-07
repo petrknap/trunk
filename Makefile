@@ -20,15 +20,10 @@ docker:
 	mkdir temp/docker || true
 	cp *.dockerfile temp/docker
 	sudo docker build -f temp/docker/php.dockerfile -t petrknap/php temp/docker
-	sudo docker build -f temp/docker/nette.dockerfile -t petrknap/nette temp/docker
 	sudo docker build -f temp/docker/symfony.dockerfile -t petrknap/symfony temp/docker
 
 docker-run-php:
 	sudo docker run -v $$(pwd):/app -v $$(pwd):/mnt/read-only/app:ro --rm petrknap/php bash -c "cd /app && ${ARGS}"
-	make clean
-
-docker-run-nette:
-	sudo docker run -v $$(pwd):/app -v $$(pwd):/mnt/read-only/app:ro --rm petrknap/nette bash -c "cd /app && ${ARGS}"
 	make clean
 
 docker-run-symfony:
@@ -37,7 +32,6 @@ docker-run-symfony:
 
 composer:
 	make docker-run-php ARGS="COMPOSER=php.composer.json COMPOSER_VENDOR_DIR=vendor/php composer ${ARGS}"
-	make docker-run-nette ARGS="COMPOSER=nette.composer.json COMPOSER_VENDOR_DIR=vendor/nette composer ${ARGS}"
 	make docker-run-symfony ARGS="COMPOSER=symfony.composer.json COMPOSER_VENDOR_DIR=vendor/symfony composer ${ARGS}"
 
 composer-install:
@@ -48,19 +42,14 @@ composer-update:
 
 static-analysis:
 	bin/phpstan analyse packages/Php/*/src --autoload-file=vendor/php/autoload.php ${ARGS}
-	bin/phpstan analyse packages/Nette/*/src --autoload-file=vendor/nette/autoload.php ${ARGS}
 	bin/phpstan analyse packages/Symfony/*/src --autoload-file=vendor/symfony/autoload.php ${ARGS}
 
 tests: composer-install
 	make tests-php ARGS="${ARGS}"
-	make tests-nette ARGS="${ARGS}"
 	make tests-symfony ARGS="${ARGS}"
 
 tests-php:
 	make docker-run-php ARGS="vendor/php/bin/phpunit -c php.phpunit.xml --testdox-text php.phpunit.log ${ARGS}"
-
-tests-nette:
-	make docker-run-nette ARGS="vendor/nette/bin/phpunit -c nette.phpunit.xml --testdox-text nette.phpunit.log ${ARGS}"
 
 tests-symfony:
 	make docker-run-symfony ARGS="vendor/symfony/bin/phpunit -c symfony.phpunit.xml --testdox-text symfony.phpunit.log ${ARGS}"
@@ -70,9 +59,6 @@ tests-on-packages:
 	for package in temp/packages/Php/*; do \
 		make docker-run-php ARGS="cd $${package} && composer update && vendor/bin/phpunit ${ARGS}"; \
 	done
-	for package in temp/packages/Nette/*; do \
-		make docker-run-nette ARGS="cd $${package} && composer update && vendor/bin/phpunit ${ARGS}"; \
-	done
 	for package in temp/packages/Symfony/*; do \
 		make docker-run-symfony ARGS="cd $${package} && composer update && vendor/bin/phpunit ${ARGS}"; \
 	done
@@ -80,7 +66,6 @@ tests-on-packages:
 publish: static-analysis tests publish-web
 	git subsplit init https://github.com/petrknap/trunk
 	git subsplit publish --heads=master --update "packages/Php/Enum:git@github.com:petrknap/php-enum.git packages/Php/MigrationTool:git@github.com:petrknap/php-migrationtool.git packages/Php/Profiler:git@github.com:petrknap/php-profiler.git packages/Php/ServiceManager:git@github.com:petrknap/php-servicemanager.git packages/Php/Singleton:git@github.com:petrknap/php-singleton.git packages/Php/SplitFilesystem:git@github.com:petrknap/php-splitfilesystem.git" #generated php
-	git subsplit publish --heads=master --update "packages/Nette/Bootstrap:git@github.com:petrknap/nette-bootstrap.git" #generated nette
 	rm -rf .subsplit
 
 publish-web:
