@@ -38,7 +38,7 @@ class StoryboardGenerator
             ->in($this->sourceDir)
             ->depth(0)
             ->sort(function (\SplFileInfo $a, \SplFileInfo $b) {
-                return strcmp($a->getBasename(), $b->getBasename());
+                return strcmp($a->getRealPath(), $b->getRealPath());
             })
             ->getIterator();
         $body = '';
@@ -53,47 +53,52 @@ class StoryboardGenerator
         $files = Finder::create()
             ->files()
             ->in($subDir)
-            ->name('/\.(log)$/')
+            ->name('/\.(log|jpg|png)$/')
             ->sort(function (\SplFileInfo $a, \SplFileInfo $b) {
                 return strcmp($a->getRealPath(), $b->getRealPath());
             })
             ->getIterator();
-        $section = "";
-        $content = [];
-        $logFileProcessor = new LogFileProcessor();
-        foreach ($files as $file) {
-            switch ($file->getExtension()) {
-                case 'log':
-                    $content[] = $logFileProcessor->processFile($file->getRealPath());
-                    break;
-                case 'jpg':
-                case 'png':
-                    // TODO
-                    break;
-            }
-        }
-        for ($i = 0; $i < count($content); $i = $i + 2) {
-            $leftContent = $content[$i];
-            $rightContent = isset($content[$i+1]) ? $content[$i+1] : null;
-            $section .= $this->generateRow($leftContent, $rightContent);
-        }
-
         $title = basename($subDir);
-        $content = $section;
+        $id = md5($subDir);
+        $content = '';
+        foreach ($files as $file) {
+            $content .= $this->generateItem($file);
+        }
 
         ob_start();
-        include __DIR__ . '/templates/section.phtml';
-        $content = ob_get_contents();
+        {
+            include __DIR__ . '/templates/section.phtml';
+            $content = ob_get_contents();
+        }
         ob_end_clean();
 
         return $content;
     }
 
-    private function generateRow($leftContent, $rightContent)
+    private function generateItem(\SplFileInfo $file)
     {
+        $logFileProcessor = new LogFileProcessor();
+        $imageFileProcessor = new ImageFileProcessor($this->targetDir);
+
+        $title = $file->getBasename();
+        $id = md5($file->getRealPath());
+        switch ($file->getExtension()) {
+            case 'log':
+                $content = $logFileProcessor->processFile($file->getRealPath());
+                break;
+            case 'jpg':
+            case 'png':
+                $content = $imageFileProcessor->processFile($file->getRealPath());
+                break;
+            default:
+                $content = '';
+        }
+
         ob_start();
-        include __DIR__ . '/templates/row.phtml';
-        $content = ob_get_contents();
+        {
+            include __DIR__ . '/templates/item.phtml';
+            $content = ob_get_contents();
+        }
         ob_end_clean();
 
         return $content;

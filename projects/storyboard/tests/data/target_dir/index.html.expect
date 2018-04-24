@@ -27,12 +27,60 @@
     <div class="container">
     <h2>a</h2>
     <div class="row">
+            <div class="col-md-6 col-sm-12"><img class="img-responsive img-thumbnail"
+     src="./196a90cf49b677fb16975877f36465ed8430e31a.jpg"
+     alt="/usr/src/myapp/tests/data/source_dir/a/01.png">
+
+</div>
+        <div class="col-md-6 col-sm-12"><img class="img-responsive img-thumbnail"
+     src="./196a90cf49b677fb16975877f36465ed8430e31a.jpg"
+     alt="/usr/src/myapp/tests/data/source_dir/a/02.png">
+
+</div>
+    </div>
+<div class="row">
+            <div class="col-md-6 col-sm-12"><img class="img-responsive img-thumbnail"
+     src="./196a90cf49b677fb16975877f36465ed8430e31a.jpg"
+     alt="/usr/src/myapp/tests/data/source_dir/a/03.png">
+
+</div>
+        <div class="col-md-6 col-sm-12"><img class="img-responsive img-thumbnail"
+     src="./196a90cf49b677fb16975877f36465ed8430e31a.jpg"
+     alt="/usr/src/myapp/tests/data/source_dir/a/04.png">
+
+</div>
+    </div>
+<div class="row">
+            <div class="col-md-6 col-sm-12"><img class="img-responsive img-thumbnail"
+     src="./196a90cf49b677fb16975877f36465ed8430e31a.jpg"
+     alt="/usr/src/myapp/tests/data/source_dir/a/05.png">
+
+</div>
+        <div class="col-md-6 col-sm-12"><img class="img-responsive img-thumbnail"
+     src="./196a90cf49b677fb16975877f36465ed8430e31a.jpg"
+     alt="/usr/src/myapp/tests/data/source_dir/a/06.png">
+
+</div>
+    </div>
+<div class="row">
             <div class="col-md-6 col-sm-12"><ul>
 <li><em><strong>Robert</strong> comes to school</em></li>
 <li><strong>Robert</strong>: Good afternoon, teacher, how are you today?</li>
 <li><strong>Teacher</strong>: Good afternoon, Robert. I am doing well. And you?</li>
 <li><strong>Robert</strong>: I’m great, thank you. This is my best friend Jane. She  wants to apply to come to this university. She would like to ask you a few questions. Would you mind taking the time and telling her what process she would have to do, please?</li>
 </ul>
+</div>
+        <div class="col-md-6 col-sm-12"><img class="img-responsive img-thumbnail"
+     src="./196a90cf49b677fb16975877f36465ed8430e31a.jpg"
+     alt="/usr/src/myapp/tests/data/source_dir/a/08.png">
+
+</div>
+    </div>
+<div class="row">
+            <div class="col-md-6 col-sm-12"><img class="img-responsive img-thumbnail"
+     src="./196a90cf49b677fb16975877f36465ed8430e31a.jpg"
+     alt="/usr/src/myapp/tests/data/source_dir/a/09.png">
+
 </div>
         <div class="col-md-6 col-sm-12"><ul>
 <li><em><strong>Jane</strong> comes to school</em></li>

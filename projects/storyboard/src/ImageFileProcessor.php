@@ -27,7 +27,7 @@ class ImageFileProcessor
             throw new \RuntimeException($e->getMessage(), 0, $e);
         }
 
-        return "<img src=\"./{$newFileName}\" alt=\"{$pathToFile}\">\n";
+        return '<img class="card-img" src="./' . $newFileName . '" alt="' . $pathToFile . '">';
     }
 
     private function resizeImage($pathToFile)
