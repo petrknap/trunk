@@ -63,7 +63,9 @@ tests-on-packages:
 		make docker-run-symfony ARGS="cd $${package} && composer update && vendor/bin/phpunit ${ARGS}"; \
 	done
 
-publish: static-analysis tests publish-web
+publish: publish-web publish-home publish-packages
+
+publish-packages: static-analysis tests
 	git subsplit init https://github.com/petrknap/trunk
 	git subsplit publish --heads=master --update "packages/Php/Enum:git@github.com:petrknap/php-enum.git packages/Php/MigrationTool:git@github.com:petrknap/php-migrationtool.git packages/Php/Profiler:git@github.com:petrknap/php-profiler.git packages/Php/Singleton:git@github.com:petrknap/php-singleton.git packages/Php/SplitFilesystem:git@github.com:petrknap/php-splitfilesystem.git" #generated php
 	rm -rf .subsplit
@@ -71,4 +73,9 @@ publish: static-analysis tests publish-web
 publish-web:
 	git subsplit init https://github.com/petrknap/trunk
 	git subsplit publish --heads=master --update "projects/petrknap.github.io:git@github.com:petrknap/petrknap.github.io.git"
+	rm -rf .subsplit
+
+publish-home:
+	git subsplit init https://github.com/petrknap/trunk
+	git subsplit publish --heads=master --update "projects/home:git@github.com:petrknap/home.git"
 	rm -rf .subsplit
