@@ -4,6 +4,7 @@
 #include <LedControlSPIESP8266.h> // https://github.com/labsud/LedControlSpipESP8266
 #include <FC16.h>                 // https://github.com/ridercz/Altairis-ESP8266-FC16
 #include <TimeLib.h>              // https://github.com/PaulStoffregen/Time
+#include <Timezone.h>             // https://github.com/JChristensen/Timezone
 
 #include "config.h"
 
@@ -11,7 +12,10 @@ const int displayMessageScrollingDelay = 100 - DISPLAY_MESSAGE_SCROLLING_SPEED +
 const int ntpResync = NTP_RESYNC * 1000;
 
 WiFiUDP ntpUDP;
-NTPClient timeClient(ntpUDP, NTP_SERVER_NAME, NTP_TIME_OFFSET, ntpResync);
+NTPClient timeClient(ntpUDP, NTP_SERVER_NAME, 0, ntpResync);
+TimeChangeRule timeRuleWinter = {"W", TZ_DST_END_WEEK, TZ_DST_END_DOW, TZ_DST_END_MONTH, TZ_DST_END_HOUR, TZ_OFFSET/60};
+TimeChangeRule timeRuleSummer = {"S", TZ_DST_BEGIN_WEEK, TZ_DST_BEGIN_DOW, TZ_DST_BEGIN_MONTH, TZ_DST_BEGIN_HOUR, TZ_DST_OFFSET/60};
+Timezone timezone(timeRuleWinter, timeRuleSummer);
 FC16 display = FC16(DISPLAY_CS_PIN, DISPLAY_COUNT_OF_DISPLAYS);
 int lastWiFiStatus = WL_DISCONNECTED;
 bool wasSynchronized = false;
@@ -52,6 +56,7 @@ void loop() {
   time_t currentTime = timeClient.getEpochTime();
   byte currentSecond = second(currentTime);
   if (currentSecond != lastSecond) {
+    currentTime = timezone.toLocal(currentTime);
     lastSecond = currentSecond;
     display.setClock(hour(currentTime), minute(currentTime), currentSecond);
   }
