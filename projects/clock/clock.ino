@@ -1,3 +1,6 @@
+/**
+ * Hardware based on WeMos D1 R2 & mini - https://github.com/esp8266/arduino#installing-with-boards-manager
+ */
 #include <NTPClient.h>            // https://github.com/arduino-libraries/NTPClient
 #include <ESP8266WiFi.h>          // https://github.com/esp8266/Arduino/tree/master/libraries/ESP8266WiFi
 #include <WiFiUdp.h>              // https://github.com/esp8266/Arduino/tree/master/libraries/ESP8266WiFi
