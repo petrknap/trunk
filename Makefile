@@ -63,7 +63,7 @@ tests-on-packages:
 		make docker-run-symfony ARGS="cd $${package} && composer update && vendor/bin/phpunit ${ARGS}"; \
 	done
 
-publish: publish-web publish-home publish-clock publish-packages
+publish: publish-web publish-home publish-clock publish-ffmpeg publish-packages
 
 publish-packages: static-analysis tests
 	git subsplit init https://github.com/petrknap/trunk
@@ -83,4 +83,9 @@ publish-home:
 publish-clock:
 	git subsplit init https://github.com/petrknap/trunk
 	git subsplit publish --heads=master --update "projects/clock:git@github.com:petrknap/clock.git"
+	rm -rf .subsplit
+
+publish-ffmpeg:
+	git subsplit init https://github.com/petrknap/trunk
+	git subsplit publish --heads=master --update "projects/ffmpeg:git@github.com:petrknap/ffmpeg.git"
 	rm -rf .subsplit
