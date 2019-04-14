@@ -1,4 +1,4 @@
-FROM php:5.5-cli
+FROM php:5.6-cli
 
 # Install packages
 RUN apt update && apt install -y \
