@@ -29,15 +29,18 @@ class CrawlerTest extends MarkdownWebTestCase
 
     public function testAcceptsOnlySupportedFiles()
     {
+        $files = $this->invoke([$this->getCrawler(), "getFiles"], [$this->getPageDir()]);
+        sort($files);
+
         $this->assertEquals([
-            "{$this->getPageDir()}/sitemap.md",
-            "{$this->getPageDir()}/libero/orci-varius-natoque-penatibus-et-magnis.md",
-            "{$this->getPageDir()}/libero/vivamus-accumsan-libero.md",
+            "{$this->getPageDir()}/index.md",
             "{$this->getPageDir()}/libero/ante-molestie-porttitor.md",
             "{$this->getPageDir()}/libero/index.md",
+            "{$this->getPageDir()}/libero/orci-varius-natoque-penatibus-et-magnis.md",
+            "{$this->getPageDir()}/libero/vivamus-accumsan-libero.md",
+            "{$this->getPageDir()}/sitemap.md",
             "{$this->getPageDir()}/vestibulum-ullamcorper.md",
-            "{$this->getPageDir()}/index.md",
-        ], $this->invoke([$this->getCrawler(), "getFiles"], [$this->getPageDir()]));
+        ], $files);
     }
 
     public function testBuildsIndex()
