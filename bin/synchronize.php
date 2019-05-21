@@ -150,6 +150,7 @@ class PhpSynchronizer
         }
         $composer = [
             "description" => $composer["description"],
+            "keywords" => $composer["keywords"],
             "require" => $composer["require"]
         ] + $conflict;
 
