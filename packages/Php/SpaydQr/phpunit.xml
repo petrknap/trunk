@@ -1,4 +1,4 @@
-<phpunit bootstrap="./vendor/php/autoload.php">
+<phpunit bootstrap="./vendor/autoload.php">
     <testsuites>
         <testsuite>
             <directory suffix="Test.php">packages/Php/SpaydQr/tests</directory>
