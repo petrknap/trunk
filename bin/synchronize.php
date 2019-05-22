@@ -161,7 +161,7 @@ class PhpSynchronizer
             }
         }
 
-        $composer["WARNING"] = "This file is updated automatically. All keys will be overwritten, except of 'description', 'require' and 'conflict'.";
+        $composer["WARNING"] = "This file is updated automatically. All keys will be overwritten, except of 'description', 'keywords', 'require' and 'conflict'.";
         $composer["name"] = $this->getComposerName($package);
         $composer["homepage"] = $this->composer["homepage"] . strtolower($this->context) . "-" . strtolower($package) . ".html";
         $composer["license"] = $this->composer["license"];
