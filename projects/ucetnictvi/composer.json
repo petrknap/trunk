@@ -30,5 +30,8 @@
         "post-update-cmd": [
             "@auto-scripts"
         ]
+    },
+    "require-dev": {
+        "symfony/phpunit-bridge": "^4.2"
     }
 }

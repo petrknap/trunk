@@ -19,3 +19,8 @@ services:
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
+
+    Ucetnictvi\Command\InvoicesCreateCommand:
+        arguments:
+            $inputDirectory: '%env(string:INPUT_DIRECTORY)%'
+            $outputDirectory: '%env(string:OUTPUT_DIRECTORY)%'
