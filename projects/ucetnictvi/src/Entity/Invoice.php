@@ -1,8 +1,8 @@
 <?php
 
-namespace Ucetnictvi\Invoice;
+namespace Ucetnictvi\Entity;
 
-class Data
+class Invoice
 {
     public function getNumber()
     {

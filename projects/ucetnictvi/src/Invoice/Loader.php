@@ -2,12 +2,14 @@
 
 namespace Ucetnictvi\Invoice;
 
+use Ucetnictvi\Entity\Invoice;
+
 class Loader
 {
     public function getAllData(string $inputDirectory): array
     {
         return [
-            new Data(),
+            new Invoice(),
         ]; // TODO
     }
 }

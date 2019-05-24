@@ -2,9 +2,11 @@
 
 namespace Ucetnictvi\Invoice;
 
+use Ucetnictvi\Entity\Invoice;
+
 class Generator
 {
-    public function generatePdf(Data $data, string $path)
+    public function generatePdf(Invoice $invoice, string $path)
     {
         // TODO
     }
