@@ -24,3 +24,9 @@ services:
         arguments:
             $inputDirectory: '%env(string:INPUT_DIRECTORY)%'
             $outputDirectory: '%env(string:OUTPUT_DIRECTORY)%'
+
+    Symfony\Component\Serializer\Encoder\CsvEncoder:
+    Symfony\Component\Serializer\Serializer:
+        arguments:
+            $encoders:
+                - '@Symfony\Component\Serializer\Encoder\CsvEncoder'

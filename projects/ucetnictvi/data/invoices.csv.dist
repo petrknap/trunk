@@ -1,0 +1,4 @@
+id,from,to,subject,issueDate,dueDate,type,description,quantity,unit,unitPrice,currency
+2019001,me,company1,The first invoice,2019-05-24,2019-06-07,Service,Creation of the first invoice,1,pcs,79.50,CZK
+2019002,me,company2,The second invoice,2019-05-24,2019-06-07,Service,Creation of the second invoice,1,pcs,79.50,CZK
+,,,,,,Service,Consultation,40,h,600,CZK

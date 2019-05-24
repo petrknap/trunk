@@ -48,10 +48,10 @@ class InvoicesCreateCommand extends Command
             var_export($this->kernel->isDebug(), true)
         ));
 
-        $invoices = $this->loader->getAllData($this->inputDirectory);
+        $invoices = $this->loader->getAllInvoices($this->inputDirectory);
         $io->progressStart(count($invoices));
         foreach ($invoices as $invoice) {
-            $path = $this->outputDirectory . DIRECTORY_SEPARATOR . $invoice->getNumber() . '.pdf';
+            $path = $this->outputDirectory . DIRECTORY_SEPARATOR . $invoice->id . '.pdf';
             $this->generator->generatePdf($invoice, $path);
             $io->progressAdvance(1);
             if ($output->isVerbose()) {

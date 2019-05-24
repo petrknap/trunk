@@ -125,6 +125,9 @@
             "config/routes.yaml"
         ]
     },
+    "symfony/serializer": {
+        "version": "v4.2.8"
+    },
     "symfony/var-exporter": {
         "version": "v4.2.8"
     },
