@@ -28,4 +28,9 @@ class InvoiceItem
         }
         return $invoiceItem;
     }
+
+    public function getTotalPrice(): float
+    {
+        return $this->unitPrice * $this->quantity;
+    }
 }

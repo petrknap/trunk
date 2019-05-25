@@ -1,0 +1,106 @@
+{% import _self as this %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Faktura {{ invoice.id }}</title>
+    <style>
+        body {
+            font-family: DejaVuSans;
+        }
+        table {
+            width: 100%;
+        }
+        .border_bottom {
+            border-bottom: 1px solid silver;
+        }
+        .hidden {
+            display: none;
+        }
+        .qr_code {
+            transform: rotate(45deg);
+            position: absolute;
+            top: 50px;
+            right: 50px;
+            width: 150px;
+        }
+        .title {
+            text-align: center;
+            height: 25px;
+            font-size: 25px;
+            text-transform: uppercase;
+        }
+        .seller {
+            height: 100px;
+        }
+        .seller h2, .buyer h2 {
+            color: silver;
+            font-size: xx-small;
+        }
+        .seller dl, .buyer dl {
+            margin-top: 0;
+        }
+    </style>
+</head>
+<body>
+<h1 class="hidden">Faktura {{ invoice.id }}</h1>
+
+<div class="qr_code">
+    <img src="{{ qr_code.getDataUri(600) }}" alt="QR Code" class="qr_code">
+</div>
+
+<div class="seller">
+    <h2>Dodavatel</h2>
+    {{ this.address(invoice.seller, invoice.buyer.country) }}
+</div>
+
+<h2 class="title">Faktura {{ invoice.id }}</h2>
+
+<div class="buyer">
+    <h2>Odběratel</h2>
+    {{ this.address(invoice.buyer, invoice.seller.country) }}
+</div>
+
+<div class="content">
+    <h2>{{ invoice.subject }}</h2>
+    <table>
+        <tr>
+            <th class="border_bottom">Popis</th>
+            <th class="border_bottom" style="width:100px">Cena</th>
+            <th class="border_bottom" style="width:100px">Množství</th>
+            <th class="border_bottom" style="width:150px">Celkem</th>
+        </tr>
+        {% for item in invoice.items %}
+            <tr>
+                <td class="border_bottom">{{ item.description }}</td>
+                <td class="border_bottom" style="text-align: right;">{{ item.unitPrice|localizedcurrency(invoice.currency) }}</td>
+                <td class="border_bottom" style="text-align: center;">{{ item.quantity|number_format(0) }} {{ item.unit }}</td>
+                <td class="border_bottom" style="text-align: right;">{{ item.getTotalPrice()|localizedcurrency(invoice.currency) }}</td>
+            </tr>
+        {% endfor %}
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td style="text-align: right;">{{ invoice.getTotalPrice()|localizedcurrency(invoice.currency) }}</td>
+        </tr>
+    </table>
+</div>
+
+</body>
+</html>
+{% macro address(contact, relativeToCountry) %}
+    <dl>
+        <dt>
+            <strong>{{ contact.name }}</strong>
+            {% if contact.identificationNumber %}<small>(IČ: {{ contact.identificationNumber }})</small>{% endif %}
+        </dt>
+        <dd>
+            {{ contact.addressLine1 }}<br>
+            {% if contact.addressLine2 %}{{ contact.addressLine2 }}<br>{% endif %}
+            {{ contact.city }} {{ contact.zipOrPostalCode }}<br>
+            {% if contact.stateOrProvinceOrRegion %}{{ contact.stateOrProvinceOrRegion }}<br>{% endif %}
+            {% if contact.country != relativeToCountry %}{{ contact.country }}{% endif %}
+        </dd>
+    </dl>
+{% endmacro %}

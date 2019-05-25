@@ -31,4 +31,7 @@ services:
             $encoders:
                 - '@Symfony\Component\Serializer\Encoder\CsvEncoder'
 
-    Mpdf\Mpdf:
+    twig.extension.intl:
+        class: Twig\Extensions\IntlExtension
+        tags:
+            - { name: twig.extension }

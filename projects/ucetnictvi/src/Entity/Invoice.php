@@ -10,7 +10,12 @@ class Invoice
     public $subject;
     public $issueDate;
     public $dueDate;
+
+    /**
+     * @var InvoiceItem[]
+     */
     public $items;
+
     public $currency;
 
     public static function create(array $data): self
@@ -29,5 +34,14 @@ class Invoice
             $invoice->{$key} = $value;
         }
         return $invoice;
+    }
+
+    public function getTotalPrice(): float
+    {
+        $totalPrice = 0;
+        foreach ($this->items as $item) {
+            $totalPrice += $item->getTotalPrice();
+        }
+        return $totalPrice;
     }
 }
