@@ -26,19 +26,41 @@
         }
         .title {
             text-align: center;
-            height: 25px;
-            font-size: 25px;
+        }
+        .title span {
+            font-size: x-large;
             text-transform: uppercase;
+        }
+        .title small {
+            font-size: x-small;
+            color: silver;
         }
         .seller {
             height: 100px;
         }
-        .seller h2, .buyer h2 {
+        .seller h2, .buyer h2, .payment h2, .content h2 {
             color: silver;
             font-size: xx-small;
         }
-        .seller dl, .buyer dl {
+        .seller dl, .buyer dl, .payment dl {
             margin-top: 0;
+        }
+        .payment {
+            float: right;
+            width: 50%;
+        }
+        .payment, .buyer {
+            height: 200px;
+        }
+        .footer {
+            position: absolute;
+            bottom: 50px;
+            right: 0;
+            width: 100%;
+            font-size: xx-small;
+            border-top: 1px solid silver;
+            text-align: center;
+            padding-top: 5px;
         }
     </style>
 </head>
@@ -54,7 +76,25 @@
     {{ this.address(invoice.seller, invoice.buyer.country) }}
 </div>
 
-<h2 class="title">Faktura {{ invoice.id }}</h2>
+<h2 class="title">
+    <span>Faktura {{ invoice.id }}</span>
+    <br>
+    <small>
+        Vystavena dne {{ invoice.issueDate|date('d.m. Y') }}
+    </small>
+</h2>
+
+<div class="payment">
+    <h2>Platební údaje</h2>
+    <dl>
+        <dt><strong>IBAN</strong></dt>
+        <dd>{{ invoice.seller.iban }}</dd>
+        <dt><strong>Variabilní symbol</strong></dt>
+        <dd>{{ invoice.id }}</dd>
+        <dt><strong>Datum splatnosti</strong></dt>
+        <dd>{{ invoice.dueDate|date('d.m. Y') }}</dd>
+    </dl>
+</div>
 
 <div class="buyer">
     <h2>Odběratel</h2>
@@ -82,9 +122,18 @@
             <td></td>
             <td></td>
             <td></td>
-            <td style="text-align: right;">{{ invoice.getTotalPrice()|localizedcurrency(invoice.currency) }}</td>
+            <td style="text-align: right;">
+                <strong>
+                    {{ invoice.getTotalPrice()|localizedcurrency(invoice.currency) }}
+                </strong>
+            </td>
         </tr>
     </table>
+</div>
+
+<div class="footer">
+    Fyzická osoba podnikající dle živnostenského zákona zapsaná v Živnostenském rejstříku,
+    sp. značka {{ invoice.seller.registrationNumberInCompanyRegister }}.
 </div>
 
 </body>
