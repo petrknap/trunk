@@ -10,6 +10,12 @@ RUN apt-get update && apt-get install -y \
 && docker-php-ext-install -j$(nproc) gd \
 ;
 
+# Install Intl
+RUN apt-get update && apt-get install -y \
+    libicu-dev \
+&& docker-php-ext-install intl \
+;
+
 # Install packages
 RUN apt update && apt install -y \
     git \
