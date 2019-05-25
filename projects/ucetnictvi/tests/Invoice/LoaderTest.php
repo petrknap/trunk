@@ -16,8 +16,8 @@ class LoaderTest extends TestCase
         $expectedInvoices = [
             Invoice::create([
                 'id' => 2019001,
-                'from' => 'me',
-                'to' => 'company1',
+                'seller' => 'me',
+                'buyer' => 'company1',
                 'subject' => 'The first invoice',
                 'issueDate' => '2019-05-24',
                 'dueDate' => '2019-06-07',
@@ -34,8 +34,8 @@ class LoaderTest extends TestCase
             ]),
             Invoice::create([
                 'id' => 2019002,
-                'from' => 'me',
-                'to' => 'company2',
+                'seller' => 'me',
+                'buyer' => 'company2',
                 'subject' => 'The second invoice',
                 'issueDate' => '2019-05-24',
                 'dueDate' => '2019-06-07',

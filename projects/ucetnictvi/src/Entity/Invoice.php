@@ -5,8 +5,8 @@ namespace Ucetnictvi\Entity;
 class Invoice
 {
     public $id;
-    public $from;
-    public $to;
+    public $seller;
+    public $buyer;
     public $subject;
     public $issueDate;
     public $dueDate;
