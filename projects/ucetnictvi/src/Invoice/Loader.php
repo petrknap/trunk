@@ -28,6 +28,7 @@ class Loader
         $invoiceId = null;
         foreach ($invoicesData as $invoiceData)
         {
+            $invoiceData= $this->trimKeys($invoiceData);
             if ($invoiceData['id']) {
                 $invoiceId = $invoiceData['id'];
                 $invoiceData['items'] = [];
@@ -51,10 +52,21 @@ class Loader
         $contacts = [];
         foreach ($contactsData as $contactData)
         {
+            $contactData = $this->trimKeys($contactData);
             $contact = Contact::create($contactData);
             $contacts[$contact->id] = $contact;
         }
 
         return $contacts;
+    }
+
+    private function trimKeys(array $data): array
+    {
+        $trimmed = [];
+        foreach ($data as $key => $value)
+        {
+            $trimmed[preg_replace('/[[:^print:]]/', '', $key)] = $value;
+        }
+        return $trimmed;
     }
 }
