@@ -1,4 +1,13 @@
 {
+    "mpdf/mpdf": {
+        "version": "v8.0.1"
+    },
+    "myclabs/deep-copy": {
+        "version": "1.9.1"
+    },
+    "paragonie/random_compat": {
+        "version": "v9.99.99"
+    },
     "psr/cache": {
         "version": "1.0.1"
     },
@@ -10,6 +19,9 @@
     },
     "psr/simple-cache": {
         "version": "1.0.1"
+    },
+    "setasign/fpdi": {
+        "version": "v2.2.0"
     },
     "symfony/cache": {
         "version": "v4.2.8"

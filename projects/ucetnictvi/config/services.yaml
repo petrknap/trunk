@@ -30,3 +30,5 @@ services:
         arguments:
             $encoders:
                 - '@Symfony\Component\Serializer\Encoder\CsvEncoder'
+
+    Mpdf\Mpdf:
