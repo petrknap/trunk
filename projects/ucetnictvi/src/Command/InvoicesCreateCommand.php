@@ -22,14 +22,27 @@ class InvoicesCreateCommand extends Command
 
     private $outputDirectory;
 
-    public function __construct(KernelInterface $kernel, Loader $loader, Generator $generator, string $inputDirectory, string $outputDirectory)
-    {
+    private $locale;
+
+    private $subjectType;
+
+    public function __construct(
+        KernelInterface $kernel,
+        Loader $loader,
+        Generator $generator,
+        string $inputDirectory,
+        string $outputDirectory,
+        string $locale,
+        string $subjectType
+    ) {
         parent::__construct();
         $this->kernel = $kernel;
         $this->generator = $generator;
         $this->loader = $loader;
         $this->inputDirectory = $inputDirectory;
         $this->outputDirectory = $outputDirectory;
+        $this->locale = $locale;
+        $this->subjectType = $subjectType;
     }
 
     protected function configure()
@@ -52,7 +65,7 @@ class InvoicesCreateCommand extends Command
         $io->progressStart(count($invoices));
         foreach ($invoices as $invoice) {
             $path = $this->outputDirectory . DIRECTORY_SEPARATOR . $invoice->id . '.pdf';
-            $this->generator->generatePdf($invoice, $path);
+            $this->generator->generatePdf($invoice, $path, $this->locale, $this->subjectType);
             $io->progressAdvance(1);
             if ($output->isVerbose()) {
                 $io->comment(sprintf(

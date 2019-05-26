@@ -54,13 +54,14 @@
         }
         .footer {
             position: absolute;
-            bottom: 50px;
+            bottom: 25px;
             right: 0;
             width: 100%;
             font-size: xx-small;
             border-top: 1px solid silver;
             text-align: center;
-            padding-top: 5px;
+            padding-top: 25px;
+            color: gray;
         }
     </style>
 </head>
@@ -132,8 +133,10 @@
 </div>
 
 <div class="footer">
-    Fyzická osoba podnikající dle živnostenského zákona zapsaná v Živnostenském rejstříku,
-    sp. značka {{ invoice.seller.registrationNumberInCompanyRegister }}.
+    {{ invoice.seller.name }},
+    neplátce DPH,
+    fyzická osoba podnikající dle živnostenského zákona zapsaná v&nbsp;Živnostenském rejstříku,
+    sp.&nbsp;značka {{ invoice.seller.registrationNumberInCompanyRegister }}.
 </div>
 
 </body>

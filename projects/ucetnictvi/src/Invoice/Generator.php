@@ -13,18 +13,16 @@ class Generator
 {
     private $twig;
 
-    private $pdf;
-
     public function __construct(\Twig_Environment $twig)
     {
         $this->twig = $twig;
     }
 
-    public function generatePdf(Invoice $invoice, string $path)
+    public function generatePdf(Invoice $invoice, string $path, string $locale, string $subjectType)
     {
         $oldLocale = \Locale::getDefault();
-        \Locale::setDefault('cs');
-        $htmlInvoice = $this->twig->render('Invoice/default.html.twig', [
+        \Locale::setDefault($locale);
+        $htmlInvoice = $this->twig->render("pdf/invoice/{$locale}/{$subjectType}.html.twig", [
             'invoice' => $invoice,
             'qr_code' => SpaydQr::create(
                 $invoice->seller->iban,
