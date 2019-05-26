@@ -1,4 +1,7 @@
 {% import _self as this %}
+{% set css_highlight_color = '#111111' %}
+{% set css_foreground_color = '#333333' %}
+{% set css_background_color = '#E6E6E6' %}
 <!DOCTYPE html>
 <html>
 <head>
@@ -7,12 +10,23 @@
     <style>
         body {
             font-family: DejaVuSans;
+            color: {{ css_foreground_color }};
         }
         table {
             width: 100%;
+            border-spacing: 0;
+        }
+        td {
+            padding: 3px 6px;
+        }
+        strong, th, dt {
+            color: {{ css_highlight_color }};
         }
         .border_bottom {
-            border-bottom: 1px solid silver;
+            border-bottom: 1px solid {{ css_foreground_color }};
+        }
+        .with_background {
+            background-color: {{ css_background_color }};
         }
         .hidden {
             display: none;
@@ -30,17 +44,22 @@
         .title span {
             font-size: x-large;
             text-transform: uppercase;
+            color: {{ css_highlight_color }};
         }
         .title small {
             font-size: x-small;
-            color: silver;
         }
         .seller {
             height: 100px;
         }
-        .seller h2, .buyer h2, .payment h2, .content h2 {
-            color: silver;
+        .seller h2, .buyer h2, .payment h2 {
+            color: {{ css_foreground_color }};
             font-size: xx-small;
+        }
+        .content h2 {
+            font-size: medium;
+            text-transform: uppercase;
+            color: {{ css_highlight_color }};
         }
         .seller dl, .buyer dl, .payment dl {
             margin-top: 0;
@@ -54,14 +73,16 @@
         }
         .footer {
             position: absolute;
-            bottom: 25px;
+            bottom: 0;
             right: 0;
             width: 100%;
             font-size: xx-small;
-            border-top: 1px solid silver;
+            border-top: 1px solid {{ css_foreground_color }};
             text-align: center;
             padding-top: 25px;
-            color: gray;
+            padding-bottom: 25px;
+            color: {{ css_foreground_color }};
+            background: {{ css_background_color }};
         }
     </style>
 </head>
@@ -88,8 +109,13 @@
 <div class="payment">
     <h2>Platební údaje</h2>
     <dl>
-        <dt><strong>IBAN</strong></dt>
-        <dd>{{ invoice.seller.iban }}</dd>
+        {% if invoice.seller.country == invoice.buyer.country %}
+            <dt><strong>Bankovní účet</strong></dt>
+            <dd>{{ invoice.seller.ban }}</dd>
+        {% else %}
+            <dt><strong>IBAN</strong></dt>
+            <dd>{{ invoice.seller.iban }}</dd>
+        {% endif %}
         <dt><strong>Variabilní symbol</strong></dt>
         <dd>{{ invoice.id }}</dd>
         <dt><strong>Datum splatnosti</strong></dt>
@@ -112,7 +138,7 @@
             <th class="border_bottom" style="width:150px">Celkem</th>
         </tr>
         {% for item in invoice.items %}
-            <tr>
+            <tr class="{% if loop.index % 2 %}with_background{% endif %}">
                 <td class="border_bottom">{{ item.description }}</td>
                 <td class="border_bottom" style="text-align: right;">{{ item.unitPrice|localizedcurrency(invoice.currency) }}</td>
                 <td class="border_bottom" style="text-align: center;">{{ item.quantity|number_format(0) }} {{ item.unit }}</td>
@@ -133,9 +159,9 @@
 </div>
 
 <div class="footer">
-    {{ invoice.seller.name }},
+    {{ invoice.seller.name }} ({{ invoice.seller.email }}),
     neplátce DPH,
-    fyzická osoba podnikající dle živnostenského zákona zapsaná v&nbsp;Živnostenském rejstříku,
+    fyzická osoba podnikající dle živnostenského zákona<br>zapsaná v&nbsp;Živnostenském rejstříku,
     sp.&nbsp;značka {{ invoice.seller.registrationNumberInCompanyRegister }}.
 </div>
 
@@ -145,7 +171,9 @@
     <dl>
         <dt>
             <strong>{{ contact.name }}</strong>
-            {% if contact.identificationNumber %}<small>(IČ: {{ contact.identificationNumber }})</small>{% endif %}
+            {% if contact.identificationNumber %}
+                <small>(IČ: {{ contact.identificationNumber }})</small>
+            {% endif %}
         </dt>
         <dd>
             {{ contact.addressLine1 }}<br>
