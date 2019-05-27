@@ -4,11 +4,10 @@ namespace Ucetnictvi\Entity;
 
 class InvoiceItem
 {
-    public $type;
-    public $description;
-    public $quantity;
-    public $unit;
-    public $unitPrice;
+    private $description;
+    private $unitPrice;
+    private $unit;
+    private $quantity;
 
     public static function create(array $data): self
     {
@@ -27,6 +26,26 @@ class InvoiceItem
             $invoiceItem->{$key} = $value;
         }
         return $invoiceItem;
+    }
+
+    public function getDescription(): string
+    {
+        return $this->description;
+    }
+
+    public function getUnitPrice(): float
+    {
+        return $this->unitPrice;
+    }
+
+    public function getUnit(): string
+    {
+        return $this->unit;
+    }
+
+    public function getQuantity(): float
+    {
+        return $this->quantity;
     }
 
     public function getTotalPrice(): float

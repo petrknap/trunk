@@ -4,19 +4,14 @@ namespace Ucetnictvi\Entity;
 
 class Invoice
 {
-    public $id;
-    public $seller;
-    public $buyer;
-    public $subject;
-    public $issueDate;
-    public $dueDate;
-
-    /**
-     * @var InvoiceItem[]
-     */
-    public $items;
-
-    public $currency;
+    private $id;
+    private $seller;
+    private $buyer;
+    private $subject;
+    private $issueDate;
+    private $dueDate;
+    private $items;
+    private $currency;
 
     public static function create(array $data): self
     {
@@ -43,5 +38,48 @@ class Invoice
             $totalPrice += $item->getTotalPrice();
         }
         return $totalPrice;
+    }
+
+    public function getId(): int
+    {
+        return $this->id;
+    }
+
+    public function getSeller(): Contact
+    {
+        return $this->seller;
+    }
+
+    public function getBuyer(): Contact
+    {
+        return $this->buyer;
+    }
+
+    public function getSubject(): string
+    {
+        return $this->subject;
+    }
+
+    public function getIssueDate(): \DateTimeImmutable
+    {
+        return $this->issueDate;
+    }
+
+    public function getDueDate(): \DateTimeImmutable
+    {
+        return $this->dueDate;
+    }
+
+    /**
+     * @return InvoiceItem[]
+     */
+    public function getItems(): array
+    {
+        return $this->items;
+    }
+
+    public function getCurrency(): string
+    {
+        return $this->currency;
     }
 }

@@ -81,6 +81,7 @@ class LoaderTest extends TestCase
                 'email' => 'kontakt@petrknap.cz',
                 'identificationNumber' => 12345678,
                 'registrationNumberInCompanyRegister' => 'S-SMO/123456/78/ŽÚ',
+                'ban' => '123/0100',
                 'iban' => 'CZ7801000000000000000123',
             ]),
             'company1' => Contact::create([

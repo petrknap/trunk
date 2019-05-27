@@ -64,7 +64,7 @@ class InvoicesCreateCommand extends Command
         $invoices = $this->loader->getAllInvoices($this->inputDirectory);
         $io->progressStart(count($invoices));
         foreach ($invoices as $invoice) {
-            $path = $this->outputDirectory . DIRECTORY_SEPARATOR . $invoice->id . '.pdf';
+            $path = $this->outputDirectory . DIRECTORY_SEPARATOR . $invoice->getId() . '.pdf';
             $this->generator->generatePdf($invoice, $path, $this->locale, $this->subjectType);
             $io->progressAdvance(1);
             if ($output->isVerbose()) {

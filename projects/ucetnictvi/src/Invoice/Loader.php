@@ -16,6 +16,10 @@ class Loader
         $this->serializer = $serializer;
     }
 
+    /**
+     * @param string $inputDirectory
+     * @return Invoice[]
+     */
     public function getAllInvoices(string $inputDirectory): array
     {
         $contacts = $this->getAllContacts($inputDirectory);
@@ -42,6 +46,10 @@ class Loader
         return array_map(Invoice::class . '::create', $groupedInvoicesData);
     }
 
+    /**
+     * @param string $inputDirectory
+     * @return Contact[]
+     */
     public function getAllContacts(string $inputDirectory):array
     {
         $contactsData = $this->serializer->decode(
@@ -54,7 +62,7 @@ class Loader
         {
             $contactData = $this->trimKeys($contactData);
             $contact = Contact::create($contactData);
-            $contacts[$contact->id] = $contact;
+            $contacts[$contact->getId()] = $contact;
         }
 
         return $contacts;

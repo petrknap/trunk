@@ -25,9 +25,9 @@ class Generator
         $htmlInvoice = $this->twig->render("pdf/invoice/{$locale}/{$subjectType}.html.twig", [
             'invoice' => $invoice,
             'qr_code' => SpaydQr::create(
-                $invoice->seller->iban,
-                (new DecimalMoneyParser(new ISOCurrencies()))->parse((string) $invoice->getTotalPrice(), $invoice->currency)
-            )->setVariableSymbol($invoice->id)
+                $invoice->getSeller()->getIban(),
+                (new DecimalMoneyParser(new ISOCurrencies()))->parse((string) $invoice->getTotalPrice(), $invoice->getCurrency())
+            )->setVariableSymbol($invoice->getId())
         ]);
         \Locale::setDefault($oldLocale);
 
