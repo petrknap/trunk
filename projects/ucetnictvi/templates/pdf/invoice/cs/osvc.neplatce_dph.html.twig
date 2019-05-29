@@ -2,6 +2,7 @@
 {% set css_highlight_color = '#111111' %}
 {% set css_foreground_color = '#333333' %}
 {% set css_background_color = '#E6E6E6' %}
+{% set date_format = 'j.n. Y' %}
 <!DOCTYPE html>
 <html>
 <head>
@@ -68,6 +69,10 @@
             float: right;
             width: 50%;
         }
+        .payment dd {
+            text-align: right;
+            padding-right: 10%;
+        }
         .payment, .buyer {
             height: 200px;
         }
@@ -102,7 +107,7 @@
     <span>Faktura {{ invoice.id }}</span>
     <br>
     <small>
-        Vystavena dne {{ invoice.issueDate|date('d.m. Y') }}
+        Vystavena dne {{ invoice.issueDate|date(date_format) }}
     </small>
 </h2>
 
@@ -119,7 +124,7 @@
         <dt><strong>Variabilní symbol</strong></dt>
         <dd>{{ invoice.id }}</dd>
         <dt><strong>Datum splatnosti</strong></dt>
-        <dd>{{ invoice.dueDate|date('d.m. Y') }}</dd>
+        <dd>{{ invoice.dueDate|date(date_format) }}</dd>
     </dl>
 </div>
 
