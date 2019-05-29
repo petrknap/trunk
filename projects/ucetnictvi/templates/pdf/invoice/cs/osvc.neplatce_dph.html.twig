@@ -172,7 +172,7 @@
         <dt>
             <strong>{{ contact.name }}</strong>
             {% if contact.identificationNumber %}
-                <small>(IČ: {{ contact.identificationNumber }})</small>
+                <small>(IČ: {{ "%08d"|format(contact.identificationNumber) }})</small>
             {% endif %}
         </dt>
         <dd>
