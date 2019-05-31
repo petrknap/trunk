@@ -4,6 +4,8 @@ namespace Ucetnictvi\Invoice;
 
 use Money\Currencies\ISOCurrencies;
 use Money\Parser\DecimalMoneyParser;
+use Mpdf\Config\ConfigVariables;
+use Mpdf\Config\FontVariables;
 use Mpdf\Mpdf;
 use Mpdf\Output\Destination;
 use PetrKnap\Php\SpaydQr\SpaydQr;
@@ -31,8 +33,28 @@ class Generator
         ]);
         \Locale::setDefault($oldLocale);
 
-        $pdf = new Mpdf();
-        $pdf->WriteHTML($htmlInvoice);
+        $this->convertHtmlStringToPdfFile($htmlInvoice, $path);
+    }
+
+    private function convertHtmlStringToPdfFile(string $html, string $path)
+    {
+        $defaultConfig = (new ConfigVariables())->getDefaults();
+        $fontDirs = $defaultConfig['fontDir'];
+
+        $defaultFontConfig = (new FontVariables())->getDefaults();
+        $fontData = $defaultFontConfig['fontdata'];
+
+        $pdf = new Mpdf([
+            'fontDir' => array_merge($fontDirs, [
+                __DIR__ . '/../../templates/fonts',
+            ]),
+            'fontdata' => array_merge($fontData, [
+                'scrgunny' => [
+                    'R' => 'scrgunny.ttf',
+                ],
+            ])
+        ]);
+        $pdf->WriteHTML($html);
         $pdf->Output($path, Destination::FILE);
     }
 }
