@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "47c61b4b495ba6f7ccb910ebed621e8f",
+    "content-hash": "13d7a6a633846471fbefaadae7ec11c0",
     "packages": [
         {
             "name": "bacon/bacon-qr-code",
@@ -543,16 +543,16 @@
         },
         {
             "name": "petrknap/php-spaydqr",
-            "version": "v1.1.0",
+            "version": "v1.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/petrknap/php-spaydqr.git",
-                "reference": "0b74907ab4438d547516f18a3f78857c7cbdc0c4"
+                "reference": "039a87c04a7c6b32915107915e06cbbcb9fb45b9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/petrknap/php-spaydqr/zipball/0b74907ab4438d547516f18a3f78857c7cbdc0c4",
-                "reference": "0b74907ab4438d547516f18a3f78857c7cbdc0c4",
+                "url": "https://api.github.com/repos/petrknap/php-spaydqr/zipball/039a87c04a7c6b32915107915e06cbbcb9fb45b9",
+                "reference": "039a87c04a7c6b32915107915e06cbbcb9fb45b9",
                 "shasum": ""
             },
             "require": {
@@ -589,7 +589,7 @@
                 "qrcode",
                 "spayd"
             ],
-            "time": "2019-05-24T14:52:59+00:00"
+            "time": "2019-06-04T05:36:43+00:00"
         },
         {
             "name": "psr/cache",
