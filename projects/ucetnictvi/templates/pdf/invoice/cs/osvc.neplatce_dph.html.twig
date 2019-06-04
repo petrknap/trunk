@@ -1,6 +1,7 @@
 {% import _self as this %}
 {% set css_highlight_color = '#111111' %}
 {% set css_foreground_color = '#333333' %}
+{% set css_lowlight_color = '#BBBBBB' %}
 {% set css_background_color = '#E6E6E6' %}
 {% set date_format = 'j.n. Y' %}
 <!DOCTYPE html>
@@ -32,7 +33,7 @@
         .hidden {
             display: none;
         }
-        .qr_code {
+        .qr_code_img {
             transform: rotate(45deg);
             position: absolute;
             top: 50px;
@@ -51,33 +52,38 @@
             font-size: x-small;
         }
         .seller {
-            height: 100px;
+            height: 150px;
         }
-        .seller h2, .buyer h2, .payment h2 {
-            color: {{ css_foreground_color }};
+        .seller h2, .buyer h2, .payment h2, .qr_code_title, .content h2 {
+            color: {{ css_lowlight_color }};
             font-size: x-large;
             font-family: scrgunny;
             font-weight: normal;
             margin-bottom: 0;
+            line-height: 0.9em;
         }
         .content h2 {
-            font-size: medium;
-            text-transform: uppercase;
-            color: {{ css_highlight_color }};
+            text-align: right;
+            font-size: xx-large;
         }
         .seller dl, .buyer dl, .payment dl {
             margin-top: 0;
         }
-        .payment {
+        .payment, .qr_code_title {
             float: right;
             width: 50%;
+        }
+        .qr_code_title {
+            text-align: right;
+            padding-right: 20%;
+            width: 30%;
         }
         .payment dd {
             text-align: right;
             padding-right: 10%;
         }
         .payment, .buyer {
-            height: 200px;
+            height: 250px;
         }
         .footer {
             position: absolute;
@@ -97,12 +103,20 @@
 <body>
 <h1 class="hidden">Faktura {{ invoice.id }}</h1>
 
-<div class="qr_code">
-    <img src="{{ qr_code.getDataUri(600) }}" alt="QR Code" class="qr_code">
+<h2 class="qr_code_title">
+    QR platba
+    {% if invoice.buyer.identificationNumber %}a faktura{% endif %}
+    <br>{{ this.arrow(15, 35, css_lowlight_color) }}&nbsp;
+</h2>
+<div class="qr_code_img">
+    <img src="{{ qr_code.getDataUri(600) }}" alt="QR Code" class="qr_code_img">
 </div>
 
 <div class="seller">
-    <h2>Dodavatel</h2>
+    <h2>
+        Dodavatel
+        <br>&nbsp;{{ this.arrow(15, 85, css_lowlight_color) }}
+    </h2>
     {{ this.address(invoice.seller, invoice.buyer.country) }}
 </div>
 
@@ -115,7 +129,10 @@
 </h2>
 
 <div class="payment">
-    <h2>Platební údaje</h2>
+    <h2>
+        Platební údaje
+        <br>&nbsp;{{ this.arrow(15, 85, css_lowlight_color) }}
+    </h2>
     <dl>
         {% if invoice.seller.country == invoice.buyer.country %}
             <dt><strong>Bankovní účet</strong></dt>
@@ -132,12 +149,14 @@
 </div>
 
 <div class="buyer">
-    <h2>Odběratel</h2>
+    <h2>
+        Odběratel
+        <br>&nbsp;{{ this.arrow(15, 85, css_lowlight_color) }}
+    </h2>
     {{ this.address(invoice.buyer, invoice.seller.country) }}
 </div>
 
 <div class="content">
-    <h2>{{ invoice.subject }}</h2>
     <table>
         <tr>
             <th class="border_bottom">Popis</th>
@@ -154,9 +173,7 @@
             </tr>
         {% endfor %}
         <tr>
-            <td></td>
-            <td></td>
-            <td></td>
+            <td colspan="3"></td>
             <td style="text-align: right;">
                 <strong>
                     {{ invoice.getTotalPrice()|localizedcurrency(invoice.currency) }}
@@ -164,6 +181,11 @@
             </td>
         </tr>
     </table>
+
+    <h2>
+        {{ this.arrow(30, 265, css_lowlight_color) }}&nbsp;&nbsp;&nbsp;<br>
+        {{ invoice.subject }}
+    </h2>
 </div>
 
 <div class="footer">
@@ -191,4 +213,23 @@
             {% if contact.country != relativeToCountry %}{{ contact.country }}{% endif %}
         </dd>
     </dl>
+{% endmacro %}
+{% macro arrow(size, rotation, color) %}
+    {% if rotation < 180 %}
+        {% set transform = 'rotate(' ~ (rotation + 180) ~ ' 62.5 62.5) scale(-1, 1) translate(-125, 0)' %}
+    {% else %}
+        {% set transform = 'rotate(' ~ rotation ~ ' 62.5 62.5)' %}
+    {% endif %}
+    <svg xmlns="http://www.w3.org/2000/svg"
+         viewBox="0 0 125 125"
+         height="{{ size }}"
+         width="{{ size }}">
+        <g transform="{{ transform }}"
+           fill="{{ color }}">
+            <path d="M1016.9,96a1.66,1.66,0,0,0-.35-0.74c-2.64-1.49-5.27-3-8-4.38-8.29-4.14-16.61-8.22-24.93-12.3-2.15-1.06-4.35-2-6.5-3.07a3.55,3.55,0,0,1-1.37-1.26,1.62,1.62,0,0,1,0-1.35,1.84,1.84,0,0,1,1.07-.8,2.5,2.5,0,0,1,1.4.06c1.21,0.4,2.41.85,3.58,1.36,12,5.23,23.82,10.93,35.46,16.94,2,1,3.89,2.21,5.78,3.4a2.46,2.46,0,0,1,.83,3,4.72,4.72,0,0,1-3.33,3.18c-2.73.62-5,2.09-7.32,3.48-4.39,2.63-8.84,5.14-13.17,7.86s-8.26,5.47-12.39,8.2a30.38,30.38,0,0,1-2.89,1.67,1.73,1.73,0,0,1-2-.9,1.63,1.63,0,0,1,.3-1.78,4.9,4.9,0,0,1,1-1c5-3.71,9.87-7.61,15.27-10.78,5.78-3.4,11.49-6.93,17.22-10.42A1.26,1.26,0,0,0,1016.9,96Z"
+                  transform="translate(-900 -32)"/>
+            <path d="M950.34,98.33L936,99c-8.78.43-17.58,0.33-26.35,1.2a71.31,71.31,0,0,1-7.19.13,4.34,4.34,0,0,1-1.84-.39,2,2,0,0,1-.77-1.1,1.51,1.51,0,0,1,.79-1.58,10.75,10.75,0,0,1,1.87-.35c7-.39,14-0.79,21.06-1.14,6.07-.3,12.14-0.46,18.2-0.85,5.43-.34,10.84-0.67,16.28-0.67,5,0,9.91-.16,14.87-0.26,3.52-.08,7-0.3,10.54-0.25,5.11,0.08,10.22.34,15.33,0.56a4,4,0,0,1,1.35.45,2.09,2.09,0,0,1,.82,2.09,1.58,1.58,0,0,1-1.22,1.32,10.85,10.85,0,0,1-2.37.17c-8.47-.59-16.94-0.26-25.41-0.23-7.19,0-14.39,0-21.58,0v0.18Z"
+                  transform="translate(-900 -32)"/>
+        </g>
+    </svg>
 {% endmacro %}
