@@ -22,14 +22,26 @@ class Generator
 
     public function generatePdf(Invoice $invoice, string $path, string $locale, string $subjectType)
     {
+        $qrCode = SpaydQr::create(
+            $invoice->getSeller()->getIban(),
+            (new DecimalMoneyParser(new ISOCurrencies()))->parse((string) $invoice->getTotalPrice(), $invoice->getCurrency())
+        )->setVariableSymbol($invoice->getId());
+
+        if ($invoice->getBuyer()->getIdentificationNumber()) {
+            $qrCode->setInvoice(
+                $invoice->getId(),
+                $invoice->getIssueDate(),
+                (int) $invoice->getSeller()->getIdentificationNumber(),
+                (int) $invoice->getBuyer()->getIdentificationNumber(),
+                $invoice->getSubject()
+            );
+        }
+
         $oldLocale = \Locale::getDefault();
         \Locale::setDefault($locale);
         $htmlInvoice = $this->twig->render("pdf/invoice/{$locale}/{$subjectType}.html.twig", [
             'invoice' => $invoice,
-            'qr_code' => SpaydQr::create(
-                $invoice->getSeller()->getIban(),
-                (new DecimalMoneyParser(new ISOCurrencies()))->parse((string) $invoice->getTotalPrice(), $invoice->getCurrency())
-            )->setVariableSymbol($invoice->getId())
+            'qr_code' => $qrCode,
         ]);
         \Locale::setDefault($oldLocale);
 
