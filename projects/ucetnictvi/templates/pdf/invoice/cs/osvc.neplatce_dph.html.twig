@@ -62,7 +62,7 @@
             margin-bottom: 0;
             line-height: 0.9em;
         }
-        .content h2 {
+        .payment h2, .content h2 {
             margin-top: 0;
             text-align: right;
         }
@@ -115,7 +115,7 @@
 <div class="seller">
     <h2>
         Dodavatel
-        <br>&nbsp;{{ this.arrow(15, 85, css_lowlight_color) }}
+        <br>&nbsp;&nbsp;&nbsp;{{ this.arrow(15, 70, css_lowlight_color) }}
     </h2>
     {{ this.address(invoice.seller, invoice.buyer.country) }}
 </div>
@@ -131,7 +131,7 @@
 <div class="payment">
     <h2>
         Platební údaje
-        <br>&nbsp;{{ this.arrow(15, 85, css_lowlight_color) }}
+        <br>{{ this.arrow(15, 110, css_lowlight_color) }}&nbsp;&nbsp;&nbsp;
     </h2>
     <dl>
         {% if invoice.seller.country == invoice.buyer.country %}
@@ -151,7 +151,7 @@
 <div class="buyer">
     <h2>
         Odběratel
-        <br>&nbsp;{{ this.arrow(15, 85, css_lowlight_color) }}
+        <br>&nbsp;&nbsp;&nbsp;{{ this.arrow(15, 70, css_lowlight_color) }}
     </h2>
     {{ this.address(invoice.buyer, invoice.seller.country) }}
 </div>
@@ -183,7 +183,7 @@
     </table>
 
     <h2>
-        {{ this.arrow(15, 255, css_lowlight_color) }}&nbsp;&nbsp;&nbsp;<br>
+        {{ this.arrow(15, 245, css_lowlight_color) }}&nbsp;&nbsp;&nbsp;<br>
         Celkem
     </h2>
 </div>
