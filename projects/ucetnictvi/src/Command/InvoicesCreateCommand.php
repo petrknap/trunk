@@ -65,13 +65,15 @@ class InvoicesCreateCommand extends Command
         $io->progressStart(count($invoices));
         foreach ($invoices as $invoice) {
             $path = $this->outputDirectory . DIRECTORY_SEPARATOR . $invoice->getId() . '.pdf';
-            $this->generator->generatePdf($invoice, $path, $this->locale, $this->subjectType);
+            if (file_exists($path)) {
+                $status = 'skipped';
+            } else {
+                $this->generator->generatePdf($invoice, $path, $this->locale, $this->subjectType);
+                $status = 'generated';
+            }
             $io->progressAdvance(1);
             if ($output->isVerbose()) {
-                $io->comment(sprintf(
-                    '<info>%s</info> created',
-                    $path
-                ));
+                $io->comment("<info>{$path}</info> {$status}");
             }
         }
         $io->progressFinish();
