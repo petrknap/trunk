@@ -28,12 +28,16 @@ class Generator
         )->setVariableSymbol($invoice->getId());
 
         if ($invoice->getBuyer()->getIdentificationNumber()) {
+            $descriptions = [];
+            foreach ($invoice->getItems() as $invoiceItem) {
+                $descriptions[$invoiceItem->getDescription()] = $invoiceItem->getDescription();
+            }
             $qrCode->setInvoice(
                 $invoice->getId(),
                 $invoice->getIssueDate(),
                 (int) $invoice->getSeller()->getIdentificationNumber(),
                 (int) $invoice->getBuyer()->getIdentificationNumber(),
-                $invoice->getSubject()
+                implode(', ', $descriptions)
             );
         }
 

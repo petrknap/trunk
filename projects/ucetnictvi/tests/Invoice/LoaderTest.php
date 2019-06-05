@@ -22,7 +22,6 @@ class LoaderTest extends TestCase
                 'id' => 2019001,
                 'seller' => $contacts['me'],
                 'buyer' => $contacts['company1'],
-                'subject' => 'The first invoice',
                 'issueDate' => '2019-05-24',
                 'dueDate' => '2019-06-07',
                 'items' => [
@@ -40,7 +39,6 @@ class LoaderTest extends TestCase
                 'id' => 2019002,
                 'seller' => $contacts['me'],
                 'buyer' => $contacts['company2'],
-                'subject' => 'The second invoice',
                 'issueDate' => '2019-05-24',
                 'dueDate' => '2019-06-07',
                 'items' => [
@@ -79,7 +77,7 @@ class LoaderTest extends TestCase
                 'zipOrPostalCode' => '54102',
                 'country' => 'Czech Republic',
                 'email' => 'kontakt@petrknap.cz',
-                'identificationNumber' => 12345678,
+                'identificationNumber' => 1234567,
                 'registrationNumberInCompanyRegister' => 'S-SMO/123456/78/ŽÚ',
                 'ban' => '123/0100',
                 'iban' => 'CZ7801000000000000000123',
@@ -93,7 +91,7 @@ class LoaderTest extends TestCase
                 'zipOrPostalCode' => '60600',
                 'country' => 'Czech Republic',
                 'email' => 'company1@example.com',
-                'identificationNumber' => 90123456,
+                'identificationNumber' => 89012345,
             ]),
             'company2' => Contact::create([
                 'id' => 'company2',

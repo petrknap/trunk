@@ -7,7 +7,6 @@ class Invoice
     private $id;
     private $seller;
     private $buyer;
-    private $subject;
     private $issueDate;
     private $dueDate;
     private $items;
@@ -53,11 +52,6 @@ class Invoice
     public function getBuyer(): Contact
     {
         return $this->buyer;
-    }
-
-    public function getSubject(): string
-    {
-        return $this->subject;
     }
 
     public function getIssueDate(): \DateTimeImmutable
