@@ -32,12 +32,15 @@ class Generator
             foreach ($invoice->getItems() as $invoiceItem) {
                 $descriptions[$invoiceItem->getDescription()] = $invoiceItem->getDescription();
             }
+            if ($invoice->getReference()) {
+                $descriptions['reference'] = 'Reference: ' . $invoice->getReference();
+            }
             $qrCode->setInvoice(
                 $invoice->getId(),
                 $invoice->getIssueDate(),
                 (int) $invoice->getSeller()->getIdentificationNumber(),
                 (int) $invoice->getBuyer()->getIdentificationNumber(),
-                implode(', ', $descriptions)
+                implode('; ', $descriptions)
             );
         }
 

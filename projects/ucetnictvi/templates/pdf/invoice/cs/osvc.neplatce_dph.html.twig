@@ -89,16 +89,27 @@
         }
         .footer {
             position: absolute;
-            bottom: 0;
-            right: 0;
             width: 100%;
             font-size: xx-small;
-            border-top: 1px solid {{ css_foreground_color }};
-            text-align: center;
-            padding-top: 25px;
-            padding-bottom: 25px;
             color: {{ css_foreground_color }};
             background: {{ css_background_color }};
+            bottom: 0;
+            right: 0;
+            padding-top: 10px;
+            padding-bottom: 20px;
+            text-align: center;
+            border-top: 1px solid {{ css_lowlight_color }};
+        }
+        .summary {
+            position: absolute;
+            text-align: center;
+            font-size: xx-small;
+            rotate: 90;
+            width: 142%; /* of 210mm -> 297 ~ 140% */
+            bottom: 0;
+            left: 0;
+            padding: 3px;
+            margin: 0;
         }
     </style>
 </head>
@@ -189,6 +200,14 @@
         Celkem
     </h2>
 </div>
+
+<p class="summary">
+    Faktura&nbsp;<em>{{ invoice.id }}</em>
+    vystavena&nbsp;<em>{{ invoice.issueDate|date(date_format) }}</em>
+    na&nbsp;<em>{{ invoice.getTotalPrice()|localizedcurrency(invoice.currency) }}</em>
+    splatná&nbsp;<em>{{ invoice.dueDate|date(date_format) }}</em>{% if invoice.reference %},
+    reference:&nbsp;<em>{{ invoice.reference }}</em>{% endif %}
+</p>
 
 <div class="footer">
     {{ invoice.seller.name }} ({{ invoice.seller.email }}),

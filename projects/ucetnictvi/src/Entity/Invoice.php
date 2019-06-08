@@ -11,6 +11,7 @@ class Invoice
     private $dueDate;
     private $items;
     private $currency;
+    private $reference;
 
     public static function create(array $data): self
     {
@@ -75,5 +76,10 @@ class Invoice
     public function getCurrency(): string
     {
         return $this->currency;
+    }
+
+    public function getReference(): ?string
+    {
+        return $this->reference;
     }
 }
