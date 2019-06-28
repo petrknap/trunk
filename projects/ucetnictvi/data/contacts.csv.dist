@@ -1,4 +1,4 @@
-id,name,addressLine1,addressLine2,city,zipOrPostalCode,stateOrProvinceOrRegion,country,email,identificationNumber,registrationNumberInCompanyRegister,ban,iban
-me,Ing. Petr Knap,Dlouhá 572,,Trutnov,54102,,Czech Republic,kontakt@petrknap.cz,01234567,S-SMO/123456/78/ŽÚ,123/0100,CZ7801000000000000000123
-company1,Company #1,Hrnčířská 573/6,Královo Pole,Brno,60600,,Czech Republic,company1@example.com,89012345,,,
+id,name,addressLine1,addressLine2,city,zipOrPostalCode,stateOrProvinceOrRegion,country,email,identificationNumber,vatIdentificationNumber,registrationNumberInCompanyRegister,ban,iban
+me,Ing. Petr Knap,Dlouhá 572,,Trutnov,54102,,Czech Republic,kontakt@petrknap.cz,01234567,,S-SMO/123456/78/ŽÚ,123/0100,CZ7801000000000000000123
+company1,Company #1,Hrnčířská 573/6,Královo Pole,Brno,60600,,Czech Republic,company1@example.com,89012345,CZ89012345,,,
 company2,Company #2,P.O. Box 558,9561 Lacus. Road,Laughlin,99602,Hawaii,United States of America,company2@example.com,,,,

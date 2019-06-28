@@ -16,6 +16,7 @@ class Contact
     private $ban;
     private $iban;
     private $identificationNumber;
+    private $vatIdentificationNumber;
     private $registrationNumberInCompanyRegister;
 
     public static function create(array $data): self
@@ -88,6 +89,11 @@ class Contact
     public function getIdentificationNumber(): ?string
     {
         return $this->identificationNumber;
+    }
+
+    public function getVatIdentificationNumber(): ?string
+    {
+        return $this->vatIdentificationNumber;
     }
 
     public function getRegistrationNumberInCompanyRegister(): ?string

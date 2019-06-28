@@ -27,22 +27,23 @@ class Generator
             (new DecimalMoneyParser(new ISOCurrencies()))->parse((string) $invoice->getTotalPrice(), $invoice->getCurrency())
         )->setVariableSymbol($invoice->getId());
 
-        if ($invoice->getBuyer()->getIdentificationNumber()) {
-            $descriptions = [];
-            foreach ($invoice->getItems() as $invoiceItem) {
-                $descriptions[$invoiceItem->getDescription()] = $invoiceItem->getDescription();
-            }
-            if ($invoice->getReference()) {
-                $descriptions['reference'] = 'Reference: ' . $invoice->getReference();
-            }
-            $qrCode->setInvoice(
-                $invoice->getId(),
-                $invoice->getIssueDate(),
-                (int) $invoice->getSeller()->getIdentificationNumber(),
-                (int) $invoice->getBuyer()->getIdentificationNumber(),
-                implode('; ', $descriptions)
-            );
+        $descriptions = [];
+        foreach ($invoice->getItems() as $invoiceItem) {
+            $descriptions[$invoiceItem->getDescription()] = $invoiceItem->getDescription();
         }
+        if ($invoice->getReference()) {
+            $descriptions['reference'] = 'Reference: ' . $invoice->getReference();
+        }
+
+        $qrCode->setInvoice(
+            $invoice->getId(),
+            $invoice->getIssueDate(),
+            (int) $invoice->getSeller()->getIdentificationNumber(),
+            $invoice->getSeller()->getVatIdentificationNumber(),
+            $invoice->getBuyer()->getIdentificationNumber() ? (int) $invoice->getBuyer()->getIdentificationNumber() : null,
+            $invoice->getBuyer()->getVatIdentificationNumber(),
+            implode('; ', $descriptions)
+        );
 
         $oldLocale = \Locale::getDefault();
         \Locale::setDefault($locale);

@@ -34,6 +34,7 @@ class LoaderTest extends TestCase
                     ]),
                 ],
                 'currency' => 'CZK',
+                'reference' => 'Mr. Smith'
             ]),
             2019002 => Invoice::create([
                 'id' => 2019002,
@@ -92,6 +93,7 @@ class LoaderTest extends TestCase
                 'country' => 'Czech Republic',
                 'email' => 'company1@example.com',
                 'identificationNumber' => 89012345,
+                'vatIdentificationNumber' => 'CZ89012345',
             ]),
             'company2' => Contact::create([
                 'id' => 'company2',

@@ -222,8 +222,9 @@
     <dl>
         <dt>
             <strong>{{ contact.name }}</strong>
+            {% if contact.identificationNumber and contact.vatIdentificationNumber %}<br>&nbsp;&nbsp;{% endif %}
             {% if contact.identificationNumber %}
-                <small>(IČ: {{ "%08d"|format(contact.identificationNumber) }})</small>
+                <small>(IČ: {{ "%08d"|format(contact.identificationNumber) }}{% if contact.vatIdentificationNumber %}, DIČ: {{ contact.vatIdentificationNumber }}{% endif %})</small>
             {% endif %}
         </dt>
         <dd>
