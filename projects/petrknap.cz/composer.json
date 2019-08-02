@@ -3,6 +3,7 @@
     "prefer-stable": true,
     "require": {
         "php": "^7.0",
+        "ext-simplexml": "*",
         "symfony/cache": "^3.3",
         "symfony/http-foundation": "^3.3",
         "symfony/dependency-injection": "^3.3",
@@ -13,7 +14,8 @@
         "theiconic/php-ga-measurement-protocol": "^2.7",
         "ramsey/uuid": "^3.7",
         "swiftmailer/swiftmailer": "^6.0",
-        "vrana/adminer": "*"
+        "vrana/adminer": "*",
+        "cocur/slugify": "^3.2"
     },
     "require-dev": {
         "netpromotion/deployer": "^1.0",

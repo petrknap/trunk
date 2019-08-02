@@ -2,9 +2,10 @@
 
 namespace PetrKnapCz;
 
+use Cocur\Slugify\Slugify;
 use Psr\Container\ContainerInterface;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Exception\RuntimeException;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 use Symfony\Component\HttpFoundation\Request;
@@ -45,4 +46,9 @@ function done()
     (new Response('ok', Response::HTTP_OK, [
         'Content-Type' => 'text/plain; charset=utf-8'
     ]))->send();
+}
+
+function slugify(string $string): string
+{
+    return Slugify::create()->slugify($string);
 }
