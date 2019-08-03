@@ -29,6 +29,9 @@ services:
             $subjectType: '%env(string:SUBJECT_TYPE)%'
 
     Symfony\Component\Serializer\Encoder\CsvEncoder:
+        arguments:
+            $defaultContext:
+                as_collection: true
     Symfony\Component\Serializer\Serializer:
         arguments:
             $encoders:
