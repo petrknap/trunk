@@ -64,6 +64,13 @@ function injectPage(string $htmlContent, string $pageId = null): string
     $scripts = $xmlContent->xpath('//body/script');
     $footer = $xmlContent->xpath('//body/footer');
 
+    if (!array_key_exists($pageId, $pages)) {
+        (new Response('Page Not Found', Response::HTTP_NOT_FOUND, [
+            'Content-Type' => 'text/plain',
+        ]))->send();
+        die;
+    }
+
     $page = $pages[$pageId];
     $menu = '';
     foreach ($pages as $_id => $_page) {
