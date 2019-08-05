@@ -78,7 +78,7 @@ function injectPage(string $htmlContent, string $pageId = null): string
         $menu .= "<a href='./{$_page['uri']}' class='list-group-item {$_active}'>{$_page['title']}</a>";
     }
     $body = '
-<div id="content" class="reveal">
+<div id="content">
     <div class="container well-sm" style="background-color: white; padding: 25px; margin-top: 25px">
         <div class="row">
             <div class="col-md-8">
@@ -93,7 +93,11 @@ function injectPage(string $htmlContent, string $pageId = null): string
 </div>
 ' . $footer[0]->asXML() . '
 <script>
-    document.getElementById("content").innerHTML = "<div class=\'slides\'>" + ' . json_encode($slides) . ' + "</div>";
+    (function() {
+        var content = document.getElementById("content");
+        content.className = "reveal";
+        content.innerHTML = "<div class=\'slides\'>" + ' . json_encode($slides) . ' + "</div>";
+    })();
 </script>
 ';
     foreach ($scripts as $script) {
