@@ -40,6 +40,16 @@ services:
     class: PetrKnapCz\RemoteContentAccessor
     arguments:
       - '@PetrKnapCz\RemoteContentCache'
+  PetrKnapCz\RavealContentCache:
+    class: Symfony\Component\Cache\Adapter\FilesystemAdapter
+    arguments:
+      - '%cache.reveal.namespace%'
+      - '%cache.reveal.lifetime%'
+      - '%cache.dir%'
+  PetrKnapCz\RavealAsPages:
+    class: PetrKnapCz\RavealAsPages
+    arguments:
+      - '@PetrKnapCz\RavealContentCache'
   PetrKnapCz\UrlShortenerService:
     class: PetrKnapCz\UrlShortenerService
     arguments:
