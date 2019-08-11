@@ -125,7 +125,12 @@ class RavealAsPages
 </script>
 ';
 
-        return preg_replace('/<body>.*<\/body>/uis', "<body>{$body}</body>", $htmlContent);
+        $htmlContent = preg_replace('/<body>.*<\/body>/uis', "<body>{$body}</body>", $htmlContent);
+        if ($pageId) {
+            $htmlContent = preg_replace('/<title>([^<]+)<\/title>/', "<title>{$page['title']} - \\1</title><script>document.title = '\\1';</script>", $htmlContent);
+        }
+
+        return $htmlContent;
     }
 
     private function getAsXml(string $htmlContent): \SimpleXMLElement
