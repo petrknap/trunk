@@ -50,8 +50,6 @@ class OrderController extends Controller
      */
     public function editAction()
     {
-        throw $this->createAccessDeniedException();
-
         return $this->render('@App/Order/edit.html.twig', [
             'shipping_price' => $this->getShippingPrice(),
             'order' => $this->getProvider()->provide(),
@@ -65,8 +63,6 @@ class OrderController extends Controller
      */
     public function confirmAction(Request $request)
     {
-        throw $this->createAccessDeniedException();
-
         if ($request->isMethod(Request::METHOD_POST)) {
             $request = $request->request;
             $response = $this->redirectToRoute('order_confirm', ['t' => microtime(true)]);
@@ -102,8 +98,6 @@ class OrderController extends Controller
      */
     public function sendAction()
     {
-        throw $this->createAccessDeniedException();
-
         $order = $this->getProvider()->provide();
         $body = $this->renderView('@App/Order/send.html.twig', [
             'shipping_price' => $this->getShippingPrice(),
@@ -148,8 +142,6 @@ class OrderController extends Controller
      */
     public function sentAction()
     {
-        throw $this->createAccessDeniedException();
-
         return $this->render('@App/Order/sent.html.twig');
     }
 }
