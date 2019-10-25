@@ -63,7 +63,7 @@ tests-on-packages:
 		make docker-run-symfony ARGS="cd $${package} && composer update && vendor/bin/phpunit ${ARGS}"; \
 	done
 
-publish: publish-web publish-home publish-clock publish-ffmpeg publish-packages
+publish: publish-web publish-home publish-clock publish-ffmpeg publish-letsencrypt-nginx-reverse-proxy publish-packages
 
 publish-packages: static-analysis tests
 	git subsplit init https://github.com/petrknap/trunk
@@ -89,3 +89,7 @@ publish-ffmpeg:
 	git subsplit init https://github.com/petrknap/trunk
 	git subsplit publish --heads=master --update "projects/ffmpeg:git@github.com:petrknap/ffmpeg.git"
 	rm -rf .subsplit
+
+publish-letsencrypt-nginx-reverse-proxy:
+	bash -c "docker build projects/letsencrypt-nginx-reverse-proxy --tag petrknap/letsencrypt-nginx-reverse-proxy:$$(git log -1 --oneline -- projects/letsencrypt-nginx-reverse-proxy | cut -d ' ' -f 1)"
+	docker push petrknap/letsencrypt-nginx-reverse-proxy
