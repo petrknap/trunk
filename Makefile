@@ -91,5 +91,5 @@ publish-ffmpeg:
 	rm -rf .subsplit
 
 publish-letsencrypt-nginx-reverse-proxy:
-	bash -c "docker build projects/letsencrypt-nginx-reverse-proxy --tag petrknap/letsencrypt-nginx-reverse-proxy:$$(git log -1 --oneline -- projects/letsencrypt-nginx-reverse-proxy | cut -d ' ' -f 1)"
+	bash -c "docker build projects/letsencrypt-nginx-reverse-proxy/docker --tag petrknap/letsencrypt-nginx-reverse-proxy:$$(git log -1 --oneline -- projects/letsencrypt-nginx-reverse-proxy/docker | cut -d ' ' -f 1)"
 	docker push petrknap/letsencrypt-nginx-reverse-proxy
