@@ -1,6 +1,16 @@
-FROM nginx:1.17
+FROM nginx:latest
 
 ENV RULES='1.example.com>127.0.0.1:8001,2.example.com>127.0.0.1:8002'
+ENV PROXY_OPTIONS='\
+    proxy_request_buffering off;\
+'
+ENV PROXY_HEADERS='\
+    proxy_set_header Host $host;\
+    proxy_set_header X-Forwarded-Host $host:$server_port;\
+    proxy_set_header X-Forwarded-Proto $scheme;\
+    proxy_set_header X-Real-IP $remote_addr;\
+'
+ENV PROXY_ADDITIONAL_OPTIONS=''
 
 VOLUME /etc/letsencrypt
 

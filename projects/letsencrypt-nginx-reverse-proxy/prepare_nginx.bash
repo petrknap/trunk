@@ -44,14 +44,9 @@ server {
   ssl_certificate_key ${SSL_KEY};
 
   location '/' {
-    client_max_body_size 0;
-    chunked_transfer_encoding on;
-
-    proxy_request_buffering off;
-    proxy_set_header Host \$host;
-    proxy_set_header X-Forwarded-Host \$host:\$server_port;
-    proxy_set_header X-Forwarded-Proto \$scheme;
-    proxy_set_header X-Real-IP \$remote_addr;
+    ${PROXY_OPTIONS}
+    ${PROXY_HEADERS}
+    ${PROXY_ADDITIONAL_OPTIONS}
     proxy_pass http://${TARGET};
   }
 }
