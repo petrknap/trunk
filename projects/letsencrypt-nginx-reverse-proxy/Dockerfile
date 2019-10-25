@@ -31,4 +31,4 @@ RUN chmod +x /call_letsencrypt.bash
 COPY command.bash /command.bash
 RUN chmod +x /command.bash
 
-CMD bash command.bash
+CMD bash /command.bash
