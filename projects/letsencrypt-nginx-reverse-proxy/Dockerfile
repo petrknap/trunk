@@ -19,15 +19,16 @@ RUN openssl req -x509 -nodes -days 36500 -newkey rsa:4096 -keyout /selfsigned.ke
 RUN curl -SL -o /tmp/certbot-auto https://dl.eff.org/certbot-auto && \
     mv /tmp/certbot-auto /usr/local/bin/certbot-auto && \
     chown root /usr/local/bin/certbot-auto && \
-    chmod 0755 /usr/local/bin/certbot-auto
+    chmod 0755 /usr/local/bin/certbot-auto && \
+    certbot-auto --version --non-interactive
 
-COPY init.sh /init.sh
-RUN chmod +x /init.sh
+COPY prepare_nginx.bash /prepare_nginx.bash
+RUN chmod +x /prepare_nginx.bash
 
-COPY letsencrypt.sh /letsencrypt.sh
-RUN chmod +x /letsencrypt.sh
+COPY call_letsencrypt.bash /call_letsencrypt.bash
+RUN chmod +x /call_letsencrypt.bash
 
-COPY command.sh /command.sh
-RUN chmod +x /command.sh
+COPY command.bash /command.bash
+RUN chmod +x /command.bash
 
-CMD /command.sh
+CMD bash command.bash

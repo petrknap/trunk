@@ -1,6 +1,5 @@
 #!/usr/bin/env sh
 set -e
-set -x
 
 rm /etc/nginx/conf.d/*
 
@@ -11,12 +10,15 @@ for RULE in `echo "${RULES}" | sed "s/,/\n/g"`; do (
     SSL_CERT="${SSL_PATH}/fullchain.pem"
     SSL_KEY="${SSL_PATH}/privkey.pem"
 
-    [ -e "${SSL_PATH}" ] || mkdir --parent "${SSL_PATH}"
-    ([ -e "${SSL_CERT}" ] && [ -e "${SSL_KEY}" ]) || (
+    if [[ ! -e "${SSL_PATH}" ]]; then (
+        mkdir --parent "${SSL_PATH}"
+    ); fi
+
+    if [[ ! -e "${SSL_CERT}" || ! -e "${SSL_KEY}" ]]; then (
         cp /selfsigned.crt "${SSL_CERT}"
         cp /selfsigned.key "${SSL_KEY}"
         touch "${SSL_PATH}/.fake"
-    )
+    ); fi
 
     cat > "/etc/nginx/conf.d/${DOMAIN}.conf" << EoS
 server {
