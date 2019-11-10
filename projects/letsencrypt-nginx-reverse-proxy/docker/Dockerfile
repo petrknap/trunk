@@ -30,7 +30,7 @@ RUN curl -SL -o /tmp/certbot-auto https://dl.eff.org/certbot-auto && \
     mv /tmp/certbot-auto /usr/local/bin/certbot-auto && \
     chown root /usr/local/bin/certbot-auto && \
     chmod 0755 /usr/local/bin/certbot-auto && \
-    certbot-auto --version --non-interactive
+    certbot-auto --install-only --non-interactive
 
 COPY prepare_nginx.bash /prepare_nginx.bash
 RUN chmod +x /prepare_nginx.bash
