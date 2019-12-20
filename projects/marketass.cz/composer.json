@@ -8,7 +8,7 @@
         }
     ],
     "require": {
-        "php": "^7.1",
+        "php": "^7.2",
         "netpromotion/symfony-up": "^1.0",
         "petrknap/symfony-markdownweb": "*",
         "petrknap/symfony-order": "*",
@@ -29,5 +29,8 @@
         "psr-4": {
             "AppBundle\\": "src/AppBundle"
         }
+    },
+    "extra": {
+        "symfony-web-dir": "marketass.cz"
     }
 }

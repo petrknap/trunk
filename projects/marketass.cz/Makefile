@@ -22,10 +22,9 @@ clean:
 	sudo chmod u+x ./bin -R
 	sudo chmod g+w,o+w ./var -R
 	rm -rf ./var/cache || true
-	rm -rf ./www/.debris || true
 
 composer:
-	make docker-run ARGS="composer ${ARGS}"
+	make docker-run ARGS="php -d memory_limit=4G /usr/local/bin/composer ${ARGS}"
 
 composer-install:
 	make composer ARGS="install"

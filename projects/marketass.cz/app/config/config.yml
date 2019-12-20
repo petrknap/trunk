@@ -29,7 +29,7 @@ swiftmailer:
   disable_delivery: '%swiftmailer.disable_delivery%'
 
 markdown_web:
-  directory: '%kernel.project_dir%/www/'
+  directory: '%kernel.project_dir%/marketass.cz/'
   site:
     title: Celostní fyzioterapie
     author: Bc. Markéta Schillerová

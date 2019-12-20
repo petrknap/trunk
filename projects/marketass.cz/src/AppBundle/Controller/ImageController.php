@@ -32,7 +32,7 @@ class ImageController extends Controller
             throw new NotFoundHttpException("Unknown size '{$size}'");
         }
 
-        $realPath = realpath(__DIR__ . '/../../../www/' . str_replace('..', '', $path));
+        $realPath = realpath(__DIR__ . '/../../../marketass.cz/' . str_replace('..', '', $path));
         $cacheKey = str_replace(
             ['+', '/', '='],
             ['_', '-', ''],
