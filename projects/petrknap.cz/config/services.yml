@@ -30,6 +30,19 @@ services:
     arguments:
       - '%backup.dir%'
       - '%backup.files%'
+  PetrKnapCz\BackupWatchdogCache:
+    class: Symfony\Component\Cache\Adapter\FilesystemAdapter
+    arguments:
+      - '%cache.backup_watchdog.namespace%'
+      - 1
+      - '%cache.dir%'
+  PetrKnapCz\BackupWatchdog:
+    class: PetrKnapCz\BackupWatchdog
+    arguments:
+      $cache: '@PetrKnapCz\BackupWatchdogCache'
+      $lifeTimes:
+        petrknap.cz: 172800
+        prcek: 1209600
   PetrKnapCz\RemoteContentCache:
     class: Symfony\Component\Cache\Adapter\FilesystemAdapter
     arguments:

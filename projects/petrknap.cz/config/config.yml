@@ -7,6 +7,7 @@ parameters:
 
   database.migrations_dir: '%project_dir%/migrations'
   cache.dir: '%project_dir%/var/cache'
+  cache.backup_watchdog.namespace: 'backup_watchdog'
   cache.remote_content.namespace: 'remote_content'
   cache.remote_content.lifetime: 7 * 24 * 3600
   cache.reveal.namespace: 'reveal'
