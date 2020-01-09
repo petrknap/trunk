@@ -41,6 +41,7 @@ services:
     arguments:
       $cache: '@PetrKnapCz\BackupWatchdogCache'
       $lifeTimes:
+        local: 172800
         petrknap.cz: 172800
         prcek: 1209600
   PetrKnapCz\RemoteContentCache:
