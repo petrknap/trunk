@@ -1,4 +1,6 @@
-# N2N supernode based on slim Debian
+# N2N supernode based on Alpine
+
+Inspired by [zuijin/n2n](https://hub.docker.com/r/zuijin/n2n/dockerfile).
 
 ## Start supernode
 
