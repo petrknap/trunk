@@ -99,7 +99,6 @@ publish-docker-letsencrypt-nginx-reverse-proxy:
 	bash -c "docker push petrknap/letsencrypt-nginx-reverse-proxy:latest"
 
 publish-docker-n2n-supernode:
-	bash -c "docker build projects/n2n-supernode/docker --tag petrknap/n2n-supernode:$$(git log -1 --oneline -- projects/n2n-supernode/docker | cut -d ' ' -f 1)"
-	bash -c "docker push petrknap/n2n-supernode:$$(git log -1 --oneline -- projects/n2n-supernode/docker | cut -d ' ' -f 1)"
-	bash -c "docker tag petrknap/n2n-supernode:$$(git log -1 --oneline -- projects/n2n-supernode/docker | cut -d ' ' -f 1) petrknap/n2n-supernode:latest"
-	bash -c "docker push petrknap/n2n-supernode:latest"
+	git subsplit init https://github.com/petrknap/trunk
+	git subsplit publish --heads=master --update "docker/n2n-supernode:git@github.com:petrknap/docker-n2n-supernode.git"
+	rm -rf .subsplit
