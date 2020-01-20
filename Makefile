@@ -90,10 +90,16 @@ publish-ffmpeg:
 	git subsplit publish --heads=master --update "projects/ffmpeg:git@github.com:petrknap/ffmpeg.git"
 	rm -rf .subsplit
 
-publish-docker: publish-docker-letsencrypt-nginx-reverse-proxy
+publish-docker: publish-docker-letsencrypt-nginx-reverse-proxy publish-docker-n2n-supernode
 
 publish-docker-letsencrypt-nginx-reverse-proxy:
 	bash -c "docker build projects/letsencrypt-nginx-reverse-proxy/docker --tag petrknap/letsencrypt-nginx-reverse-proxy:$$(git log -1 --oneline -- projects/letsencrypt-nginx-reverse-proxy/docker | cut -d ' ' -f 1)"
 	bash -c "docker push petrknap/letsencrypt-nginx-reverse-proxy:$$(git log -1 --oneline -- projects/letsencrypt-nginx-reverse-proxy/docker | cut -d ' ' -f 1)"
 	bash -c "docker tag petrknap/letsencrypt-nginx-reverse-proxy:$$(git log -1 --oneline -- projects/letsencrypt-nginx-reverse-proxy/docker | cut -d ' ' -f 1) petrknap/letsencrypt-nginx-reverse-proxy:latest"
 	bash -c "docker push petrknap/letsencrypt-nginx-reverse-proxy:latest"
+
+publish-docker-n2n-supernode:
+	bash -c "docker build projects/n2n-supernode/docker --tag petrknap/n2n-supernode:$$(git log -1 --oneline -- projects/n2n-supernode/docker | cut -d ' ' -f 1)"
+	bash -c "docker push petrknap/n2n-supernode:$$(git log -1 --oneline -- projects/n2n-supernode/docker | cut -d ' ' -f 1)"
+	bash -c "docker tag petrknap/n2n-supernode:$$(git log -1 --oneline -- projects/n2n-supernode/docker | cut -d ' ' -f 1) petrknap/n2n-supernode:latest"
+	bash -c "docker push petrknap/n2n-supernode:latest"
