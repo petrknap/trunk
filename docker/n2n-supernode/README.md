@@ -1,13 +1,12 @@
 # N2N supernode based on Alpine
 
-Inspired by [zuijin/n2n](https://hub.docker.com/r/zuijin/n2n/dockerfile).
-
 ## Start supernode
 
 Run `docker run -d -p 7654:7654/udp petrknap/n2n-supernode`.
 
-Or `docker run -d -p {[IP:]PORT}:7654/udp petrknap/n2n-supernode`
-where `{[IP:]PORT}` is optional IP address of listening interface and listening port.
+Or `docker run -d -p {[IP:]PORT}:7654/udp petrknap/n2n-supernode:{VERSION}`
+where `{[IP:]PORT}` is optional IP address of listening interface and listening port
+and `{VERSION}` is required version (for example `1`).
 
 ## Connect to running supernode
 
@@ -18,3 +17,7 @@ where `{REQUESTED_IP}` is requested IP for this node,
 `{NETWORK_NAME}` is name of your network,
 `{PRIVATE_KEY}` is private key of your network and
 `{IP:PORT}` is IP address of listening supernode interface and listening port.
+
+---
+
+Compilation of version 2 inspired by [zuijin/n2n](https://hub.docker.com/r/zuijin/n2n/dockerfile).
