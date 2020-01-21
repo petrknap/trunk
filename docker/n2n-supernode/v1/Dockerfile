@@ -12,4 +12,4 @@ RUN PACKAGES=" \
     && apt clean \
     && rm -rf /var/lib/apt/lists/*
 
-CMD /usr/bin/supernode -v -l ${LISTENING_PORT}
+CMD /usr/bin/supernode -l ${LISTENING_PORT}

@@ -21,4 +21,4 @@ RUN BUILD_DEPENDENCIES=" \
     && rm -rf /var/cache/apk/* \
     && rm -rf /tmp/*
 
-CMD /usr/bin/supernode -v -l ${LISTENING_PORT}
+CMD /usr/bin/supernode -l ${LISTENING_PORT}
