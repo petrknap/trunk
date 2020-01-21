@@ -1,4 +1,4 @@
-# N2N supernode based on Alpine
+# N2N supernode
 
 ## Start supernode
 
