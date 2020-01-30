@@ -73,12 +73,14 @@ class Cut(Runner):
 
     def do_run(self, ffmpeg, input_file):
         output_file = ffmpeg.working_file(input_file)
-        arguments = ffmpeg.copy_video + ffmpeg.copy_audio
+        arguments = []
         if self.start:
             arguments += ['-ss', str(self.start)]
+        arguments += ['-i', input_file]  # input seeking (-i after -ss)
         if self.duration:
             arguments += ['-t', str(self.duration)]
-        ffmpeg.execute(input_file, arguments, output_file)
+        arguments += ffmpeg.copy_video + ffmpeg.copy_audio + ['-avoid_negative_ts', '1']
+        ffmpeg.execute(None, arguments, output_file)
         return output_file
 
 
