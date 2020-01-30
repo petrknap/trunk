@@ -24,3 +24,38 @@ class LensCorrection(Runner):
                     ] + ffmpeg.encode_video + ffmpeg.copy_audio
         ffmpeg.execute(input_file, arguments, output_file)
         return output_file
+
+
+class VidStab(Runner):
+    default_parameters = {
+        'shakiness': 3,
+        'accuracy': 5,
+        'stepsize': 7,
+        'zoom': 1,
+        'smoothing': 5,
+    }
+
+    def __init__(self, previous_or_file, parameters):
+        self.parameters = parameters
+        super().__init__(previous_or_file)
+
+    def do_run(self, ffmpeg, input_file):
+        detect_output = ffmpeg.working_file('detected.trf')
+        detect_arguments = [
+                        '-vf', 'vidstabdetect' +
+                               '=shakiness=' + str(self.parameters.get('shakiness')) +
+                               ':accuracy=' + str(self.parameters.get('accuracy')) +
+                               ':stepsize=' + str(self.parameters.get('stepsize')) +
+                               ':result=' + detect_output,
+                        '-f', 'null'
+                    ]
+        ffmpeg.execute(input_file, detect_arguments, '-')
+        output_file = ffmpeg.working_file(input_file)
+        arguments = [
+                        '-vf', 'vidstabtransform' +
+                               '=zoom=' + str(self.parameters.get('zoom')) +
+                               ':smoothing=' + str(self.parameters.get('smoothing')) +
+                               ':input=' + detect_output,
+                    ] + ffmpeg.encode_video + ffmpeg.copy_audio
+        ffmpeg.execute(input_file, arguments, output_file)
+        return output_file
