@@ -25,7 +25,8 @@ class FFmpeg:
         for runner in args:
             runner.run(self)
         for working_file in self.working_files:
-            remove(working_file)
+            if path.exists(working_file):
+                remove(working_file)
 
     def working_file(self, input_file):
         (name, ext) = path.splitext(input_file)
@@ -38,6 +39,7 @@ class FFmpeg:
         if input_file:
             command += ['-i', input_file]
         command += arguments + [output_file]
+        print(' '.join(command))
         process = subprocess.run(command)
         if process.returncode:
             raise Exception(' '.join(command))
@@ -99,7 +101,7 @@ class Concat(Runner):
                 '-f', 'concat',
                 '-safe', '0',
                 '-i', concat_file
-            ] + ffmpeg.copy_video + ffmpeg.copy_audio,
+            ] + ffmpeg.encode_video + ffmpeg.copy_audio,
             output_file
         )
         return output_file
