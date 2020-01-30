@@ -20,11 +20,14 @@ FFmpeg('./ffmpeg.exe', './sample').run(
                 './sample/output - lens correction.mp4'
             ),
             Save(
-                VidStab(
-                    Open('./sample/input.mp4'),
-                    VidStab.default_parameters
+                Unsharp(
+                    VidStab(
+                        Open('./sample/input.mp4'),
+                        VidStab.default_parameters
+                    ),
+                    Unsharp.default_parameters
                 ),
-                './sample/output - vid stab.mp4'
+                './sample/output - vid stab and unsharp.mp4'
             )
         ),
         './sample/output.mp4'

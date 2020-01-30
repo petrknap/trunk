@@ -26,6 +26,35 @@ class LensCorrection(Runner):
         return output_file
 
 
+class Unsharp(Runner):
+    default_parameters = {
+        'lx': 5,
+        'ly': 5,
+        'la': 0.8,
+        'cx': 3,
+        'cy': 3,
+        'ca': 0.4,
+    }
+
+    def __init__(self, previous_or_file, parameters):
+        self.parameters = parameters
+        super().__init__(previous_or_file)
+
+    def do_run(self, ffmpeg, input_file):
+        output_file = ffmpeg.working_file(input_file)
+        arguments = [
+                        '-vf', 'unsharp' +
+                               '=' + str(self.parameters.get('lx')) +
+                               ':' + str(self.parameters.get('ly')) +
+                               ':' + str(self.parameters.get('la')) +
+                               ':' + str(self.parameters.get('cx')) +
+                               ':' + str(self.parameters.get('cy')) +
+                               ':' + str(self.parameters.get('ca'))
+                    ] + ffmpeg.encode_video + ffmpeg.copy_audio
+        ffmpeg.execute(input_file, arguments, output_file)
+        return output_file
+
+
 class VidStab(Runner):
     default_parameters = {
         'shakiness': 3,
