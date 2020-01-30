@@ -24,7 +24,7 @@ class FFmpeg:
 
     def execute(self, args):
         command = [self.binary] + args
-        process = subprocess.run(command, stdout=subprocess.PIPE)
+        process = subprocess.run(command)
         if process.returncode:
             raise Exception(' '.join(command))
 
