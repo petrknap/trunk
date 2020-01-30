@@ -116,3 +116,4 @@ class Save(Runner):
 
     def do_run(self, ffmpeg, input_file):
         copyfile(input_file, self.output_file)
+        return self.output_file
