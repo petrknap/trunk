@@ -5,6 +5,17 @@ import uuid
 
 
 class FFmpeg:
+    encode_video = [
+        '-vsync', 'vfr'
+    ]
+    copy_video = [
+        '-vcodec', 'copy',
+        '-vsync', 'vfr'
+    ]
+    copy_audio = [
+        '-acodec', 'copy',
+    ]
+
     def __init__(self, binary, working_directory):
         self.binary = binary
         self.working_directory = working_directory
@@ -22,8 +33,11 @@ class FFmpeg:
         self.working_files.append(working_file)
         return working_file
 
-    def execute(self, args):
-        command = [self.binary] + args
+    def execute(self, input_file, arguments, output_file):
+        command = [self.binary]
+        if input_file:
+            command += ['-i', input_file]
+        command += arguments + [output_file]
         process = subprocess.run(command)
         if process.returncode:
             raise Exception(' '.join(command))
@@ -57,13 +71,12 @@ class Cut(Runner):
 
     def do_run(self, ffmpeg, input_file):
         output_file = ffmpeg.working_file(input_file)
-        arguments = ['-i', input_file]
+        arguments = ffmpeg.copy_video + ffmpeg.copy_audio
         if self.start:
             arguments += ['-ss', str(self.start)]
         if self.duration:
             arguments += ['-t', str(self.duration)]
-        arguments += [output_file]
-        ffmpeg.execute(arguments)
+        ffmpeg.execute(input_file, arguments, output_file)
         return output_file
 
 
@@ -80,7 +93,15 @@ class Concat(Runner):
                 last_file = runner.run(ffmpeg)
                 file.write('file \'%s\'\n' % path.abspath(last_file))
         output_file = ffmpeg.working_file(last_file)
-        ffmpeg.execute(['-f', 'concat', '-safe', '0', '-i', concat_file, output_file])
+        ffmpeg.execute(
+            None,
+            [
+                '-f', 'concat',
+                '-safe', '0',
+                '-i', concat_file
+            ] + ffmpeg.copy_video + ffmpeg.copy_audio,
+            output_file
+        )
         return output_file
 
 
