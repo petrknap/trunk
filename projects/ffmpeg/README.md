@@ -1,6 +1,6 @@
 # FFmpeg macros
 
-You can use it as "video editor for geeks", see [sample.py].
+You can use it as "video editor for geeks", see [project.py].
 Or as macros for batch processing.
 
 ---
@@ -9,7 +9,7 @@ Requires [Python] and [FFmpeg].
 [Sample video] by [Pixabay] from [Pexels].
 
 
-[sample.py]:sample.py
+[project.py]:sample/project.py
 [Python]:https://www.python.org/downloads/
 [FFmpeg]:https://www.ffmpeg.org/download.html
 [sample video]:sample/input.mp4

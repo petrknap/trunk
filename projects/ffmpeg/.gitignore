@@ -3,4 +3,5 @@
 /ffmpeg.exe
 /sample/*
 !/sample/input.mp4
+!/sample/project.py
 /*.pyc
