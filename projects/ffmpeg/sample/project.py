@@ -4,7 +4,7 @@ import sys
 sys.path.append(os.path.abspath('../..'))
 
 from ffmpeg import Concat, Cut, FFmpeg, Open, Save
-from ffmpeg.video_filters import Deshake, LensCorrection, SetPts, Unsharp, VidStab
+from ffmpeg.filters import Deshake, LensCorrection, SetPts, Unsharp, VidStab
 
 video = {
     'file': Open('./input.mp4'),
