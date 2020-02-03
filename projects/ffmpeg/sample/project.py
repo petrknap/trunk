@@ -24,22 +24,22 @@ FFmpeg('../ffmpeg.exe', '.').run(
         Concat(
             Save(
                 Concat(
-                    Cut(video.get('input'), duration=3),
-                    Cut(video.get('input'), start=3, duration=3),
-                    Cut(video.get('input'), start=6),
+                    Cut(video.get('file'), duration=3),
+                    Cut(video.get('file'), start=3, duration=3),
+                    Cut(video.get('file'), start=6),
                 ),
                 './output - cut and concat.mp4'
             ),
             Save(
                 Deshake(
-                    video.get('input'),
+                    video.get('file'),
                     deshake_parameters
                 ),
                 './output - deshake.mp4'
             ),
             Save(
                 LensCorrection(
-                    video.get('input'),
+                    video.get('file'),
                     LensCorrection.GoPro
                 ),
                 './output - lens correction.mp4'
@@ -47,7 +47,7 @@ FFmpeg('../ffmpeg.exe', '.').run(
             Save(
                 Unsharp(
                     VidStab(
-                        video.get('input'),
+                        video.get('file'),
                         VidStab.default_parameters
                     ),
                     Unsharp.default_parameters
