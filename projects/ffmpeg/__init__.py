@@ -96,14 +96,14 @@ class Concat(Runner):
         with open(concat_file, 'w') as file:
             for runner in self.runners:
                 last_file = runner.run(ffmpeg)
-                file.write('file \'%s\'\n' % path.abspath(last_file))
+                file.write('file \'%s\'\n' % path.relpath(last_file, path.dirname(concat_file)).replace('\\', '/'))
         output_file = ffmpeg.working_file(last_file)
         ffmpeg.execute(
             None,
             [
                 '-f', 'concat',
                 '-safe', '0',
-                '-i', concat_file
+                '-i', concat_file.replace('\\', '/')
             ] + ffmpeg.encode_video + ffmpeg.copy_audio,
             output_file
         )
