@@ -12,6 +12,7 @@ class FFmpeg:
         '-vcodec', 'copy',
         '-vsync', 'vfr'
     ]
+    encode_audio = []
     copy_audio = [
         '-acodec', 'copy',
     ]

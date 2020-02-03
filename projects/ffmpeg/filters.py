@@ -57,16 +57,19 @@ class LensCorrection(Runner):
         return output_file
 
 
-class SetPts(Runner):
-    def __init__(self, previous_or_file, presentation_timestamp):
-        self.presentation_timestamp = presentation_timestamp
+class Tempo(Runner):
+    def __init__(self, previous_or_file, tempo):
+        self.tempo = tempo
         super().__init__(previous_or_file)
 
     def do_run(self, ffmpeg, input_file):
         output_file = ffmpeg.working_file(input_file)
         arguments = [
-                        '-vf', 'setpts=' + self.presentation_timestamp
-                    ] + ffmpeg.encode_video + ffmpeg.copy_audio
+                        '-filter_complex', '[0:v]setpts=' + str(1/self.tempo) + '*PTS[v];' +
+                                           '[0:a]atempo=' + str(self.tempo) + '[a]',
+                        '-map', '[v]',
+                        '-map', '[a]',
+                    ] + ffmpeg.encode_video + ffmpeg.encode_audio
         ffmpeg.execute(input_file, arguments, output_file)
         return output_file
 
