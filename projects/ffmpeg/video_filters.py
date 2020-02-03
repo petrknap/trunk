@@ -1,12 +1,43 @@
 from . import *
 
 
+class Deshake(Runner):
+    default_parameters = {
+        'x': 320,
+        'y': 180,
+        'w': 1280,
+        'h': 720,
+        'rx': 64,
+        'ry': 64,
+        'edge': 'mirror',
+    }
+
+    def __init__(self, previous_or_file, parameters):
+        self.parameters = parameters
+        super().__init__(previous_or_file)
+
+    def do_run(self, ffmpeg, input_file):
+        output_file = ffmpeg.working_file(input_file)
+        arguments = [
+                        '-vf', 'deshake' +
+                               '=x=' + str(self.parameters.get('x')) +
+                               ':y=' + str(self.parameters.get('y')) +
+                               ':w=' + str(self.parameters.get('w')) +
+                               ':h=' + str(self.parameters.get('h')) +
+                               ':rx=' + str(self.parameters.get('rx')) +
+                               ':ry=' + str(self.parameters.get('ry')) +
+                               ':edge=' + str(self.parameters.get('edge')),
+                    ] + ffmpeg.encode_video + ffmpeg.copy_audio
+        ffmpeg.execute(input_file, arguments, output_file)
+        return output_file
+
+
 class LensCorrection(Runner):
     GoPro = {
         'cx': 0.5,
         'cy': 0.5,
         'k1': -0.227,
-        'k2': -0.022
+        'k2': -0.022,
     }
 
     def __init__(self, previous_or_file, parameters):
