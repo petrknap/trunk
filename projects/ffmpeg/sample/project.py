@@ -4,7 +4,7 @@ import sys
 sys.path.append(os.path.abspath('../..'))
 
 from ffmpeg import Concat, Cut, FFmpeg, Open, Save
-from ffmpeg.video_filters import Deshake, LensCorrection, Unsharp, VidStab
+from ffmpeg.video_filters import Deshake, LensCorrection, SetPts, Unsharp, VidStab
 
 video = {
     'file': Open('./input.mp4'),
@@ -43,6 +43,13 @@ FFmpeg('../ffmpeg.exe', '.').run(
                     LensCorrection.GoPro
                 ),
                 './output - lens correction.mp4'
+            ),
+            Save(
+                SetPts(
+                    video.get('file'),
+                    '1.25*PTS'
+                ),
+                './output - set pts.mp4'
             ),
             Save(
                 Unsharp(
