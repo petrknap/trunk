@@ -33,11 +33,11 @@ class Deshake(Runner):
 
 
 class LensCorrection(Runner):
-    GoPro = {
+    GoProHeroHd = {
         'cx': 0.5,
         'cy': 0.5,
-        'k1': -0.227,
-        'k2': -0.022,
+        'k1': -0.335,
+        'k2': 0.097,
     }
 
     def __init__(self, previous_or_file, parameters):

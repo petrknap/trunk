@@ -40,7 +40,7 @@ FFmpeg('../ffmpeg.exe', '.').run(
             Save(
                 LensCorrection(
                     video.get('file'),
-                    LensCorrection.GoPro
+                    LensCorrection.GoProHeroHd
                 ),
                 './output - lens correction.mp4'
             ),
