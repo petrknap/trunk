@@ -117,7 +117,7 @@ class VidStab(Runner):
         super().__init__(previous_or_file)
 
     def do_run(self, ffmpeg, input_file):
-        detect_output = ffmpeg.working_file('detected.trf')
+        detect_output = ffmpeg.working_file('detected.trf').replace('\\', '/')
         detect_arguments = [
                         '-vf', 'vidstabdetect' +
                                '=shakiness=' + str(self.parameters.get('shakiness')) +
