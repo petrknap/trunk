@@ -11,13 +11,6 @@ video = {
     'width': 620,
     'height': 360,
 }
-deshake_parameters = Deshake.default_parameters
-deshake_parameters.update({
-    'x': 40,
-    'y': 40,
-    'w': video.get('width') - 40 * 2,
-    'h': video.get('height') - 40 * 2,
-})
 
 FFmpeg('../ffmpeg.exe', '.').run(
     Save(
@@ -33,7 +26,7 @@ FFmpeg('../ffmpeg.exe', '.').run(
             Save(
                 Deshake(
                     video.get('file'),
-                    deshake_parameters
+                    {}
                 ),
                 './output - deshake.mp4'
             ),
@@ -53,14 +46,19 @@ FFmpeg('../ffmpeg.exe', '.').run(
             ),
             Save(
                 Unsharp(
-                    VidStab(
-                        video.get('file'),
-                        VidStab.default_parameters
-                    ),
-                    Unsharp.default_parameters
+                    video.get('file'),
+                    {}
                 ),
-                './output - vid stab and unsharp.mp4'
-            )
+                './output - unsharp.mp4'
+            ),
+            Save(
+                VidStab(
+                    video.get('file'),
+                    {},
+                    {}
+                ),
+                './output - vid stab.mp4'
+            ),
         ),
         './output.mp4'
     )
