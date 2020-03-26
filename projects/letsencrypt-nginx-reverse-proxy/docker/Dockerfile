@@ -1,6 +1,5 @@
 FROM nginx:latest
 
-ENV IGNORE_LETS_ENCRYPT_ERRORS="false"
 ENV RULES='1.example.com>127.0.0.1:8001,2.example.com>127.0.0.1:8002'
 ENV PROXY_OPTIONS='\
     proxy_request_buffering off;\
@@ -41,5 +40,7 @@ RUN chmod +x /call_letsencrypt.bash
 
 COPY command.bash /command.bash
 RUN chmod +x /command.bash
+
+ENV IGNORE_LETS_ENCRYPT_ERRORS="false"
 
 CMD bash /command.bash
