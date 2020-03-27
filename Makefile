@@ -93,10 +93,9 @@ publish-ffmpeg:
 publish-docker: publish-docker-letsencrypt-nginx-reverse-proxy publish-docker-n2n-supernode
 
 publish-docker-letsencrypt-nginx-reverse-proxy:
-	bash -c "docker build projects/letsencrypt-nginx-reverse-proxy/docker --tag petrknap/letsencrypt-nginx-reverse-proxy:$$(git log -1 --oneline -- projects/letsencrypt-nginx-reverse-proxy/docker | cut -d ' ' -f 1)"
-	bash -c "docker push petrknap/letsencrypt-nginx-reverse-proxy:$$(git log -1 --oneline -- projects/letsencrypt-nginx-reverse-proxy/docker | cut -d ' ' -f 1)"
-	bash -c "docker tag petrknap/letsencrypt-nginx-reverse-proxy:$$(git log -1 --oneline -- projects/letsencrypt-nginx-reverse-proxy/docker | cut -d ' ' -f 1) petrknap/letsencrypt-nginx-reverse-proxy:latest"
-	bash -c "docker push petrknap/letsencrypt-nginx-reverse-proxy:latest"
+	git subsplit init https://github.com/petrknap/trunk
+	git subsplit publish --heads=master --update "docker/letsencrypt-nginx-reverse-proxy:git@github.com:petrknap/docker-letsencrypt-nginx-reverse-proxy.git"
+	rm -rf .subsplit
 
 publish-docker-n2n-supernode:
 	git subsplit init https://github.com/petrknap/trunk

@@ -21,7 +21,9 @@ RUN apt update \
 COPY *.bash /
 RUN chmod +x /*.bash
 
-ENV IGNORE_LETS_ENCRYPT_ERRORS="false"
+ENV IGNORE_LETS_ENCRYPT_ALL_ERRORS="false"
+ENV IGNORE_LETS_ENCRYPT_OBTAIN_ERRORS="false"
+ENV IGNORE_LETS_ENCRYPT_RENEW_ERRORS="true"
 ENV RULES='1.example.com>127.0.0.1:8001,2.example.com>127.0.0.1:8002'
 ENV PROXY_OPTIONS='\
     proxy_request_buffering off;\
