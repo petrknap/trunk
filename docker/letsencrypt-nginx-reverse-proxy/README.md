@@ -50,14 +50,12 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: catalog-reverse-proxy
+  name: reverse-proxy
   labels:
-    app: catalog
-    service: reverse-proxy
+    app: reverse-proxy
 spec:
   selector:
-    app: catalog
-    service: reverse-proxy
+    app: reverse-proxy
   ports:
     - name: http
       protocol: TCP
