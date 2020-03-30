@@ -11,7 +11,7 @@ RUN apt update \
     && chown root /usr/local/bin/certbot-auto \
     && chmod 0755 /usr/local/bin/certbot-auto \
     && certbot-auto --install-only --non-interactive \
-    && apt clear \
+    && apt clean \
     && rm  -rf \
         /var/lib/apt/lists/* \
         /tmp/* \
