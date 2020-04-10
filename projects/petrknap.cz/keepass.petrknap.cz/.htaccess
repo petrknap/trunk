@@ -1,0 +1,8 @@
+RewriteEngine On
+
+RewriteCond %{HTTPS} off
+RewriteCond %{HTTP_HOST} keepass.petrknap.cz
+RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+RewriteCond %{REQUEST_URI} !^/index.php$
+RewriteRule ^(.+)$ /index.php?file=$1 [NC,L]
