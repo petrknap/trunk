@@ -1,8 +1,10 @@
 RewriteEngine On
+
+RewriteCond %{HTTP_HOST} ^www\.(.*)$ [NC]
+RewriteRule ^(.*)$ http://%1/$1 [R=301,L]
+
 RewriteCond %{HTTPS} off
 RewriteCond %{HTTP_HOST} petrknap.cz
 RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 
-RewriteRule ^$ index.php?page=
-RewriteRule ^(.*)\.html$ index.php?page=$1
-RewriteRule ^sitemap\.xml$ index.php?sitemap=xml
+RewriteRule ^(.*)$ index.php?uri=$1
