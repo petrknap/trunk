@@ -7,18 +7,18 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 require_once __DIR__ . '/../vendor/autoload.php';
 
 $targetGenerator = function ($uri) {
-    return "https://petrknap.github.io/{$uri}";
+    return "https://petrknap.github.io{$uri}";
 };
 
-$uri = $_GET['uri'] ?? '';
+$uri = $_SERVER['REQUEST_URI'];
 switch ($uri) {
-    case '':
-        $uri = 'index_cz.html';
+    case '/':
+        $uri = '/index_cz.html';
         break;
-    case 'sitemap.xml':
+    case '/sitemap.xml':
         header("Content-Type: text/xml");
         break;
-    case 'robots.txt':
+    case '/robots.txt':
         header("Content-Type: text/plain");
         break;
     default:

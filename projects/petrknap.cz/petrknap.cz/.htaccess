@@ -7,4 +7,4 @@ RewriteCond %{HTTPS} off
 RewriteCond %{HTTP_HOST} petrknap.cz
 RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 
-RewriteRule ^(.*)$ index.php?uri=$1
+RewriteRule ^(.*)$ index.php [L]
