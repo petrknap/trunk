@@ -2,9 +2,13 @@
 
 namespace PetrKnapCz;
 
-use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 
 require_once __DIR__ . '/../vendor/autoload.php';
+
+$targetGenerator = function ($uri) {
+    return "https://petrknap.github.io/{$uri}";
+};
 
 $uri = $_GET['uri'] ?? '';
 switch ($uri) {
@@ -18,12 +22,11 @@ switch ($uri) {
         header("Content-Type: text/plain");
         break;
     default:
-        http_response_code(Response::HTTP_NOT_FOUND);
-        header("Content-Type: text/plain");
-        die('Page Not Found');
+        (new RedirectResponse($targetGenerator($uri), RedirectResponse::HTTP_FOUND))->send();
+        exit;
 }
 
 container()
     ->get(RemoteContentAccessor::class)
-    ->getResponse("https://petrknap.github.io/{$uri}")
+    ->getResponse($targetGenerator($uri))
     ->send();
