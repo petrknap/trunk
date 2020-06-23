@@ -21,6 +21,8 @@ for RULE in `echo "${RULES}" | sed "s/,/\n/g"`; do (
     ); fi
 
     cat > "/etc/nginx/conf.d/${DOMAIN}.conf" << EoS
+${UPSTREAMS}
+
 server {
   listen 80;
   listen [::]:80;

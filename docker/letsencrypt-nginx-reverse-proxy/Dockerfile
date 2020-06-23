@@ -35,6 +35,13 @@ ENV PROXY_HEADERS='\
     proxy_set_header X-Real-IP $remote_addr;\
 '
 ENV PROXY_ADDITIONAL_OPTIONS=''
+ENV UPSTREAMS='\
+#   upstream my-load-balancer {\
+#        server 127.0.0.1:8001;\
+#        server 127.0.0.1:8002;\
+#        sticky cookie srv_id expires=1h domain=.example.com path=/;\
+#   } \
+'
 
 CMD bash /command.bash
 
