@@ -20,6 +20,6 @@ for RULE in `echo "${RULES}" | sed "s/,/\n/g"`; do (
         eval "${COMMAND} certonly ${SWITCHES} -d ${DOMAIN} || ${IGNORE_LETS_ENCRYPT_OBTAIN_ERRORS} || ${IGNORE_LETS_ENCRYPT_ALL_ERRORS}"
         if [[ ! -e "${SSL_PATH}/fullchain.pem" ]]; then (
             tar -xf "${SSL_PATH}.tar"
-        );
+        ); fi
     ); fi
 ); done
