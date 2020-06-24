@@ -16,6 +16,6 @@ for RULE in `echo "${RULES}" | sed "s/,/\n/g"`; do (
 
     if [[ -e "${SSL_PATH}/.fake" ]]; then(
         rm -rf "${SSL_PATH}"
-        eval "${COMMAND} certonly ${SWITCHES} -d ${DOMAIN} ${IGNORE_LETS_ENCRYPT_OBTAIN_ERRORS} || ${IGNORE_LETS_ENCRYPT_ERRORS}"
+        eval "${COMMAND} certonly ${SWITCHES} -d ${DOMAIN} ${IGNORE_LETS_ENCRYPT_OBTAIN_ERRORS} || ${IGNORE_LETS_ENCRYPT_ALL_ERRORS}"
     ); fi
 ); done
