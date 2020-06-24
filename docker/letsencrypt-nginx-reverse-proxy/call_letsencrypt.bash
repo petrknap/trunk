@@ -14,8 +14,12 @@ for RULE in `echo "${RULES}" | sed "s/,/\n/g"`; do (
     DOMAIN=$(echo "${RULE}" | cut -d ">" -f 1);
     SSL_PATH="/etc/letsencrypt/live/${DOMAIN}"
 
-    if [[ -e "${SSL_PATH}/.fake" ]]; then(
+    if [[ -e "${SSL_PATH}/.fake" ]]; then (
+        tar -cf "${SSL_PATH}.tar" "${SSL_PATH}"
         rm -rf "${SSL_PATH}"
         eval "${COMMAND} certonly ${SWITCHES} -d ${DOMAIN} || ${IGNORE_LETS_ENCRYPT_OBTAIN_ERRORS} || ${IGNORE_LETS_ENCRYPT_ALL_ERRORS}"
+        if [[ ! -e "${SSL_PATH}/fullchain.pem" ]]; then (
+            tar -xf "${SSL_PATH}.tar"
+        );
     ); fi
 ); done
