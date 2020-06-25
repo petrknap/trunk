@@ -2,6 +2,7 @@
 set -e
 
 if [ "${PAPERTRAIL_SOCKET}" == "" ]; then (
+    touch /etc/rsyslog.d/papertrail.conf
     rm /etc/rsyslog.d/papertrail.conf
 ); else (
     sed -i "s/{PAPERTRAIL_SOCKET}/${PAPERTRAIL_SOCKET}/g" /etc/rsyslog.d/papertrail.conf
