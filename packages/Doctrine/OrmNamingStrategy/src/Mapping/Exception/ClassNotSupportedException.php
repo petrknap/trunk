@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace PetrKnap\Doctrine\OrmMappingNamingStrategy\Exception;
+namespace PetrKnap\Doctrine\OrmNamingStrategy\Mapping\Exception;
 
 use Doctrine\ORM\ORMException;
 

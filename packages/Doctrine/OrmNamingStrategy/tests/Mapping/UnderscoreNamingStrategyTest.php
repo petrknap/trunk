@@ -1,9 +1,9 @@
 <?php
 
-namespace PetrKnap\Doctrine\OrmMappingNamingStrategy\Tests;
+namespace PetrKnap\Doctrine\OrmNamingStrategy\Tests\Mapping;
 
-use PetrKnap\Doctrine\OrmMappingNamingStrategy\Exception\ClassNotSupportedException;
-use PetrKnap\Doctrine\OrmMappingNamingStrategy\UnderscoreNamingStrategy;
+use PetrKnap\Doctrine\OrmNamingStrategy\Mapping\Exception\ClassNotSupportedException;
+use PetrKnap\Doctrine\OrmNamingStrategy\Mapping\UnderscoreNamingStrategy;
 use PHPUnit\Framework\TestCase;
 
 class UnderscoreNamingStrategyTest extends TestCase

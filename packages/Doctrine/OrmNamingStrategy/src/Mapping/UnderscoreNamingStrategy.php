@@ -1,8 +1,8 @@
 <?php declare(strict_types=1);
 
-namespace PetrKnap\Doctrine\OrmMappingNamingStrategy;
+namespace PetrKnap\Doctrine\OrmNamingStrategy\Mapping;
 
-use PetrKnap\Doctrine\OrmMappingNamingStrategy\Exception\ClassNotSupportedException;
+use PetrKnap\Doctrine\OrmNamingStrategy\Mapping\Exception\ClassNotSupportedException;
 
 class UnderscoreNamingStrategy extends \Doctrine\ORM\Mapping\UnderscoreNamingStrategy
 {
