@@ -78,7 +78,7 @@ publish: publish-web publish-home publish-clock publish-ffmpeg publish-docker pu
 publish-packages: static-analysis tests
 	git subsplit init https://github.com/petrknap/trunk
 	git subsplit publish --heads=master --update "packages/Php/Enum:git@github.com:petrknap/php-enum.git packages/Php/MigrationTool:git@github.com:petrknap/php-migrationtool.git packages/Php/Profiler:git@github.com:petrknap/php-profiler.git packages/Php/Singleton:git@github.com:petrknap/php-singleton.git packages/Php/SpaydQr:git@github.com:petrknap/php-spaydqr.git packages/Php/SplitFilesystem:git@github.com:petrknap/php-splitfilesystem.git" #generated php
-	git subsplit publish --heads=master --update "packages/Doctrine/ORM:git@github.com:petrknap/doctrine-orm.git" #generated doctrine
+	git subsplit publish --heads=master --update "packages/Doctrine/OrmMappingNamingStrategy:git@github.com:petrknap/doctrine-ormmappingnamingstrategy.git" #generated doctrine
 	rm -rf .subsplit
 
 publish-web:
