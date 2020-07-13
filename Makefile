@@ -48,6 +48,7 @@ composer-update:
 
 static-analysis:
 	bin/phpstan analyse packages/Php/*/src --autoload-file=vendor/php/autoload.php ${ARGS}
+	bin/phpstan analyse packages/Doctrine/*/src --autoload-file=vendor/doctrine/autoload.php ${ARGS}
 	bin/phpstan analyse packages/Symfony/*/src --autoload-file=vendor/symfony/autoload.php ${ARGS}
 
 tests: composer-install
