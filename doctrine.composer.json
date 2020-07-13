@@ -22,16 +22,16 @@
     },
     "require-dev": {
         "phpunit/phpunit": "^7.5",
-        "petrknap/doctrine-ormnamingstrategy": "*"
+        "petrknap/doctrine-namingstrategy": "*"
     },
     "autoload": {
         "psr-4": {
-            "PetrKnap\\Doctrine\\OrmNamingStrategy\\": "packages/Doctrine/OrmNamingStrategy/src"
+            "PetrKnap\\Doctrine\\NamingStrategy\\": "packages/Doctrine/NamingStrategy/src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "PetrKnap\\Doctrine\\OrmNamingStrategy\\Test\\": "packages/Doctrine/OrmNamingStrategy/tests"
+            "PetrKnap\\Doctrine\\NamingStrategy\\Test\\": "packages/Doctrine/NamingStrategy/tests"
         }
     }
 }

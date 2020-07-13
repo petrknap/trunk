@@ -1,8 +1,8 @@
 <?php declare(strict_types=1);
 
-namespace PetrKnap\Doctrine\OrmNamingStrategy\Mapping;
+namespace PetrKnap\Doctrine\NamingStrategy\ORM\Mapping;
 
-use PetrKnap\Doctrine\OrmNamingStrategy\Mapping\Exception\ClassNotSupportedException;
+use PetrKnap\Doctrine\NamingStrategy\ORM\Mapping\Exception\ClassNotSupportedException;
 
 class UnderscoreNamingStrategy extends \Doctrine\ORM\Mapping\UnderscoreNamingStrategy
 {
@@ -13,13 +13,6 @@ class UnderscoreNamingStrategy extends \Doctrine\ORM\Mapping\UnderscoreNamingStr
         parent::__construct($case, $numberAware);
 
         $this->prefix = $prefix;
-    }
-
-    public function setPrefix(?string $prefix): self
-    {
-        $this->prefix = $prefix;
-
-        return $this;
     }
 
     /**

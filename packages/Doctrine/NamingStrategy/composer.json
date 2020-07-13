@@ -1,13 +1,13 @@
 {
-    "description": "Naming strategies for doctrine/orm",
+    "description": "Naming strategies for Doctrine",
     "keywords": null,
     "require": {
         "php": ">=7.1",
         "doctrine/orm": "^2.3"
     },
     "WARNING": "This file is updated automatically. All keys will be overwritten, except of 'description', 'keywords', 'require' and 'conflict'.",
-    "name": "petrknap/doctrine-ormnamingstrategy",
-    "homepage": "https://petrknap.github.io/docs/doctrine-ormnamingstrategy.html",
+    "name": "petrknap/doctrine-namingstrategy",
+    "homepage": "https://petrknap.github.io/docs/doctrine-namingstrategy.html",
     "license": "MIT",
     "authors": [
         {
@@ -20,13 +20,13 @@
     },
     "autoload": {
         "psr-4": {
-            "PetrKnap\\Doctrine\\OrmNamingStrategy\\": "src"
+            "PetrKnap\\Doctrine\\NamingStrategy\\": "src"
         },
         "files": []
     },
     "autoload-dev": {
         "psr-4": {
-            "PetrKnap\\Doctrine\\OrmNamingStrategy\\Test\\": "tests"
+            "PetrKnap\\Doctrine\\NamingStrategy\\Test\\": "tests"
         }
     }
 }
