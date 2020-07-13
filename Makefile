@@ -20,10 +20,15 @@ docker:
 	mkdir temp/docker || true
 	cp *.dockerfile temp/docker
 	sudo docker build -f temp/docker/php.dockerfile -t petrknap/php temp/docker
+	sudo docker build -f temp/docker/doctrine.dockerfile -t petrknap/doctrine temp/docker
 	sudo docker build -f temp/docker/symfony.dockerfile -t petrknap/symfony temp/docker
 
 docker-run-php:
 	sudo docker run -v $$(pwd):/app -v $$(pwd):/mnt/read-only/app:ro --rm petrknap/php bash -c "cd /app && ${ARGS}"
+	make clean
+
+docker-run-doctrine:
+	sudo docker run -v $$(pwd):/app -v $$(pwd):/mnt/read-only/app:ro --rm petrknap/doctrine bash -c "cd /app && ${ARGS}"
 	make clean
 
 docker-run-symfony:
@@ -32,6 +37,7 @@ docker-run-symfony:
 
 composer:
 	make docker-run-php ARGS="COMPOSER=php.composer.json COMPOSER_VENDOR_DIR=vendor/php composer ${ARGS}"
+	make docker-run-doctrine ARGS="COMPOSER=doctrine.composer.json COMPOSER_VENDOR_DIR=vendor/doctrine composer ${ARGS}"
 	make docker-run-symfony ARGS="COMPOSER=symfony.composer.json COMPOSER_VENDOR_DIR=vendor/symfony composer ${ARGS}"
 
 composer-install:
@@ -46,10 +52,14 @@ static-analysis:
 
 tests: composer-install
 	make tests-php ARGS="${ARGS}"
+	make tests-doctrine ARGS="${ARGS}"
 	make tests-symfony ARGS="${ARGS}"
 
 tests-php:
 	make docker-run-php ARGS="vendor/php/bin/phpunit -c php.phpunit.xml --testdox-text php.phpunit.log ${ARGS}"
+
+tests-doctrine:
+	make docker-run-doctrine ARGS="vendor/doctrine/bin/phpunit -c doctrine.phpunit.xml --testdox-text doctrine.phpunit.log ${ARGS}"
 
 tests-symfony:
 	make docker-run-symfony ARGS="vendor/symfony/bin/phpunit -c symfony.phpunit.xml --testdox-text symfony.phpunit.log ${ARGS}"
@@ -68,6 +78,7 @@ publish: publish-web publish-home publish-clock publish-ffmpeg publish-docker pu
 publish-packages: static-analysis tests
 	git subsplit init https://github.com/petrknap/trunk
 	git subsplit publish --heads=master --update "packages/Php/Enum:git@github.com:petrknap/php-enum.git packages/Php/MigrationTool:git@github.com:petrknap/php-migrationtool.git packages/Php/Profiler:git@github.com:petrknap/php-profiler.git packages/Php/Singleton:git@github.com:petrknap/php-singleton.git packages/Php/SpaydQr:git@github.com:petrknap/php-spaydqr.git packages/Php/SplitFilesystem:git@github.com:petrknap/php-splitfilesystem.git" #generated php
+	git subsplit publish --heads=master --update "packages/Doctrine/ORM:git@github.com:petrknap/doctrine-orm.git" #generated doctrine
 	rm -rf .subsplit
 
 publish-web:
