@@ -1,9 +1,9 @@
 <?php
 
-namespace PetrKnap\Doctrine\NamingStrategy\Tests\ORM\Mapping;
+namespace PetrKnap\Doctrine\NamingStrategy\Tests\Orm\Mapping;
 
-use PetrKnap\Doctrine\OrmNamingStrategy\Mapping\Exception\ClassNotSupportedException;
-use PetrKnap\Doctrine\OrmNamingStrategy\Mapping\UnderscoreNamingStrategy;
+use PetrKnap\Doctrine\NamingStrategy\Orm\Mapping\Exception\ClassNotSupportedException;
+use PetrKnap\Doctrine\NamingStrategy\Orm\Mapping\UnderscoreNamingStrategy;
 use PHPUnit\Framework\TestCase;
 
 class UnderscoreNamingStrategyTest extends TestCase
@@ -16,7 +16,7 @@ class UnderscoreNamingStrategyTest extends TestCase
     {
         $this->assertSame(
             $tableName,
-            (new UnderscoreNamingStrategy())->setPrefix($prefix)->classToTableName($className)
+            (new UnderscoreNamingStrategy(CASE_LOWER, true, $prefix))->classToTableName($className)
         );
     }
 
@@ -32,6 +32,6 @@ class UnderscoreNamingStrategyTest extends TestCase
     {
         $this->expectException(ClassNotSupportedException::class);
 
-        (new UnderscoreNamingStrategy())->setPrefix('Foo')->classToTableName('Bar');
+        (new UnderscoreNamingStrategy(CASE_LOWER, true, 'Foo'))->classToTableName('Bar');
     }
 }
