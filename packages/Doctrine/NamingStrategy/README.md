@@ -1,6 +1,7 @@
 # Naming strategies for Doctrine
 
-## `PetrKnap\Doctrine\NamingStrategy\ORM\Mapping\UnderscoreNamingStrategy`
+
+## `PetrKnap\Doctrine\NamingStrategy\Orm\Mapping\UnderscoreNamingStrategy`
 
 Underscore naming strategy with support for namespaces and prefixes.
 
