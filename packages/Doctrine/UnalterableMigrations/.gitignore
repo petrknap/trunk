@@ -1,0 +1,5 @@
+/.idea/
+/vendor/
+/projects/workshop/
+/*.composer.lock
+/*.phpunit.log
