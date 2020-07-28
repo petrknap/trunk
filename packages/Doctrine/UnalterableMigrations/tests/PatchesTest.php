@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace PetrKnap\Doctrine\UnalterableMigrations\Tests;
+namespace PetrKnap\Doctrine\UnalterableMigrations\Test;
 
 use PetrKnap\Doctrine\UnalterableMigrations\Patches;
 use PHPUnit\Framework\TestCase;
