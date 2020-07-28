@@ -2,6 +2,7 @@
 
 namespace PetrKnap\Doctrine\UnalterableMigrations\Test;
 
+use LogicException;
 use PetrKnap\Doctrine\UnalterableMigrations\Patches;
 use PHPUnit\Framework\TestCase;
 
@@ -35,14 +36,14 @@ class PatchesTest extends TestCase
 
     public function testRemoveLineThrowsWhenLineIsOutOfRange(): void
     {
-        $this->expectException(\LogicException::class);
+        $this->expectException(LogicException::class);
 
         Patches::on(self::PAYLOAD)->removeLine(3);
     }
 
     public function testRemoveLineThrowsWhenLineDoesNotContainExpectedString(): void
     {
-        $this->expectException(\LogicException::class);
+        $this->expectException(LogicException::class);
 
         Patches::on(self::PAYLOAD)->removeLine(1, 'c');
     }
@@ -71,7 +72,7 @@ class PatchesTest extends TestCase
 
     public function testInsertLineThrowsWhenLineIsOutOfRange(): void
     {
-        $this->expectException(\LogicException::class);
+        $this->expectException(LogicException::class);
 
         Patches::on(self::PAYLOAD)->removeLine(3);
     }

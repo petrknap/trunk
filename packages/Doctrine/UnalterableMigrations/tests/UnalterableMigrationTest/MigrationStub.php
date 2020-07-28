@@ -1,8 +1,10 @@
 <?php declare(strict_types=1);
 
-namespace PetrKnap\Doctrine\UnalterableMigrations\Test\UnalterableSqlMigrationTest;
+namespace PetrKnap\Doctrine\UnalterableMigrations\Test\UnalterableMigrationTest;
 
 use Doctrine\DBAL\Schema\Schema;
+use Exception;
+use stdClass;
 
 abstract class MigrationStub
 {
@@ -10,7 +12,7 @@ abstract class MigrationStub
 
     public function __construct()
     {
-        $this->version = new \stdClass();
+        $this->version = new stdClass();
     }
 
     abstract public function up(Schema $schema): void;
@@ -25,7 +27,7 @@ abstract class MigrationStub
     protected function abortIf(bool $condition)
     {
         if ($condition) {
-            throw new \Exception();
+            throw new Exception();
         }
     }
 }

@@ -1,14 +1,14 @@
 <?php declare(strict_types=1);
 
-namespace PetrKnap\Doctrine\UnalterableMigrations\Test\UnalterableSqlMigrationTest;
+namespace PetrKnap\Doctrine\UnalterableMigrations\Test\UnalterableMigrationTest;
 
 use PetrKnap\Doctrine\UnalterableMigrations\Patches;
-use PetrKnap\Doctrine\UnalterableMigrations\UnalterableSqlMigrationInterface;
-use PetrKnap\Doctrine\UnalterableMigrations\UnalterableSqlMigrationTrait;
+use PetrKnap\Doctrine\UnalterableMigrations\UnalterableMigrationInterface;
+use PetrKnap\Doctrine\UnalterableMigrations\UnalterableMigrationTrait;
 
-class Alter extends MigrationStub implements UnalterableSqlMigrationInterface
+class Alter extends MigrationStub implements UnalterableMigrationInterface
 {
-    use UnalterableSqlMigrationTrait;
+    use UnalterableMigrationTrait;
 
     public function getParentClassName(): ?string
     {

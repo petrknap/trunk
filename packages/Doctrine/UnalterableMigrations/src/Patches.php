@@ -2,6 +2,8 @@
 
 namespace PetrKnap\Doctrine\UnalterableMigrations;
 
+use LogicException;
+
 class Patches
 {
     const BEFORE_FIRST_LINE = 0;
@@ -24,7 +26,7 @@ class Patches
 
         if ($number === self::BEFORE_FIRST_LINE) {
             $this->payload = $content . PHP_EOL . $this->payload;
-        } elseif($number === count($lines)) {
+        } elseif ($number === count($lines)) {
             $this->payload = $this->payload . PHP_EOL . $content;
         } else {
             $this->checkLineNumber($lines, $number);
@@ -35,6 +37,13 @@ class Patches
         }
 
         return $this;
+    }
+
+    private function checkLineNumber(array $lines, int $number): void
+    {
+        if ($number < 0 || $number >= count($lines)) {
+            throw new LogicException("Line {$number} does not exist");
+        }
     }
 
     public function removeLine(int $number, string $contains = null): self
@@ -53,9 +62,11 @@ class Patches
         return $this;
     }
 
-    public function apply(): string
+    private function checkLineContent(string $content, string $contains): void
     {
-        return $this->payload;
+        if (strpos($content, $contains) === false) {
+            throw new LogicException("Line \"{$content}\" does not contain \"{$contains}\"");
+        }
     }
 
     public function __toString()
@@ -63,17 +74,8 @@ class Patches
         return $this->apply();
     }
 
-    private function checkLineNumber(array $lines, int $number): void
+    public function apply(): string
     {
-        if ($number < 0 || $number >= count($lines)) {
-            throw new \LogicException("Line {$number} does not exist");
-        }
-    }
-
-    private function checkLineContent(string $content, string $contains): void
-    {
-        if (strpos($content, $contains) === false) {
-            throw new \LogicException("Line \"{$content}\" does not contain \"{$contains}\"");
-        }
+        return $this->payload;
     }
 }

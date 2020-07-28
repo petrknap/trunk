@@ -3,13 +3,13 @@
 namespace PetrKnap\Doctrine\UnalterableMigrations\Test;
 
 use Doctrine\DBAL\Schema\Schema;
-use PetrKnap\Doctrine\UnalterableMigrations\Test\UnalterableSqlMigrationTest\Alter;
-use PetrKnap\Doctrine\UnalterableMigrations\Test\UnalterableSqlMigrationTest\Create;
-use PetrKnap\Doctrine\UnalterableMigrations\Test\UnalterableSqlMigrationTest\MigrationStub;
-use PetrKnap\Doctrine\UnalterableMigrations\Test\UnalterableSqlMigrationTest\Remove;
+use PetrKnap\Doctrine\UnalterableMigrations\Test\UnalterableMigrationTest\Alter;
+use PetrKnap\Doctrine\UnalterableMigrations\Test\UnalterableMigrationTest\Create;
+use PetrKnap\Doctrine\UnalterableMigrations\Test\UnalterableMigrationTest\MigrationStub;
+use PetrKnap\Doctrine\UnalterableMigrations\Test\UnalterableMigrationTest\Remove;
 use PHPUnit\Framework\TestCase;
 
-class UnalterableSqlMigrationTest extends TestCase
+class UnalterableMigrationTest extends TestCase
 {
     public function setUp(): void
     {
