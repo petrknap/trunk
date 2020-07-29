@@ -18,7 +18,7 @@ class ContinuityChecker implements EventSubscriber
         $connection->getEventManager()->addEventSubscriber(new self);
     }
 
-    public function getSubscribedEvents() : array
+    public function getSubscribedEvents(): array
     {
         return [
             Events::onMigrationsMigrating,
@@ -34,8 +34,8 @@ class ContinuityChecker implements EventSubscriber
     }
 
     /**
-     * @internal public for test purpose only
      * @param Version[]
+     * @internal public for test purpose only
      */
     public function check(array $migrations): void
     {

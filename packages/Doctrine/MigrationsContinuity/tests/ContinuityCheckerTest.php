@@ -5,6 +5,7 @@ namespace PetrKnap\Doctrine\MigrationsContinuity\Tests;
 use Doctrine\Migrations\Exception\AbortMigration;
 use PetrKnap\Doctrine\MigrationsContinuity\ContinuityChecker;
 use PHPUnit\Framework\TestCase;
+use stdClass;
 
 class ContinuityCheckerTest extends TestCase
 {
@@ -17,6 +18,22 @@ class ContinuityCheckerTest extends TestCase
         (new ContinuityChecker())->check($this->getMigrations($migrations));
 
         $this->assertTrue(true);
+    }
+
+    private function getMigrations(array $versionsToMigratedMap): array
+    {
+        $migrations = [];
+        foreach ($versionsToMigratedMap as $version => $migrated) {
+            $migration = $this->getMockBuilder(stdClass::class)->setMethods([
+                'getVersion',
+                'isMigrated',
+            ])->getMock();
+            $migration->method('getVersion')->willReturn($version);
+            $migration->method('isMigrated')->willReturn($migrated);
+            $migrations[] = $migration;
+        }
+
+        return $migrations;
     }
 
     public function dataDoesNotThrowWhenMigrationsAreContinuous(): array
@@ -62,21 +79,5 @@ class ContinuityCheckerTest extends TestCase
             '20020714075330' => false,
             '20020714075331' => true,
         ]));
-    }
-
-    private function getMigrations(array $versionsToMigratedMap): array
-    {
-        $migrations = [];
-        foreach ($versionsToMigratedMap as $version => $migrated) {
-            $migration = $this->getMockBuilder(\stdClass::class)->setMethods([
-                'getVersion',
-                'isMigrated',
-            ])->getMock();
-            $migration->method('getVersion')->willReturn($version);
-            $migration->method('isMigrated')->willReturn($migrated);
-            $migrations[] = $migration;
-        }
-
-        return $migrations;
     }
 }
