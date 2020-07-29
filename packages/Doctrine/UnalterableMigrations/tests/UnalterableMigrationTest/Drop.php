@@ -5,17 +5,17 @@ namespace PetrKnap\Doctrine\UnalterableMigrations\Test\UnalterableMigrationTest;
 use PetrKnap\Doctrine\UnalterableMigrations\UnalterableMigrationInterface;
 use PetrKnap\Doctrine\UnalterableMigrations\UnalterableMigrationTrait;
 
-class Remove extends MigrationStub implements UnalterableMigrationInterface
+class Drop extends MigrationStub implements UnalterableMigrationInterface
 {
     use UnalterableMigrationTrait;
 
     public function getParentClassName(): ?string
     {
-        return Alter::class;
+        return Rename::class;
     }
 
     public function getUpSql(): string
     {
-        return self::REMOVE_PARENT;
+        return self::DROP_PARENT;
     }
 }

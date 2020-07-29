@@ -5,8 +5,9 @@ namespace PetrKnap\Doctrine\UnalterableMigrations\Test;
 use Doctrine\DBAL\Schema\Schema;
 use PetrKnap\Doctrine\UnalterableMigrations\Test\UnalterableMigrationTest\Alter;
 use PetrKnap\Doctrine\UnalterableMigrations\Test\UnalterableMigrationTest\Create;
+use PetrKnap\Doctrine\UnalterableMigrations\Test\UnalterableMigrationTest\Drop;
 use PetrKnap\Doctrine\UnalterableMigrations\Test\UnalterableMigrationTest\MigrationStub;
-use PetrKnap\Doctrine\UnalterableMigrations\Test\UnalterableMigrationTest\Remove;
+use PetrKnap\Doctrine\UnalterableMigrations\Test\UnalterableMigrationTest\Rename;
 use PHPUnit\Framework\TestCase;
 
 class UnalterableMigrationTest extends TestCase
@@ -33,11 +34,13 @@ class UnalterableMigrationTest extends TestCase
     {
         $create = new Create();
         $alter = new Alter();
+        $rename = new Rename();
 
         return [
             [Create::class, [$create->getUpSql()]],
             [Alter::class, [$create->getDownSql(), $alter->getUpSql()]],
-            [Remove::class, [$create->getDownSql()]],
+            [Rename::class, [$create->getDownSql(), $rename->getUpSql()]],
+            [Drop::class, [$rename->getDownSql()]],
         ];
     }
 
@@ -58,11 +61,13 @@ class UnalterableMigrationTest extends TestCase
     {
         $create = new Create();
         $alter = new Alter();
+        $rename = new Rename();
 
         return [
             [Create::class, [$create->getDownSql()]],
             [Alter::class, [$create->getDownSql(), $create->getUpSql()]],
-            [Remove::class, [$alter->getUpSql()]],
+            [Rename::class, [$rename->getDownSql(), $alter->getUpSql()]],
+            [Drop::class, [$rename->getUpSql()]],
         ];
     }
 }

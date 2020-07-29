@@ -4,7 +4,7 @@ namespace PetrKnap\Doctrine\UnalterableMigrations;
 
 interface UnalterableMigrationInterface
 {
-    const REMOVE_PARENT = '-- remove parent';
+    const DROP_PARENT = '-- drop parent';
 
     public function getParentClassName(): ?string;
 

@@ -8,21 +8,26 @@ trait UnalterableMigrationTrait
 {
     public function up(Schema $schema): void
     {
-        $this->parentsDown();
+        $this->doDown($this->getParent());
 
-        if ($this->getUpSql() !== UnalterableMigrationInterface::REMOVE_PARENT) {
+        if ($this->getUpSql() !== UnalterableMigrationInterface::DROP_PARENT) {
             $this->addSql($this->getUpSql());
         }
     }
 
-    private function parentsDown(): void
+    private function doDown(?UnalterableMigrationInterface $migration): void
     {
-        $parent = $this->getParent();
-        while ($parent) {
-            if ($parent->getDownSql()) {
-                $this->addSql($parent->getDownSql());
+        while ($migration) {
+            if ($migration->getDownSql()) {
+                $this->addSql($migration->getDownSql());
+                break;
+            } else {
+                $this->abortIf(
+                    $this->getParent() === null,
+                    'Can not generate up and down method without down SQL or parent'
+                );
             }
-            $parent = $parent->getParent();
+            $migration = $migration->getParent();
         }
     }
 
@@ -44,14 +49,8 @@ trait UnalterableMigrationTrait
 
     public function down(Schema $schema): void
     {
-        if ($this->getDownSql()) {
-            $this->addSql($this->getDownSql());
-        } else {
-            $this->abortIf($this->getParent() === null, 'Can not generate down method without down SQL');
-        }
-
-        if ($this->getUpSql() !== UnalterableMigrationInterface::REMOVE_PARENT) {
-            $this->parentsDown();
+        if ($this->getUpSql() !== UnalterableMigrationInterface::DROP_PARENT) {
+            $this->doDown($this);
         }
 
         if ($this->getParent()) {
