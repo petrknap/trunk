@@ -99,7 +99,7 @@ class Version3 extends AbstractMigration implements UnalterableMigrationInterfac
 
     public function getDownSql(): ?string
     {
-        return 'DROP VIEW view_c;' . $this->getParent()->getUpSql();
+        return 'DROP VIEW view_c';
     }
 }
 ```
