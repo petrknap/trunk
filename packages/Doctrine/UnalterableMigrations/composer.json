@@ -1,6 +1,12 @@
 {
     "description": "Unalterable migrations for Doctrine Migrations",
-    "keywords": null,
+    "keywords": [
+        "php",
+        "database",
+        "doctrine",
+        "migrations",
+        "unalterable"
+    ],
     "require": {
         "php": ">=7.1",
         "doctrine/migrations": "^2.0"

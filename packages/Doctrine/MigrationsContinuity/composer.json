@@ -1,6 +1,12 @@
 {
     "description": "Continuity checker for Doctrine Migrations",
-    "keywords": null,
+    "keywords": [
+        "php",
+        "database",
+        "doctrine",
+        "migrations",
+        "checker"
+    ],
     "require": {
         "php": ">=7.1",
         "doctrine/migrations": "^2.0"

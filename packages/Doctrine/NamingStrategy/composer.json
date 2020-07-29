@@ -1,6 +1,11 @@
 {
     "description": "Naming strategies for Doctrine",
-    "keywords": null,
+    "keywords": [
+        "php",
+        "database",
+        "doctrine",
+        "naming"
+    ],
     "require": {
         "php": ">=7.1",
         "doctrine/orm": "^2.3"
