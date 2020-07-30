@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 set -e
-set -x
 
 if [[ ! -e /tmp/letsencrypt ]]; then (
     mkdir /tmp/letsencrypt

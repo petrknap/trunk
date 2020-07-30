@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 set -e
-set -x
 
 bash /prepare_nginx.bash
 nginx -g "daemon off;" &
