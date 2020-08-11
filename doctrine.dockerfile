@@ -1,4 +1,4 @@
-FROM php:7.1-cli
+FROM php:7.2-cli
 
 # Install packages
 RUN apt update && apt install -y \

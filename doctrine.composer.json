@@ -18,20 +18,29 @@
         }
     ],
     "require": {
-        "php": ">=7.1"
+        "php": ">=7.2"
     },
     "require-dev": {
         "phpunit/phpunit": "^7.5",
-        "petrknap/doctrine-namingstrategy": "*"
+        "petrknap/doctrine-entities": "*",
+        "petrknap/doctrine-migrationscontinuity": "*",
+        "petrknap/doctrine-namingstrategies": "*",
+        "petrknap/doctrine-unalterablemigrations": "*"
     },
     "autoload": {
         "psr-4": {
-            "PetrKnap\\Doctrine\\NamingStrategy\\": "packages/Doctrine/NamingStrategy/src"
+            "PetrKnap\\Doctrine\\Entities\\": "packages/Doctrine/Entities/src",
+            "PetrKnap\\Doctrine\\MigrationsContinuity\\": "packages/Doctrine/MigrationsContinuity/src",
+            "PetrKnap\\Doctrine\\NamingStrategies\\": "packages/Doctrine/NamingStrategies/src",
+            "PetrKnap\\Doctrine\\UnalterableMigrations\\": "packages/Doctrine/UnalterableMigrations/src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "PetrKnap\\Doctrine\\NamingStrategy\\Test\\": "packages/Doctrine/NamingStrategy/tests"
+            "PetrKnap\\Doctrine\\Entities\\Test\\": "packages/Doctrine/Entities/tests",
+            "PetrKnap\\Doctrine\\MigrationsContinuity\\Test\\": "packages/Doctrine/MigrationsContinuity/tests",
+            "PetrKnap\\Doctrine\\NamingStrategies\\Test\\": "packages/Doctrine/NamingStrategies/tests",
+            "PetrKnap\\Doctrine\\UnalterableMigrations\\Test\\": "packages/Doctrine/UnalterableMigrations/tests"
         }
     }
 }
