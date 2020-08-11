@@ -1,6 +1,6 @@
 <?php
 
-namespace PetrKnap\Doctrine\NamingStrategy\Tests\Orm\Mapping;
+namespace PetrKnap\Doctrine\NamingStrategies\Tests\Orm\Mapping;
 
 use PetrKnap\Doctrine\NamingStrategy\Orm\Mapping\Exception\ClassNotSupportedException;
 use PetrKnap\Doctrine\NamingStrategy\Orm\Mapping\UnderscoreNamingStrategy;

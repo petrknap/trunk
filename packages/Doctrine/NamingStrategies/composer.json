@@ -1,18 +1,18 @@
 {
-    "description": "Entity helpers for Doctrine",
+    "description": "Naming strategies for Doctrine",
     "keywords": [
         "php",
         "database",
         "doctrine",
-        "helper"
+        "naming"
     ],
     "require": {
         "php": ">=7.1",
         "doctrine/orm": "^2.3"
     },
     "WARNING": "This file is updated automatically. All keys will be overwritten, except of 'description', 'keywords', 'require' and 'conflict'.",
-    "name": "petrknap/doctrine-entity",
-    "homepage": "https://petrknap.github.io/docs/doctrine-entity.html",
+    "name": "petrknap/doctrine-namingstrategies",
+    "homepage": "https://petrknap.github.io/docs/doctrine-namingstrategies.html",
     "license": "MIT",
     "authors": [
         {
@@ -25,13 +25,13 @@
     },
     "autoload": {
         "psr-4": {
-            "PetrKnap\\Doctrine\\Entity\\": "src"
+            "PetrKnap\\Doctrine\\NamingStrategies\\": "src"
         },
         "files": []
     },
     "autoload-dev": {
         "psr-4": {
-            "PetrKnap\\Doctrine\\Entity\\Test\\": "tests"
+            "PetrKnap\\Doctrine\\NamingStrategies\\Test\\": "tests"
         }
     }
 }

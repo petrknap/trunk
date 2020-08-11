@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace PetrKnap\Doctrine\Entity;
+namespace PetrKnap\Doctrine\Entities;
 
 use Doctrine\ORM\Mapping as ORM;
 
