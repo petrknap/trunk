@@ -7,6 +7,7 @@ use Doctrine\DBAL\Connection;
 use Doctrine\Migrations\Event\MigrationsEventArgs;
 use Doctrine\Migrations\Events;
 use Doctrine\Migrations\Exception\AbortMigration;
+use Doctrine\Migrations\Metadata\MigrationPlan;
 use Doctrine\Migrations\Version\Version;
 
 class ContinuityChecker implements EventSubscriber
@@ -28,7 +29,9 @@ class ContinuityChecker implements EventSubscriber
     public function onMigrationsMigrating(MigrationsEventArgs $args): void
     {
         if (!$this->checked) {
-            $this->check($args->getConfiguration()->getMigrations());
+            $this->check(array_map(function (MigrationPlan $migrationPlan): Version {
+                return $migrationPlan->getVersion();
+            }, $args->getPlan()->getItems()));
             $this->checked = true;
         }
     }
