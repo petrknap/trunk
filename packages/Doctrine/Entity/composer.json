@@ -1,0 +1,37 @@
+{
+    "description": "Entity helpers for Doctrine",
+    "keywords": [
+        "php",
+        "database",
+        "doctrine",
+        "helper"
+    ],
+    "require": {
+        "php": ">=7.1",
+        "doctrine/orm": "^2.3"
+    },
+    "WARNING": "This file is updated automatically. All keys will be overwritten, except of 'description', 'keywords', 'require' and 'conflict'.",
+    "name": "petrknap/doctrine-entity",
+    "homepage": "https://petrknap.github.io/docs/doctrine-entity.html",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Petr Knap",
+            "email": "dev@petrknap.cz"
+        }
+    ],
+    "require-dev": {
+        "phpunit/phpunit": "^7.5"
+    },
+    "autoload": {
+        "psr-4": {
+            "PetrKnap\\Doctrine\\Entity\\": "src"
+        },
+        "files": []
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "PetrKnap\\Doctrine\\Entity\\Test\\": "tests"
+        }
+    }
+}
