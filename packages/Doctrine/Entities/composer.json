@@ -27,7 +27,9 @@
         "psr-4": {
             "PetrKnap\\Doctrine\\Entities\\": "src"
         },
-        "files": []
+        "files": [
+            "src/helpers.php"
+        ]
     },
     "autoload-dev": {
         "psr-4": {

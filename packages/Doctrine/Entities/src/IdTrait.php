@@ -15,9 +15,7 @@ trait IdTrait
 
     public function getId(): int
     {
-        if ($this->id === null) {
-            throw new \RuntimeException(get_class($this) . ' has not been persisted');
-        }
+        throwIfEntityHasNotBeenPersisted($this, $this->id);
 
         return $this->id;
     }
