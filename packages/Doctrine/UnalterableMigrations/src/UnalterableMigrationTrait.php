@@ -3,6 +3,8 @@
 namespace PetrKnap\Doctrine\UnalterableMigrations;
 
 use Doctrine\DBAL\Schema\Schema;
+use Doctrine\Migrations\AbstractMigration;
+use Psr\Log\NullLogger;
 
 trait UnalterableMigrationTrait
 {
@@ -36,7 +38,8 @@ trait UnalterableMigrationTrait
         $parentClassName = $this->getParentClassName();
 
         if ($parentClassName) {
-            return new $parentClassName(clone $this->version);
+            /** @var AbstractMigration $this */
+            return new $parentClassName($this->connection, new NullLogger());
         }
 
         return null;
