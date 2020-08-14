@@ -71,7 +71,7 @@ class ContinuityCheckerTest extends TestCase
 
     }
 
-    public function testThrowsWhenMigrationsAreContinuous(): void
+    public function testThrowsWhenMigrationsAreNotContinuous(): void
     {
         $this->expectException(AbortMigration::class);
 
