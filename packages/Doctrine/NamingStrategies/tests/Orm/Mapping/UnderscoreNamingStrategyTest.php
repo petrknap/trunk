@@ -16,7 +16,7 @@ class UnderscoreNamingStrategyTest extends TestCase
     {
         $this->assertSame(
             $tableName,
-            (new UnderscoreNamingStrategy(CASE_LOWER, true, $prefix))->classToTableName($className)
+            (new UnderscoreNamingStrategy(CASE_LOWER, true, $prefix, [\DateTimeImmutable::class]))->classToTableName($className)
         );
     }
 
@@ -25,6 +25,7 @@ class UnderscoreNamingStrategyTest extends TestCase
         return [
             [null, 'App\\Entity\\Foo\\Bar', 'app__entity__foo__bar'],
             ['App\\Entity', 'App\\Entity\\Foo\\Bar', 'foo__bar'],
+            ['App\\Entity', \DateTimeImmutable::class, 'date_time_immutable'],
         ];
     }
 
@@ -32,6 +33,6 @@ class UnderscoreNamingStrategyTest extends TestCase
     {
         $this->expectException(ClassNotSupportedException::class);
 
-        (new UnderscoreNamingStrategy(CASE_LOWER, true, 'Foo'))->classToTableName('Bar');
+        (new UnderscoreNamingStrategy(CASE_LOWER, true, 'Foo', []))->classToTableName('Bar');
     }
 }

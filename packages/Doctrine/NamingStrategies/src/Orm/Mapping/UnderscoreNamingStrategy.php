@@ -7,12 +7,14 @@ use PetrKnap\Doctrine\NamingStrategies\Orm\Mapping\Exception\ClassNotSupportedEx
 class UnderscoreNamingStrategy extends \Doctrine\ORM\Mapping\UnderscoreNamingStrategy
 {
     private $prefix;
+    private $allowedRootClasses;
 
-    public function __construct($case = CASE_LOWER, bool $numberAware = false, string $prefix = null)
+    public function __construct($case = CASE_LOWER, bool $numberAware = false, string $prefix = null, array $allowedRootClasses = [])
     {
         parent::__construct($case, $numberAware);
 
         $this->prefix = $prefix;
+        $this->allowedRootClasses = $allowedRootClasses;
     }
 
     /**
@@ -23,7 +25,11 @@ class UnderscoreNamingStrategy extends \Doctrine\ORM\Mapping\UnderscoreNamingStr
         if ($this->prefix) {
             $prefixWithSlash = "{$this->prefix}\\";
             if (strpos($className, $prefixWithSlash) !== 0) {
-                throw ClassNotSupportedException::create($className, "missing prefix {$this->prefix}");
+                if (strpos($className, '\\') === false && in_array($className, $this->allowedRootClasses)) {
+                    return parent::classToTableName($className);
+                } else {
+                    throw ClassNotSupportedException::create($className, "missing prefix {$this->prefix}");
+                }
             }
             $className = substr($className, strlen($prefixWithSlash));
         }
