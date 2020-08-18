@@ -28,7 +28,10 @@ class UnderscoreNamingStrategy extends \Doctrine\ORM\Mapping\UnderscoreNamingStr
                 if (strpos($className, '\\') === false && in_array($className, $this->allowedRootClasses)) {
                     return parent::classToTableName($className);
                 } else {
-                    throw ClassNotSupportedException::create($className, "missing prefix {$this->prefix}");
+                    throw ClassNotSupportedException::create(
+                        $className,
+                        'missing prefix "' . $this->prefix . '" and not listed in allowed root classes [' . implode(', ', $this->allowedRootClasses). ']'
+                    );
                 }
             }
             $className = substr($className, strlen($prefixWithSlash));
