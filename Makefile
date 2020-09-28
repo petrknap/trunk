@@ -102,7 +102,7 @@ publish-ffmpeg:
 	git subsplit publish --heads=master --update "projects/ffmpeg:git@github.com:petrknap/ffmpeg.git"
 	rm -rf .subsplit
 
-publish-docker: publish-docker-letsencrypt-nginx-reverse-proxy publish-docker-n2n-supernode publish-docker-syslog
+publish-docker: publish-docker-letsencrypt-nginx-reverse-proxy publish-docker-n2n-supernode publish-docker-selenium-needle publish-docker-syslog
 
 publish-docker-letsencrypt-nginx-reverse-proxy:
 	git subsplit init https://github.com/petrknap/trunk
@@ -112,6 +112,11 @@ publish-docker-letsencrypt-nginx-reverse-proxy:
 publish-docker-n2n-supernode:
 	git subsplit init https://github.com/petrknap/trunk
 	git subsplit publish --heads=master --update "docker/n2n-supernode:git@github.com:petrknap/docker-n2n-supernode.git"
+	rm -rf .subsplit
+
+publish-docker-selenium-needle:
+	git subsplit init https://github.com/petrknap/trunk
+	git subsplit publish --heads=master --update "docker/selenium-needle:git@github.com:petrknap/docker-selenium-needle.git"
 	rm -rf .subsplit
 
 publish-docker-syslog:
