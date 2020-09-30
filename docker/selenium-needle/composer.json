@@ -1,0 +1,15 @@
+{
+    "name": "petrknap/docker-selenium-needle",
+    "description": "Contains all necessary for visual testing",
+    "homepage": "https://hub.docker.com/r/petrknap/selenium-needle",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Petr Knap",
+            "email": "dev@petrknap.cz"
+        }
+    ],
+    "bin": [
+        "bin/nosetests.sh"
+    ]
+}
