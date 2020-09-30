@@ -18,4 +18,4 @@ docker run -ti --rm \
   petrknap/selenium-needle bash -c "cd /mnt/nosetests && (rm screenshots/*.png 2&>/dev/null || true) && nosetests $*" \
 || (cd screenshots && for FAIL in *.png; do (
   compare "${FAIL}" "baseline/${FAIL}" "${FAIL}.diff.png" || true
-); done)
+); done && exit 1)
