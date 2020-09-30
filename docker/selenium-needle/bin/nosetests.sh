@@ -15,5 +15,7 @@ docker run -ti --rm \
   -v /tmp/hosts:/etc/hosts \
   -v "$(pwd)":/mnt/nosetests \
   -u "$(id -u "${USER}")":"$(id -g "${USER}")" \
-  petrknap/selenium-needle bash -c "cd /mnt/nosetests && nosetests $*" \
-;
+  petrknap/selenium-needle bash -c "cd /mnt/nosetests && (rm screenshots/*.png 2&>/dev/null || true) && nosetests $*" \
+|| (cd screenshots && for FAIL in *.png; do (
+  compare "${FAIL}" "baseline/${FAIL}" "${FAIL}.diff.png" || true
+); done)
