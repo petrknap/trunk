@@ -2,6 +2,7 @@ FROM python:3
 
 ENV SELENIUM_VERSION="3.14.1"
 ENV NEEDLE_VERSION="0.5.0"
+ENV OLEFILE_VERSION="0.46.0"
 ENV GECKODRIVER_VERSION="0.26.0"
 ENV FIREFOX_VERSION="68.12.0"
 
@@ -13,6 +14,7 @@ RUN cd /tmp \
  && easy_install pip \
  && pip install selenium=="${SELENIUM_VERSION}" \
  && pip install needle=="${NEEDLE_VERSION}" \
+ && pip install olefile=="${OLEFILE_VERSION}" \
 \
  && echo "vvv Hack to prepare home at root" \
  && firefox -headless -createProfile default \
