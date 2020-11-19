@@ -7,6 +7,18 @@ Simple HTTP proxy based on NGINX which automatically does this for you:
 
 It's configured vie `RULES` variable which uses format `{domain}>{host[:port]}` separated by `,`.
 
+You can also modify:
+* `IGNORE_LETS_ENCRYPT_ALL_ERRORS` to (un)ignore all Let's Encrypt errors
+* `IGNORE_LETS_ENCRYPT_OBTAIN_ERRORS` to (un)ignore Let's Encrypt errors during obtaining new certificate
+* `IGNORE_LETS_ENCRYPT_RENEW_ERRORS` to (un)ignore Let's Encrypt errors during renewing old certificates
+* `DEFAULT_SITE` to set up default site
+* `UPSTREAMS` to set load balancing
+* `PROXY_ADDITIONAL_OPTIONS` to expand proxy settings
+* `PROXY_HEADERS` to **override** proxy headers
+* `PROXY_OPTIONS` to **override** proxy options
+
+For more information [see Dockerfile](./Dockerfile).
+
 ## Example for Kubernetes
 
 ```yaml
