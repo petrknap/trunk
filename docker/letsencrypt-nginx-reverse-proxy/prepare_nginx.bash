@@ -54,3 +54,26 @@ server {
 }
 EoS
 ); done
+
+cat > "/etc/nginx/conf.d/default.conf" << EoS
+${UPSTREAMS}
+
+server {
+  listen 80 default_server;
+  listen [::]:80 default_server;
+  server_name _;
+
+  ${DEFAULT_SERVER}
+}
+
+server {
+  listen 443 ssl default_server;
+  listen [::]:443 ssl default_server;
+  server_name _;
+
+  ssl_certificate /selfsigned.crt;
+  ssl_certificate_key /selfsigned.key;
+
+  ${DEFAULT_SERVER}
+}
+EoS

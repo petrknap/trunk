@@ -42,6 +42,9 @@ ENV UPSTREAMS='\
 #        sticky cookie srv_id expires=1h domain=.example.com path=/;\
 #   } \
 '
+ENV DEFAULT_SERVER='\
+    return 404;\
+'
 
 CMD bash /command.bash
 
