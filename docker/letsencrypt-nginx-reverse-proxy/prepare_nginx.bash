@@ -77,3 +77,14 @@ server {
   ${DEFAULT_SERVER}
 }
 EoS
+
+cat > "/etc/nginx/conf.d/localhost.conf" << EoS
+server {
+  listen 127.0.0.1:80;
+  listen [::1]:80;
+
+  server_name localhost;
+
+  return 204;
+}
+EoS
