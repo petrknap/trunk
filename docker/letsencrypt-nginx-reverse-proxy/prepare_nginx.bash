@@ -61,7 +61,6 @@ ${UPSTREAMS}
 server {
   listen 80 default_server;
   listen [::]:80 default_server;
-  server_name _;
 
   ${DEFAULT_SERVER}
 }
@@ -69,7 +68,6 @@ server {
 server {
   listen 443 ssl default_server;
   listen [::]:443 ssl default_server;
-  server_name _;
 
   ssl_certificate /selfsigned.crt;
   ssl_certificate_key /selfsigned.key;
