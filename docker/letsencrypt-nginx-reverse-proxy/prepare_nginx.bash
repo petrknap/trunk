@@ -26,6 +26,7 @@ ${UPSTREAMS}
 server {
   listen 80;
   listen [::]:80;
+
   server_name ${DOMAIN};
 
   location '/' {
@@ -40,6 +41,7 @@ server {
 server {
   listen 443 ssl;
   listen [::]:443 ssl;
+
   server_name ${DOMAIN};
 
   ssl_certificate ${SSL_CERT};
