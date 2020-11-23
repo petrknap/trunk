@@ -5,7 +5,7 @@ Simple HTTP proxy based on NGINX which automatically does this for you:
 1. obtains needed certificates vie Let's Encrypt
 1. renews near-to-expire certificates
 
-It's configured vie `RULES` variable which uses format `{domain}>{host[:port]}` separated by `,`.
+It's configured via `RULES` variable which uses format `{domain}>{host[:port]}` separated by `,`.
 
 You can also modify:
 * `IGNORE_LETS_ENCRYPT_ALL_ERRORS` to (un)ignore all Let's Encrypt errors
