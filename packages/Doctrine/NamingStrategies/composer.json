@@ -8,7 +8,7 @@
     ],
     "require": {
         "php": ">=7.2",
-        "doctrine/orm": "^2.3"
+        "doctrine/orm": "^2.3|^3.0"
     },
     "WARNING": "This file is updated automatically. All keys will be overwritten, except of 'description', 'keywords', 'require' and 'conflict'.",
     "name": "petrknap/doctrine-namingstrategies",
