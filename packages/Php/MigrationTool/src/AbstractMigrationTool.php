@@ -96,11 +96,11 @@ abstract class AbstractMigrationTool implements MigrationToolInterface, LoggerAw
     {
         $migrationFiles = $this->getMigrationFiles();
         $migrationFilesToMigrate = [];
-        foreach ($migrationFiles as $migrationFile) {
+        foreach ($migrationFiles as $migrationId => $migrationFile) {
             if ($this->isMigrationApplied($migrationFile)) {
                 if (!empty($migrationFilesToMigrate)) {
                     $context = [
-                        'id' => $this->getMigrationId($migrationFile),
+                        'id' => $migrationId,
                     ];
 
                     $this->getLogger()->critical(
@@ -159,26 +159,36 @@ abstract class AbstractMigrationTool implements MigrationToolInterface, LoggerAw
      */
     protected function getMigrationFiles()
     {
-        $directoryIterator = new \DirectoryIterator($this->directory);
+        $directoryIterators = [];
+        if (is_array($this->directory)) {
+            foreach ($this->directory as $moduleName => $directory) {
+                $directoryIterators[$moduleName] = new \DirectoryIterator($directory);
+            }
+        } else {
+            $directoryIterators[''] = new \DirectoryIterator($this->directory);
+        }
         $migrationFiles = [];
-        foreach ($directoryIterator as $fileInfo) {
-            /** @var \SplFileInfo $fileInfo */
-            if ($fileInfo->isFile()) {
-                if (preg_match($this->filePattern, $fileInfo->getRealPath())) {
-                    $migrationFiles[] = $fileInfo->getRealPath();
-                } else {
-                    $context = [
-                        'path' => $fileInfo->getRealPath(),
-                    ];
+        foreach ($directoryIterators as $moduleName => $directoryIterator) {
+            foreach ($directoryIterator as $fileInfo) {
+                /** @var \SplFileInfo $fileInfo */
+                if ($fileInfo->isFile()) {
+                    if (preg_match($this->filePattern, $fileInfo->getRealPath())) {
+                        $migrationFiles[$this->getMigrationId($fileInfo->getRealPath(), $moduleName)] = $fileInfo->getRealPath();
+                    } else {
+                        $context = [
+                            'path' => $fileInfo->getRealPath(),
+                        ];
 
-                    $this->getLogger()->notice(
-                        self::MESSAGE__FOUND_UNSUPPORTED_FILE__PATH,
-                        $context
-                    );
+                        $this->getLogger()->notice(
+                            self::MESSAGE__FOUND_UNSUPPORTED_FILE__PATH,
+                            $context
+                        );
+                    }
                 }
             }
         }
-        sort($migrationFiles);
+        
+        ksort($migrationFiles);
 
         if (empty($migrationFiles)) {
             $context = [
@@ -208,11 +218,11 @@ abstract class AbstractMigrationTool implements MigrationToolInterface, LoggerAw
      * @param string $pathToMigrationFile
      * @return string
      */
-    protected function getMigrationId($pathToMigrationFile)
+    protected function getMigrationId($pathToMigrationFile, $moduleName = '') // back compatibility
     {
         $fileInfo = new \SplFileInfo($pathToMigrationFile);
         $basenameParts = explode(' ', $fileInfo->getBasename('.' . $fileInfo->getExtension()));
-        return $basenameParts[0];
+        return $basenameParts[0] . ($moduleName === '' ? '' : '.' . $moduleName);
     }
 
     /**

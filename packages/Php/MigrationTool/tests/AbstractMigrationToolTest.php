@@ -204,7 +204,7 @@ class AbstractMigrationToolTest extends TestCase
         ], $log);
     }
 
-    public function testGetMigrationFilesMethodWorks()
+    public function testGetMigrationFilesMethodWorksWithOneDir()
     {
         $tool = new AbstractMigrationToolMock(
             [],
@@ -213,9 +213,32 @@ class AbstractMigrationToolTest extends TestCase
 
         $this->assertEquals(
             [
-                __DIR__ . '/AbstractMigrationToolTest/GetMigrationFilesWorks/2016-06-22.1 - First migration.ext',
-                __DIR__ . '/AbstractMigrationToolTest/GetMigrationFilesWorks/2016-06-22.2 - Second migration.ext',
-                __DIR__ . '/AbstractMigrationToolTest/GetMigrationFilesWorks/2016-06-22.3 - Third migration.ext',
+                '2016-06-22.1' => __DIR__ . '/AbstractMigrationToolTest/GetMigrationFilesWorks/2016-06-22.1 - First migration.ext',
+                '2016-06-22.2' => __DIR__ . '/AbstractMigrationToolTest/GetMigrationFilesWorks/2016-06-22.2 - Second migration.ext',
+                '2016-06-22.3' => __DIR__ . '/AbstractMigrationToolTest/GetMigrationFilesWorks/2016-06-22.3 - Third migration.ext',
+            ],
+            @$this->invokeMethods($tool, [['getMigrationFiles']]) // @ because it throws notice if there is unsupported file
+        );
+    }
+
+    public function testGetMigrationFilesMethodWorksWithMoreDirs()
+    {
+        $tool = new AbstractMigrationToolMock(
+            [],
+            [
+                'A' => __DIR__ . '/AbstractMigrationToolTest/GetMigrationFilesWorks',
+                'B' => __DIR__ . '/AbstractMigrationToolTest/GetMigrationFilesWorks_2',
+            ]
+        );
+
+        $this->assertEquals(
+            [
+                '2016-06-22.1.A' => __DIR__ . '/AbstractMigrationToolTest/GetMigrationFilesWorks/2016-06-22.1 - First migration.ext',
+                '2016-06-22.2.A' => __DIR__ . '/AbstractMigrationToolTest/GetMigrationFilesWorks/2016-06-22.2 - Second migration.ext',
+                '2016-06-22.3.A' => __DIR__ . '/AbstractMigrationToolTest/GetMigrationFilesWorks/2016-06-22.3 - Third migration.ext',
+                '2016-06-22.1.B' => __DIR__ . '/AbstractMigrationToolTest/GetMigrationFilesWorks_2/2016-06-22.1 - First migration.ext',
+                '2016-06-22.2.B' => __DIR__ . '/AbstractMigrationToolTest/GetMigrationFilesWorks_2/2016-06-22.2 - Second migration.ext',
+                '2016-06-22.3.B' => __DIR__ . '/AbstractMigrationToolTest/GetMigrationFilesWorks_2/2016-06-22.3 - Third migration.ext',
             ],
             @$this->invokeMethods($tool, [['getMigrationFiles']]) // @ because it throws notice if there is unsupported file
         );
@@ -226,23 +249,27 @@ class AbstractMigrationToolTest extends TestCase
      * @param string $pathToMigrationFile
      * @param string $expectedMigrationId
      */
-    public function testGetMigrationIdMethodWorks($pathToMigrationFile, $expectedMigrationId)
+    public function testGetMigrationIdMethodWorks($pathToMigrationFile, $moduleId, $expectedMigrationId)
     {
         $tool = new AbstractMigrationToolMock([]);
 
         $this->assertEquals(
             $expectedMigrationId,
-            $this->invokeMethods($tool, [['getMigrationId', [$pathToMigrationFile]]])
+            $this->invokeMethods($tool, [['getMigrationId', [$pathToMigrationFile, $moduleId]]])
         );
     }
 
     public function dataGetMigrationIdMethodWorks()
     {
         return [
-            ['/migration_file.ext', 'migration_file'],
-            ['/migration file.ext', 'migration'],
-            ['/migration_file', 'migration_file'],
-            ['/migration file', 'migration'],
+            ['/migration_file.ext', '', 'migration_file'],
+            ['/migration file.ext', '', 'migration'],
+            ['/migration_file', '', 'migration_file'],
+            ['/migration file', '', 'migration'],
+            ['/migration_file.ext', 'module', 'migration_file.module'],
+            ['/migration file.ext', 'module', 'migration.module'],
+            ['/migration_file', 'module', 'migration_file.module'],
+            ['/migration file', 'module', 'migration.module'],
         ];
     }
 }
