@@ -4,6 +4,7 @@ RUN apt update \
     && apt install -y \
         openssl \
         curl \
+        python2.7 \
     && openssl req -x509 -nodes -days 36500 -newkey rsa:4096 -keyout /selfsigned.key -out /selfsigned.crt \
         -subj "/O=Petr Knap/CN=petrknap.cz/" \
     && curl -SL -o /tmp/certbot-auto https://dl.eff.org/certbot-auto \
