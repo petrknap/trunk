@@ -3,14 +3,9 @@ FROM nginx:latest
 RUN apt update \
     && apt install -y \
         openssl \
-        curl \
+        certbot \
     && openssl req -x509 -nodes -days 36500 -newkey rsa:4096 -keyout /selfsigned.key -out /selfsigned.crt \
         -subj "/O=Petr Knap/CN=petrknap.cz/" \
-    && curl -SL -o /tmp/certbot-auto https://dl.eff.org/certbot-auto \
-    && mv /tmp/certbot-auto /usr/local/bin/certbot-auto \
-    && chown root /usr/local/bin/certbot-auto \
-    && chmod 0755 /usr/local/bin/certbot-auto \
-    && certbot-auto --install-only --non-interactive \
     && apt clean \
     && rm  -rf \
         /var/lib/apt/lists/* \

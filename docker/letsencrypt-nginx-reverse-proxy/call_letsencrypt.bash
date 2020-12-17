@@ -5,7 +5,7 @@ if [[ ! -e /tmp/letsencrypt ]]; then (
     mkdir /tmp/letsencrypt
 ); fi
 
-COMMAND="/usr/local/bin/certbot-auto"
+COMMAND="certbot"
 SWITCHES="--non-interactive --webroot --webroot-path /tmp/letsencrypt --agree-tos --register-unsafely-without-email"
 
 eval "${COMMAND} renew ${SWITCHES} || ${IGNORE_LETS_ENCRYPT_RENEW_ERRORS} || ${IGNORE_LETS_ENCRYPT_ALL_ERRORS}"
