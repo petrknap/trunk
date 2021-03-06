@@ -1,4 +1,4 @@
-# Isolated environment for MyEtherWallet
+# Isolated environment with MyEtherWallet (MEW)
 
 Environment
 contains build of **MyEtherWallet** downloaded from GitHub
