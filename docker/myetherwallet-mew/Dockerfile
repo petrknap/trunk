@@ -9,6 +9,11 @@ RUN apt-get update \
     unzip \
     xvfb \
     x11vnc \
+ && apt clean \
+ && rm  -rf \
+    /var/lib/apt/lists/* \
+    /tmp/* \
+    /var/tmp/* \
 ;
 
 COPY *.bash /
