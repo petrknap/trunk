@@ -52,6 +52,7 @@ void loop() {
   if (!wasSynchronized && millis() > NTP_TIMEOUT * 1000) {
     display.setText("NO NTP");
     display.update();
+    delay(30000);
     return;
   }
 
