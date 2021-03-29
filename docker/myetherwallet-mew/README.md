@@ -21,7 +21,7 @@ You can do whatever you wish with it. :)
 `docker run -ti -p 127.0.0.1:5901:5901 local-mew`
 
 Feel free to change local port to whatever you wish - for example `53867`
-(`docker run -ti -p 127.0.0.1:53867:5901 local-mew`).
+(`... -p 127.0.0.1:53867:5901 ...`).
 If you wish, you can add `e` option before image name `local-mew`, like:
 
 * `-e MEW_VERSION=1.2.3` to change MEW version to *1.2.3*
