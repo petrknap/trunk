@@ -14,7 +14,7 @@ RUN apt-get update \
     /var/tmp/* \
 ;
 
-ENV MEW_VERSION="5.7.21"
+ENV MEW_VERSION="5.7.25"
 
 COPY *.bash /
 
