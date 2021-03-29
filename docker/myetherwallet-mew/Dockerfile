@@ -10,7 +10,7 @@ RUN apt-get update \
     xvfb \
     x11vnc \
  && apt clean \
- && rm  -rf \
+ && rm -rf \
     /var/lib/apt/lists/* \
     /tmp/* \
     /var/tmp/* \
