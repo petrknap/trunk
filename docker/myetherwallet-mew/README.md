@@ -18,7 +18,7 @@ You can do whatever you wish with it. :)
 
 ## How to run
 
-`docker run -ti -p 127.0.0.1:5901:5901 local-mew`
+`docker run --rm -ti -p 127.0.0.1:5901:5901 local-mew`
 
 Feel free to change local port to whatever you wish - for example `53867`
 (`... -p 127.0.0.1:53867:5901 ...`).
