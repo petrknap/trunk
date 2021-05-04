@@ -1,0 +1,5 @@
+created at,size,size unit,fee,total,fee/total unit
+2021-01-21,25,EUR,0,-667.54,CZK
+2021-01-22,2,FAKE,1,-2,EUR
+2021-01-23,-1,FAKE,0.5,2,EUR
+2021-01-24,2,FAKE,0.25,-1,EUR
