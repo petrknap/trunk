@@ -23,10 +23,10 @@ services:
 
     Ucetnictvi\Command\InvoicesCreateCommand:
         arguments:
-            $inputDirectory: '%env(string:INPUT_DIRECTORY)%'
-            $outputDirectory: '%env(string:OUTPUT_DIRECTORY)%'
+            $inputDirectory: '%env(string:INVOICES_INPUT_DIRECTORY)%'
+            $outputDirectory: '%env(string:INVOICES_OUTPUT_DIRECTORY)%'
             $locale: '%locale%'
-            $subjectType: '%env(string:SUBJECT_TYPE)%'
+            $subjectType: '%env(string:INVOICES_SUBJECT_TYPE)%'
 
     Symfony\Component\Serializer\Encoder\CsvEncoder:
         arguments:
