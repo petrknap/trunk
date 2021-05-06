@@ -13,38 +13,71 @@ class LoaderTest extends TestCase
 {
     const INPUT_DIRECTORY = __DIR__ . '/LoaderTest';
 
-    public function testLoadsAllCoinbaseFills()
+    public function testLoadsAllAssetsOperations()
     {
         $expectedTransactions = [
             new AssetMovement(
                 new \DateTimeImmutable('2021-01-21'),
                 new Asset(25, 'EUR'),
                 new Asset(0, 'CZK'),
-                new Asset(-667.54, 'CZK')
+                new Asset(-667.54, 'CZK'),
+                null,
+                'deposit'
             ),
             new AssetMovement(
                 new \DateTimeImmutable('2021-01-22'),
                 new Asset(2, 'FAKE'),
                 new Asset(1, 'EUR'),
-                new Asset(-2, 'EUR')
+                new Asset(-2, 'EUR'),
+                null,
+                'buy'
             ),
             new AssetMovement(
                 new \DateTimeImmutable('2021-01-23'),
                 new Asset(-1, 'FAKE'),
                 new Asset(0.5, 'EUR'),
-                new Asset(2, 'EUR')
+                new Asset(2, 'EUR'),
+                null,
+                'sell'
             ),
             new AssetMovement(
                 new \DateTimeImmutable('2021-01-24'),
                 new Asset(2, 'FAKE'),
                 new Asset(0.25, 'EUR'),
-                new Asset(-1, 'EUR')
+                new Asset(-1, 'EUR'),
+                null,
+                'additional buy'
+            ),
+            new AssetMovement(
+                new \DateTimeImmutable('2021-01-25'),
+                new Asset(-1, 'FAKE'),
+                new Asset(0, 'EUR'),
+                new Asset(0, 'EUR'),
+                null,
+                'transaction fee'
+            ),
+            new AssetMovement(
+                new \DateTimeImmutable('2021-01-26'),
+                new Asset(1, 'FAKE'),
+                new Asset(0, 'EUR'),
+                new Asset(0, 'EUR'),
+                null,
+                'gift'
+            ),
+            new AssetMovement(
+                new \DateTimeImmutable('2021-01-27'),
+                new Asset(-2, 'FAKE'),
+                new Asset(0, 'CZK'),
+                new Asset(50, 'CZK'),
+                25.785,
+                'eshop'
             ),
             new AssetMovement(
                 new \DateTimeImmutable('2021-04-07T11:08:11.938Z'),
                 new Asset(0.00132472, 'BTC'),
                 new Asset(0.317700974, 'EUR'),
                 new Asset(-63.857895774, 'EUR'),
+                null,
                 6
             ),
             new AssetMovement(
@@ -52,6 +85,7 @@ class LoaderTest extends TestCase
                 new Asset(0.00244139, 'ETH'),
                 new Asset(0.025146317, 'EUR'),
                 new Asset(-5.054409717, 'EUR'),
+                null,
                 3
             ),
             new AssetMovement(
@@ -59,6 +93,7 @@ class LoaderTest extends TestCase
                 new Asset(5, 'XLM'),
                 new Asset(0.010614075, 'EUR'),
                 new Asset(-2.133429075, 'EUR'),
+                null,
                 1
             ),
             new AssetMovement(
@@ -66,6 +101,7 @@ class LoaderTest extends TestCase
                 new Asset(10, 'XLM'),
                 new Asset(0.01901995, 'EUR'),
                 new Asset(-3.82300995, 'EUR'),
+                null,
                 2
             ),
             new AssetMovement(
@@ -73,6 +109,7 @@ class LoaderTest extends TestCase
                 new Asset(0.012, 'ETH'),
                 new Asset(0.1242, 'EUR'),
                 new Asset(-24.9642, 'EUR'),
+                null,
                 4
             ),
             new AssetMovement(
@@ -80,13 +117,14 @@ class LoaderTest extends TestCase
                 new Asset(0.006, 'ETH'),
                 new Asset(0.06168, 'EUR'),
                 new Asset(-12.39768, 'EUR'),
+                null,
                 5
             ),
         ];
         $this->assertEquals(
             $expectedTransactions,
-            $this->getLoader()->getAllCoinbaseFills([
-                self::INPUT_DIRECTORY . '/coinbase_extra.csv',
+            $this->getLoader()->getAllAssetOperations([
+                self::INPUT_DIRECTORY . '/extra_movements.csv',
                 self::INPUT_DIRECTORY . '/coinbase_fills.csv',
             ])
         );

@@ -1,0 +1,8 @@
+created at,size,size unit,fee,total,fee/total unit,fee/total exchange rate,reference
+2021-01-21,25,EUR,0,-667.54,CZK,,deposit
+2021-01-22,2,FAKE,1,-2,EUR,,buy
+2021-01-23,-1,FAKE,0.5,2,EUR,,sell
+2021-01-24,2,FAKE,0.25,-1,EUR,,additional buy
+2021-01-25,-1,FAKE,0,0,EUR,,transaction fee
+2021-01-26,1,FAKE,0,0,EUR,,gift
+2021-01-27,-2,FAKE,0,50,CZK,25.785,eshop

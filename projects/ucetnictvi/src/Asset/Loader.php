@@ -19,7 +19,7 @@ class Loader
      * @param array $inputFiles
      * @return AssetMovement[]
      */
-    public function getAllCoinbaseFills(array $inputFiles): array
+    public function getAllAssetOperations(array $inputFiles): array
     {
         $movements = [];
         foreach ($inputFiles as $inputFile) {
@@ -43,6 +43,7 @@ class Loader
                         $transactionData['total'],
                         $transactionData['price/fee/total unit'] ?? $transactionData['fee/total unit']
                     ),
+                    isset($transactionData['fee/total exchange rate']) ? (float) $transactionData['fee/total exchange rate'] : null,
                     $transactionData['reference'] ?? $transactionData['trade id'] ?? null
                 );
             }
