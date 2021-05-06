@@ -5,6 +5,7 @@
         "php": ">=7.1",
         "mpdf/mpdf": "^8.0",
         "petrknap/php-spaydqr": "^2.0",
+        "phpoffice/phpspreadsheet": "^1.12",
         "symfony/console": "^4.2",
         "symfony/dotenv": "^4.2",
         "symfony/flex": "^1.1",
@@ -14,6 +15,7 @@
         "symfony/yaml": "^4.2",
         "twig/extensions": "^1.5"
     },
+    "minimum-stability": "dev",
     "config": {
         "preferred-install": {
             "*": "dist"

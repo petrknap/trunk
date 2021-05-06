@@ -11,8 +11,20 @@
     "endroid/qr-code": {
         "version": "3.5.8"
     },
+    "ezyang/htmlpurifier": {
+        "version": "v4.13.0"
+    },
     "khanamiryan/qrcode-detector-decoder": {
         "version": "1.0.2"
+    },
+    "maennchen/zipstream-php": {
+        "version": "2.1.0"
+    },
+    "markbaker/complex": {
+        "version": "2.0.x-dev"
+    },
+    "markbaker/matrix": {
+        "version": "2.1.2"
     },
     "moneyphp/money": {
         "version": "v3.2.1"
@@ -32,14 +44,29 @@
     "petrknap/php-spaydqr": {
         "version": "v1.1.0"
     },
+    "phpoffice/phpspreadsheet": {
+        "version": "dev-master"
+    },
     "psr/cache": {
         "version": "1.0.1"
     },
     "psr/container": {
         "version": "1.0.0"
     },
+    "psr/http-client": {
+        "version": "1.0.x-dev"
+    },
+    "psr/http-factory": {
+        "version": "1.0.x-dev"
+    },
+    "psr/http-message": {
+        "version": "1.0.x-dev"
+    },
     "psr/log": {
         "version": "1.1.0"
+    },
+    "psr/simple-cache": {
+        "version": "1.0.x-dev"
     },
     "setasign/fpdi": {
         "version": "v2.2.0"

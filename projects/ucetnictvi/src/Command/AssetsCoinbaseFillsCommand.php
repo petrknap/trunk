@@ -48,9 +48,9 @@ class AssetsCoinbaseFillsCommand extends Command
             var_export($this->kernel->isDebug(), true)
         ));
 
-        $this->generator->generateCsv(
-            $this->loader->getAllCoinbaseFills($coinbaseFillsFiles),
-            "{$coinbaseFillsFiles[0]}.csv"
+        $this->generator->generateXlsx(
+            $this->loader->getAllAssetOperations($coinbaseFillsFiles),
+            "{$coinbaseFillsFiles[0]}.xlsx"
         );
 
         $io->success(sprintf(
