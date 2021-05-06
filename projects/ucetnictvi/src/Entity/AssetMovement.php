@@ -2,8 +2,6 @@
 
 namespace Ucetnictvi\Entity;
 
-use Money\Money;
-
 class AssetMovement extends AssetOperation
 {
     public $fee;
