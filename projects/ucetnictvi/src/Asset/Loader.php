@@ -73,7 +73,7 @@ class Loader
     private function throwIfKeyIsNotSet(array $keys, array $array)
     {
         foreach ($keys as $key) {
-            if (!isset($key, $array)) {
+            if (!isset($array[$key])) {
                 throw new \Exception("Missing key: {$key}");
             }
         }
