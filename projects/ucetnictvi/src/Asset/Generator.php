@@ -39,6 +39,9 @@ class Generator
         ];
 
         $color = array_search($unit, array_keys($rows));
+        if ($color !== false) {
+            $color++;
+        }
 
         return $style->applyFromArray([
             'fill' => [
