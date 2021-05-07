@@ -16,8 +16,6 @@ class AssetsAggregateCommand extends Command
     private $kernel;
     private $loader;
     private $generator;
-    private $inputDirectory;
-    private $outputDirectory;
 
     public function __construct(
         KernelInterface $kernel,
@@ -32,9 +30,9 @@ class AssetsAggregateCommand extends Command
 
     protected function configure()
     {
-        $this->setName('assets:coinbase-fills')
-            ->setDescription('Aggregates coinbase fills')
-            ->addArgument('coinbase-fills.csv', InputArgument::REQUIRED | InputArgument::IS_ARRAY);
+        $this->setName('assets:aggregate')
+            ->setDescription('Aggregates CSVs')
+            ->addArgument('data.csv', InputArgument::REQUIRED | InputArgument::IS_ARRAY);
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)

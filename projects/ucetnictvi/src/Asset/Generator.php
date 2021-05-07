@@ -6,6 +6,7 @@ use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Style\Border;
 use PhpOffice\PhpSpreadsheet\Style\Fill;
+use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
 use PhpOffice\PhpSpreadsheet\Style\Style;
 use Ucetnictvi\Entity\AssetCreation;
 use Ucetnictvi\Entity\AssetMovement;
@@ -249,6 +250,10 @@ class Generator
                 ] : []));
             }
         }
+        $creations
+            ->getStyle("A2:A{$creationRow}")
+            ->getNumberFormat()
+            ->setFormatCode(NumberFormat::FORMAT_DATE_YYYYMMDD);
         for ($r = 1; $r <= $movementRow; $r++) {
             foreach (['A', 'B', 'C', 'D', 'E', 'G', 'H', 'I', 'J', 'L', 'M', 'N', 'O', 'S', 'T', 'U', 'V'] as $c) {
                 $movements->getStyle("{$c}{$r}")->applyFromArray([
@@ -269,6 +274,10 @@ class Generator
                 ] : []));
             }
         }
+        $movements
+            ->getStyle("A2:A{$movementRow}")
+            ->getNumberFormat()
+            ->setFormatCode(NumberFormat::FORMAT_DATE_YYYYMMDD);
 
         IOFactory::createWriter($spreadsheet, 'Xlsx')->save($path);
     }
