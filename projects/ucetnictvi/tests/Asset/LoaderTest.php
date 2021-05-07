@@ -6,6 +6,7 @@ use PHPUnit\Framework\TestCase;
 use Symfony\Component\Serializer\Encoder\CsvEncoder;
 use Symfony\Component\Serializer\Serializer;
 use Ucetnictvi\Asset\Loader;
+use Ucetnictvi\Entity\AssetCreation;
 use Ucetnictvi\Entity\AssetMovement;
 use Ucetnictvi\Entity\Asset;
 
@@ -64,8 +65,38 @@ class LoaderTest extends TestCase
                 null,
                 'gift'
             ),
-            new AssetMovement(
+            new AssetCreation(
                 new \DateTimeImmutable('2021-01-27'),
+                new Asset(0.1, 'FAKE'),
+                [
+                    'A (high)' => 10,
+                    'A (low)' => 8,
+                    'B (avg)' => 10.7,
+                ],
+                'USD',
+                [
+                    'EUR' => 25.234,
+                    'USD' => 21.782,
+                ],
+                '0x01'
+            ),
+            new AssetCreation(
+                new \DateTimeImmutable('2021-01-28'),
+                new Asset(0.09, 'FAKE'),
+                [
+                    'A (high)' => 12,
+                    'A (low)' => 11,
+                    'B (avg)' => 11.21,
+                ],
+                'USD',
+                [
+                    'EUR' => 25.301,
+                    'USD' => 21.64,
+                ],
+                '0x02'
+            ),
+            new AssetMovement(
+                new \DateTimeImmutable('2021-01-29'),
                 new Asset(-2, 'FAKE'),
                 new Asset(0, 'CZK'),
                 new Asset(50, 'CZK'),
@@ -126,6 +157,7 @@ class LoaderTest extends TestCase
             $this->getLoader()->getAllAssetOperations([
                 self::INPUT_DIRECTORY . '/extra_movements.csv',
                 self::INPUT_DIRECTORY . '/coinbase_fills.csv',
+                self::INPUT_DIRECTORY . '/creations.csv',
             ])
         );
     }

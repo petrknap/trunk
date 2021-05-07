@@ -3,6 +3,7 @@
 namespace Ucetnictvi\Asset;
 
 use Symfony\Component\Serializer\Serializer;
+use Ucetnictvi\Entity\AssetCreation;
 use Ucetnictvi\Entity\AssetMovement;
 use Ucetnictvi\Entity\Asset;
 use Ucetnictvi\Entity\AssetOperation;
@@ -28,6 +29,13 @@ class Loader
     const MOVEMENT__EXCHANGE_RATE = 'fee/total exchange rate';
     const MOVEMENT__REFERENCE = 'reference';
 
+    const CREATION__CREATED_AT = self::COINBASE_FILL__CREATED_AT;
+    const CREATION__SIZE = self::COINBASE_FILL__SIZE;
+    const CREATION__SIZE_UNIT = self::COINBASE_FILL__SIZE_UNIT;
+    const CREATION__REFERENCE = 'proof';
+    const CREATION__EXCHANGE_RATE__RE = '/([^\s].*) exchange rate/';
+    const CREATION__PRICE__RE = '/([^\s].*) price/';
+    const CREATION__PRICE_UNIT = 'price unit';
 
     private $serializer;
 
@@ -53,12 +61,16 @@ class Loader
                 try {
                     $operations[] = $this->createCoinbaseFill($row);
                 } catch (\Exception $ignored) {
-                    $operations[] = $this->createMovement($row);
+                    try {
+                        $operations[] = $this->createMovement($row);
+                    } catch (\Exception $ignored) {
+                        $operations[] = $this->createCreation($row);
+                    }
                 }
             }
         }
 
-        usort($operations, function (AssetMovement $a, AssetMovement $b) {
+        usort($operations, function (AssetOperation $a, AssetOperation $b) {
             if ($a->dateTime > $b->dateTime) {
                 return 1;
             } elseif ($a->dateTime < $b->dateTime) {
@@ -139,6 +151,39 @@ class Loader
             ),
             isset($movementData[self::MOVEMENT__EXCHANGE_RATE]) ? (float) $movementData[self::MOVEMENT__EXCHANGE_RATE] : null,
             $movementData[self::MOVEMENT__REFERENCE] ?? null
+        );
+    }
+
+    private function createCreation(array $creationData): AssetCreation
+    {
+        $this->throwIfKeyIsNotSet([
+            self::CREATION__CREATED_AT,
+            self::CREATION__SIZE,
+            self::CREATION__SIZE_UNIT,
+            self::CREATION__REFERENCE,
+            self::CREATION__PRICE_UNIT,
+        ], $creationData);
+
+        $prices = [];
+        $exchangeRates = [];
+        foreach (array_keys($creationData) as $key) {
+            if (preg_match(self::CREATION__PRICE__RE, $key, $matches)) {
+                $prices[$matches[1]] = $creationData[$key];
+            } elseif (preg_match(self::CREATION__EXCHANGE_RATE__RE, $key, $matches)) {
+                $exchangeRates[$matches[1]] = $creationData[$key];
+            }
+        }
+
+        return new AssetCreation(
+            new \DateTimeImmutable($creationData[self::CREATION__CREATED_AT]),
+            new Asset(
+                $creationData[self::CREATION__SIZE],
+                $creationData[self::CREATION__SIZE_UNIT]
+            ),
+            $prices,
+            $creationData[self::CREATION__PRICE_UNIT],
+            $exchangeRates,
+            $creationData[self::CREATION__REFERENCE]
         );
     }
 }

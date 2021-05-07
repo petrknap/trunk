@@ -1,0 +1,3 @@
+created at,size,size unit,proof,EUR exchange rate,USD exchange rate,A (high) price,A (low) price,B (avg) price,price unit
+2021-01-27,0.1,FAKE,0x01,25.234,21.782,10,8,10.7,USD
+2021-01-28,0.09,FAKE,0x02,25.301,21.64,12,11,11.21,USD
