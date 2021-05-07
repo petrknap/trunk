@@ -127,7 +127,7 @@ class Generator
                     ->setCellValue("G{$movementRow}", $parentMovementRow ? "=G{$parentMovementRow} + B{$movementRow} / Q{$movementRow}" : "=B{$movementRow} / Q{$movementRow}")
                     ->setCellValue("H{$movementRow}", self::MASTER_FIAT)
                     ->setCellValue("I{$movementRow}", $parentMovementRow ? "=I{$parentMovementRow} + B{$movementRow}" : "=B{$movementRow}")
-                    ->setCellValue("J{$movementRow}", "=E{$parentMovementRow}")
+                    ->setCellValue("J{$movementRow}", "=E{$movementRow}")
                     ->setCellValue("Q{$movementRow}", $operation->exchangeRates[self::MASTER_FIAT])
                     ->setCellValue("Z{$movementRow}", "={$creations->getTitle()}!Z{$creationRow}");
 
