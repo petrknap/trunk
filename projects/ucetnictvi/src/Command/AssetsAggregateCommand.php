@@ -37,7 +37,7 @@ class AssetsAggregateCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $coinbaseFillsFiles = $input->getArgument('coinbase-fills.csv');
+        $dataFiles = $input->getArgument('data.csv');
         $io = new SymfonyStyle($input, $output);
 
         $io->comment(sprintf(
@@ -47,8 +47,8 @@ class AssetsAggregateCommand extends Command
         ));
 
         $this->generator->generateXlsx(
-            $this->loader->getAllAssetOperations($coinbaseFillsFiles),
-            "{$coinbaseFillsFiles[0]}.xlsx"
+            $this->loader->getAllAssetOperations($dataFiles),
+            "{$dataFiles[0]}.xlsx"
         );
 
         $io->success(sprintf(
