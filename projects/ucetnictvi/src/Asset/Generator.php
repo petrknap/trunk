@@ -95,7 +95,7 @@ class Generator
                     ->setCellValue("A{$creationRow}", $operation->dateTime->format(self::DATE_FORMAT))
                     ->setCellValue("B{$creationRow}", $operation->size->value)
                     ->setCellValue("C{$creationRow}", $operation->size->unit)
-                    ->setCellValue("D{$creationRow}", "=B{$creationRow} * AVERAGE(I{$creationRow}:Y{$creationRow}) * G{$creationRow}")
+                    ->setCellValue("D{$creationRow}", "=B{$creationRow} * AVERAGE(I{$creationRow}:X{$creationRow}) * G{$creationRow}")
                     ->setCellValue("E{$creationRow}", self::FINAL_FIAT)
                     ->setCellValue("G{$creationRow}", $operation->exchangeRates[$operation->priceUnit])
                     ->setCellValue("Z{$creationRow}", $operation->reference);
@@ -107,6 +107,10 @@ class Generator
                         ->setCellValue("{$column}1", $source)
                         ->setCellValue("{$column}{$creationRow}", $price);
                 }
+                $column = chr(ord('I') + $priceIndex);
+                $creations
+                    ->setCellValue("{$column}1", "price unit")
+                    ->setCellValue("{$column}{$creationRow}", $operation->priceUnit);
 
                 $this->applyUnitColor(
                     $creations->getStyle("B{$creationRow}:C{$creationRow}"),
