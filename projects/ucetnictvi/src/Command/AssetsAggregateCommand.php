@@ -11,7 +11,7 @@ use Symfony\Component\HttpKernel\KernelInterface;
 use Ucetnictvi\Asset\Generator;
 use Ucetnictvi\Asset\Loader;
 
-class AssetsCoinbaseFillsCommand extends Command
+class AssetsAggregateCommand extends Command
 {
     private $kernel;
     private $loader;
