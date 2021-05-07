@@ -91,7 +91,7 @@ class Generator
                     ->setCellValue("A{$creationRow}", $operation->dateTime->format(self::DATE_FORMAT))
                     ->setCellValue("B{$creationRow}", $operation->size->value)
                     ->setCellValue("C{$creationRow}", $operation->size->unit)
-                    ->setCellValue("D{$creationRow}", "=AVERAGE(I{$creationRow}:Y{$creationRow}) * G{$creationRow}")
+                    ->setCellValue("D{$creationRow}", "=B{$creationRow} * AVERAGE(I{$creationRow}:Y{$creationRow}) * G{$creationRow}")
                     ->setCellValue("E{$creationRow}", self::FINAL_FIAT)
                     ->setCellValue("G{$creationRow}", $operation->exchangeRates[$operation->priceUnit])
                     ->setCellValue("Z{$creationRow}", $operation->reference);
@@ -124,10 +124,11 @@ class Generator
                     ->setCellValue("D{$movementRow}", "={$creations->getTitle()}!B{$creationRow}")
                     ->setCellValue("E{$movementRow}", "={$creations->getTitle()}!C{$creationRow}")
                     ->setCellValue("G{$movementRow}", $parentMovementRow ? "=G{$parentMovementRow} + B{$movementRow} / Q{$movementRow}" : "=B{$movementRow} / Q{$movementRow}")
-                    ->setCellValue("H{$movementRow}", "=H{$parentMovementRow}")
-                    ->setCellValue("I{$movementRow}", "=I{$parentMovementRow} + B{$movementRow}")
-                    ->setCellValue("J{$movementRow}", "=J{$parentMovementRow}")
-                    ->setCellValue("Q{$movementRow}", $operation->exchangeRates[self::MASTER_FIAT]);
+                    ->setCellValue("H{$movementRow}", self::MASTER_FIAT)
+                    ->setCellValue("I{$movementRow}", $parentMovementRow ? "=I{$parentMovementRow} + B{$movementRow}" : "=B{$movementRow}")
+                    ->setCellValue("J{$movementRow}", "=E{$parentMovementRow}")
+                    ->setCellValue("Q{$movementRow}", $operation->exchangeRates[self::MASTER_FIAT])
+                    ->setCellValue("Z{$movementRow}", "={$creations->getTitle()}!Z{$creationRow}");
 
                 $this->applyUnitColor(
                     $movements->getStyle("B{$movementRow}:C{$movementRow}"),
