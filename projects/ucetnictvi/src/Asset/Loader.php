@@ -11,6 +11,8 @@ use Ucetnictvi\Entity\AssetOperation;
 class Loader
 {
     const COINBASE_FILL__CREATED_AT = 'created at';
+    const COINBASE_FILL__SIDE = 'side';
+    const COINBASE_FILL__SIDE_SELL = 'SELL';
     const COINBASE_FILL__SIZE = 'size';
     const COINBASE_FILL__SIZE_UNIT = 'size unit';
     const COINBASE_FILL__FEE = 'fee';
@@ -95,6 +97,7 @@ class Loader
     {
         $this->throwIfKeyIsNotSet([
             self::COINBASE_FILL__CREATED_AT,
+            self::COINBASE_FILL__SIDE,
             self::COINBASE_FILL__SIZE,
             self::COINBASE_FILL__SIZE_UNIT,
             self::COINBASE_FILL__FEE,
@@ -107,7 +110,9 @@ class Loader
         return new AssetMovement(
             new \DateTimeImmutable($coinbaseFillData[self::COINBASE_FILL__CREATED_AT]),
             new Asset(
-                $coinbaseFillData[self::COINBASE_FILL__SIZE],
+                (
+                    $coinbaseFillData[self::COINBASE_FILL__SIDE] === self::COINBASE_FILL__SIDE_SELL ? -1 : 1
+                ) * $coinbaseFillData[self::COINBASE_FILL__SIZE],
                 $coinbaseFillData[self::COINBASE_FILL__SIZE_UNIT]
             ),
             new Asset(

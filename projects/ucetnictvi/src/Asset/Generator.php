@@ -8,6 +8,8 @@ use PhpOffice\PhpSpreadsheet\Style\Border;
 use PhpOffice\PhpSpreadsheet\Style\Fill;
 use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
 use PhpOffice\PhpSpreadsheet\Style\Style;
+use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
+use Ucetnictvi\Entity\Asset;
 use Ucetnictvi\Entity\AssetCreation;
 use Ucetnictvi\Entity\AssetMovement;
 use Ucetnictvi\Entity\AssetOperation;
@@ -17,39 +19,6 @@ class Generator
     const MASTER_FIAT = 'EUR';
     const FINAL_FIAT = 'CZK';
     const DATE_FORMAT = '=\D\A\T\E\(Y\,m\,d\)';
-
-    private function isSell(AssetMovement $movement): bool
-    {
-        return $movement->size->value < 0 || $movement->total->value > 0;
-    }
-
-    private function applyUnitColor(Style $style, string $unit, array $rows): Style
-    {
-        $colors = [
-            'FFFFFF',
-            'EAE4E9',
-            'CDDAFD',
-            'FFF1E6',
-            'DFE7FD',
-            'FDE2E4',
-            'F0EFEB',
-            'FAD2E1',
-            'BEE1E6',
-            'E2ECE9',
-        ];
-
-        $color = array_search($unit, array_keys($rows));
-        if ($color !== false) {
-            $color++;
-        }
-
-        return $style->applyFromArray([
-            'fill' => [
-                'fillType' => Fill::FILL_SOLID,
-                'color' => ['argb' => "FF{$colors[$color]}"],
-            ]
-        ]);
-    }
 
     public function generateXlsx(array $operations, string $path)
     {
@@ -87,6 +56,7 @@ class Generator
         foreach ($operations as $operation) {
             /** @var AssetOperation $operation */
             $parentMovementRow = &$movementRows[$operation->size->unit];
+            $movementRow++;
 
             if ($operation instanceof AssetCreation) {
                 /** @var AssetCreation $operation */
@@ -123,8 +93,6 @@ class Generator
                     $movementRows
                 );
 
-                $movementRow++;
-
                 $movements
                     ->setCellValue("A{$movementRow}", "={$creations->getTitle()}!A{$creationRow}")
                     ->setCellValue("B{$movementRow}", "={$creations->getTitle()}!D{$creationRow}")
@@ -151,90 +119,24 @@ class Generator
 
                 $parentMovementRow = $movementRow;
             } elseif ($operation instanceof AssetMovement) {
-                if ($operation->fee->value) {
-                    $movementRow++;
-                    $movements
-                        ->setCellValue("A{$movementRow}", $operation->dateTime->format(self::DATE_FORMAT))
-                        ->setCellValue("B{$movementRow}", $operation->fee->value)
-                        ->setCellValue("C{$movementRow}", $operation->fee->unit)
-                        ->setCellValue("D{$movementRow}", 0)
-                        ->setCellValue("L{$movementRow}", "=B{$movementRow}")
-                        ->setCellValue("M{$movementRow}", "=D{$movementRow}")
-                        ->setCellValue("N{$movementRow}", "=M{$movementRow} - L{$movementRow}")
-                        ->setCellValue("O{$movementRow}", self::MASTER_FIAT)
-                        ->setCellValue("Z{$movementRow}", $operation->reference);
-                    $this->applyUnitColor(
-                        $movements->getStyle("B{$movementRow}:C{$movementRow}"),
-                        $operation->fee->unit,
-                        $movementRows
-                    );
+                if ($this->isExchange($operation)) {
+                    $addedRows = self::renderExchange($operation, $movements, $movementRow, $movementRows);
+                } else {
                     $feeRow = $movementRow;
-                } else {
-                    $feeRow = null;
-                }
-                $movementRow++;
-                $movements
-                    ->setCellValue("A{$movementRow}", $operation->dateTime->format(self::DATE_FORMAT))
-                    ->setCellValue("Z{$movementRow}", $operation->reference);
-                if ($this->isSell($operation)) {
-                    $movements
-                        ->setCellValue("B{$movementRow}", "=ABS({$operation->size->value})")
-                        ->setCellValue("C{$movementRow}", $operation->size->unit)
-                        ->setCellValue("D{$movementRow}", $feeRow ? "=ABS({$operation->total->value}) - B{$feeRow}" : "=ABS({$operation->total->value})")
-                        ->setCellValue("E{$movementRow}", $operation->total->unit)
-                        ->setCellValue("G{$movementRow}", "=G{$parentMovementRow} - IF(L{$movementRow} > 0, L{$movementRow}, S{$movementRow} / Q{$movementRow})")
-                        ->setCellValue("H{$movementRow}", "=H{$parentMovementRow}")
-                        ->setCellValue("I{$movementRow}", "=I{$parentMovementRow} - B{$movementRow}")
-                        ->setCellValue("J{$movementRow}", "=J{$parentMovementRow}");
-                    switch ($operation->total->unit) {
-                        case self::MASTER_FIAT:
-                            $movements
-                                ->setCellValue("L{$movementRow}", "=G{$parentMovementRow} / I{$parentMovementRow} * B{$movementRow}")
-                                ->setCellValue("M{$movementRow}", "=D{$movementRow}")
-                                ->setCellValue("N{$movementRow}", "=M{$movementRow} - L{$movementRow}")
-                                ->setCellValue("O{$movementRow}", $operation->total->unit);
-                            break;
-                        case self::FINAL_FIAT:
-                            $movements
-                                ->setCellValue("Q{$movementRow}", $operation->exchangeRate)
-                                ->setCellValue("S{$movementRow}", "=G{$parentMovementRow} / I{$parentMovementRow} * B{$movementRow} * Q{$movementRow}")
-                                ->setCellValue("T{$movementRow}", "=D{$movementRow}")
-                                ->setCellValue("U{$movementRow}", "=T{$movementRow} - S{$movementRow}")
-                                ->setCellValue("V{$movementRow}", $operation->total->unit);
+                    $movementRow += self::renderFee($operation, $movements, $movementRow, $movementRows);
+                    if ($feeRow === $movementRow) {
+                        $feeRow = null;
                     }
-                    $this->applyUnitColor(
-                        $movements->getStyle("B{$movementRow}:C{$movementRow}"),
-                        $operation->size->unit,
-                        $movementRows
-                    );
-                    $this->applyUnitColor(
-                        $movements->getStyle("D{$movementRow}:E{$movementRow}"),
-                        $operation->total->unit,
-                        $movementRows
-                    );
-                } else {
-                    $movements
-                        ->setCellValue("B{$movementRow}", $feeRow ? "=ABS({$operation->total->value}) - B{$feeRow}" : "=ABS({$operation->total->value})")
-                        ->setCellValue("C{$movementRow}", $operation->total->unit)
-                        ->setCellValue("D{$movementRow}", $operation->size->value)
-                        ->setCellValue("E{$movementRow}", $operation->size->unit)
-                        ->setCellValue("G{$movementRow}", $parentMovementRow ? "=G{$parentMovementRow} + B{$movementRow}" : "=B{$movementRow}")
-                        ->setCellValue("H{$movementRow}", "=C{$movementRow}")
-                        ->setCellValue("I{$movementRow}", $parentMovementRow ? "=I{$parentMovementRow} + D{$movementRow}" : "=D{$movementRow}")
-                        ->setCellValue("J{$movementRow}", "=E{$movementRow}");
-                    $this->applyUnitColor(
-                        $movements->getStyle("B{$movementRow}:C{$movementRow}"),
-                        $operation->total->unit,
-                        $movementRows
-                    );
-                    $this->applyUnitColor(
-                        $movements->getStyle("D{$movementRow}:E{$movementRow}"),
-                        $operation->size->unit,
-                        $movementRows
-                    );
+
+                    if ($this->isSell($operation)) {
+                        $addedRows = self::renderSell($operation, $movements, $movementRow, $feeRow, $parentMovementRow, $movementRows);
+                    } else {
+                        $addedRows = self::renderBuy($operation, $movements, $movementRow, $feeRow, $parentMovementRow, $movementRows);
+                    }
                 }
 
-                $parentMovementRow = $movementRow;
+                $movementRow += $addedRows - 1;
+                $parentMovementRow = $movementRow - ($addedRows - 1);
             }
         }
         for ($r = 1; $r <= $creationRow; $r++) {
@@ -287,5 +189,191 @@ class Generator
             ->setFormatCode(NumberFormat::FORMAT_DATE_YYYYMMDD);
 
         IOFactory::createWriter($spreadsheet, 'Xlsx')->save($path);
+    }
+
+    private function isExchange(AssetMovement $movement): bool
+    {
+        return $movement->total->unit != self::MASTER_FIAT && $movement->total->unit != self::FINAL_FIAT;
+    }
+
+    private static function renderExchange(AssetMovement $exchange, Worksheet $movements, int $movementRow, array $movementRows): int
+    {
+        $sellParentRow = &$movementRows[$exchange->size->unit];
+        $sell = new AssetMovement(
+            $exchange->dateTime,
+            $exchange->size,
+            new Asset(0, self::MASTER_FIAT),
+            new Asset(0, self::MASTER_FIAT),
+            null,
+            $exchange->reference
+        );
+        $buyParentRow = &$movementRows[$exchange->total->unit];
+        $buy = new AssetMovement(
+            $exchange->dateTime,
+            $exchange->total,
+            new Asset(0, self::MASTER_FIAT),
+            new Asset(0, self::MASTER_FIAT),
+            null,
+            $exchange->reference
+        );
+
+        $sellRow = $movementRow;
+        $sellRows = self::renderSell($sell, $movements, $movementRow, null, $sellParentRow, $movementRows);
+        $sellParentRow = $sellRow;
+        $buyRow = $sellRow + $sellRows;
+        $buyRows = self::renderBuy($buy, $movements, $movementRow + $sellRows, null, $buyParentRow, $movementRows);
+        $buyParentRow = $buyRow;
+        $feeRows = self::renderFee($exchange, $movements, $movementRow + $sellRows + $buyRows, $movementRows);
+
+        $movements
+            ->setCellValue("D{$sellRow}", "=L{$sellRow}")
+            ->setCellValue("E{$sellRow}", "=O{$sellRow}")
+            ->setCellValue("B{$buyRow}", "=D{$sellRow}")
+            ->setCellValue("C{$buyRow}", "=E{$sellRow}");
+
+        return $sellRows + $buyRows + $feeRows;
+    }
+
+    private static function renderFee(AssetMovement $movement, Worksheet $movements, int $movementRow, array $movementRows): int
+    {
+        if ($movement->fee->value) {
+            $parentFeeRow = @$movementRows[$movement->fee->unit];
+
+            return self::renderSell(
+                new AssetMovement(
+                    $movement->dateTime,
+                    $movement->fee,
+                    new Asset(0, self::MASTER_FIAT),
+                    new Asset(0, self::MASTER_FIAT),
+                    null,
+                    $movement->reference
+                ), $movements, $movementRow, null, $parentFeeRow, $movementRows
+            );
+        } else {
+            return 0;
+        }
+    }
+
+    private static function isSell(AssetMovement $movement): bool
+    {
+        return $movement->size->value < 0 || $movement->total->value > 0;
+    }
+
+    private static function renderSell(AssetMovement $sell, Worksheet $movements, int $movementRow, ?int $feeRow, ?int $parentMovementRow, array $movementRows): int
+    {
+        $movements = self::prerenderMovement($sell, $movements, $movementRow)
+            ->setCellValue("B{$movementRow}", "=ABS({$sell->size->value})")
+            ->setCellValue("C{$movementRow}", $sell->size->unit);
+
+        if (self::isFiat($sell)) {
+            $movements->setCellValue("D{$movementRow}", 0);
+        } else {
+            $movements
+                ->setCellValue("D{$movementRow}", $feeRow ? "=ABS({$sell->total->value}) - B{$feeRow}" : "=ABS({$sell->total->value})")
+                ->setCellValue("E{$movementRow}", $sell->total->unit)
+                ->setCellValue("G{$movementRow}", "=G{$parentMovementRow} - IF(L{$movementRow} > 0, L{$movementRow}, S{$movementRow} / Q{$movementRow})")
+                ->setCellValue("H{$movementRow}", "=H{$parentMovementRow}")
+                ->setCellValue("I{$movementRow}", "=I{$parentMovementRow} - B{$movementRow}")
+                ->setCellValue("J{$movementRow}", "=J{$parentMovementRow}");
+        }
+
+        switch ($sell->total->unit) {
+            case self::MASTER_FIAT:
+                $movements
+                    ->setCellValue("L{$movementRow}", $sell->size->unit === self::MASTER_FIAT ? "=B{$movementRow}" : "=G{$parentMovementRow} / I{$parentMovementRow} * B{$movementRow}")
+                    ->setCellValue("M{$movementRow}", "=D{$movementRow}")
+                    ->setCellValue("N{$movementRow}", "=M{$movementRow} - L{$movementRow}")
+                    ->setCellValue("O{$movementRow}", $sell->total->unit);
+                break;
+            case self::FINAL_FIAT:
+                $movements
+                    ->setCellValue("Q{$movementRow}", $sell->exchangeRate)
+                    ->setCellValue("S{$movementRow}", "=G{$parentMovementRow} / I{$parentMovementRow} * B{$movementRow} * Q{$movementRow}")
+                    ->setCellValue("T{$movementRow}", "=D{$movementRow}")
+                    ->setCellValue("U{$movementRow}", "=T{$movementRow} - S{$movementRow}")
+                    ->setCellValue("V{$movementRow}", $sell->total->unit);
+        }
+
+        self::applyUnitColor(
+            $movements->getStyle("B{$movementRow}:C{$movementRow}"),
+            $sell->size->unit,
+            $movementRows
+        );
+
+        if (!self::isFiat($sell)) {
+            self::applyUnitColor(
+                $movements->getStyle("D{$movementRow}:E{$movementRow}"),
+                $sell->total->unit,
+                $movementRows
+            );
+        }
+
+        return 1;
+    }
+
+    private static function isFiat(AssetMovement $movement): bool
+    {
+        return $movement->size->unit === self::MASTER_FIAT || $movement->size->unit === self::FINAL_FIAT;
+    }
+
+    private static function renderBuy(AssetMovement $buy, Worksheet $movements, int $movementRow, ?int $feeRow, ?int $parentMovementRow, array $movementRows): int
+    {
+        self::prerenderMovement($buy, $movements, $movementRow)
+            ->setCellValue("B{$movementRow}", $feeRow ? "=ABS({$buy->total->value}) - B{$feeRow}" : "=ABS({$buy->total->value})")
+            ->setCellValue("C{$movementRow}", $buy->total->unit)
+            ->setCellValue("D{$movementRow}", $buy->size->value)
+            ->setCellValue("E{$movementRow}", $buy->size->unit)
+            ->setCellValue("G{$movementRow}", $parentMovementRow ? "=G{$parentMovementRow} + B{$movementRow}" : "=B{$movementRow}")
+            ->setCellValue("H{$movementRow}", "=C{$movementRow}")
+            ->setCellValue("I{$movementRow}", $parentMovementRow ? "=I{$parentMovementRow} + D{$movementRow}" : "=D{$movementRow}")
+            ->setCellValue("J{$movementRow}", "=E{$movementRow}");
+
+        self::applyUnitColor(
+            $movements->getStyle("B{$movementRow}:C{$movementRow}"),
+            $buy->total->unit,
+            $movementRows
+        );
+        self::applyUnitColor(
+            $movements->getStyle("D{$movementRow}:E{$movementRow}"),
+            $buy->size->unit,
+            $movementRows
+        );
+
+        return 1;
+    }
+
+    private static function prerenderMovement(AssetMovement $movement, Worksheet $movements, int $movementRow): Worksheet
+    {
+        return $movements
+            ->setCellValue("A{$movementRow}", $movement->dateTime->format(self::DATE_FORMAT))
+            ->setCellValue("Z{$movementRow}", $movement->reference);
+    }
+
+    private static function applyUnitColor(Style $style, string $unit, array $rows): Style
+    {
+        $colors = [
+            'FFFFFF',
+            'EAE4E9',
+            'CDDAFD',
+            'FFF1E6',
+            'DFE7FD',
+            'FDE2E4',
+            'F0EFEB',
+            'FAD2E1',
+            'BEE1E6',
+            'E2ECE9',
+        ];
+
+        $color = array_search($unit, array_keys($rows));
+        if ($color !== false) {
+            $color++;
+        }
+
+        return $style->applyFromArray([
+            'fill' => [
+                'fillType' => Fill::FILL_SOLID,
+                'color' => ['argb' => "FF{$colors[$color]}"],
+            ]
+        ]);
     }
 }

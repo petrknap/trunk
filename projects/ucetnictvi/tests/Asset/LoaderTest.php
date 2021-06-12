@@ -151,6 +151,22 @@ class LoaderTest extends TestCase
                 null,
                 5
             ),
+            new AssetMovement(
+                new \DateTimeImmutable('2021-05-10T07:01:07.611Z'),
+                new Asset(-0.002, 'ETH'),
+                new Asset(0.000007, 'BTC'),
+                new Asset(0.001393, 'BTC'),
+                null,
+                7
+            ),
+            new AssetMovement(
+                new \DateTimeImmutable('2021-05-12T02:38:54.722000+0000'),
+                new Asset(-0.0001, 'ETH'),
+                new Asset(0.0175, 'EUR'),
+                new Asset(3.4825, 'EUR'),
+                null,
+                8
+            ),
         ];
         $this->assertEquals(
             $expectedTransactions,
