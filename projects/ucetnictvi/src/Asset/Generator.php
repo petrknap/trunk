@@ -19,10 +19,26 @@ class Generator
     const MASTER_FIAT = 'EUR';
     const FINAL_FIAT = 'CZK';
     const DATE_FORMAT = '=\D\A\T\E\(Y\,m\,d\)';
+    const STYLE_BORDER = [
+        'borders' => [
+            'bottom' => ['borderStyle' => Border::BORDER_THIN],
+            'right' => ['borderStyle' => Border::BORDER_THIN],
+            'top' => ['borderStyle' => Border::BORDER_THIN],
+            'left' => ['borderStyle' => Border::BORDER_THIN],
+        ],
+    ];
 
     public function generateXlsx(array $operations, string $path)
     {
         $spreadsheet = new Spreadsheet();
+
+        $analytics = $spreadsheet->createSheet(2);
+        $analytics
+            ->setTitle('analytics')
+            ->setCellValue('A1', 'size')
+            ->setCellValue('B1', '100 ' . self::MASTER_FIAT)
+            ->setCellValue('C1', 'total')
+            ->setCellValue('D1', 'price total');
 
         $creations = $spreadsheet->createSheet(1);
         $creations
@@ -139,16 +155,12 @@ class Generator
                 $parentMovementRow = $movementRow - ($addedRows - 1);
             }
         }
+
+        self::renderAnalytics($movements, $analytics, $movementRows);
+
         for ($r = 1; $r <= $creationRow; $r++) {
             foreach (['A', 'B', 'C', 'D', 'E'] as $c) {
-                $creations->getStyle("{$c}{$r}")->applyFromArray([
-                    'borders' => [
-                        'bottom' => ['borderStyle' => Border::BORDER_THIN],
-                        'right' => ['borderStyle' => Border::BORDER_THIN],
-                        'top' => ['borderStyle' => Border::BORDER_THIN],
-                        'left' => ['borderStyle' => Border::BORDER_THIN],
-                    ],
-                ] + ($r === 1 ? [
+                $creations->getStyle("{$c}{$r}")->applyFromArray(self::STYLE_BORDER + ($r === 1 ? [
                     'fill' => [
                         'fillType' => Fill::FILL_SOLID,
                         'startColor' => ['argb' => 'FF000000']
@@ -165,14 +177,7 @@ class Generator
             ->setFormatCode(NumberFormat::FORMAT_DATE_YYYYMMDD);
         for ($r = 1; $r <= $movementRow; $r++) {
             foreach (['A', 'B', 'C', 'D', 'E', 'G', 'H', 'I', 'J', 'L', 'M', 'N', 'O', 'S', 'T', 'U', 'V'] as $c) {
-                $movements->getStyle("{$c}{$r}")->applyFromArray([
-                    'borders' => [
-                        'bottom' => ['borderStyle' => Border::BORDER_THIN],
-                        'right' => ['borderStyle' => Border::BORDER_THIN],
-                        'top' => ['borderStyle' => Border::BORDER_THIN],
-                        'left' => ['borderStyle' => Border::BORDER_THIN],
-                    ],
-                ] + ($r === 1 ? [
+                $movements->getStyle("{$c}{$r}")->applyFromArray(self::STYLE_BORDER + ($r === 1 ? [
                     'fill' => [
                         'fillType' => Fill::FILL_SOLID,
                         'startColor' => ['argb' => 'FF000000']
@@ -347,6 +352,31 @@ class Generator
         return $movements
             ->setCellValue("A{$movementRow}", $movement->dateTime->format(self::DATE_FORMAT))
             ->setCellValue("Z{$movementRow}", $movement->reference);
+    }
+
+    private static function renderAnalytics(Worksheet $movements, Worksheet $analytics, array $movementRows): void
+    {
+        if (isset($movementRows[self::MASTER_FIAT])) {
+            unset($movementRows[self::MASTER_FIAT]);
+        }
+
+        $row = 1;
+        $rowsPlus1 = count($movementRows) + 1;
+        foreach ($movementRows as $symbol => $symbolRow) {
+            $row++;
+            $analytics
+                ->setCellValue("A{$row}", $symbol)
+                ->setCellValue("B{$row}", "=(D{$row} / SUM(D2:D{$rowsPlus1}) * 100) / (D{$row} / C{$row})")
+                ->setCellValue("C{$row}", "={$movements->getTitle()}!I{$symbolRow}")
+                ->setCellValue("D{$row}", "={$movements->getTitle()}!G{$symbolRow}")
+                ->setCellValue("E{$row}", "={$movements->getTitle()}!H{$symbolRow}");
+        }
+
+        for ($r = 1; $r <= $rowsPlus1; $r++) {
+            foreach (['A', 'B', 'C', 'D', 'E'] as $c) {
+                $analytics->getStyle("{$c}{$r}")->applyFromArray(self::STYLE_BORDER);
+            }
+        }
     }
 
     private static function applyUnitColor(Style $style, string $unit, array $rows): Style
