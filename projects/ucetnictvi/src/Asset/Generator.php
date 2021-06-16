@@ -366,7 +366,7 @@ class Generator
 
         $color = array_search($unit, array_keys($rows));
         if ($color !== false) {
-            $color++;
+            $color = ($color + 1) % count($colors);
         }
 
         return $style->applyFromArray([
