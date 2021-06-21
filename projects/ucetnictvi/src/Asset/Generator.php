@@ -33,12 +33,7 @@ class Generator
         $spreadsheet = new Spreadsheet();
 
         $analytics = $spreadsheet->createSheet(2);
-        $analytics
-            ->setTitle('analytics')
-            ->setCellValue('A1', 'size')
-            ->setCellValue('B1', '100 ' . self::MASTER_FIAT)
-            ->setCellValue('C1', 'total')
-            ->setCellValue('D1', 'price total');
+        $analytics->setTitle('analytics');
 
         $creations = $spreadsheet->createSheet(1);
         $creations
@@ -360,6 +355,11 @@ class Generator
             unset($movementRows[self::MASTER_FIAT]);
         }
 
+        $analytics
+            ->setCellValue('B1', '100 ' . self::MASTER_FIAT)
+            ->setCellValue('C1', 'size total')
+            ->setCellValue('D1', 'price total');
+
         $row = 1;
         $rowsPlus1 = count($movementRows) + 1;
         foreach ($movementRows as $symbol => $symbolRow) {
@@ -370,11 +370,23 @@ class Generator
                 ->setCellValue("C{$row}", "={$movements->getTitle()}!I{$symbolRow}")
                 ->setCellValue("D{$row}", "={$movements->getTitle()}!G{$symbolRow}")
                 ->setCellValue("E{$row}", "={$movements->getTitle()}!H{$symbolRow}");
+
+            self::applyUnitColor($analytics->getStyle("A{$row}:C{$row}"), $symbol, $movementRows);
         }
 
         for ($r = 1; $r <= $rowsPlus1; $r++) {
             foreach (['A', 'B', 'C', 'D', 'E'] as $c) {
-                $analytics->getStyle("{$c}{$r}")->applyFromArray(self::STYLE_BORDER);
+                $analytics->getStyle("{$c}{$r}")->applyFromArray(
+                    self::STYLE_BORDER + ($r === 1 ? [
+                        'fill' => [
+                            'fillType' => Fill::FILL_SOLID,
+                            'startColor' => ['argb' => 'FF000000']
+                        ],
+                        'font' => [
+                            'color' => ['argb' => 'FFFFFFFF']
+                        ],
+                    ] : [])
+                );
             }
         }
     }
