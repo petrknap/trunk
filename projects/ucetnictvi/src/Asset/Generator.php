@@ -271,7 +271,7 @@ class Generator
             $movements
                 ->setCellValue("D{$movementRow}", $feeRow ? "=ABS({$sell->total->value}) - B{$feeRow}" : "=ABS({$sell->total->value})")
                 ->setCellValue("E{$movementRow}", $sell->total->unit)
-                ->setCellValue("G{$movementRow}", "=G{$parentMovementRow} - IF(L{$movementRow} > 0, L{$movementRow}, S{$movementRow} / Q{$movementRow})")
+                ->setCellValue("G{$movementRow}", "=G{$parentMovementRow} - IF(L{$movementRow} > 0, L{$movementRow}, IF(S{$movementRow} > 0, S{$movementRow} / Q{$movementRow}, 0))")
                 ->setCellValue("H{$movementRow}", "=H{$parentMovementRow}")
                 ->setCellValue("I{$movementRow}", "=I{$parentMovementRow} - B{$movementRow}")
                 ->setCellValue("J{$movementRow}", "=J{$parentMovementRow}");
