@@ -351,10 +351,6 @@ class Generator
 
     private static function renderAnalytics(Worksheet $movements, Worksheet $analytics, array $movementRows): void
     {
-        if (isset($movementRows[self::MASTER_FIAT])) {
-            unset($movementRows[self::MASTER_FIAT]);
-        }
-
         $analytics
             ->setCellValue('B1', '100 ' . self::MASTER_FIAT)
             ->setCellValue('C1', 'size total')
@@ -362,22 +358,25 @@ class Generator
 
         $row = 1;
         $rowsPlus1 = count($movementRows) + 1;
-        foreach ($movementRows as $symbol => $symbolRow) {
-            $row++;
-            $analytics
-                ->setCellValue("A{$row}", $symbol)
-                ->setCellValue("B{$row}", "=(D{$row} / SUM(D2:D{$rowsPlus1}) * 100) / (D{$row} / C{$row})")
-                ->setCellValue("C{$row}", "={$movements->getTitle()}!I{$symbolRow}")
-                ->setCellValue("D{$row}", "={$movements->getTitle()}!G{$symbolRow}")
-                ->setCellValue("E{$row}", "={$movements->getTitle()}!H{$symbolRow}");
+        foreach ([null => null] + $movementRows as $symbol => $symbolRow) {
+            if ($symbol === self::MASTER_FIAT) {
+                continue;
+            }
 
-            self::applyUnitColor($analytics->getStyle("A{$row}:C{$row}"), $symbol, $movementRows);
-        }
+            if ($row > 1) {
+                $analytics
+                    ->setCellValue("A{$row}", $symbol)
+                    ->setCellValue("B{$row}", "=(D{$row} / SUM(D2:D{$rowsPlus1}) * 100) / (D{$row} / C{$row})")
+                    ->setCellValue("C{$row}", "={$movements->getTitle()}!I{$symbolRow}")
+                    ->setCellValue("D{$row}", "={$movements->getTitle()}!G{$symbolRow}")
+                    ->setCellValue("E{$row}", "={$movements->getTitle()}!H{$symbolRow}");
 
-        for ($r = 1; $r <= $rowsPlus1; $r++) {
-            foreach (['A', 'B', 'C', 'D', 'E'] as $c) {
-                $analytics->getStyle("{$c}{$r}")->applyFromArray(
-                    self::STYLE_BORDER + ($r === 1 ? [
+                self::applyUnitColor($analytics->getStyle("A{$row}:C{$row}"), $symbol, $movementRows);
+            }
+
+            foreach (['A', 'B', 'C', 'D', 'E'] as $column) {
+                $analytics->getStyle("{$column}{$row}")->applyFromArray(
+                    self::STYLE_BORDER + ($row === 1 ? [
                         'fill' => [
                             'fillType' => Fill::FILL_SOLID,
                             'startColor' => ['argb' => 'FF000000']
@@ -388,6 +387,8 @@ class Generator
                     ] : [])
                 );
             }
+
+            $row++;
         }
     }
 
