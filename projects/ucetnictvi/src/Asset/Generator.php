@@ -366,7 +366,7 @@ class Generator
             if ($row > 1) {
                 $analytics
                     ->setCellValue("A{$row}", $symbol)
-                    ->setCellValue("B{$row}", "=(D{$row} / SUM(D2:D{$rowsPlus1}) * 100) / (D{$row} / C{$row})")
+                    ->setCellValue("B{$row}", "=(D{$row} / SUM(D2:D{$rowsPlus1}) * 100) / (D{$row} / IF(C{$row} = 0, 0.001, C{$row}))")
                     ->setCellValue("C{$row}", "={$movements->getTitle()}!I{$symbolRow}")
                     ->setCellValue("D{$row}", "={$movements->getTitle()}!G{$symbolRow}")
                     ->setCellValue("E{$row}", "={$movements->getTitle()}!H{$symbolRow}");
