@@ -196,7 +196,7 @@ class Generator
         return $movement->total->unit != self::MASTER_FIAT && $movement->total->unit != self::FINAL_FIAT;
     }
 
-    private static function renderExchange(AssetMovement $exchange, Worksheet $movements, int $movementRow, array $movementRows): int
+    private static function renderExchange(AssetMovement $exchange, Worksheet $movements, int $movementRow, array &$movementRows): int
     {
         $sellParentRow = &$movementRows[$exchange->size->unit];
         $sell = new AssetMovement(
