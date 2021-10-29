@@ -61,14 +61,15 @@ class Loader
 
             foreach ($rows as $row) {
                 try {
-                    $operations[] = $this->createCoinbaseFill($row);
+                    $operation = $this->createCoinbaseFill($row);
                 } catch (\Exception $ignored) {
                     try {
-                        $operations[] = $this->createMovement($row);
+                        $operation = $this->createMovement($row);
                     } catch (\Exception $ignored) {
-                        $operations[] = $this->createCreation($row);
+                        $operation = $this->createCreation($row);
                     }
                 }
+                $operations["{$operation}"] = $operation;
             }
         }
 

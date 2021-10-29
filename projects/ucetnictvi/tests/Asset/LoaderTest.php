@@ -104,6 +104,14 @@ class LoaderTest extends TestCase
                 'eshop'
             ),
             new AssetMovement(
+                new \DateTimeImmutable('2021-01-30'),
+                new Asset(1, 'FAKE'),
+                new Asset(0.25, 'EUR'),
+                new Asset(-1, 'EUR'),
+                0.,
+                'duplicate'
+            ),
+            new AssetMovement(
                 new \DateTimeImmutable('2021-04-07T11:08:11.938Z'),
                 new Asset(0.00132472, 'BTC'),
                 new Asset(0.317700974, 'EUR'),

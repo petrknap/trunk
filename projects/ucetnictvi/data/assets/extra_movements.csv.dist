@@ -6,3 +6,5 @@ created at,size,size unit,fee,total,fee/total unit,fee/total exchange rate,refer
 2021-01-25,-1,FAKE,0,0,EUR,,transaction fee
 2021-01-26,1,FAKE,0,0,EUR,,gift
 2021-01-29,-2,FAKE,0,50,CZK,25.785,eshop
+2021-01-30,1,FAKE,0.25,-1,EUR,,duplicate
+2021-01-30,1,FAKE,0.25,-1,EUR,,duplicate

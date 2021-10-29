@@ -14,4 +14,14 @@ abstract class AssetOperation
         $this->size = $size;
         $this->reference = $reference;
     }
+
+    public function __toString()
+    {
+        return implode(':', [
+            $this->dateTime->getTimestamp(),
+            $this->size->value,
+            $this->size->unit,
+            $this->reference,
+        ]);
+    }
 }
