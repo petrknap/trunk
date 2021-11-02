@@ -19,6 +19,13 @@ class Generator
     const MASTER_FIAT = 'EUR';
     const FINAL_FIAT = 'CZK';
     const DATE_FORMAT = '=\D\A\T\E\(Y\,m\,d\)';
+    const SUMMARY_DATE = 'Y';
+    const USED_COLUMNS = [
+        'A', 'B', 'C', 'D', 'E',
+        'G', 'H', 'I', 'J',
+        'L', 'M', 'N', 'O',
+        'S', 'T', 'U', 'V'
+    ];
     const STYLE_BORDER = [
         'borders' => [
             'bottom' => ['borderStyle' => Border::BORDER_THIN],
@@ -64,10 +71,17 @@ class Generator
         $creationRow = 1;
         $movementRows = [];
         $movementRow = 1;
+        $previousOperation = null;
+        $previousSummaryRow = 1;
         foreach ($operations as $operation) {
             /** @var AssetOperation $operation */
             $parentMovementRow = &$movementRows[$operation->size->unit];
             $movementRow++;
+
+            if ($previousOperation && $operation->dateTime->format(self::SUMMARY_DATE) !== $previousOperation->dateTime->format(self::SUMMARY_DATE)) {
+                $movementRow += self::renderSummary($movements, $movementRow, $previousSummaryRow);
+                $previousSummaryRow = $movementRow - 1;
+            }
 
             if ($operation instanceof AssetCreation) {
                 /** @var AssetCreation $operation */
@@ -149,21 +163,24 @@ class Generator
                 $movementRow += $addedRows - 1;
                 $parentMovementRow = $movementRow - ($addedRows - 1);
             }
+
+            $previousOperation = $operation;
         }
 
+        $movementRow += self::renderSummary($movements, $movementRow + 1, $previousSummaryRow);
         self::renderAnalytics($movements, $analytics, $movementRows);
 
         for ($r = 1; $r <= $creationRow; $r++) {
             foreach (['A', 'B', 'C', 'D', 'E'] as $c) {
                 $creations->getStyle("{$c}{$r}")->applyFromArray(self::STYLE_BORDER + ($r === 1 ? [
-                    'fill' => [
-                        'fillType' => Fill::FILL_SOLID,
-                        'startColor' => ['argb' => 'FF000000']
-                    ],
-                    'font' => [
-                        'color' => ['argb' => 'FFFFFFFF']
-                    ],
-                ] : []));
+                        'fill' => [
+                            'fillType' => Fill::FILL_SOLID,
+                            'startColor' => ['argb' => 'FF000000']
+                        ],
+                        'font' => [
+                            'color' => ['argb' => 'FFFFFFFF']
+                        ],
+                    ] : []));
             }
         }
         $creations
@@ -171,16 +188,16 @@ class Generator
             ->getNumberFormat()
             ->setFormatCode(NumberFormat::FORMAT_DATE_YYYYMMDD);
         for ($r = 1; $r <= $movementRow; $r++) {
-            foreach (['A', 'B', 'C', 'D', 'E', 'G', 'H', 'I', 'J', 'L', 'M', 'N', 'O', 'S', 'T', 'U', 'V'] as $c) {
+            foreach (self::USED_COLUMNS as $c) {
                 $movements->getStyle("{$c}{$r}")->applyFromArray(self::STYLE_BORDER + ($r === 1 ? [
-                    'fill' => [
-                        'fillType' => Fill::FILL_SOLID,
-                        'startColor' => ['argb' => 'FF000000']
-                    ],
+                        'fill' => [
+                            'fillType' => Fill::FILL_SOLID,
+                            'startColor' => ['argb' => 'FF000000']
+                        ],
                         'font' => [
-                        'color' => ['argb' => 'FFFFFFFF']
-                    ],
-                ] : []));
+                            'color' => ['argb' => 'FFFFFFFF']
+                        ],
+                    ] : []));
             }
         }
         $movements
@@ -188,7 +205,79 @@ class Generator
             ->getNumberFormat()
             ->setFormatCode(NumberFormat::FORMAT_DATE_YYYYMMDD);
 
+        $movements->getColumnDimension('A')->setWidth(12);
+        $creations->getColumnDimension('A')->setWidth(12);
+
         IOFactory::createWriter($spreadsheet, 'Xlsx')->save($path);
+    }
+
+    private static function renderSummary(Worksheet $movements, int $summaryRow, int $previousSummaryRow): int
+    {
+        $negativeSummaryRow = $summaryRow + 1;
+        $firstRow = $previousSummaryRow + 1;
+        $lastRow = $summaryRow - 1;
+        $movements
+            ->setCellValue("L{$summaryRow}", "=SUM(L{$firstRow}:L{$lastRow})")
+            ->setCellValue("M{$summaryRow}", "=SUM(M{$firstRow}:M{$lastRow})")
+            ->setCellValue("N{$summaryRow}", "=SUM(N{$firstRow}:N{$lastRow})")
+            ->setCellValue("O{$summaryRow}", self::MASTER_FIAT)
+            ->setCellValue("S{$summaryRow}", "=SUM(S{$firstRow}:S{$lastRow})")
+            ->setCellValue("T{$summaryRow}", "=SUM(T{$firstRow}:T{$lastRow})")
+            ->setCellValue("U{$summaryRow}", "=SUM(U{$firstRow}:U{$lastRow})")
+            ->setCellValue("V{$summaryRow}", self::FINAL_FIAT)
+            ->setCellValue("Z{$summaryRow}", "+SUM")
+            ->setCellValue("L{$negativeSummaryRow}", "=-L{$summaryRow}")
+            ->setCellValue("M{$negativeSummaryRow}", "=-M{$summaryRow}")
+            ->setCellValue("N{$negativeSummaryRow}", "=-N{$summaryRow}")
+            ->setCellValue("O{$negativeSummaryRow}", "=O{$summaryRow}")
+            ->setCellValue("S{$negativeSummaryRow}", "=-S{$summaryRow}")
+            ->setCellValue("T{$negativeSummaryRow}", "=-T{$summaryRow}")
+            ->setCellValue("U{$negativeSummaryRow}", "=-U{$summaryRow}")
+            ->setCellValue("V{$negativeSummaryRow}", "=V{$summaryRow}")
+            ->setCellValue("Z{$negativeSummaryRow}", "-SUM");
+
+        foreach (self::USED_COLUMNS as $column) {
+            $movements->getStyle("{$column}{$summaryRow}")
+                ->applyFromArray(self::STYLE_BORDER + [
+                    'fill' => [
+                        'fillType' => Fill::FILL_SOLID,
+                        'startColor' => ['argb' => 'FF000000']
+                    ],
+                    'font' => [
+                        'color' => ['argb' => 'FFFFFFFF']
+                    ],
+                ]);
+        }
+
+        return 2;
+    }
+
+    private static function applyUnitColor(Style $style, string $unit, array $rows): Style
+    {
+        $colors = [
+            'FFFFFF',
+            'EAE4E9',
+            'CDDAFD',
+            'FFF1E6',
+            'DFE7FD',
+            'FDE2E4',
+            'F0EFEB',
+            'FAD2E1',
+            'BEE1E6',
+            'E2ECE9',
+        ];
+
+        $color = array_search($unit, array_keys($rows));
+        if ($color !== false) {
+            $color = ($color + 1) % count($colors);
+        }
+
+        return $style->applyFromArray([
+            'fill' => [
+                'fillType' => Fill::FILL_SOLID,
+                'color' => ['argb' => "FF{$colors[$color]}"],
+            ]
+        ]);
     }
 
     private function isExchange(AssetMovement $movement): bool
@@ -232,31 +321,6 @@ class Generator
             ->setCellValue("C{$buyRow}", "=E{$sellRow}");
 
         return $sellRows + $buyRows + $feeRows;
-    }
-
-    private static function renderFee(AssetMovement $movement, Worksheet $movements, int $movementRow, array $movementRows): int
-    {
-        if ($movement->fee->value) {
-            $parentFeeRow = @$movementRows[$movement->fee->unit];
-
-            return self::renderSell(
-                new AssetMovement(
-                    $movement->dateTime,
-                    $movement->fee,
-                    new Asset(0, self::MASTER_FIAT),
-                    new Asset(0, self::MASTER_FIAT),
-                    null,
-                    $movement->reference
-                ), $movements, $movementRow, null, $parentFeeRow, $movementRows
-            );
-        } else {
-            return 0;
-        }
-    }
-
-    private static function isSell(AssetMovement $movement): bool
-    {
-        return $movement->size->value < 0 || $movement->total->value > 0;
     }
 
     private static function renderSell(AssetMovement $sell, Worksheet $movements, int $movementRow, ?int $feeRow, ?int $parentMovementRow, array $movementRows): int
@@ -311,6 +375,13 @@ class Generator
         return 1;
     }
 
+    private static function prerenderMovement(AssetMovement $movement, Worksheet $movements, int $movementRow): Worksheet
+    {
+        return $movements
+            ->setCellValue("A{$movementRow}", $movement->dateTime->format(self::DATE_FORMAT))
+            ->setCellValue("Z{$movementRow}", $movement->reference);
+    }
+
     private static function isFiat(AssetMovement $movement): bool
     {
         return $movement->size->unit === self::MASTER_FIAT || $movement->size->unit === self::FINAL_FIAT;
@@ -342,11 +413,29 @@ class Generator
         return 1;
     }
 
-    private static function prerenderMovement(AssetMovement $movement, Worksheet $movements, int $movementRow): Worksheet
+    private static function renderFee(AssetMovement $movement, Worksheet $movements, int $movementRow, array $movementRows): int
     {
-        return $movements
-            ->setCellValue("A{$movementRow}", $movement->dateTime->format(self::DATE_FORMAT))
-            ->setCellValue("Z{$movementRow}", $movement->reference);
+        if ($movement->fee->value) {
+            $parentFeeRow = @$movementRows[$movement->fee->unit];
+
+            return self::renderSell(
+                new AssetMovement(
+                    $movement->dateTime,
+                    $movement->fee,
+                    new Asset(0, self::MASTER_FIAT),
+                    new Asset(0, self::MASTER_FIAT),
+                    null,
+                    $movement->reference
+                ), $movements, $movementRow, null, $parentFeeRow, $movementRows
+            );
+        } else {
+            return 0;
+        }
+    }
+
+    private static function isSell(AssetMovement $movement): bool
+    {
+        return $movement->size->value < 0 || $movement->total->value > 0;
     }
 
     private static function renderAnalytics(Worksheet $movements, Worksheet $analytics, array $movementRows): void
@@ -390,33 +479,5 @@ class Generator
 
             $row++;
         }
-    }
-
-    private static function applyUnitColor(Style $style, string $unit, array $rows): Style
-    {
-        $colors = [
-            'FFFFFF',
-            'EAE4E9',
-            'CDDAFD',
-            'FFF1E6',
-            'DFE7FD',
-            'FDE2E4',
-            'F0EFEB',
-            'FAD2E1',
-            'BEE1E6',
-            'E2ECE9',
-        ];
-
-        $color = array_search($unit, array_keys($rows));
-        if ($color !== false) {
-            $color = ($color + 1) % count($colors);
-        }
-
-        return $style->applyFromArray([
-            'fill' => [
-                'fillType' => Fill::FILL_SOLID,
-                'color' => ['argb' => "FF{$colors[$color]}"],
-            ]
-        ]);
     }
 }
