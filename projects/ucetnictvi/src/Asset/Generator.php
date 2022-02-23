@@ -422,8 +422,8 @@ class Generator
                 new AssetMovement(
                     $movement->dateTime,
                     $movement->fee,
-                    new Asset(0, self::MASTER_FIAT),
-                    new Asset(0, self::MASTER_FIAT),
+                    new Asset(0, $movement->fee->unit),
+                    new Asset(0, $movement->fee->unit),
                     null,
                     $movement->reference
                 ), $movements, $movementRow, null, $parentFeeRow, $movementRows
