@@ -351,11 +351,12 @@ class Generator
                 break;
             case self::FINAL_FIAT:
                 $movements
-                    ->setCellValue("Q{$movementRow}", $sell->exchangeRate)
-                    ->setCellValue("S{$movementRow}", "=G{$parentMovementRow} / I{$parentMovementRow} * B{$movementRow} * Q{$movementRow}")
+                    ->setCellValue("Q{$movementRow}", $sell->exchangeRate ?: 1)
+                    ->setCellValue("S{$movementRow}", $sell->size->unit === self::FINAL_FIAT ? "=B{$movementRow}" : "=G{$parentMovementRow} / I{$parentMovementRow} * B{$movementRow} * Q{$movementRow}")
                     ->setCellValue("T{$movementRow}", "=D{$movementRow}")
                     ->setCellValue("U{$movementRow}", "=T{$movementRow} - S{$movementRow}")
                     ->setCellValue("V{$movementRow}", $sell->total->unit);
+                break;
         }
 
         self::applyUnitColor(
