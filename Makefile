@@ -74,7 +74,7 @@ tests-on-packages:
 		make docker-run-symfony ARGS="cd $${package} && composer update && vendor/bin/phpunit ${ARGS}"; \
 	done
 
-publish: publish-web publish-home publish-clock publish-ffmpeg publish-docker publish-packages
+publish: publish-web publish-home publish-ssdp-faker publish-clock publish-ffmpeg publish-docker publish-packages
 
 publish-packages: static-analysis tests
 	git subsplit init https://github.com/petrknap/trunk
@@ -90,6 +90,11 @@ publish-web:
 publish-home:
 	git subsplit init https://github.com/petrknap/trunk
 	git subsplit publish --heads=master --update "projects/home:git@github.com:petrknap/home.git"
+	rm -rf .subsplit
+
+publish-ssdp-faker:
+	git subsplit init https://github.com/petrknap/trunk
+	git subsplit publish --heads=master --update "projects/ssdp-faker:git@github.com:petrknap/ssdp-faker.git"
 	rm -rf .subsplit
 
 publish-clock:
