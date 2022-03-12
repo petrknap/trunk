@@ -2,7 +2,7 @@
 
 Simple SSDP faker that allows you to forward SSDP services beyond the local network.
 
-You can build Docker image by `docker build . -t ssdp-faker.js:latest` or install `node` locally.
+You can build Docker image by `docker build -t ssdp-faker.js .` or install `node` locally.
 
 ## DLNA forwarding over SSH (LAN - Internet - LAN)
 
