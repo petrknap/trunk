@@ -1,4 +1,5 @@
-const processArgs = process.argv.slice(2),
+const script = process.argv[1],
+    processArgs = process.argv.slice(2),
     ssdp = require('node-ssdp'),
     action = processArgs[0],
     location = processArgs[1],
@@ -12,7 +13,16 @@ switch (action) {
         runServer(location, usns);
         break;
     default:
-        console.log('Unsupported action %o, please read https://github.com/petrknap/ssdp-faker/blob/master/README.md', action);
+        console.log('Unsupported action %o', action);
+        console.log('');
+    case '-h':
+    case '--help':
+    case 'help':
+        console.log('Usage: node %s scan-network', script);
+        console.log('       node %s run-server location [USN1 ...]', script);
+        console.log('');
+        console.log('Visit https://github.com/petrknap/ssdp-faker for more information.');
+        break;
 }
 
 function scanNetwork() {
