@@ -2,15 +2,13 @@
 
 Simple SSDP faker that allows you to forward SSDP services beyond the local network.
 
-You can build Docker image by `docker build -t ssdp-faker.js .` or install `node` locally.
 
 ## DLNA forwarding over SSH (LAN - Internet - LAN)
 
 Get USN(s) and location on real servers LAN:
 
 ```bash
-docker run --rm --net=host --security-opt seccomp:unconfined \
-    ssdp-faker.js scan-network
+node ssdp-faker.js scan-network
 
 # {
 #   EXT: '',
@@ -28,8 +26,7 @@ Create SSH tunnel and fake server on another LAN:
 
 ```bash
 ssh -o ServerAliveInterval=60 -L 0.0.0.0:8200:127.0.0.1:8096 user@real-server.public -N &
-docker run --rm --net=host --security-opt seccomp:unconfined \
-    ssdp-faker.js run-server \
+node ssdp-faker.js run-server \
     http://192.168.0.168:8200/dlna/041668bd-c89e-4be7-a3ff-0702c9ca35cf/description.xml \
     uuid:041668bd-c89e-4be7-a3ff-0702c9ca35cf::urn:schemas-upnp-org:device:MediaServer:1
 
