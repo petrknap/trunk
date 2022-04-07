@@ -36,3 +36,7 @@ node ssdp-faker.js run-server \
 ```
 
 Do not forget to change the location if you use a different IP or port on the thin client.
+
+---
+
+You can [support this project via donation](https://petrknap.github.io/donate.html).
