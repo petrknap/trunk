@@ -25,7 +25,7 @@ node ssdp-faker.js scan-network
 Create SSH tunnel and fake server on another LAN:
 
 ```bash
-ssh -o ServerAliveInterval=60 -L 0.0.0.0:8200:127.0.0.1:8096 user@real-server.public -N &
+ssh -o ServerAliveInterval=60 -L 0.0.0.0:8200:127.0.0.1:8096 user@real-server.public -fN
 node ssdp-faker.js run-server \
     http://192.168.0.168:8200/dlna/041668bd-c89e-4be7-a3ff-0702c9ca35cf/description.xml \
     uuid:041668bd-c89e-4be7-a3ff-0702c9ca35cf::urn:schemas-upnp-org:device:MediaServer:1
