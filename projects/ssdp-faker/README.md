@@ -2,6 +2,8 @@
 
 Simple SSDP faker that allows you to forward SSDP services beyond the local network.
 
+You can use it via command `node ssdp-faker.js` or `docker run --net=host petrknap/ssdp-faker`.
+
 
 ## DLNA forwarding over SSH (LAN - Internet - LAN)
 
