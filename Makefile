@@ -1,3 +1,8 @@
+SSDP_FAKER_NODE_VERSION := $(shell cat projects/ssdp-faker/Dockerfile | sed -n -e '/^ARG NODE_VERSION=/p' | sed 's/ARG NODE_VERSION=//g')
+SSDP_FAKER_VERSION := $(shell cat projects/ssdp-faker/Dockerfile | sed -n -e '/^ARG SSDP_FAKER_VERSION=/p' | sed 's/ARG SSDP_FAKER_VERSION=//g')
+SSDP_FAKER_MAJOR_MINOR_VERSION := $(shell echo $(SSDP_FAKER_VERSION) | cut -d . -f -2)
+SSDP_FAKER_MAJOR_VERSION := $(shell echo $(SSDP_FAKER_VERSION) | cut -d . -f -1)
+
 .PHONY: *
 
 all: docker synchronization composer-update tests
@@ -130,9 +135,15 @@ publish-docker-selenium-needle:
 	rm -rf .subsplit
 
 publish-docker-ssdp-faker:
-	git subsplit init https://github.com/petrknap/trunk
-	git subsplit publish --heads=master --update "docker/ssdp-faker:git@github.com:petrknap/docker-ssdp-faker.git"
-	rm -rf .subsplit
+	docker build projects/ssdp-faker \
+	--tag petrknap/ssdp-faker:${SSDP_FAKER_VERSION} \
+	--tag petrknap/ssdp-faker:${SSDP_FAKER_VERSION}-${SSDP_FAKER_NODE_VERSION} \
+	--tag petrknap/ssdp-faker:${SSDP_FAKER_MAJOR_MINOR_VERSION} \
+	--tag petrknap/ssdp-faker:${SSDP_FAKER_MAJOR_MINOR_VERSION}-${SSDP_FAKER_NODE_VERSION} \
+	--tag petrknap/ssdp-faker:${SSDP_FAKER_MAJOR_VERSION} \
+	--tag petrknap/ssdp-faker:${SSDP_FAKER_MAJOR_VERSION}-${SSDP_FAKER_NODE_VERSION} \
+	--tag petrknap/ssdp-faker:latest
+	docker push petrknap/ssdp-faker
 
 publish-docker-syslog:
 	git subsplit init https://github.com/petrknap/trunk
