@@ -1,4 +1,7 @@
-FROM nginx:latest
+ARG PROJECT_VERSION=1.3.0
+ARG NGINX_VERSION=1.20
+
+FROM nginx:${NGINX_VERSION}
 
 RUN apt update \
     && apt install -y \
@@ -45,6 +48,8 @@ ENV DEFAULT_SERVER='\
 '
 
 CMD bash /command.bash
+
+HEALTHCHECK --interval=15s --timeout=2s --retries=3 CMD curl --fail http://localhost/
 
 EXPOSE 80
 EXPOSE 443
