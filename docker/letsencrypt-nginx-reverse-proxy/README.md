@@ -78,3 +78,7 @@ spec:
   externalIPs:
     - 1.2.3.4
 ```
+
+---
+
+You can [support this project via donation](https://petrknap.github.io/donate.html).
