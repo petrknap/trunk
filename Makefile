@@ -102,6 +102,20 @@ publish-ssdp-faker:
 	git subsplit init https://github.com/petrknap/trunk
 	git subsplit publish --heads=master --update "projects/ssdp-faker:git@github.com:petrknap/ssdp-faker.git"
 	rm -rf .subsplit
+	curl --fail https://github.com/petrknap/ssdp-faker/releases/tag/v${SSDP_FAKER_PROJECT_VERSION} \
+	&& docker build projects/ssdp-faker \
+	--tag petrknap/ssdp-faker:${SSDP_FAKER_PROJECT_VERSION} \
+	--tag petrknap/ssdp-faker:${SSDP_FAKER_PROJECT_VERSION}-${SSDP_FAKER_NODE_MAJOR_MINOR_VERSION} \
+	--tag petrknap/ssdp-faker:${SSDP_FAKER_PROJECT_VERSION}-${SSDP_FAKER_NODE_MAJOR_VERSION} \
+	--tag petrknap/ssdp-faker:${SSDP_FAKER_PROJECT_MAJOR_MINOR_VERSION} \
+	--tag petrknap/ssdp-faker:${SSDP_FAKER_PROJECT_MAJOR_MINOR_VERSION}-${SSDP_FAKER_NODE_MAJOR_MINOR_VERSION} \
+	--tag petrknap/ssdp-faker:${SSDP_FAKER_PROJECT_MAJOR_MINOR_VERSION}-${SSDP_FAKER_NODE_MAJOR_VERSION} \
+	--tag petrknap/ssdp-faker:${SSDP_FAKER_PROJECT_MAJOR_VERSION} \
+	--tag petrknap/ssdp-faker:${SSDP_FAKER_PROJECT_MAJOR_VERSION}-${SSDP_FAKER_NODE_MAJOR_MINOR_VERSION} \
+	--tag petrknap/ssdp-faker:${SSDP_FAKER_PROJECT_MAJOR_VERSION}-${SSDP_FAKER_NODE_MAJOR_VERSION} \
+	--tag petrknap/ssdp-faker:latest \
+	|| docker build projects/ssdp-faker --tag petrknap/ssdp-faker:latest
+	docker push petrknap/ssdp-faker
 
 publish-clock:
 	git subsplit init https://github.com/petrknap/trunk
@@ -113,7 +127,7 @@ publish-ffmpeg:
 	git subsplit publish --heads=master --update "projects/ffmpeg:git@github.com:petrknap/ffmpeg.git"
 	rm -rf .subsplit
 
-publish-docker: publish-docker-letsencrypt-nginx-reverse-proxy publish-docker-myetherwallet-mew publish-docker-n2n-supernode publish-docker-selenium-needle publish-docker-ssdp-faker publish-docker-syslog
+publish-docker: publish-docker-letsencrypt-nginx-reverse-proxy publish-docker-myetherwallet-mew publish-docker-n2n-supernode publish-docker-selenium-needle publish-docker-syslog
 
 publish-docker-letsencrypt-nginx-reverse-proxy:
 	git subsplit init https://github.com/petrknap/trunk
@@ -134,20 +148,6 @@ publish-docker-selenium-needle:
 	git subsplit init https://github.com/petrknap/trunk
 	git subsplit publish --heads=master --update "docker/selenium-needle:git@github.com:petrknap/docker-selenium-needle.git"
 	rm -rf .subsplit
-
-publish-docker-ssdp-faker:
-	docker build projects/ssdp-faker \
-	--tag petrknap/ssdp-faker:${SSDP_FAKER_PROJECT_VERSION} \
-	--tag petrknap/ssdp-faker:${SSDP_FAKER_PROJECT_VERSION}-${SSDP_FAKER_NODE_MAJOR_MINOR_VERSION} \
-	--tag petrknap/ssdp-faker:${SSDP_FAKER_PROJECT_VERSION}-${SSDP_FAKER_NODE_MAJOR_VERSION} \
-	--tag petrknap/ssdp-faker:${SSDP_FAKER_PROJECT_MAJOR_MINOR_VERSION} \
-	--tag petrknap/ssdp-faker:${SSDP_FAKER_PROJECT_MAJOR_MINOR_VERSION}-${SSDP_FAKER_NODE_MAJOR_MINOR_VERSION} \
-	--tag petrknap/ssdp-faker:${SSDP_FAKER_PROJECT_MAJOR_MINOR_VERSION}-${SSDP_FAKER_NODE_MAJOR_VERSION} \
-	--tag petrknap/ssdp-faker:${SSDP_FAKER_PROJECT_MAJOR_VERSION} \
-	--tag petrknap/ssdp-faker:${SSDP_FAKER_PROJECT_MAJOR_VERSION}-${SSDP_FAKER_NODE_MAJOR_MINOR_VERSION} \
-	--tag petrknap/ssdp-faker:${SSDP_FAKER_PROJECT_MAJOR_VERSION}-${SSDP_FAKER_NODE_MAJOR_VERSION} \
-	--tag petrknap/ssdp-faker:latest
-	docker push petrknap/ssdp-faker
 
 publish-docker-syslog:
 	git subsplit init https://github.com/petrknap/trunk
