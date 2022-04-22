@@ -1,7 +1,8 @@
-SSDP_FAKER_NODE_VERSION := $(shell cat projects/ssdp-faker/Dockerfile | sed -n -e '/^ARG NODE_VERSION=/p' | sed 's/ARG NODE_VERSION=//g')
-SSDP_FAKER_VERSION := $(shell cat projects/ssdp-faker/Dockerfile | sed -n -e '/^ARG SSDP_FAKER_VERSION=/p' | sed 's/ARG SSDP_FAKER_VERSION=//g')
-SSDP_FAKER_MAJOR_MINOR_VERSION := $(shell echo $(SSDP_FAKER_VERSION) | cut -d . -f -2)
-SSDP_FAKER_MAJOR_VERSION := $(shell echo $(SSDP_FAKER_VERSION) | cut -d . -f -1)
+SSDP_FAKER_PROJECT_VERSION := $(shell cat projects/ssdp-faker/Dockerfile | sed -n -e '/^ARG PROJECT_VERSION=/p' | sed 's/ARG PROJECT_VERSION=//g')
+SSDP_FAKER_PROJECT_MAJOR_MINOR_VERSION := $(shell echo $(SSDP_FAKER_PROJECT_VERSION) | cut -d . -f -2)
+SSDP_FAKER_PROJECT_MAJOR_VERSION := $(shell echo $(SSDP_FAKER_PROJECT_VERSION) | cut -d . -f -1)
+SSDP_FAKER_NODE_MAJOR_MINOR_VERSION := $(shell cat projects/ssdp-faker/Dockerfile | sed -n -e '/^ARG NODE_VERSION=/p' | sed 's/ARG NODE_VERSION=//g')
+SSDP_FAKER_NODE_MAJOR_VERSION := $(shell echo $(SSDP_FAKER_NODE_MAJOR_MINOR_VERSION) | cut -d . -f -1)
 
 .PHONY: *
 
@@ -136,12 +137,15 @@ publish-docker-selenium-needle:
 
 publish-docker-ssdp-faker:
 	docker build projects/ssdp-faker \
-	--tag petrknap/ssdp-faker:${SSDP_FAKER_VERSION} \
-	--tag petrknap/ssdp-faker:${SSDP_FAKER_VERSION}-${SSDP_FAKER_NODE_VERSION} \
-	--tag petrknap/ssdp-faker:${SSDP_FAKER_MAJOR_MINOR_VERSION} \
-	--tag petrknap/ssdp-faker:${SSDP_FAKER_MAJOR_MINOR_VERSION}-${SSDP_FAKER_NODE_VERSION} \
-	--tag petrknap/ssdp-faker:${SSDP_FAKER_MAJOR_VERSION} \
-	--tag petrknap/ssdp-faker:${SSDP_FAKER_MAJOR_VERSION}-${SSDP_FAKER_NODE_VERSION} \
+	--tag petrknap/ssdp-faker:${SSDP_FAKER_PROJECT_VERSION} \
+	--tag petrknap/ssdp-faker:${SSDP_FAKER_PROJECT_VERSION}-${SSDP_FAKER_NODE_MAJOR_MINOR_VERSION} \
+	--tag petrknap/ssdp-faker:${SSDP_FAKER_PROJECT_VERSION}-${SSDP_FAKER_NODE_MAJOR_VERSION} \
+	--tag petrknap/ssdp-faker:${SSDP_FAKER_PROJECT_MAJOR_MINOR_VERSION} \
+	--tag petrknap/ssdp-faker:${SSDP_FAKER_PROJECT_MAJOR_MINOR_VERSION}-${SSDP_FAKER_NODE_MAJOR_MINOR_VERSION} \
+	--tag petrknap/ssdp-faker:${SSDP_FAKER_PROJECT_MAJOR_MINOR_VERSION}-${SSDP_FAKER_NODE_MAJOR_VERSION} \
+	--tag petrknap/ssdp-faker:${SSDP_FAKER_PROJECT_MAJOR_VERSION} \
+	--tag petrknap/ssdp-faker:${SSDP_FAKER_PROJECT_MAJOR_VERSION}-${SSDP_FAKER_NODE_MAJOR_MINOR_VERSION} \
+	--tag petrknap/ssdp-faker:${SSDP_FAKER_PROJECT_MAJOR_VERSION}-${SSDP_FAKER_NODE_MAJOR_VERSION} \
 	--tag petrknap/ssdp-faker:latest
 	docker push petrknap/ssdp-faker
 
