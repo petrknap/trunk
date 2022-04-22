@@ -1,8 +1,16 @@
+LETSENCRYPT_NGINX_REVERSE_PROXY_PROJECT_VERSION := $(shell cat projects/letsencrypt-nginx-reverse-proxy/Dockerfile | sed -n -e '/^ARG PROJECT_VERSION=/p' | sed 's/ARG PROJECT_VERSION=//g')
+LETSENCRYPT_NGINX_REVERSE_PROXY_PROJECT_MAJOR_MINOR_VERSION := $(shell echo $(LETSENCRYPT_NGINX_REVERSE_PROXY_PROJECT_VERSION) | cut -d . -f -2)
+LETSENCRYPT_NGINX_REVERSE_PROXY_PROJECT_MAJOR_VERSION := $(shell echo $(LETSENCRYPT_NGINX_REVERSE_PROXY_PROJECT_VERSION) | cut -d . -f -1)
+LETSENCRYPT_NGINX_REVERSE_PROXY_NGINX_MAJOR_MINOR_VERSION := $(shell cat projects/letsencrypt-nginx-reverse-proxy/Dockerfile | sed -n -e '/^ARG NGINX_VERSION=/p' | sed 's/ARG NGINX_VERSION=//g')
+LETSENCRYPT_NGINX_REVERSE_PROXY_NGINX_MAJOR_VERSION := $(shell echo $(LETSENCRYPT_NGINX_REVERSE_PROXY_NGINX_MAJOR_MINOR_VERSION) | cut -d . -f -1)
+
 SSDP_FAKER_PROJECT_VERSION := $(shell cat projects/ssdp-faker/Dockerfile | sed -n -e '/^ARG PROJECT_VERSION=/p' | sed 's/ARG PROJECT_VERSION=//g')
 SSDP_FAKER_PROJECT_MAJOR_MINOR_VERSION := $(shell echo $(SSDP_FAKER_PROJECT_VERSION) | cut -d . -f -2)
 SSDP_FAKER_PROJECT_MAJOR_VERSION := $(shell echo $(SSDP_FAKER_PROJECT_VERSION) | cut -d . -f -1)
 SSDP_FAKER_NODE_MAJOR_MINOR_VERSION := $(shell cat projects/ssdp-faker/Dockerfile | sed -n -e '/^ARG NODE_VERSION=/p' | sed 's/ARG NODE_VERSION=//g')
 SSDP_FAKER_NODE_MAJOR_VERSION := $(shell echo $(SSDP_FAKER_NODE_MAJOR_MINOR_VERSION) | cut -d . -f -1)
+
+
 
 .PHONY: *
 
@@ -98,6 +106,25 @@ publish-home:
 	git subsplit publish --heads=master --update "projects/home:git@github.com:petrknap/home.git"
 	rm -rf .subsplit
 
+publish-letsencrypt-nginx-reverse-proxy:
+	git subsplit init https://github.com/petrknap/trunk
+	git subsplit publish --heads=master --update "projects/letsencrypt-nginx-reverse-proxy:git@github.com:petrknap/letsencrypt-nginx-reverse-proxy.git"
+	rm -rf .subsplit
+	curl --fail https://github.com/petrknap/letsencrypt-nginx-reverse-proxy/releases/tag/v${LETSENCRYPT_NGINX_REVERSE_PROXY_PROJECT_VERSION} \
+	&& docker build projects/letsencrypt-nginx-reverse-proxy \
+	--tag petrknap/letsencrypt-nginx-reverse-proxy:${LETSENCRYPT_NGINX_REVERSE_PROXY_PROJECT_VERSION} \
+	--tag petrknap/letsencrypt-nginx-reverse-proxy:${LETSENCRYPT_NGINX_REVERSE_PROXY_PROJECT_VERSION}-${LETSENCRYPT_NGINX_REVERSE_PROXY_NGINX_MAJOR_MINOR_VERSION} \
+	--tag petrknap/letsencrypt-nginx-reverse-proxy:${LETSENCRYPT_NGINX_REVERSE_PROXY_PROJECT_VERSION}-${LETSENCRYPT_NGINX_REVERSE_PROXY_NGINX_MAJOR_VERSION} \
+	--tag petrknap/letsencrypt-nginx-reverse-proxy:${LETSENCRYPT_NGINX_REVERSE_PROXY_PROJECT_MAJOR_MINOR_VERSION} \
+	--tag petrknap/letsencrypt-nginx-reverse-proxy:${LETSENCRYPT_NGINX_REVERSE_PROXY_PROJECT_MAJOR_MINOR_VERSION}-${LETSENCRYPT_NGINX_REVERSE_PROXY_NGINX_MAJOR_MINOR_VERSION} \
+	--tag petrknap/letsencrypt-nginx-reverse-proxy:${LETSENCRYPT_NGINX_REVERSE_PROXY_PROJECT_MAJOR_MINOR_VERSION}-${LETSENCRYPT_NGINX_REVERSE_PROXY_NGINX_MAJOR_VERSION} \
+	--tag petrknap/letsencrypt-nginx-reverse-proxy:${LETSENCRYPT_NGINX_REVERSE_PROXY_PROJECT_MAJOR_VERSION} \
+	--tag petrknap/letsencrypt-nginx-reverse-proxy:${LETSENCRYPT_NGINX_REVERSE_PROXY_PROJECT_MAJOR_VERSION}-${LETSENCRYPT_NGINX_REVERSE_PROXY_NGINX_MAJOR_MINOR_VERSION} \
+	--tag petrknap/letsencrypt-nginx-reverse-proxy:${LETSENCRYPT_NGINX_REVERSE_PROXY_PROJECT_MAJOR_VERSION}-${LETSENCRYPT_NGINX_REVERSE_PROXY_NGINX_MAJOR_VERSION} \
+	--tag petrknap/letsencrypt-nginx-reverse-proxy:latest \
+	|| docker build projects/letsencrypt-nginx-reverse-proxy --tag petrknap/letsencrypt-nginx-reverse-proxy:latest
+	docker push petrknap/letsencrypt-nginx-reverse-proxy
+
 publish-ssdp-faker:
 	git subsplit init https://github.com/petrknap/trunk
 	git subsplit publish --heads=master --update "projects/ssdp-faker:git@github.com:petrknap/ssdp-faker.git"
@@ -127,12 +154,7 @@ publish-ffmpeg:
 	git subsplit publish --heads=master --update "projects/ffmpeg:git@github.com:petrknap/ffmpeg.git"
 	rm -rf .subsplit
 
-publish-docker: publish-docker-letsencrypt-nginx-reverse-proxy publish-docker-myetherwallet-mew publish-docker-n2n-supernode publish-docker-selenium-needle publish-docker-syslog
-
-publish-docker-letsencrypt-nginx-reverse-proxy:
-	git subsplit init https://github.com/petrknap/trunk
-	git subsplit publish --heads=master --update "docker/letsencrypt-nginx-reverse-proxy:git@github.com:petrknap/docker-letsencrypt-nginx-reverse-proxy.git"
-	rm -rf .subsplit
+publish-docker: publish-docker-myetherwallet-mew publish-docker-n2n-supernode publish-docker-selenium-needle publish-docker-syslog
 
 publish-docker-myetherwallet-mew:
 	git subsplit init https://github.com/petrknap/trunk
