@@ -136,3 +136,10 @@
     mode: 0400
     force: yes
   with_items: "{{ media_directories }}"
+
+- name: Reboot every month
+  become: yes
+  cron:
+    name: "Reboot"
+    special_time: monthly
+    job: /sbin/reboot
