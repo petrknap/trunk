@@ -51,7 +51,7 @@
     restart: yes
     restart_policy: always
     volumes:
-      - "{{ configuration_directory }}/remove-ips-from-list.php:/var/www/html/remove-ips-from-list.php"
+      - "{{ configuration_directory }}/remove-ips-from-list.php:/var/www/html/remove-ips-from-list.php:ro"
       - "{{ configuration_directory }}/etc/pihole/:/etc/pihole/"
       - "{{ configuration_directory }}/etc/dnsmasq.d/:/etc/dnsmasq.d/"
     ports:
