@@ -21,6 +21,20 @@ class Loader
     const COINBASE_FILL__TOTAL_UNIT = self::COINBASE_FILL__FEE_UNIT;
     const COINBASE_FILL__REFERENCE = 'trade id';
 
+    const COINBASE_TRANSACTIONS__HEADER = '/^.*\s*Transactions\s+User,[^,]*,[^,]*\s+/i';
+    const COINBASE_TRANSACTIONS__CREATED_AT = 'Timestamp';
+    const COINBASE_TRANSACTIONS__TYPE = 'Transaction Type';
+    const COINBASE_TRANSACTIONS__SIZE = 'Quantity Transacted';
+    const COINBASE_TRANSACTIONS__SIZE_UNIT = 'Asset';
+    const COINBASE_TRANSACTIONS__FEE = 'Fees and/or Spread';
+    const COINBASE_TRANSACTIONS__FEE_UNIT = 'Spot Price Currency';
+    const COINBASE_TRANSACTIONS__SPREAD = self::COINBASE_TRANSACTIONS__FEE;
+    const COINBASE_TRANSACTIONS__SPREAD_UNIT = self::COINBASE_TRANSACTIONS__FEE_UNIT;
+    const COINBASE_TRANSACTIONS__TOTAL = 'Total (inclusive of fees and/or spread)';
+    const COINBASE_TRANSACTIONS__TOTAL_UNIT = self::COINBASE_TRANSACTIONS__FEE_UNIT;
+    const COINBASE_TRANSACTIONS__NOTE = 'Notes';
+    const COINBASE_TRANSACTIONS__REFERENCE = self::COINBASE_TRANSACTIONS__NOTE;
+
     const MOVEMENT__CREATED_AT = self::COINBASE_FILL__CREATED_AT;
     const MOVEMENT__SIZE = self::COINBASE_FILL__SIZE;
     const MOVEMENT__SIZE_UNIT = self::COINBASE_FILL__SIZE_UNIT;
@@ -54,22 +68,29 @@ class Loader
     {
         $operations = [];
         foreach ($inputFiles as $inputFile) {
-            $rows = $this->serializer->decode(
-                file_get_contents($inputFile),
-                'csv'
+            $inputFileContent = preg_replace(
+                self::COINBASE_TRANSACTIONS__HEADER,
+                '',
+                file_get_contents($inputFile)
             );
+            $rows = $this->serializer->decode($inputFileContent, 'csv');
 
             foreach ($rows as $row) {
                 try {
-                    $operation = $this->createCoinbaseFill($row);
+                    $ops = $this->createCoinbaseTransaction($row);
                 } catch (\Exception $ignored) {
                     try {
-                        $operation = $this->createMovement($row);
+                        $ops = [$this->createCoinbaseFill($row)];
                     } catch (\Exception $ignored) {
-                        $operation = $this->createCreation($row);
+                        try {
+                            $ops = [$this->createMovement($row)];
+                        } catch (\Exception $ignored) {
+                            $ops = [$this->createCreation($row)];
+                        }
                     }
                 }
-                $operations["{$operation}"] = $operation;
+                foreach ($ops as $op)
+                    $operations["{$op}"] = $op;
             }
         }
 
@@ -92,6 +113,144 @@ class Loader
                 throw new \Exception("Missing key: {$key}");
             }
         }
+    }
+
+    private function createCoinbaseTransaction(array $coinbaseTransactionData): array
+    {
+        $this->throwIfKeyIsNotSet([
+            self::COINBASE_TRANSACTIONS__CREATED_AT,
+            self::COINBASE_TRANSACTIONS__TYPE,
+            self::COINBASE_TRANSACTIONS__SIZE,
+            self::COINBASE_TRANSACTIONS__SIZE_UNIT,
+            self::COINBASE_TRANSACTIONS__FEE,
+            self::COINBASE_TRANSACTIONS__FEE_UNIT,
+            self::COINBASE_TRANSACTIONS__SPREAD,
+            self::COINBASE_TRANSACTIONS__SPREAD_UNIT,
+            self::COINBASE_TRANSACTIONS__TOTAL,
+            self::COINBASE_TRANSACTIONS__TOTAL_UNIT,
+            self::COINBASE_TRANSACTIONS__NOTE,
+        ], $coinbaseTransactionData);
+
+        $createdAt = new \DateTimeImmutable($coinbaseTransactionData[self::COINBASE_TRANSACTIONS__CREATED_AT]);
+        switch (strtolower($coinbaseTransactionData[self::COINBASE_TRANSACTIONS__TYPE])) {
+            case 'send':
+            case 'receive':
+                return [];
+            case 'buy':
+            case 'advanced trade buy':
+                return [new AssetMovement(
+                    $createdAt,
+                    new Asset(
+                        $coinbaseTransactionData[self::COINBASE_TRANSACTIONS__SIZE],
+                        $coinbaseTransactionData[self::COINBASE_TRANSACTIONS__SIZE_UNIT]
+                    ),
+                    new Asset(
+                        $coinbaseTransactionData[self::COINBASE_TRANSACTIONS__FEE],
+                        $coinbaseTransactionData[self::COINBASE_TRANSACTIONS__FEE_UNIT]
+                    ),
+                    new Asset(
+                        ($coinbaseTransactionData[self::COINBASE_TRANSACTIONS__TOTAL] + $coinbaseTransactionData[self::COINBASE_TRANSACTIONS__FEE]) * -1,
+                        $coinbaseTransactionData[self::COINBASE_TRANSACTIONS__TOTAL_UNIT]
+                    ),
+                    null,
+                    $coinbaseTransactionData[self::COINBASE_TRANSACTIONS__REFERENCE]
+                )];
+            case 'sell':
+            case 'advanced trade sell':
+                return [new AssetMovement(
+                    $createdAt,
+                    new Asset(
+                        $coinbaseTransactionData[self::COINBASE_TRANSACTIONS__SIZE] * -1,
+                        $coinbaseTransactionData[self::COINBASE_TRANSACTIONS__SIZE_UNIT]
+                    ),
+                    new Asset(
+                        $coinbaseTransactionData[self::COINBASE_TRANSACTIONS__FEE],
+                        $coinbaseTransactionData[self::COINBASE_TRANSACTIONS__FEE_UNIT]
+                    ),
+                    new Asset(
+                        $coinbaseTransactionData[self::COINBASE_TRANSACTIONS__TOTAL] + $coinbaseTransactionData[self::COINBASE_TRANSACTIONS__FEE],
+                        $coinbaseTransactionData[self::COINBASE_TRANSACTIONS__TOTAL_UNIT]
+                    ),
+                    null,
+                    $coinbaseTransactionData[self::COINBASE_TRANSACTIONS__REFERENCE]
+                )];
+            case 'learning reward':
+                return [new AssetMovement(
+                    $createdAt,
+                    new Asset(
+                        $coinbaseTransactionData[self::COINBASE_TRANSACTIONS__SIZE],
+                        $coinbaseTransactionData[self::COINBASE_TRANSACTIONS__SIZE_UNIT]
+                    ),
+                    new Asset(
+                        $coinbaseTransactionData[self::COINBASE_TRANSACTIONS__FEE],
+                        $coinbaseTransactionData[self::COINBASE_TRANSACTIONS__FEE_UNIT]
+                    ),
+                    new Asset(
+                        ($coinbaseTransactionData[self::COINBASE_TRANSACTIONS__TOTAL] + $coinbaseTransactionData[self::COINBASE_TRANSACTIONS__FEE]) * -1,
+                        $coinbaseTransactionData[self::COINBASE_TRANSACTIONS__TOTAL_UNIT]
+                    ),
+                    null,
+                    $coinbaseTransactionData[self::COINBASE_TRANSACTIONS__REFERENCE]
+                ), new AssetMovement(
+                    $createdAt,
+                    new Asset(
+                        0,
+                        $coinbaseTransactionData[self::COINBASE_TRANSACTIONS__SIZE_UNIT]
+                    ),
+                    new Asset(
+                        0,
+                        $coinbaseTransactionData[self::COINBASE_TRANSACTIONS__FEE_UNIT]
+                    ),
+                    new Asset(
+                        $coinbaseTransactionData[self::COINBASE_TRANSACTIONS__TOTAL],
+                        $coinbaseTransactionData[self::COINBASE_TRANSACTIONS__TOTAL_UNIT]
+                    ),
+                    null,
+                    $coinbaseTransactionData[self::COINBASE_TRANSACTIONS__REFERENCE]
+                )];
+            case 'convert':
+                $parsed = [null, null, null];
+                preg_match(
+                    '/Converted [0-9.]+ [^\s]+ to ([0-9.]+) ([^\s]+)/i',
+                    $coinbaseTransactionData[self::COINBASE_TRANSACTIONS__NOTE],
+                    $parsed
+                );
+                return [new AssetMovement(
+                    $createdAt,
+                    new Asset(
+                        -$coinbaseTransactionData[self::COINBASE_TRANSACTIONS__SIZE],
+                        $coinbaseTransactionData[self::COINBASE_TRANSACTIONS__SIZE_UNIT]
+                    ),
+                    new Asset(
+                        $coinbaseTransactionData[self::COINBASE_TRANSACTIONS__SPREAD],
+                        $coinbaseTransactionData[self::COINBASE_TRANSACTIONS__SPREAD_UNIT]
+                    ),
+                    new Asset(
+                        $coinbaseTransactionData[self::COINBASE_TRANSACTIONS__TOTAL],
+                        $coinbaseTransactionData[self::COINBASE_TRANSACTIONS__TOTAL_UNIT]
+                    ),
+                    null,
+                    $coinbaseTransactionData[self::COINBASE_TRANSACTIONS__REFERENCE]
+                ), new AssetMovement(
+                    $createdAt,
+                    new Asset(
+                        $parsed[1],
+                        $parsed[2]
+                    ),
+                    new Asset(
+                        0,
+                        $coinbaseTransactionData[self::COINBASE_TRANSACTIONS__FEE_UNIT]
+                    ),
+                    new Asset(
+                        ($coinbaseTransactionData[self::COINBASE_TRANSACTIONS__TOTAL] - $coinbaseTransactionData[self::COINBASE_TRANSACTIONS__SPREAD]) * -1,
+                        $coinbaseTransactionData[self::COINBASE_TRANSACTIONS__TOTAL_UNIT]
+                    ),
+                    null,
+                    $coinbaseTransactionData[self::COINBASE_TRANSACTIONS__REFERENCE]
+                )];
+        }
+
+        throw new \Exception("Unsupported transaction type: {$coinbaseTransactionData[self::COINBASE_TRANSACTIONS__TYPE]}");
     }
 
     private function createCoinbaseFill(array $coinbaseFillData): AssetMovement

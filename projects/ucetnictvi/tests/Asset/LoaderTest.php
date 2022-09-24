@@ -175,12 +175,77 @@ class LoaderTest extends TestCase
                 null,
                 8
             ),
+            new AssetMovement(
+                new \DateTimeImmutable('2022-09-21T01:22:27Z'),
+                new Asset(0.00085932, 'BTC'),
+                new Asset(0, 'EUR'),
+                new Asset(-19.83, 'EUR'),
+                null,
+                'Bought 0.00085932 BTC for €19.83 EUR'
+            ),
+            new AssetMovement(
+                new \DateTimeImmutable('2022-09-21T02:56:55Z'),
+                new Asset(0.000216, 'BTC'),
+                new Asset(0.018040, 'EUR'),
+                new Asset(-4.54804, 'EUR'),
+                null,
+                'Bought 0.000216 BTC for €4.53 EUR on BTC-EUR'
+            ),
+            new AssetMovement(
+                new \DateTimeImmutable('2022-09-21T04:05:21Z'),
+                new Asset(-0.00719927, 'ETH'),
+                new Asset(0.990000, 'EUR'),
+                new Asset(10, 'EUR'),
+                null,
+                'Sold 0.00719927 ETH for €9.01 EUR'
+            ),
+            new AssetMovement(
+                new \DateTimeImmutable('2022-09-21T05:49:11Z'),
+                new Asset(-0.008299, 'ETH'),
+                new Asset(0.058159, 'EUR'),
+                new Asset(14.538159, 'EUR'),
+                null,
+                'Sold 0.008299 ETH for €14.48 EUR on ETH-EUR'
+            ),
+            new AssetMovement(
+                new \DateTimeImmutable('2022-09-21T06:37:17Z'),
+                new Asset(14.75579164, 'XCN'),
+                new Asset(0, 'EUR'),
+                new Asset(-0.890000, 'EUR'),
+                null,
+                'Received 14.75579164 XCN from Coinbase as a learning reward'
+            ),
+            new AssetMovement(
+                new \DateTimeImmutable('2022-09-21T06:37:17Z'),
+                new Asset(-0, 'XCN'),
+                new Asset(0, 'EUR'),
+                new Asset(0.890000, 'EUR'),
+                null,
+                'Received 14.75579164 XCN from Coinbase as a learning reward'
+            ),
+            new AssetMovement(
+                new \DateTimeImmutable('2022-09-21T07:08:38Z'),
+                new Asset(-0.00716317, 'ETH'),
+                new Asset(0.120000, 'EUR'),
+                new Asset(9.95, 'EUR'),
+                null,
+                'Converted 0.00716317 ETH to 0.00023475 BTC'
+            ),
+            new AssetMovement(
+                new \DateTimeImmutable('2022-09-21T07:08:38Z'),
+                new Asset(0.00023475, 'BTC'),
+                new Asset(0, 'EUR'),
+                new Asset(-9.83, 'EUR'),
+                null,
+                'Converted 0.00716317 ETH to 0.00023475 BTC'
+            ),
         ];
         $this->assertEquals(
             $expectedTransactions,
             $this->getLoader()->getAllAssetOperations([
                 self::INPUT_DIRECTORY . '/extra_movements.csv',
                 self::INPUT_DIRECTORY . '/coinbase_fills.csv',
+                self::INPUT_DIRECTORY . '/coinbase_transactions_history_report.csv',
                 self::INPUT_DIRECTORY . '/creations.csv',
             ])
         );
