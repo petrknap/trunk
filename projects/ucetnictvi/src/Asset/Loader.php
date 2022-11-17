@@ -175,6 +175,7 @@ class Loader
                     $coinbaseTransactionData[self::COINBASE_TRANSACTIONS__REFERENCE]
                 )];
             case 'learning reward':
+            case 'rewards income':
                 return [new AssetMovement(
                     $createdAt,
                     new Asset(

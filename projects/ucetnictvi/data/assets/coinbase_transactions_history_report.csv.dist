@@ -14,3 +14,4 @@ Timestamp,Transaction Type,Asset,Quantity Transacted,Spot Price Currency,Spot Pr
 2022-09-21T05:49:11Z,Advanced Trade Sell,ETH,0.008299,EUR,1752.00,14.54,14.48,0.058159,Sold 0.008299 ETH for €14.48 EUR on ETH-EUR
 2022-09-21T06:37:17Z,Learning Reward,XCN,14.75579164,EUR,0.060000,0.890000,0.890000,0.00,Received 14.75579164 XCN from Coinbase as a learning reward
 2022-09-21T07:08:38Z,Convert,ETH,0.00716317,EUR,1389.05,9.83,9.95,0.120000,Converted 0.00716317 ETH to 0.00023475 BTC
+2022-11-08T10:20:22Z,Rewards Income,SOL,0.000508382,EUR,28.43,0.010000,0.010000,0.00,Received 0.00050838 SOL from Coinbase Rewards
