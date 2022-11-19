@@ -239,6 +239,22 @@ class LoaderTest extends TestCase
                 null,
                 'Converted 0.00716317 ETH to 0.00023475 BTC'
             ),
+            new AssetMovement(
+                new \DateTimeImmutable('2022-11-08T10:20:22Z'),
+                new Asset(0.000508382, 'SOL'),
+                new Asset(0, 'EUR'),
+                new Asset(-0.01, 'EUR'),
+                null,
+                'Received 0.00050838 SOL from Coinbase Rewards'
+            ),
+            new AssetMovement(
+                new \DateTimeImmutable('2022-11-08T10:20:22Z'),
+                new Asset(-0, 'SOL'),
+                new Asset(0, 'EUR'),
+                new Asset(0.01, 'EUR'),
+                null,
+                'Received 0.00050838 SOL from Coinbase Rewards'
+            ),
         ];
         $this->assertEquals(
             $expectedTransactions,
