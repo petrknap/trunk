@@ -54,10 +54,12 @@ class Loader
     const CREATION__PRICE_UNIT = 'price unit';
 
     private $serializer;
+    private $oneSecondOffset;
 
     public function __construct(Serializer $serializer)
     {
         $this->serializer = $serializer;
+        $this->oneSecondOffset = new \DateInterval('PT1S');
     }
 
     /**
@@ -193,7 +195,7 @@ class Loader
                     null,
                     $coinbaseTransactionData[self::COINBASE_TRANSACTIONS__REFERENCE]
                 ), new AssetMovement(
-                    $createdAt,
+                    $createdAt->add($this->oneSecondOffset),
                     new Asset(
                         0,
                         $coinbaseTransactionData[self::COINBASE_TRANSACTIONS__SIZE_UNIT]
@@ -233,7 +235,7 @@ class Loader
                     null,
                     $coinbaseTransactionData[self::COINBASE_TRANSACTIONS__REFERENCE]
                 ), new AssetMovement(
-                    $createdAt,
+                    $createdAt->add($this->oneSecondOffset),
                     new Asset(
                         $parsed[1],
                         $parsed[2]

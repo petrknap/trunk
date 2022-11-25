@@ -216,7 +216,7 @@ class LoaderTest extends TestCase
                 'Received 14.75579164 XCN from Coinbase as a learning reward'
             ),
             new AssetMovement(
-                new \DateTimeImmutable('2022-09-21T06:37:17Z'),
+                new \DateTimeImmutable('2022-09-21T06:37:18Z'),
                 new Asset(-0, 'XCN'),
                 new Asset(0, 'EUR'),
                 new Asset(0.890000, 'EUR'),
@@ -232,7 +232,7 @@ class LoaderTest extends TestCase
                 'Converted 0.00716317 ETH to 0.00023475 BTC'
             ),
             new AssetMovement(
-                new \DateTimeImmutable('2022-09-21T07:08:38Z'),
+                new \DateTimeImmutable('2022-09-21T07:08:39Z'),
                 new Asset(0.00023475, 'BTC'),
                 new Asset(0, 'EUR'),
                 new Asset(-9.83, 'EUR'),
@@ -248,7 +248,7 @@ class LoaderTest extends TestCase
                 'Received 0.00050838 SOL from Coinbase Rewards'
             ),
             new AssetMovement(
-                new \DateTimeImmutable('2022-11-08T10:20:22Z'),
+                new \DateTimeImmutable('2022-11-08T10:20:23Z'),
                 new Asset(-0, 'SOL'),
                 new Asset(0, 'EUR'),
                 new Asset(0.01, 'EUR'),
