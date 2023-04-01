@@ -1,5 +1,0 @@
-{% if site.http and site.http.headers %}
-{% for header in site.http.headers %}
-<meta http-equiv="{{ header[0] | strip }}" content="{{ header[1] | strip }}">
-{% endfor %}
-{% endif %}
